@@ -9,7 +9,6 @@
     <section class="bg-[#FFF5F3]">
         <div class="max-w-6xl mx-auto px-4 py-14 md:py-20 grid md:grid-cols-2 gap-12 items-center">
 
-
             {{-- LEFT SIDE --}}
             <div>
 
@@ -45,8 +44,6 @@
 
             </div>
 
-
-
             {{-- RIGHT SIDE (LOGO + PANEL) --}}
             <div class="flex flex-col items-center">
 
@@ -80,11 +77,15 @@
 
 
     {{-- PAGE BODY BACKGROUND (LIGHT GREY) --}}
-    <section class="bg-[#F7F9FB] py-10">
+    {{-- <section class="bg-[#F7F9FB] py-10">
         <div class="max-w-6xl mx-auto px-4 text-slate-500 text-sm text-center">
             COMING SOON
         </div>
-    </section>
+    </section> --}}
 
+    @include('sections.museums-popular')
+    @include('sections.cities-popular')
+    @include('sections.blog-popular-newsletter')
+    @include('partials.home.faq')
 
 @endsection
