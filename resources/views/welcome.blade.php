@@ -269,7 +269,9 @@
                 </div>
             </main>
         </div>
-
+<h1 class="text-4xl text-red-600 font-bold">
+    Tailwind 4 Çalışıyor 🎉
+</h1>
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
         @endif

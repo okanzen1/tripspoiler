@@ -9,3 +9,19 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+.logo-swing {
+  transform-origin: top center;
+  animation: swingSign 2.6s ease-out;
+}
+
+@keyframes swingSign {
+  0%   { transform: rotate(0deg); }
+  12%  { transform: rotate(-10deg); }
+  28%  { transform: rotate(8deg); }
+  44%  { transform: rotate(-6deg); }
+  60%  { transform: rotate(4deg); }
+  76%  { transform: rotate(-2deg); }
+  90%  { transform: rotate(1deg); }
+  100% { transform: rotate(0deg); }
+}
