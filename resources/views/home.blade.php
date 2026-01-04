@@ -51,7 +51,7 @@
             <div class="flex flex-col items-center">
 
                 {{-- LOGO (SALLANAN) --}}
-                <img src="{{ asset('tripspoiler/public/images/logo-tripspoiler.png') }}" alt="TripSpoiler"
+                <img src="{{ asset('images/logo-tripspoiler.png') }}" alt="TripSpoiler"
                     class="h-24 md:h-32 drop-shadow-xl logo-swing mb-6">
 
                 {{-- PANEL --}}
@@ -62,13 +62,13 @@
                             Museums
                         </div>
                         <div class="p-4 rounded-2xl bg-[#FFF5F3]">
-                            Citys
+                            Cities
                         </div>
                         <div class="p-4 rounded-2xl bg-[#FFF5F3]">
                             Travel Tips
                         </div>
                         <div class="p-4 rounded-2xl bg-[#FFF5F3]">
-                            Blogs
+                            Blog
                         </div>
                     </div>
                 </div>
