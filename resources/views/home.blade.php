@@ -51,7 +51,7 @@
             <div class="flex flex-col items-center">
 
                 {{-- LOGO (SALLANAN) --}}
-                <img src="{{ asset('public/images/logo-tripspoiler.png') }}" alt="TripSpoiler"
+                <img src="{{ asset('tripspoiler/public/images/logo-tripspoiler.png') }}" alt="TripSpoiler"
                     class="h-24 md:h-32 drop-shadow-xl logo-swing mb-6">
 
                 {{-- PANEL --}}
