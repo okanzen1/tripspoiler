@@ -17,6 +17,8 @@
     <main class="flex-1">
         @yield('content')
     </main>
+    
+    @yield('scripts')
 
     @include('partials.footer')
 
