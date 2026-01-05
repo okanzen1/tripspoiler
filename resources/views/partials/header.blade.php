@@ -10,8 +10,9 @@
 
         {{-- NAV --}}
         <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
-            <a href="#" class="hover:text-[#C62E2E]">Cities</a>
+            <a href="#" class="hover:text-[#C62E2E]">Activities</a>
             <a href="#" class="hover:text-[#C62E2E]">Museums</a>
+            <a href="#" class="hover:text-[#C62E2E]">Cities</a>
             <a href="#" class="hover:text-[#C62E2E]">Blog</a>
         </nav>
 
