@@ -10,15 +10,32 @@
 
         {{-- NAV --}}
         <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
-            <a href="{{ url('/activities') }}" class="hover:text-[#C62E2E]">Activities</a>
-            <a href="#" class="hover:text-[#C62E2E]">Museums</a>
-            <a href="#" class="hover:text-[#C62E2E]">Cities</a>
-            <a href="#" class="hover:text-[#C62E2E]">Blog</a>
+
+            <a href="{{ url('/activities') }}"
+                class="{{ request()->is('activities*') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
+                Activities
+            </a>
+
+            <a href="{{ url('/museums') }}"
+                class="{{ request()->is('museums*') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
+                Museums
+            </a>
+
+            <a href="{{ url('/cities') }}"
+                class="{{ request()->is('cities*') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
+                Cities
+            </a>
+
+            <a href="{{ url('/blog') }}"
+                class="{{ request()->is('blog*') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
+                Blog
+            </a>
+
         </nav>
 
+
         {{-- MOBILE --}}
-        <button class="md:hidden text-2xl"
-            onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">
+        <button class="md:hidden text-2xl" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">
             ☰
         </button>
     </div>

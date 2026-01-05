@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,18 +11,19 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
+<body class="bg-white text-slate-900 antialiased min-h-screen flex flex-col">
 
     @include('partials.header')
 
     <main class="flex-1">
         @yield('content')
     </main>
-    
+
     @yield('scripts')
 
     @include('partials.footer')
 
     @vite('resources/js/app.js')
 </body>
+
 </html>

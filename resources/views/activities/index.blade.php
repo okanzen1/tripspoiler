@@ -140,119 +140,119 @@
 
 
 
-{{-- 🚋 COMBO TOURS SLIDER --}}
-<section class="bg-[#FFF5F3] py-14 border-y border-[#F3D6D1]">
-    <div class="max-w-6xl mx-auto px-4">
+    {{-- 🚋 COMBO TOURS SLIDER --}}
+    <section class="bg-[#FFF5F3] py-14 border-y border-[#F3D6D1]">
+        <div class="max-w-6xl mx-auto px-4">
 
-        {{-- TITLE + BUTTONS --}}
-        <div class="flex items-center justify-between mb-6">
+            {{-- TITLE + BUTTONS --}}
+            <div class="flex items-center justify-between mb-6">
 
-            <h2 class="text-xl font-bold text-slate-900">
-                Combo Tours
-            </h2>
+                <h2 class="text-xl font-bold text-slate-900">
+                    Combo Tours
+                </h2>
 
-            <div class="flex gap-3">
-                <button id="prevBtn"
-                    class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 active:scale-95 transition shadow-sm">
-                    ←
-                </button>
+                <div class="flex gap-3">
+                    <button id="prevBtn"
+                        class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 active:scale-95 transition shadow-sm">
+                        ←
+                    </button>
 
-                <button id="nextBtn"
-                    class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 active:scale-95 transition shadow-sm">
-                    →
-                </button>
-            </div>
-
-        </div>
-
-
-        <div class="relative overflow-hidden">
-
-            <div id="comboTrack" class="flex gap-6 transition-transform ease-out duration-300">
-
-                {{-- SLIDE 1 --}}
-                <div
-                    class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
-                    <img src="https://picsum.photos/600/400?random=55" class="h-40 w-full object-cover">
-                    <div class="p-5">
-                        <h3 class="font-semibold text-slate-900">
-                            Vatican + Colosseum Combo Tour
-                        </h3>
-                        <p class="text-sm text-slate-600 mt-2">
-                            Two major Rome highlights in one guided tour.
-                        </p>
-                        <div class="mt-4 flex justify-end">
-                            <a href="#" class="text-sm font-semibold text-[#C62E2E] hover:underline">
-                                View details →
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- SLIDE 2 --}}
-                <div
-                    class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
-                    <img src="https://picsum.photos/600/400?random=56" class="h-40 w-full object-cover">
-                    <div class="p-5">
-                        <h3 class="font-semibold text-slate-900">
-                            Eiffel Tower + Seine Cruise
-                        </h3>
-                        <p class="text-sm text-slate-600 mt-2">
-                            Iconic Paris views from land and water.
-                        </p>
-                        <div class="mt-4 flex justify-end">
-                            <a href="#" class="text-sm font-semibold text-[#C62E2E] hover:underline">
-                                View details →
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- SLIDE 3 --}}
-                <div
-                    class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
-                    <img src="https://picsum.photos/600/400?random=57" class="h-40 w-full object-cover">
-                    <div class="p-5">
-                        <h3 class="font-semibold text-slate-900">
-                            Istanbul Bosphorus + City Tour
-                        </h3>
-                        <p class="text-sm text-slate-600 mt-2">
-                            Historic landmarks and scenic cruise experience.
-                        </p>
-                        <div class="mt-4 flex justify-end">
-                            <a href="#" class="text-sm font-semibold text-[#C62E2E] hover:underline">
-                                View details →
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- SLIDE 4 --}}
-                <div
-                    class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
-                    <img src="https://picsum.photos/600/400?random=58" class="h-40 w-full object-cover">
-                    <div class="p-5">
-                        <h3 class="font-semibold text-slate-900">
-                            London Eye + Thames Cruise
-                        </h3>
-                        <p class="text-sm text-slate-600 mt-2">
-                            Stunning city views from above and below.
-                        </p>
-                        <div class="mt-4 flex justify-end">
-                            <a href="#" class="text-sm font-semibold text-[#C62E2E] hover:underline">
-                                View details →
-                            </a> 
-                        </div>
-                    </div>
-
+                    <button id="nextBtn"
+                        class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 active:scale-95 transition shadow-sm">
+                        →
+                    </button>
                 </div>
 
             </div>
 
-        </div>
 
-    </div>
-</section>
+            <div class="relative overflow-hidden">
+
+                <div id="comboTrack" class="flex gap-6 transition-transform ease-out duration-300">
+
+                    {{-- SLIDE 1 --}}
+                    <div
+                        class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
+                        <img src="https://picsum.photos/600/400?random=55" class="h-40 w-full object-cover">
+                        <div class="p-5">
+                            <h3 class="font-semibold text-slate-900">
+                                Vatican + Colosseum Combo Tour
+                            </h3>
+                            <p class="text-sm text-slate-600 mt-2">
+                                Two major Rome highlights in one guided tour.
+                            </p>
+                            <div class="mt-4 flex justify-end">
+                                <a href="#" class="text-sm font-semibold text-[#C62E2E] hover:underline">
+                                    View details →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- SLIDE 2 --}}
+                    <div
+                        class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
+                        <img src="https://picsum.photos/600/400?random=56" class="h-40 w-full object-cover">
+                        <div class="p-5">
+                            <h3 class="font-semibold text-slate-900">
+                                Eiffel Tower + Seine Cruise
+                            </h3>
+                            <p class="text-sm text-slate-600 mt-2">
+                                Iconic Paris views from land and water.
+                            </p>
+                            <div class="mt-4 flex justify-end">
+                                <a href="#" class="text-sm font-semibold text-[#C62E2E] hover:underline">
+                                    View details →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- SLIDE 3 --}}
+                    <div
+                        class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
+                        <img src="https://picsum.photos/600/400?random=57" class="h-40 w-full object-cover">
+                        <div class="p-5">
+                            <h3 class="font-semibold text-slate-900">
+                                Istanbul Bosphorus + City Tour
+                            </h3>
+                            <p class="text-sm text-slate-600 mt-2">
+                                Historic landmarks and scenic cruise experience.
+                            </p>
+                            <div class="mt-4 flex justify-end">
+                                <a href="#" class="text-sm font-semibold text-[#C62E2E] hover:underline">
+                                    View details →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- SLIDE 4 --}}
+                    <div
+                        class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
+                        <img src="https://picsum.photos/600/400?random=58" class="h-40 w-full object-cover">
+                        <div class="p-5">
+                            <h3 class="font-semibold text-slate-900">
+                                London Eye + Thames Cruise
+                            </h3>
+                            <p class="text-sm text-slate-600 mt-2">
+                                Stunning city views from above and below.
+                            </p>
+                            <div class="mt-4 flex justify-end">
+                                <a href="#" class="text-sm font-semibold text-[#C62E2E] hover:underline">
+                                    View details →
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
 
 
 
@@ -340,31 +340,30 @@
 @endsection
 
 @section('scripts')
-<script>
-document.addEventListener("DOMContentLoaded", function() {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
 
-    const track = document.getElementById('comboTrack');
-    const next = document.getElementById('nextBtn');
-    const prev = document.getElementById('prevBtn');
+            const track = document.getElementById('comboTrack');
+            const next = document.getElementById('nextBtn');
+            const prev = document.getElementById('prevBtn');
 
-    const step = 340;
-    let offset = 0;
+            const step = 340;
+            let offset = 0;
 
-    const maxOffset = -(track.scrollWidth - track.parentElement.clientWidth);
+            const maxOffset = -(track.scrollWidth - track.parentElement.clientWidth);
 
-    next.addEventListener("click", () => {
-        offset -= step;
-        if (offset < maxOffset) offset = maxOffset;
-        track.style.transform = `translateX(${offset}px)`;
-    });
+            next.addEventListener("click", () => {
+                offset -= step;
+                if (offset < maxOffset) offset = maxOffset;
+                track.style.transform = `translateX(${offset}px)`;
+            });
 
-    prev.addEventListener("click", () => {
-        offset += step;
-        if (offset > 0) offset = 0;
-        track.style.transform = `translateX(${offset}px)`;
-    });
+            prev.addEventListener("click", () => {
+                offset += step;
+                if (offset > 0) offset = 0;
+                track.style.transform = `translateX(${offset}px)`;
+            });
 
-});
-</script>
+        });
+    </script>
 @endsection
-
