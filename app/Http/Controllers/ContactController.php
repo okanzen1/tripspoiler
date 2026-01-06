@@ -38,6 +38,6 @@ class ContactController extends Controller
             )
         );
 
-        return back()->with('success', 'Thanks — your message has been sent successfully 🙏');
+        return back()->with('success', 'Thanks — your message has been sent successfully ');
     }
 }
