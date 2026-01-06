@@ -6,9 +6,9 @@
             <p>© {{ date('Y') }} TripSpoiler</p>
 
             <div class="flex gap-4">
-                <a href="#" class="hover:text-[#C62E2E]">About</a>
-                <a href="#" class="hover:text-[#C62E2E]">Contact</a>
-                <a href="#" class="hover:text-[#C62E2E]">Privacy</a>
+                <a href="{{ url('/about') }}" class="hover:text-[#C62E2E]">About</a>
+                <a href="{{ url('/contact') }}" class="hover:text-[#C62E2E]">Contact</a>
+                <a href="{{ url('/privacy') }}" class="hover:text-[#C62E2E]">Privacy</a>
             </div>
 
         </div>

@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
@@ -15,6 +14,8 @@ return [
     */
 
     'default' => env('MAIL_MAILER', 'log'),
+
+    'contact_to' => env('MAIL_CONTACT_TO'),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,7 +37,6 @@ return [
     */
 
     'mailers' => [
-
         'smtp' => [
             'transport' => 'smtp',
             'scheme' => env('MAIL_SCHEME'),
@@ -96,7 +96,6 @@ return [
             ],
             'retry_after' => 60,
         ],
-
     ],
 
     /*
@@ -114,5 +113,4 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
-
 ];
