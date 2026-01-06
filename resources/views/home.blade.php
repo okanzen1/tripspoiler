@@ -55,19 +55,44 @@
                 <div class="bg-white border border-[#F3D6D1] rounded-3xl shadow-lg p-6 md:p-10 w-full">
 
                     <div class="grid grid-cols-3 gap-4 text-center text-sm font-medium text-slate-700">
-                        <div class="p-4 rounded-2xl bg-[#FFF5F3]">
+
+                        {{-- Activities --}}
+                        <a href="{{ url('/activities') }}"
+                            class="p-4 rounded-2xl bg-[#FFF5F3] hover:bg-[#FBE3DF] hover:shadow-md transition-all duration-200 hover:-translate-y-[1px]">
+                            Activities
+                        </a>
+
+                        {{-- Museums --}}
+                        <a href="{{ url('/museums') }}"
+                            class="p-4 rounded-2xl bg-[#FFF5F3] hover:bg-[#FBE3DF] hover:shadow-md transition-all duration-200 hover:-translate-y-[1px]">
                             Museums
-                        </div>
-                        <div class="p-4 rounded-2xl bg-[#FFF5F3]">
+                        </a>
+
+                        {{-- Cities --}}
+                        <a href="{{ url('/cities') }}"
+                            class="p-4 rounded-2xl bg-[#FFF5F3] hover:bg-[#FBE3DF] hover:shadow-md transition-all duration-200 hover:-translate-y-[1px]">
                             Cities
-                        </div>
-                        <div class="p-4 rounded-2xl bg-[#FFF5F3]">
+                        </a>
+
+                        {{-- Blog --}}
+                        <a href="{{ url('/blog') }}"
+                            class="p-4 rounded-2xl bg-[#FFF5F3] hover:bg-[#FBE3DF] hover:shadow-md transition-all duration-200 hover:-translate-y-[1px]">
+                            Blog
+                        </a>
+
+                        {{-- Travel Tips — passive --}}
+                        <div class="p-4 rounded-2xl bg-[#FFF5F3] text-slate-800 border border-transparent">
                             Travel Tips
                         </div>
-                        <div class="p-4 rounded-2xl bg-[#FFF5F3]">
-                            Blog
+
+                        {{-- All Passes — passive --}}
+                        <div class="p-4 rounded-2xl bg-[#FFF5F3] text-slate-800 border border-transparent">
+                            All Passes
                         </div>
+
                     </div>
+
+
                 </div>
 
             </div>
