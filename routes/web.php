@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {return view('home'); });
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/activities', function () {return view('activities.index'); });
 Route::get('/museums', function () {return view('museums.index'); });
 Route::get('/cities', function () {return view('cities.index'); });

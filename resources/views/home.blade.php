@@ -111,6 +111,7 @@
     @include('sections.museums-popular')
     @include('sections.cities-popular')
     @include('sections.blog-popular-newsletter')
-    @include('partials.home.faq')
+    <x-faq source="home" :source-id="null" />
+
 
 @endsection
