@@ -19,7 +19,7 @@ class Faq extends Component
         $locale = app()->getLocale();
 
         $rows = FaqModel::query()
-            ->where('status', false)
+            ->where('status', true)
             ->when($this->source, fn ($q) => $q->where('source', $this->source))
             ->when($this->sourceId, fn ($q) => $q->where('source_id', $this->sourceId))
             ->orderBy('sort_order')
@@ -28,6 +28,7 @@ class Faq extends Component
         if ($rows->isEmpty()) {
             return '';
         }
+
         $faqs = array_map(
             fn ($row) => [
                 'question' => $row['question'][$locale]
