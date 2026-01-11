@@ -110,7 +110,7 @@
 
     @include('sections.museums-popular')
     @include('sections.cities-popular')
-    @include('sections.blog-popular-newsletter')
+    <x-most-popular-blog source="home" :source-id="null" />
     <x-faq source="home" :source-id="null" />
 
 
