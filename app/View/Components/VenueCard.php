@@ -10,17 +10,23 @@ class VenueCard extends Component
 {
     public string $source;
     public int $sourceId;
+    public ?int $id;
     public Collection $venues;
 
-    public function __construct(string $source, int $sourceId)
+    public function __construct(string $source, int $sourceId, ?int $id = null)
     {
         $this->source = $source;
         $this->sourceId = $sourceId;
+        $this->id = $id;
 
-        $this->venues = Venue::whereJsonContains('sources', $source)
+        $this->venues = Venue::query()
+            ->when($id, function ($query) use ($id) {
+                $query->where('id', $id);
+            })
+            ->whereJsonContains('sources', $source)
             ->whereJsonContains('source_ids', $sourceId)
-            ->with(['images'])
             ->where('status', true)
+            ->with('images')
             ->orderBy('sort_order')
             ->get();
     }
@@ -28,7 +34,7 @@ class VenueCard extends Component
     public function render()
     {
         if ($this->venues->isEmpty()) {
-            return ''; // venue yoksa hiç basma
+            return '';
         }
 
         return view('components.venue-card', [
