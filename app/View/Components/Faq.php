@@ -11,37 +11,23 @@ class Faq extends Component
     public function __construct(
         public ?string $source = null,
         public ?int $sourceId = null
-    ) {
-    }
+    ) {}
 
     public function render(): View|string
     {
         $locale = app()->getLocale();
 
-        $rows = FaqModel::query()
+        $faqs = FaqModel::query()
             ->where('status', true)
             ->when($this->source, fn ($q) => $q->where('source', $this->source))
             ->when($this->sourceId, fn ($q) => $q->where('source_id', $this->sourceId))
             ->orderBy('sort_order')
-            ->get(['question', 'answer']);
+            ->get();
 
-        if ($rows->isEmpty()) {
+        if ($faqs->isEmpty()) {
             return '';
         }
 
-        $faqs = array_map(
-            fn ($row) => [
-                'question' => $row['question'][$locale]
-                    ?? $row['question']['en']
-                    ?? '',
-
-                'answer' => $row['answer'][$locale]
-                    ?? $row['answer']['en']
-                    ?? '',
-            ],
-            $rows->all()
-        );
-
-        return view('components.faq', compact('faqs'));
+        return view('components.faq', compact('faqs', 'locale'));
     }
 }

@@ -25,10 +25,12 @@ class MostPopularBlog extends Component
             ->map(function ($row) use ($locale) {
 
                 $titles = json_decode($row->getRawOriginal('title'), true);
+                $slug = json_decode($row->getRawOriginal('slug'), true);
                 $excerpts = json_decode($row->getRawOriginal('excerpt'), true);
 
                 return [
                     'id' => $row->id,
+                    'slug' => $slug[$locale] ?? $slug['en'] ?? '',
                     'title' => $titles[$locale] ?? $titles['en'] ?? '',
                     'excerpt' => $excerpts[$locale] ?? $excerpts['en'] ?? '',
                 ];
