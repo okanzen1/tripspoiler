@@ -45,8 +45,9 @@
                     {!! $content->getTranslation('content', $locale) !!}
                 </p>
             @endforeach
-
         </div>
     </section>
+
+    <x-faq source="blog" :source-id="$blog->id" />
 
 @endsection
