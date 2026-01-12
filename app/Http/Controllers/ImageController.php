@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
-use Illuminate\Support\Facades\Response;
 
 class ImageController extends Controller
 {
@@ -11,8 +10,11 @@ class ImageController extends Controller
     {
         $fullPath = storage_path('app/private/' . $image->path);
 
-        abort_unless(file_exists($fullPath), 404);
+        abort_unless(is_file($fullPath), 404);
 
-        return response()->file($fullPath);
+        return response()->file($fullPath, [
+            'Content-Type' => 'image/webp',
+            'Content-Disposition' => 'inline',
+        ]);
     }
 }
