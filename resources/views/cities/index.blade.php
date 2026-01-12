@@ -172,10 +172,4 @@
         </div>
     </section>
 
-
-
-
-    {{-- FAQ (HOME STYLE) --}}
-    @include('partials.home.faq')
-
 @endsection
