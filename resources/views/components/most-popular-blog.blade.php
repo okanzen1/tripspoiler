@@ -18,7 +18,7 @@
                         'slug' => $blog['slug'],
                         'id' => $blog['id'],
                     ]) }}"
-                        class="block bg-white rounded-2xl border border-slate-100 px-5 py-4 hover:shadow-md transition">
+                        class="block bg-white rounded-2xl border border-slate-100 px-5 py-4 mt-3 hover:shadow-md transition">
 
                         <div class="text-sm font-medium text-[#C62E2E]">
                             {{ $blog['title'] }}
