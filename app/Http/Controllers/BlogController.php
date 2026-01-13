@@ -2,14 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use App\Models\Blog;
+use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('blog.index');
+        $locale = app()->getLocale();
+        $cities = City::where('active', true)->get();
+        $cityId = $request->get('city_id') ?? 1;
+
+        $blogs = Blog::where('status', true)
+            ->with('city', 'images')
+            ->where('city_id', $cityId)
+            ->latest()
+            ->get();
+
+        if ($request->ajax()) {
+            return view('blog.partials.list', compact('blogs', 'locale'));
+        }
+
+        return view('blog.index', compact(
+            'cities',
+            'blogs',
+            'locale',
+            'cityId'
+        ));
     }
+
 
     public function show(string $slug, int $id)
     {
@@ -66,7 +88,7 @@ class BlogController extends Controller
             'themes'  => $blog->getTranslation('themes', $locale) ?? [],
             'excerpt' => $blog->getTranslation('excerpt', $locale) ?? '',
         ];
-        
+
         return view('blog.show', compact('blog', 'locale', 'hero'));
     }
 }

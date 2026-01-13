@@ -46,6 +46,11 @@ class Blog extends Model
         'sort_order' => 'integer',
     ];
 
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
     /**
      * Relations
      */
@@ -53,6 +58,13 @@ class Blog extends Model
     {
         return $this->hasMany(BlogContent::class)
             ->where('status', true)
+            ->orderBy('sort_order');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'source_id')
+            ->where('source', 'blog')
             ->orderBy('sort_order');
     }
 }
