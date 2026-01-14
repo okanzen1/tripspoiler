@@ -17,6 +17,8 @@
 
     <main class="flex-1">
         @yield('content')
+        @yield('modals')
+
     </main>
 
     @yield('scripts')

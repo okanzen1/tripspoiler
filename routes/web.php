@@ -5,7 +5,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsletterSubscribeController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CityController;
+
+Route::get('/cities/{slug}-{id}', [CityController::class, 'show'])->name('cities.show');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -36,6 +40,8 @@ Route::post('/contact', [ContactController::class, 'submit'])
 Route::post('/newsletter/subscribe', [NewsletterSubscribeController::class, 'store'])
     ->name('newsletter.subscribe');
 
+
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 Route::get('/media/{image}', [ImageController::class, 'show'])->name('images.view');
 Route::view('/privacy', 'other.privacy');

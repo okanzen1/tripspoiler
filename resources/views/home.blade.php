@@ -28,20 +28,12 @@
                     plan with confidence.
                 </p>
 
-                {{-- SEARCH BOX --}}
+
+
                 <div class="mt-6 max-w-xl">
-                    <form>
-                        <div class="flex bg-white rounded-2xl shadow-md border border-[#F3D6D1] overflow-hidden">
-                            <input type="text" placeholder="Search cities or museums (Rome, Louvre, Paris...)"
-                                class="w-full px-4 py-3 text-slate-900 outline-none text-sm">
-
-                            <button class="px-6 text-white font-semibold bg-[#C62E2E] hover:bg-red-700 transition">
-                                Search
-                            </button>
-                        </div>
-                    </form>
+                    <x-search-box />
+                  
                 </div>
-
             </div>
 
             {{-- RIGHT SIDE (LOGO + PANEL) --}}
@@ -100,18 +92,73 @@
         </div>
     </section>
 
-
-    {{-- PAGE BODY BACKGROUND (LIGHT GREY) --}}
-    {{-- <section class="bg-[#F7F9FB] py-10">
-        <div class="max-w-6xl mx-auto px-4 text-slate-500 text-sm text-center">
-            COMING SOON
-        </div>
-    </section> --}}
-
     @include('sections.museums-popular')
-    @include('sections.cities-popular')
+    <section class="bg-white">
+        <div class="max-w-6xl mx-auto px-4 py-16">
+
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">
+                    Plan smarter in 3 simple steps
+                </h2>
+                <p class="mt-3 text-slate-600 text-sm max-w-xl mx-auto">
+                    No endless tabs, no confusing tickets.
+                    Just clear choices before you travel.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-5">
+
+                {{-- STEP 1 --}}
+                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-6 shadow-sm">
+                    <div class="text-[#C62E2E] font-bold text-sm mb-2">
+                        STEP 01
+                    </div>
+                    <h3 class="font-semibold text-slate-900 mb-2">
+                        Explore your destination
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Browse cities, museums and activities with
+                        real context — not marketing fluff.
+                    </p>
+                </div>
+
+                {{-- STEP 2 --}}
+                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-6 shadow-sm">
+                    <div class="text-[#C62E2E] font-bold text-sm mb-2">
+                        STEP 02
+                    </div>
+                    <h3 class="font-semibold text-slate-900 mb-2">
+                        Compare before you book
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        See what’s worth it, what’s overrated
+                        and when skip-the-line actually helps.
+                    </p>
+                </div>
+
+                {{-- STEP 3 --}}
+                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-6 shadow-sm">
+                    <div class="text-[#C62E2E] font-bold text-sm mb-2">
+                        STEP 03
+                    </div>
+                    <h3 class="font-semibold text-slate-900 mb-2">
+                        Travel without second thoughts
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Book confidently knowing you’ve already
+                        avoided common travel mistakes.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
     <x-most-popular-blog source="home" :source-id="null" />
     <x-faq source="home" :source-id="null" />
 
-
+    @section('modals')
+        <x-search-modal />
+    @endsection
 @endsection
