@@ -150,7 +150,6 @@
                     </p>
                 </div>
                     
-                @endphp
             </div>
 
         </div>
