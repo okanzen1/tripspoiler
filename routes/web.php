@@ -48,12 +48,3 @@ Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 Route::get('/media/{image}', [ImageController::class, 'show'])->name('images.view');
 Route::view('/privacy', 'other.privacy');
-
-Route::get('/sitemap-generate', function () {
-    Sitemap::create()
-        ->add(Url::create('/'))
-        ->writeToFile(public_path('sitemap.xml'));
-
-    return 'Sitemap generated';
-});
-
