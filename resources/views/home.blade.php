@@ -149,7 +149,8 @@
                         avoided common travel mistakes.
                     </p>
                 </div>
-
+                    
+                @endphp
             </div>
 
         </div>
