@@ -25,13 +25,25 @@
                     Filter by city
                 </label>
 
-                <select id="cityFilter" class="mt-2 w-full rounded-2xl border border-[#F3D6D1] bg-white px-4 py-3">
-                    @foreach ($cities as $city)
-                        <option value="{{ $city->id }}" @selected($cityId == $city->id)>
-                            {{ $city->getTranslation('name', $locale) }}
-                        </option>
-                    @endforeach
-                </select>
+                <div class="mt-2 relative">
+                    <select id="cityFilter"
+                        class="w-full rounded-2xl border border-[#F3D6D1] bg-white px-4 py-3 pr-12 appearance-none">
+                        @foreach ($cities as $city)
+                            <option value="{{ $city->id }}" @selected($cityId == $city->id)>
+                                {{ $city->getTranslation('name', $locale) }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    {{-- OK (sağda ama içeride) --}}
+                    <svg class="pointer-events-none absolute top-1/2 -translate-y-1/2 right-4 w-5 h-5 text-slate-400"
+                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
+
             </div>
 
         </div>
