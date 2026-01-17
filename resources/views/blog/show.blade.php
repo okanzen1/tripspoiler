@@ -33,7 +33,7 @@
         </div>
     </section>
 
-    <x-venue-card source="blog" :source-id="$blog->id" :id="$blog->source_venue_id"/>
+    {{-- <x-venue-card source="blog" :source-id="$blog->id" :id="$blog->source_venue_id"/> --}}
 
     <section class="bg-white py-10">
         <div class="max-w-6xl mx-auto px-4">
