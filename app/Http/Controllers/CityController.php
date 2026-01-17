@@ -3,26 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
-    public function show(string $slug, int $id)
+    public function index(Request $request)
     {
         $locale = app()->getLocale();
+        $cities = City::where('active', true)->get();
+        $cityId = $request->get('city_id') ?? $cities->first()?->id;
 
-        $city = City::query()
-            ->where('active', true)
-            ->findOrFail($id);
+        $selectedCity = City::where('active', true)->find($cityId);
 
-        $correctSlug = $city->getTranslation('slug', $locale);
-
-        if ($slug !== $correctSlug) {
-            return redirect()->route('cities.show', [
-                'slug' => $correctSlug,
-                'id'   => $city->id,
-            ]);
+        if ($request->ajax()) {
+            return view('cities.partials.list', compact('selectedCity', 'locale'));
         }
 
-        return view('cities.show', compact('city'));
+        return view('cities.index', compact(
+            'cities',
+            'locale',
+            'cityId',
+            'selectedCity'
+        ));
     }
+
+
 }

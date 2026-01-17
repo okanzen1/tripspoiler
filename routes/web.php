@@ -12,8 +12,6 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 
 
-Route::get('/cities/{slug}-{id}', [CityController::class, 'show'])->name('cities.show');
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/activities', function () {
@@ -24,9 +22,8 @@ Route::get('/museums', function () {
     return view('museums.index');
 });
 
-Route::get('/cities', function () {
-    return view('cities.index');
-});
+Route::get('/cities', [CityController::class, 'index'])->name('cities.index');
+Route::get('/cities/{slug}-{id}', [CityController::class, 'show'])->name('cities.show');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}-{id}', [BlogController::class, 'show'])
