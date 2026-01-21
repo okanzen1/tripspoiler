@@ -8,11 +8,8 @@ class Activity extends Model
 {
     protected $fillable = [
         'name',
-        // 'description',
         'slug',
         'city_id',
-        // 'sources',
-        // 'source_ids',
         'affiliate_id',
         'affiliate_link',
         'sort_order',
@@ -33,8 +30,6 @@ class Activity extends Model
      */
     protected $casts = [
         'status' => 'boolean',
-        // 'sources' => 'array',
-        // 'source_ids' => 'array',
         'sort_order' => 'integer',
     ];
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsletterSubscribeController;
@@ -14,7 +15,7 @@ use App\Http\Controllers\CityController;
 // home page
 
 // activities page
-    Route::get('/activities', function () { return view('activities.index');});
+    Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
 // activities page
 
 // City Routes
