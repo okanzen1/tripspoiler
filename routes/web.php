@@ -9,7 +9,6 @@ use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
 
-
 // home page
     Route::get('/', [HomeController::class, 'index'])->name('home');
 // home page
@@ -17,10 +16,6 @@ use App\Http\Controllers\CityController;
 // activities page
     Route::get('/activities', function () { return view('activities.index');});
 // activities page
-
-// museums page
-    Route::get('/museums', function () {return view('museums.index');});
-// museums page
 
 // City Routes
     Route::get('/cities', [CityController::class, 'index'])->name('cities.index');

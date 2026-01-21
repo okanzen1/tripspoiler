@@ -11,7 +11,6 @@ class Activity extends Model
         // 'description',
         'slug',
         'city_id',
-        'museum_id',
         // 'sources',
         // 'source_ids',
         'affiliate_id',

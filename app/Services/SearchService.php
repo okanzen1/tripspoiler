@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\City;
-use App\Models\Museum;
 
 class SearchService
 {
@@ -33,25 +32,6 @@ class SearchService
             ]);
 
         $results = $results->merge($cities);
-
-        // $museums = Museum::query()
-        //     ->where('active', true)
-        //     ->whereRaw(
-        //         "LOWER(JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"'))) COLLATE utf8mb4_unicode_ci LIKE ?",
-        //         ["%{$q}%"]
-        //     )
-        //     ->get()
-        //     ->map(fn ($museum) => [
-        //         'title' => $museum->getTranslation('name', $locale),
-        //         'subtitle' => __('Museum'),
-        //         'type' => 'museum',
-        //         'url' => route('museums.show', [
-        //             'slug' => $museum->getTranslation('slug', $locale),
-        //             'id'   => $museum->id,
-        //         ]),
-        //     ]);
-
-        // $results = $results->merge($museums);
 
         return $results->values()->toArray();
     }
