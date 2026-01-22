@@ -36,9 +36,8 @@
             <!-- SWIPER -->
             <div class="swiper">
                 <div class="swiper-wrapper">
-                    <!-- SLIDE -->
                     @foreach ($activities as $activity)
-                        <div class="swiper-slide">
+                        <div class="swiper-slide max-w-[300px]">
                             <div
                                 class="relative bg-white rounded-3xl border border-[#F3D6D1]
                                 shadow-sm hover:shadow-lg transition overflow-hidden group cursor-pointer">
@@ -52,11 +51,12 @@
                                     <img src="{{ $activity->images->isNotEmpty() ? route('images.view', $activity->images->first()->id) : asset('') }}"
                                         alt="{{ $activity->name }}"
                                         class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
+
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                                 </div>
 
                                 {{-- CONTENT --}}
-                                <div class="p-5 flex flex-col h-[190px] relative z-20 pointer-events-none">
+                                <div class="p-4 flex flex-col h-[180px] relative z-20 pointer-events-none">
                                     <h3 class="font-semibold text-lg text-slate-900">
                                         {{ $activity->name }}
                                     </h3>
@@ -71,7 +71,6 @@
                             </div>
                         </div>
                     @endforeach
-
                 </div>
             </div>
 
@@ -82,24 +81,15 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         new Swiper('.swiper', {
-            loop: true,
+            loop: false,
             spaceBetween: 20,
             grabCursor: true,
-            slidesPerView: 1.1,
+            slidesPerView: 'auto',
 
             navigation: {
                 nextEl: '.swiper-button-next-custom',
                 prevEl: '.swiper-button-prev-custom',
             },
-
-            breakpoints: {
-                640: {
-                    slidesPerView: 2.1,
-                },
-                1024: {
-                    slidesPerView: 3.2,
-                }
-            }
         });
     </script>
 @endif
