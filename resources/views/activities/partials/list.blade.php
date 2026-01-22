@@ -1,4 +1,4 @@
-{{-- ⭐ SEO INTRO TEXT --}}
+{{-- SEO INTRO TEXT
 <section class="bg-white py-10">
     <div class="max-w-6xl mx-auto px-4">
 
@@ -16,7 +16,7 @@
     </div>
 </section>
 
-{{-- CITY PASSES --}}
+CITY PASSES
 <section class="bg-white pb-14">
     <div class="max-w-6xl mx-auto px-4">
 
@@ -26,7 +26,6 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
 
-            {{-- PASS CARD --}}
             <div
                 class="bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
                 <img src="https://picsum.photos/600/400?random=30" class="w-full h-40 object-cover">
@@ -45,7 +44,6 @@
                 </div>
             </div>
 
-            {{-- PASS CARD --}}
             <div
                 class="bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
                 <img src="https://picsum.photos/600/400?random=31" class="w-full h-40 object-cover">
@@ -64,7 +62,6 @@
                 </div>
             </div>
 
-            {{-- PASS CARD --}}
             <div
                 class="bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
                 <img src="https://picsum.photos/600/400?random=32" class="w-full h-40 object-cover">
@@ -88,11 +85,10 @@
     </div>
 </section>
 
-{{-- 🚋 COMBO TOURS SLIDER --}}
+COMBO TOURS SLIDER
 <section class="bg-[#FFF5F3] py-14 border-y border-[#F3D6D1]">
     <div class="max-w-6xl mx-auto px-4">
 
-        {{-- TITLE + BUTTONS --}}
         <div class="flex items-center justify-between mb-6">
 
             <h2 class="text-xl font-bold text-slate-900">
@@ -118,7 +114,6 @@
 
             <div id="comboTrack" class="flex gap-6 transition-transform ease-out duration-300">
 
-                {{-- SLIDE 1 --}}
                 <div
                     class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
                     <img src="https://picsum.photos/600/400?random=55" class="h-40 w-full object-cover">
@@ -137,7 +132,6 @@
                     </div>
                 </div>
 
-                {{-- SLIDE 2 --}}
                 <div
                     class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
                     <img src="https://picsum.photos/600/400?random=56" class="h-40 w-full object-cover">
@@ -156,7 +150,6 @@
                     </div>
                 </div>
 
-                {{-- SLIDE 3 --}}
                 <div
                     class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
                     <img src="https://picsum.photos/600/400?random=57" class="h-40 w-full object-cover">
@@ -175,7 +168,6 @@
                     </div>
                 </div>
 
-                {{-- SLIDE 4 --}}
                 <div
                     class="min-w-[280px] sm:min-w-[320px] bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden">
                     <img src="https://picsum.photos/600/400?random=58" class="h-40 w-full object-cover">
@@ -202,7 +194,7 @@
     </div>
 </section>
 
-{{-- POPULAR ACTIVITIES --}}
+POPULAR ACTIVITIES
 <section class="bg-white py-14">
     <div class="max-w-6xl mx-auto px-4">
 
@@ -212,7 +204,6 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
 
-            {{-- CARD --}}
             <div
                 class="bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
                 <img src="https://picsum.photos/600/400?random=10" class="w-full h-40 object-cover">
@@ -234,7 +225,6 @@
                 </div>
             </div>
 
-            {{-- CARD --}}
             <div
                 class="bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
                 <img src="https://picsum.photos/600/400?random=11" class="w-full h-40 object-cover">
@@ -256,7 +246,6 @@
                 </div>
             </div>
 
-            {{-- CARD --}}
             <div
                 class="bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
                 <img src="https://picsum.photos/600/400?random=12" class="w-full h-40 object-cover">
@@ -281,5 +270,31 @@
         </div>
 
     </div>
-</section>
+</section> --}}
 
+<section class="bg-[#F7F9FB] py-20 border-b border-slate-200/30">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+
+        <span
+            class="inline-block text-xs font-semibold tracking-wide uppercase
+                       text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
+            Coming very soon
+        </span>
+
+        <h2 class="mt-6 text-2xl md:text-3xl font-bold text-slate-900 max-w-3xl mx-auto">
+            Thoughtful activity guides are on their way
+        </h2>
+
+        <p class="mt-4 text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            We’re currently preparing this activities section with a calm,
+            editorial approach — focusing on context, relevance and how
+            each experience fits into a city’s rhythm.
+        </p>
+
+        <p class="mt-3 text-slate-500 max-w-xl mx-auto text-sm">
+            Museums, guided walks, city passes and combined experiences
+            will appear here as structured guides.
+        </p>
+
+    </div>
+</section>
