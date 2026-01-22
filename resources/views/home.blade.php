@@ -5,7 +5,7 @@
 
 @section('content')
 
-    {{-- HERO SECTION --}}
+    {{-- HERO SECTIONn --}}
     <section class="relative overflow-hidden
                 bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
 
