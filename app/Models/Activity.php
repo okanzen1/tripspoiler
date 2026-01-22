@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Spatie\Translatable\HasTranslations;
 class Activity extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'name',
         'slug',
@@ -13,6 +15,7 @@ class Activity extends Model
         'affiliate_id',
         'affiliate_link',
         'sort_order',
+        'most_popular',
         'status',
     ];
 
@@ -31,12 +34,13 @@ class Activity extends Model
     protected $casts = [
         'status' => 'boolean',
         'sort_order' => 'integer',
+        'most_popular' => 'boolean',
     ];
 
     public function images()
     {
         return $this->hasMany(Image::class, 'source_id')
-            ->where('source', 'venue')
+            ->where('source', 'activity')
             ->orderBy('sort_order');
     }
 }

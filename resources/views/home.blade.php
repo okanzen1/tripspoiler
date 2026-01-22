@@ -28,11 +28,8 @@
                     plan with confidence.
                 </p>
 
-
-
                 <div class="mt-6 max-w-xl">
                     <x-search-box />
-                  
                 </div>
             </div>
 
@@ -55,10 +52,10 @@
                         </a>
 
                         {{-- Museums --}}
-                        <a href="{{ url('/museums') }}"
+                        {{-- <a href="{{ url('/museums') }}"
                             class="p-4 rounded-2xl bg-[#FFF5F3] hover:bg-[#FBE3DF] hover:shadow-md transition-all duration-200 hover:-translate-y-[1px]">
                             Museums
-                        </a>
+                        </a> --}}
 
                         {{-- Cities --}}
                         <a href="{{ url('/cities') }}"
@@ -73,14 +70,14 @@
                         </a>
 
                         {{-- Travel Tips — passive --}}
-                        <div class="p-4 rounded-2xl bg-[#FFF5F3] text-slate-800 border border-transparent">
+                        {{-- <div class="p-4 rounded-2xl bg-[#FFF5F3] text-slate-800 border border-transparent">
                             Travel Tips
-                        </div>
+                        </div> --}}
 
                         {{-- All Passes — passive --}}
-                        <div class="p-4 rounded-2xl bg-[#FFF5F3] text-slate-800 border border-transparent">
+                        {{-- <div class="p-4 rounded-2xl bg-[#FFF5F3] text-slate-800 border border-transparent">
                             All Passes
-                        </div>
+                        </div> --}}
 
                     </div>
 
@@ -92,7 +89,7 @@
         </div>
     </section>
 
-    @include('sections.museums-popular')
+    <x-most-popular-activities source="home" :source-id="null" limit="12" />
     <section class="bg-white">
         <div class="max-w-6xl mx-auto px-4 py-16">
 
