@@ -6,85 +6,95 @@
 @section('content')
 
     {{-- HERO SECTION --}}
-    <section class="bg-[#FFF5F3]">
-        <div class="max-w-6xl mx-auto px-4 py-14 md:py-20 grid md:grid-cols-2 gap-12 items-center">
+    <section class="relative overflow-hidden
+                bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
 
-            {{-- LEFT SIDE --}}
-            <div>
+        {{-- VERY SOFT GLOW --}}
+        <div class="absolute inset-0 pointer-events-none">
+            <div
+                class="absolute -top-24 left-1/2 -translate-x-1/2
+                    w-[520px] h-[520px]
+                    bg-[#C62E2E]/10 rounded-full blur-[160px]">
+            </div>
+        </div>
 
-                <span class="text-sm font-semibold text-[#C62E2E] tracking-wide">
-                    Plan with confidence
-                </span>
+        <div class="relative max-w-4xl mx-auto px-4 py-16 md:py-24 text-center">
 
-                <h1 class="mt-3 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-                    Discover cities & museums<br>
-                    <span class="text-[#C62E2E]">before you go.</span>
-                </h1>
+            {{-- MAIN LOGO --}}
+            <img src="{{ asset('images/logo-tripspoiler-two.png') }}" alt="TripSpoiler"
+                class="mx-auto h-48 md:h-48 mb-6 drop-shadow-md logo-swing" />
 
-                <p class="mt-4 text-slate-600 max-w-md">
-                    TripSpoiler exists to make travel decisions feel a little easier.
-                    We bring together clear and trustworthy insights about cities,
-                    museums, local experiences and reservation options — so you can
-                    plan with confidence.
-                </p>
+            {{-- EYEBROW --}}
+            <span
+                class="inline-block text-xs font-semibold tracking-wide uppercase
+                   text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
+                Travel, thoughtfully written
+            </span>
 
-                <div class="mt-6 max-w-xl">
-                    <x-search-box />
-                </div>
+            {{-- HEADLINE --}}
+            <h1 class="mt-6 text-4xl md:text-6xl font-bold text-slate-900 leading-tight">
+                Discover Cities & Activities<br>
+                <span class="text-[#C62E2E]">before you go.</span>
+            </h1>
+
+            {{-- SUBTEXT --}}
+            <p class="mt-6 text-base md:text-lg text-slate-600
+                   max-w-2xl mx-auto leading-relaxed">
+                TripSpoiler helps you plan your trip with confidence.
+                Clear guides and blogs about cities, museums and experiences.
+            </p>
+
+            {{-- SEARCH (SAFE) --}}
+            <div class="mt-10 max-w-2xl mx-auto">
+                <x-search-box />
             </div>
 
-            {{-- RIGHT SIDE (LOGO + PANEL) --}}
-            <div class="flex flex-col items-center">
+            {{-- HERO FOOT LINKS (CENTERED & ICON BASED) --}}
+            <div class="mt-10 flex flex-col items-center text-center">
 
-                {{-- LOGO (SALLANAN) --}}
-                <img src="{{ asset('images/logo-tripspoiler.png') }}" alt="TripSpoiler"
-                    class="h-24 md:h-32 drop-shadow-xl logo-swing mb-6">
+                {{-- PRIMARY NAV --}}
+                <div class="flex items-center justify-center gap-10 text-sm font-medium text-slate-700">
+                    <a href="{{ url('/activities') }}" class="hover:text-[#C62E2E] transition">
+                        Activities
+                    </a>
+                    <a href="{{ url('/cities') }}" class="hover:text-[#C62E2E] transition">
+                        Cities
+                    </a>
+                    <a href="{{ url('/blog') }}" class="hover:text-[#C62E2E] transition">
+                        Blog
+                    </a>
+                </div>
 
-                {{-- PANEL --}}
-                <div class="bg-white border border-[#F3D6D1] rounded-3xl shadow-lg p-6 md:p-10 w-full">
+                {{-- DIVIDER --}}
+                <div class="my-6 w-20 h-px bg-[#F3D6D1]"></div>
 
-                    <div class="grid grid-cols-3 gap-4 text-center text-sm font-medium text-slate-700">
+                {{-- SOCIAL ICONS --}}
+                <div class="flex items-center justify-center gap-6 text-slate-500">
 
-                        {{-- Activities --}}
-                        <a href="{{ url('/activities') }}"
-                            class="p-4 rounded-2xl bg-[#FFF5F3] hover:bg-[#FBE3DF] hover:shadow-md transition-all duration-200 hover:-translate-y-[1px]">
-                            Activities
-                        </a>
+                    {{-- Instagram --}}
+                    <a href="https://instagram.com/tripspoilerofficial" target="_blank" aria-label="Instagram"
+                        class="hover:text-[#C62E2E] transition">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2a3 3 0 013 3v10a3 3 0 01-3 3H7a3 3 0 01-3-3V7a3 3 0 013-3h10z" />
+                            <path d="M12 7.5A4.5 4.5 0 1016.5 12 4.51 4.51 0 0012 7.5z" />
+                            <circle cx="17.5" cy="6.5" r="1" />
+                        </svg>
+                    </a>
 
-                        {{-- Museums --}}
-                        {{-- <a href="{{ url('/museums') }}"
-                            class="p-4 rounded-2xl bg-[#FFF5F3] hover:bg-[#FBE3DF] hover:shadow-md transition-all duration-200 hover:-translate-y-[1px]">
-                            Museums
-                        </a> --}}
-
-                        {{-- Cities --}}
-                        <a href="{{ url('/cities') }}"
-                            class="p-4 rounded-2xl bg-[#FFF5F3] hover:bg-[#FBE3DF] hover:shadow-md transition-all duration-200 hover:-translate-y-[1px]">
-                            Cities
-                        </a>
-
-                        {{-- Blog --}}
-                        <a href="{{ url('/blog') }}"
-                            class="p-4 rounded-2xl bg-[#FFF5F3] hover:bg-[#FBE3DF] hover:shadow-md transition-all duration-200 hover:-translate-y-[1px]">
-                            Blog
-                        </a>
-
-                        {{-- Travel Tips — passive --}}
-                        {{-- <div class="p-4 rounded-2xl bg-[#FFF5F3] text-slate-800 border border-transparent">
-                            Travel Tips
-                        </div> --}}
-
-                        {{-- All Passes — passive --}}
-                        {{-- <div class="p-4 rounded-2xl bg-[#FFF5F3] text-slate-800 border border-transparent">
-                            All Passes
-                        </div> --}}
-
-                    </div>
-
+                    {{-- TikTok --}}
+                    <a href="https://tiktok.com/@tripspoilerofficial" target="_blank" aria-label="TikTok"
+                        class="hover:text-[#C62E2E] transition">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M21 8.3a6.6 6.6 0 01-3.8-1.2v7.1a6.4 6.4 0 11-6.4-6.4c.4 0 .8 0 1.2.1v3.3a3.1 3.1 0 10 2.2 3v-12h3.2a6.6 6.6 0 003.6 3.1z" />
+                        </svg>
+                    </a>
 
                 </div>
 
             </div>
+
 
         </div>
     </section>
@@ -146,7 +156,7 @@
                         avoided common travel mistakes.
                     </p>
                 </div>
-                    
+
             </div>
 
         </div>
@@ -155,7 +165,7 @@
     <x-most-popular-blog source="home" :source-id="null" />
     <x-faq source="home" :source-id="null" />
 
-    @section('modals')
-        <x-search-modal />
-    @endsection
+@section('modals')
+    <x-search-modal />
+@endsection
 @endsection
