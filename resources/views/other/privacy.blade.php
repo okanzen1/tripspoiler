@@ -5,25 +5,43 @@
 
 @section('content')
 
-    <section class="bg-[#FFF5F3] border-b border-[#F3D6D1]">
-        <div class="max-w-6xl mx-auto px-4 py-14 md:py-20">
+    {{-- PRIVACY POLICY HERO — FULL WIDTH --}}
+    <section class="relative overflow-hidden
+                bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
 
-            <span class="text-sm font-semibold text-[#C62E2E] tracking-wide">
+        {{-- SOFT GLOW --}}
+        <div class="absolute inset-0 pointer-events-none">
+            <div
+                class="absolute -top-32 left-0
+                   w-[520px] h-[520px]
+                   bg-[#C62E2E]/10 rounded-full blur-[160px]">
+            </div>
+        </div>
+
+        <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24">
+
+            {{-- EYEBROW --}}
+            <span
+                class="inline-block text-xs font-semibold tracking-wide uppercase
+                   text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
                 Privacy Policy
             </span>
 
-            <h1 class="mt-3 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-                Your privacy matters to us
+            {{-- TITLE (FULL WIDTH) --}}
+            <h1 class="mt-4 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
+                Your privacy
+                <span class="text-[#C62E2E]">matters to us</span>
             </h1>
 
-            <p class="mt-4 text-slate-600 max-w-2xl">
+            {{-- DESCRIPTION (NO MAX-W, FULL WIDTH) --}}
+            <p class="mt-5 text-slate-600 leading-relaxed text-base md:text-lg">
                 This page explains how TripSpoiler collects and uses information
-                when you browse our website.
+                when you browse our website, and how we approach data protection
+                with transparency and care.
             </p>
 
         </div>
     </section>
-
 
     <section class="bg-white py-14">
         <div class="max-w-6xl mx-auto px-4 leading-relaxed text-slate-700 space-y-6">

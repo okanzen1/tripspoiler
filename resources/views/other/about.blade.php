@@ -6,24 +6,42 @@
     and useful travel guides.')
 
 @section('content')
+    {{-- ABOUT HERO — FULL WIDTH TEXT --}}
+    <section class="relative overflow-hidden
+                bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
 
-    {{-- HERO --}}
-    <section class="bg-[#FFF5F3] border-b border-[#F3D6D1]">
-        <div class="max-w-6xl mx-auto px-4 py-14 md:py-20">
+        {{-- SOFT GLOW --}}
+        <div class="absolute inset-0 pointer-events-none">
+            <div
+                class="absolute -top-32 left-0
+                   w-[520px] h-[520px]
+                   bg-[#C62E2E]/10 rounded-full blur-[160px]">
+            </div>
+        </div>
 
-            <span class="text-sm font-semibold text-[#C62E2E] tracking-wide">
+        <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24">
+
+            {{-- EYEBROW --}}
+            <span
+                class="inline-block text-xs font-semibold tracking-wide uppercase
+                   text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
                 About TripSpoiler
             </span>
 
-            <h1 class="mt-3 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-                Your guide to museums,<br>
-                <span class="text-[#C62E2E]">cities & great experiences</span>
+            {{-- TITLE --}}
+            <h1 class="mt-4 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
+                Your guide to cities, activities and stories<br>
+                <span class="text-[#C62E2E]">
+                    with museums that truly matter
+                </span>
             </h1>
 
-            <p class="mt-4 text-slate-600 max-w-2xl">
-                TripSpoiler is a travel discovery platform focused on museums,
-                cultural attractions and memorable city experiences.
-                Our goal is to make planning easier — and exploring more meaningful.
+            {{-- DESCRIPTION — NO WIDTH LIMIT --}}
+            <p class="mt-5 text-slate-600 leading-relaxed text-base md:text-lg">
+                TripSpoiler is a travel discovery platform focused on museums, cultural
+                attractions and memorable city experiences. We help travelers plan
+                with clarity, confidence and a deeper understanding of the places
+                they visit.
             </p>
 
         </div>
@@ -34,38 +52,38 @@
         <div class="max-w-6xl mx-auto px-4 leading-relaxed text-slate-700 space-y-6">
 
             <p>
-                When you travel, you want to spend your time enjoying the city —
-                not getting lost in endless tabs, confusing ticket options or
-                outdated advice. TripSpoiler was created to bring everything
-                together in one clear, well-organized place.
+                When you travel, your time matters. You want to experience the city itself,
+                not struggle with endless tabs, confusing ticket options or outdated advice.
+                TripSpoiler was created to make travel planning clear, focused and easy to navigate.
             </p>
 
             <p>
-                Here you’ll find curated guides to the world’s best museums,
-                inspiring city highlights, cultural experiences and helpful
-                travel tips — written to be practical, simple and genuinely useful.
+                Here you will find carefully curated guides covering cities, activities,
+                museums and travel stories. Everything is written with one goal in mind:
+                to be practical, simple and genuinely useful.
             </p>
 
             <p>
-                We focus especially on museums and cultural spots because they
-                tell the real story of a city. From world-famous collections to
-                lesser-known gems, our content helps you understand
-                what is worth seeing and why.
+                Museums and cultural places play a central role in how we see a city.
+                They reveal its history, identity and everyday life.
+                From well known institutions to quieter local spaces,
+                our guides help you understand what is truly worth your time.
             </p>
 
             <p>
-                TripSpoiler also highlights activities, tours and passes
-                that can enhance your trip — so you can plan confidently,
-                compare options easily and choose what fits your style.
+                TripSpoiler also brings together activities, tours and city passes
+                that can enrich your trip. We focus on clarity and comparison,
+                so you can choose confidently and plan in a way that fits your travel style.
             </p>
 
             <p>
-                Whether you’re visiting for a weekend or exploring for longer,
-                our mission is simple:
-                <strong>help you travel smarter, discover deeper and enjoy more.</strong>
+                Whether you are visiting for a short break or staying longer,
+                our purpose is simple.
+                <strong>To help you plan smarter, explore deeper and enjoy the journey more.</strong>
             </p>
 
         </div>
     </section>
+
 
 @endsection

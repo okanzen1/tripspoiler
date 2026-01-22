@@ -1,13 +1,17 @@
 @extends('layouts.app')
 
 @section('title', 'Page not found – TripSpoiler')
-@section('meta_description', 'The page you’re looking for doesn’t exist. Discover cities, museums and travel tips on
+@section('meta_description',
+    'The page you’re looking for doesn’t exist. Discover cities, museums and travel tips on
     TripSpoiler.')
 
 @section('content')
 
     <section class="bg-[#FFF5F3] border-b border-[#F3D6D1] min-h-screen flex items-center">
         <div class="max-w-6xl mx-auto px-4 text-center w-full">
+
+            <img src="{{ asset('images/logo-tripspoiler-two.png') }}" alt="TripSpoiler"
+                class="mx-auto h-48 md:h-48 mb-6 drop-shadow-md logo-swing" />
 
             <span class="text-sm font-semibold text-[#C62E2E] tracking-wide uppercase">
                 Oops, wrong turn
@@ -35,9 +39,9 @@
                     Browse Cities
                 </a>
 
-                <a href="{{ url('/museums') }}" class="px-5 py-3 rounded-2xl bg-white border">
+                {{-- <a href="{{ url('/museums') }}" class="px-5 py-3 rounded-2xl bg-white border">
                     Explore Museums
-                </a>
+                </a> --}}
 
                 <a href="{{ url('/activities') }}" class="px-5 py-3 rounded-2xl bg-white border">
                     Discover Activities

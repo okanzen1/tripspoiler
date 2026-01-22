@@ -4,11 +4,16 @@
 @section('meta_description', $blog->getTranslation('meta_description', $locale))
 
 @section('content')
-    <section class="bg-[#FFF5F3] border-b border-[#F3D6D1]">
-        <div class="max-w-6xl mx-auto px-4 py-14 md:py-20 space-y-4">
+    {{-- BLOG DETAIL HERO --}}
+    <section class="relative overflow-hidden
+                bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
+
+        <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24 space-y-4">
 
             @if (!empty($hero['themes']))
-                <span class="text-sm font-semibold text-[#C62E2E] tracking-wide">
+                <span
+                    class="inline-block text-xs font-semibold tracking-wide uppercase
+                         text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
                     {{ implode(' • ', $hero['themes']) }}
                 </span>
             @endif
@@ -20,18 +25,21 @@
                     @if ($hero['title']['break'])
                         <br>
                     @endif
-                    <span class="text-[#C62E2E]">{{ $hero['title']['second'] }}</span>
+                    <span class="text-[#C62E2E]">
+                        {{ $hero['title']['second'] }}
+                    </span>
                 @endif
             </h1>
 
             @if (!empty($hero['excerpt']))
-                <p class="text-slate-600 max-w-xl">
+                <p class="text-slate-600 text-base md:text-lg leading-relaxed">
                     {{ $hero['excerpt'] }}
                 </p>
             @endif
 
         </div>
     </section>
+
 
     {{-- <x-venue-card source="blog" :source-id="$blog->id" :id="$blog->source_venue_id"/> --}}
 

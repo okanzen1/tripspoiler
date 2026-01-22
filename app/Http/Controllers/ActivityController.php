@@ -13,6 +13,7 @@ class ActivityController extends Controller
         $locale = app()->getLocale();
         $cities = City::where('active', true)->get();
         $cityId = $request->get('city_id') ?? 1;
+        $currentCityName = $cities->firstWhere('id', $cityId)->name ?? $cities->first()->name;
 
         $activities = Activity::where('city_id', $cityId)
             ->where('status', true)
@@ -23,6 +24,6 @@ class ActivityController extends Controller
             return view('activities.partials.list', compact('activities', 'locale','cityId'));
         }
 
-        return view('activities.index', compact('activities', 'cities', 'cityId', 'locale'));
+        return view('activities.index', compact('activities', 'cities', 'cityId', 'locale', 'currentCityName'));
     }
 }

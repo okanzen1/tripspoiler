@@ -1,75 +1,122 @@
 @extends('layouts.app')
 
 @section('title', 'Contact TripSpoiler')
-@section('meta_description', 'Get in touch with TripSpoiler for travel & museum related questions.')
+@section('meta_description', 'Get in touch with TripSpoiler for questions, feedback or collaboration.')
 
 @section('content')
 
-    <section class="bg-[#FFF5F3] border-b border-[#F3D6D1]">
-        <div class="max-w-6xl mx-auto px-4 py-14 md:py-20">
+    {{-- CONTACT HERO — FULL WIDTH --}}
+    <section class="relative overflow-hidden
+                bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
 
-            <span class="text-sm font-semibold text-[#C62E2E] tracking-wide">
+        {{-- SOFT GLOW --}}
+        <div class="absolute inset-0 pointer-events-none">
+            <div
+                class="absolute -top-32 left-0
+                   w-[520px] h-[520px]
+                   bg-[#C62E2E]/10 rounded-full blur-[160px]">
+            </div>
+        </div>
+
+        <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24">
+
+            {{-- EYEBROW --}}
+            <span
+                class="inline-block text-xs font-semibold tracking-wide uppercase
+                   text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
                 Contact
             </span>
 
-            <h1 class="mt-3 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-                We'd love to hear from you
+            {{-- TITLE (FULL WIDTH) --}}
+            <h1 class="mt-4 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
+                Get in touch with
+                <span class="text-[#C62E2E]">the TripSpoiler team</span>
             </h1>
+
+            {{-- DESCRIPTION (NO MAX-W, FULL WIDTH) --}}
+            <p class="mt-5 text-slate-600 leading-relaxed text-base md:text-lg">
+                Questions, feedback or ideas to share? We’re always happy to hear from
+                travelers and curious minds interested in cities, museums, activities
+                and meaningful experiences.
+            </p>
 
         </div>
     </section>
 
 
-    <section class="bg-white py-14">
+    {{-- CONTACT FORM --}}
+    <section class="bg-white py-16">
         <div class="max-w-4xl mx-auto px-4">
 
             {{-- SUCCESS ALERT --}}
             @if (session('success'))
-                <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-2xl text-green-700">
+                <div class="mb-8 p-4 bg-green-50 border border-green-200 rounded-2xl text-green-700">
                     {{ session('success') }}
                 </div>
             @endif
 
-
-            <form method="POST" action="{{ route('contact.submit') }}" class="space-y-5">
+            <form method="POST" action="{{ route('contact.submit') }}" class="space-y-6">
                 @csrf
 
-                {{-- HONEYPOT FIELD (HIDDEN) --}}
-                <div style="display:none;">
+                {{-- HONEYPOT --}}
+                <div class="hidden">
                     <input type="text" name="website" value="">
                 </div>
 
+                {{-- NAME --}}
                 <div>
-                    <label class="text-sm font-medium text-slate-700">
-                        Your Name
+                    <label class="block text-sm font-medium text-slate-700 mb-1">
+                        Your name
                     </label>
                     <input type="text" name="name" required
-                        class="w-full mt-1 border border-[#F3D6D1] rounded-2xl px-4 py-3 outline-none">
+                        class="w-full rounded-2xl border border-[#F3D6D1]
+                           px-5 py-3 text-slate-900
+                           outline-none
+                           focus:border-[#C62E2E]
+                           focus:ring-4 focus:ring-[#C62E2E]/15">
                 </div>
 
+                {{-- EMAIL --}}
                 <div>
-                    <label class="text-sm font-medium text-slate-700">
-                        Your Email
+                    <label class="block text-sm font-medium text-slate-700 mb-1">
+                        Your email
                     </label>
                     <input type="email" name="email" required
-                        class="w-full mt-1 border border-[#F3D6D1] rounded-2xl px-4 py-3 outline-none">
+                        class="w-full rounded-2xl border border-[#F3D6D1]
+                           px-5 py-3 text-slate-900
+                           outline-none
+                           focus:border-[#C62E2E]
+                           focus:ring-4 focus:ring-[#C62E2E]/15">
                 </div>
 
+                {{-- MESSAGE --}}
                 <div>
-                    <label class="text-sm font-medium text-slate-700">
+                    <label class="block text-sm font-medium text-slate-700 mb-1">
                         Message
                     </label>
                     <textarea name="message" rows="5" required
-                        class="w-full mt-1 border border-[#F3D6D1] rounded-2xl px-4 py-3 outline-none"></textarea>
+                        class="w-full rounded-2xl border border-[#F3D6D1]
+                           px-5 py-3 text-slate-900
+                           outline-none resize-none
+                           focus:border-[#C62E2E]
+                           focus:ring-4 focus:ring-[#C62E2E]/15"></textarea>
                 </div>
 
-                <button class="bg-[#C62E2E] hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-2xl">
+                {{-- SUBMIT --}}
+                <button
+                    class="inline-flex items-center justify-center
+                        bg-[#C62E2E] hover:bg-red-700
+                        text-white font-semibold
+                        px-8 py-3 rounded-full
+                        transition
+                        cursor-pointer">
                     Send message
                 </button>
+
             </form>
 
             <p class="text-sm text-slate-500 mt-6">
-                We usually reply within 1–2 business days.
+                We usually reply within one or two business days.
             </p>
 
         </div>

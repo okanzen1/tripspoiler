@@ -13,6 +13,7 @@ class BlogController extends Controller
         $locale = app()->getLocale();
         $cities = City::where('active', true)->get();
         $cityId = $request->get('city_id') ?? 1;
+        $currentCityName = $cities->firstWhere('id', $cityId)->name ?? $cities->first()->name;
 
         $blogs = Blog::where('status', true)
             ->with('city', 'images')
@@ -28,10 +29,10 @@ class BlogController extends Controller
             'cities',
             'blogs',
             'locale',
-            'cityId'
+            'cityId',
+            'currentCityName'
         ));
     }
-
 
     public function show(string $slug, int $id)
     {

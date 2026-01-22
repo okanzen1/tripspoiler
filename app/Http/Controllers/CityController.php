@@ -12,8 +12,8 @@ class CityController extends Controller
         $locale = app()->getLocale();
         $cities = City::where('active', true)->get();
         $cityId = $request->get('city_id') ?? $cities->first()?->id;
-
         $selectedCity = City::where('active', true)->find($cityId);
+        $currentCityName = $selectedCity->name ?? $cities->first()->name;
 
         if ($request->ajax()) {
             return view('cities.partials.list', compact('selectedCity', 'locale'));
@@ -23,7 +23,8 @@ class CityController extends Controller
             'cities',
             'locale',
             'cityId',
-            'selectedCity'
+            'selectedCity',
+            'currentCityName'
         ));
     }
 
