@@ -1,42 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.querySelector('[data-search-modal]');
-    const panel = document.querySelector('[data-search-panel]');
-    const openers = document.querySelectorAll('[data-search-open]');
+    const modal    = document.querySelector('[data-search-modal]');
+    const panel    = document.querySelector('[data-search-panel]');
+    const openers  = document.querySelectorAll('[data-search-open]');
     const closeBtn = document.querySelector('[data-search-close]');
-    const input = document.querySelector('[data-search-input]');
-    const results = document.querySelector('[data-search-results]');
-    const status = document.querySelector('[data-search-status]');
+    const input    = document.querySelector('[data-search-input]');
+    const results  = document.querySelector('[data-search-results]');
+    const status   = document.querySelector('[data-search-status]');
 
     if (!modal || !panel || !input || !openers.length) return;
 
     let debounceTimer = null;
     let abortCtrl = null;
-    let scrollY = 0;
 
-    /* ---------- HELPERS ---------- */
+    /* ---------- UI HELPERS ---------- */
     function showStatus(text) {
+        if (!status) return;
         status.textContent = text;
         status.classList.remove('hidden');
     }
 
     function clearResults() {
+        if (!results) return;
         results.innerHTML = '';
         results.classList.add('hidden');
     }
 
-    /* ---------- OPEN ---------- */
-    function open(e) {
+    /* ---------- OPEN / CLOSE ---------- */
+    function openSearch(e) {
+        // zaten açıksa tekrar açma (touchend + click çakışmasın)
         if (!modal.classList.contains('hidden')) return;
 
-        // scroll pozisyonunu kaydet
-        scrollY = window.scrollY;
-
-        // BODY LOCK (sağa-sola kayma fix)
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollY}px`;
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
+        if (e) e.preventDefault?.();
 
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -46,20 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
             panel.classList.remove('opacity-0', 'scale-95', 'translate-y-4');
         });
 
+        // iOS Chrome için en güvenlisi: kısa gecikme ile focus
         setTimeout(() => {
             input.focus();
         }, 120);
     }
 
-    /* ---------- CLOSE ---------- */
-    function close() {
+    function closeSearch() {
         modal.classList.add('opacity-0');
         panel.classList.add('opacity-0', 'scale-95', 'translate-y-4');
 
-        // klavyeyi kapat
         input.blur();
 
-        // fetch iptal
         if (abortCtrl) {
             abortCtrl.abort();
             abortCtrl = null;
@@ -69,52 +61,40 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
 
-            // BODY UNLOCK
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.left = '';
-            document.body.style.right = '';
-            document.body.style.width = '';
-
-            // scroll geri koy
-            window.scrollTo(0, scrollY);
-
-            // reset
             input.value = '';
             clearResults();
             showStatus('Start typing to see results.');
         }, 200);
     }
 
-    /* ---------- EVENTS ---------- */
+    /* ---------- OPEN EVENTS (iOS SAFE) ---------- */
     openers.forEach(el => {
-        // normal tarayıcılar
-        el.addEventListener('click', (e) => {
-            e.preventDefault(); // <a> ise sayfa kaymasın / navigate etmesin
-            open(e);
-        });
+        // modern (iOS dahil) en stabil
+        el.addEventListener('pointerup', openSearch);
 
-        // iOS (Chrome/Safari) güvenli fallback
+        // eski iOS / bazı durumlar için ekstra garanti
         el.addEventListener('touchend', (e) => {
             e.preventDefault();
-            open(e);
+            openSearch(e);
         }, { passive: false });
+
+        // desktop fallback
+        el.addEventListener('click', openSearch);
     });
 
-
-    closeBtn.addEventListener('click', close);
+    if (closeBtn) closeBtn.addEventListener('click', closeSearch);
 
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) close();
+        if (e.target === modal) closeSearch();
     });
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-            close();
+            closeSearch();
         }
     });
 
-    /* ---------- LIVE SEARCH ---------- */
+    /* ---------- LIVE SEARCH (basit) ---------- */
     input.addEventListener('input', () => {
         const q = input.value.trim();
 
@@ -153,13 +133,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function render(items) {
-        if (!items.length) {
+        if (!results) return;
+
+        if (!items || !items.length) {
             clearResults();
             showStatus('No results found.');
             return;
         }
 
-        status.classList.add('hidden');
+        if (status) status.classList.add('hidden');
 
         results.innerHTML = items.map(item => `
             <a href="${item.url}"
@@ -178,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
         results.classList.remove('hidden');
     }
 
-    /* ---------- XSS GUARD ---------- */
     function escapeHtml(str) {
         return String(str ?? '')
             .replace(/&/g, '&amp;')
@@ -187,4 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
     }
+
+    // başlangıç
+    showStatus('Start typing to see results.');
 });
