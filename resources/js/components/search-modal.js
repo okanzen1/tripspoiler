@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const modal   = document.querySelector('[data-search-modal]');
-    const panel   = document.querySelector('[data-search-panel]');
+    const modal = document.querySelector('[data-search-modal]');
+    const panel = document.querySelector('[data-search-panel]');
     const openers = document.querySelectorAll('[data-search-open]');
     const closeBtn = document.querySelector('[data-search-close]');
-    const input   = document.querySelector('[data-search-input]');
+    const input = document.querySelector('[data-search-input]');
     const results = document.querySelector('[data-search-results]');
-    const status  = document.querySelector('[data-search-status]');
+    const status = document.querySelector('[data-search-status]');
 
     if (!modal || !panel || !input || !openers.length) return;
 
@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ---------- OPEN ---------- */
     function open(e) {
+        if (!modal.classList.contains('hidden')) return;
+
         // scroll pozisyonunu kaydet
         scrollY = window.scrollY;
 
@@ -44,12 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
             panel.classList.remove('opacity-0', 'scale-95', 'translate-y-4');
         });
 
-        // mobil klavye fix
-        if (e?.type === 'click') {
-            input.focus({ preventScroll: true });
-        } else {
-            setTimeout(() => input.focus(), 50);
-        }
+        setTimeout(() => {
+            input.focus();
+        }, 120);
     }
 
     /* ---------- CLOSE ---------- */
@@ -88,9 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ---------- EVENTS ---------- */
-    openers.forEach(el =>
-        el.addEventListener('click', (e) => open(e))
-    );
+    openers.forEach(el => {
+        // normal tarayıcılar
+        el.addEventListener('click', (e) => {
+            e.preventDefault(); // <a> ise sayfa kaymasın / navigate etmesin
+            open(e);
+        });
+
+        // iOS (Chrome/Safari) güvenli fallback
+        el.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            open(e);
+        }, { passive: false });
+    });
+
 
     closeBtn.addEventListener('click', close);
 
