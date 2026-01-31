@@ -45,9 +45,9 @@
             </p>
 
             {{-- SEARCH (SAFE) --}}
-            <div class="mt-10 max-w-2xl mx-auto">
+            {{-- <div class="mt-10 max-w-2xl mx-auto">
                 <x-search-box />
-            </div>
+            </div> --}}
 
             {{-- HERO FOOT LINKS (CENTERED & ICON BASED) --}}
             <div class="mt-10 flex flex-col items-center text-center">
