@@ -17,7 +17,7 @@
     @if ($content !== '')
         <section class="bg-white py-10">
             <div class="max-w-6xl mx-auto px-4">
-                <div class="mt-3 prose prose-slate max-w-3xl leading-relaxed">
+                <div class="mt-3 prose prose-slate leading-relaxed">
                     {!! $pageContent->getTranslation('content', app()->getLocale()) !!}
                 </div>
             </div>
