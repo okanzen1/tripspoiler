@@ -30,14 +30,21 @@
                 @foreach ($activities as $activity)
                     @php
                         $title = $activity->getTranslation('name', $locale);
-                        $slug  = $activity->getTranslation('slug', $locale);
-                        $image = $activity->images->first()?->path ?? 'https://picsum.photos/600/400?random=' . $activity->id;
+                        $slug = $activity->getTranslation('slug', $locale);
+                        $image = $activity->images->first();
                     @endphp
 
-                    <div class="bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
+                    <div
+                        class="bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
 
                         {{-- IMAGE --}}
-                        <img src="{{ $image }}" alt="{{ $title }}" class="w-full h-40 object-cover">
+                        @if ($image)
+                            <img src="{{ route('images.view', $image->id) }}" alt="{{ $title }}"
+                                class="w-full h-40 object-cover">
+                        @else
+                            <img src="https://picsum.photos/600/400?random={{ $activity->id }}"
+                                alt="{{ $title }}" class="w-full h-40 object-cover">
+                        @endif
 
                         <div class="p-5">
 
@@ -48,17 +55,15 @@
 
                             {{-- TYPE BADGE (opsiyonel ama güzel) --}}
                             @if ($activity->activity_type === 'pass')
-                                <span class="inline-block mt-2 text-xs font-semibold bg-[#C62E2E]/10 text-[#C62E2E] px-3 py-1 rounded-full">
+                                <span
+                                    class="inline-block mt-2 text-xs font-semibold bg-[#C62E2E]/10 text-[#C62E2E] px-3 py-1 rounded-full">
                                     City Pass
                                 </span>
                             @endif
 
                             {{-- CTA --}}
                             <div class="mt-4 flex items-center justify-end">
-                                <a
-                                    href="{{ $activity->affiliate_link }}"
-                                    target="_blank"
-                                    rel="nofollow sponsored"
+                                <a href="{{ $activity->affiliate_link }}" target="_blank" rel="nofollow sponsored"
                                     class="text-sm font-semibold text-[#C62E2E] hover:underline">
                                     View details →
                                 </a>
@@ -72,4 +77,3 @@
         </div>
     </section>
 @endif
-
