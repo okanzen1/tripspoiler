@@ -17,7 +17,10 @@
     <title>@yield('title', 'TripSpoiler')</title>
     <meta name="description" content="@yield('meta_description', 'Travel guides and museum tips')" />
 
-    @vite('resources/css/app.css')
+    @vite([
+        'resources/css/app.css',
+        'resources/js/app.js'
+    ])
 </head>
 
 <body class="bg-white text-slate-900 antialiased min-h-screen flex flex-col">
@@ -34,7 +37,6 @@
 
     @include('partials.footer')
 
-    @vite('resources/js/app.js')
 </body>
 
 </html>
