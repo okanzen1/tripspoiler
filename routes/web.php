@@ -9,6 +9,9 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\SitemapController;
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 // home page
     Route::get('/', [HomeController::class, 'index'])->name('home');
