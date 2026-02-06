@@ -99,7 +99,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         const cityFilter = document.getElementById('cityFilter');
         const cityNameEl = document.getElementById('currentCityName');
@@ -128,4 +128,4 @@
                 });
         });
     </script>
-@endsection
+@endpush
