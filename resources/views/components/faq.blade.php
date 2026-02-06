@@ -1,4 +1,4 @@
-<section class="bg-white py-16">
+<section class="@if ($bgColor) {{ $bgColor }} @endif py-16">
     <div class="max-w-4xl mx-auto px-4">
 
         <h2 class="text-2xl md:text-3xl font-bold text-slate-900 text-center">
@@ -11,8 +11,8 @@
 
         <div class="mt-10 space-y-4">
 
-            @foreach($faqs as $faq)
-                <details class="border border-slate-200 rounded-2xl p-4">
+            @foreach ($faqs as $faq)
+                <details class="border border-slate-200 rounded-2xl p-4 bg-white">
                     <summary class="font-semibold text-slate-900 cursor-pointer">
                         {{ $faq->getTranslation('question', $locale) }}
                     </summary>

@@ -49,4 +49,20 @@ class ActivityController extends Controller
             'pageContent'
         ));
     }
+
+    public function show(string $slug)
+    {
+        $locale = app()->getLocale();
+        $activity = Activity::where("slug->{$locale}", $slug)->where('status', true)->with(['images', 'city.country'])->firstOrFail();
+        $name = $activity->getTranslation('name', $locale);
+        $metaTitle = $activity->getTranslation('meta_title', $locale) ?: $name . ' | TripSpoiler';
+        $metaDescription = $activity->getTranslation('meta_description', $locale) ?: 'Learn about ' . $name . '. What it includes, how it works, and whether it makes sense for your trip.';
+
+        return view('activities.show', compact(
+            'activity',
+            'locale',
+            'metaTitle',
+            'metaDescription',
+        ));
+    }
 }

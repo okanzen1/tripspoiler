@@ -71,8 +71,8 @@
 
                                 {{-- CTA --}}
                                 <div class="mt-4 flex items-center justify-end">
-                                    <a href="{{ $activity->affiliate_link }}" target="_blank" rel="nofollow sponsored"
-                                        class="text-sm font-semibold text-[#C62E2E] hover:underline">
+                                    <a href="{{ route('activities.show', $slug) }}"
+                                       class="text-sm font-semibold text-[#C62E2E] hover:underline">
                                         View details →
                                     </a>
                                 </div>

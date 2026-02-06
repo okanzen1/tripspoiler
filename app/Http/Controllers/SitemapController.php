@@ -6,6 +6,7 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\City;
 use App\Models\Blog;
+use App\Models\Activity;
 
 class SitemapController extends Controller
 {
@@ -32,7 +33,7 @@ class SitemapController extends Controller
                     'slug' => $slug,
                     'id'   => $city->id,
                 ]))
-                ->setPriority(0.7)
+                    ->setPriority(0.7)
             );
         });
 
@@ -46,7 +47,20 @@ class SitemapController extends Controller
                     'slug' => $slug,
                     'id'   => $post->id,
                 ]))
-                ->setPriority(0.6)
+                    ->setPriority(0.6)
+            );
+        });
+
+        // Activities
+        Activity::where('status', true)->each(function (Activity $activity) use ($sitemap) {
+            $slug = $activity->getTranslation('slug', app()->getLocale());
+            if (!$slug) return;
+
+            $sitemap->add(
+                Url::create(route('activities.show', [
+                    'slug' => $slug,
+                ]))
+                    ->setPriority(0.7)
             );
         });
 

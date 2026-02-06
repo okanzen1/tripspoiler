@@ -21,6 +21,7 @@
         'resources/css/app.css',
         'resources/js/app.js'
     ])
+    @stack('styles')
 </head>
 
 <body class="bg-white text-slate-900 antialiased min-h-screen flex flex-col">
@@ -33,8 +34,7 @@
 
     </main>
 
-    @yield('scripts')
-
+    @stack('scripts')
     @include('partials.footer')
 
 </body>

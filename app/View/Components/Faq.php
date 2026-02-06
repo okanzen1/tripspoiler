@@ -10,13 +10,14 @@ class Faq extends Component
 {
     public function __construct(
         public ?string $source = null,
-        public ?int $sourceId = null
+        public ?int $sourceId = null,
+        public ?string $bgColor = null,
     ) {}
 
     public function render(): View|string
     {
         $locale = app()->getLocale();
-
+        $bgColor = $this->bgColor ?? 'bg-[#FFF8F6]';
         $faqs = FaqModel::query()
             ->where('status', true)
             ->when($this->source, fn ($q) => $q->where('source', $this->source))
@@ -28,6 +29,6 @@ class Faq extends Component
             return '';
         }
 
-        return view('components.faq', compact('faqs', 'locale'));
+        return view('components.faq', compact('faqs', 'locale', 'bgColor'));
     }
 }

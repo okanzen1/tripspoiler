@@ -11,12 +11,16 @@ class Activity extends Model
     protected $fillable = [
         'name',
         'slug',
+        'meta_title',
+        'meta_description',
         'city_id',
         'affiliate_id',
         'affiliate_link',
         'sort_order',
         'most_popular',
         'status',
+        'duration',
+        'audio_guide',
     ];
 
     /**
@@ -26,6 +30,9 @@ class Activity extends Model
         'name',
         'description',
         'slug',
+        'meta_title',
+        'meta_description',
+        'duration',
     ];
 
     /**
@@ -35,6 +42,7 @@ class Activity extends Model
         'status' => 'boolean',
         'sort_order' => 'integer',
         'most_popular' => 'boolean',
+        'audio_guide' => 'boolean',
     ];
 
     public function images()
@@ -42,5 +50,10 @@ class Activity extends Model
         return $this->hasMany(Image::class, 'source_id')
             ->where('source', 'activity')
             ->orderBy('sort_order');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }

@@ -3,15 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
-
-class City extends Model
+class Country extends Model
 {
     use HasTranslations;
 
     protected $fillable = [
-        'country_id',
         'name',
         'slug',
         'active',
@@ -26,8 +25,4 @@ class City extends Model
         'active' => 'boolean',
     ];
 
-    public function country()
-    {
-        return $this->belongsTo(Country::class);
-    }
 }

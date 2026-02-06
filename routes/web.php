@@ -19,6 +19,7 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 // activities page
     Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
+    Route::get('/activities/{slug}', [ActivityController::class, 'show'])->name('activities.show');
 // activities page
 
 // City Routes
