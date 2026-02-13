@@ -8,7 +8,6 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <a href="{{ route('blog.show', [
                     'slug' => $blog->getTranslation('slug', $locale),
-                    'id' => $blog->id,
                 ]) }}"
                     class="block bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
 

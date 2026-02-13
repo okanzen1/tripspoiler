@@ -34,12 +34,11 @@ class BlogController extends Controller
         ));
     }
 
-    public function show(string $slug, int $id)
+    public function show(string $slug) 
     {
         $locale = app()->getLocale();
 
         $blog = Blog::query()
-            ->where('id', $id)
             ->where('status', true)
             ->where("slug->{$locale}", $slug)
             ->with([

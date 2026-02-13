@@ -31,7 +31,6 @@ class SitemapController extends Controller
             $sitemap->add(
                 Url::create(route('cities.show', [
                     'slug' => $slug,
-                    'id'   => $city->id,
                 ]))
                     ->setPriority(0.7)
             );
@@ -45,7 +44,6 @@ class SitemapController extends Controller
             $sitemap->add(
                 Url::create(route('blog.show', [
                     'slug' => $slug,
-                    'id'   => $post->id,
                 ]))
                     ->setPriority(0.6)
             );

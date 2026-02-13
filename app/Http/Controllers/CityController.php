@@ -28,5 +28,17 @@ class CityController extends Controller
         ));
     }
 
+    public function show(string $slug)
+    {
+        $locale = app()->getLocale();
+
+        $city = City::query()
+            ->where('active', true)
+            ->where("slug->{$locale}", $slug)
+            ->firstOrFail();
+
+        return view('cities.show', compact('city', 'locale'));
+    }
+
 
 }

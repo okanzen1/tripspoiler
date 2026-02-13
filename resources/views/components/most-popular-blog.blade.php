@@ -16,7 +16,6 @@
                 @foreach ($blogs as $blog)
                     <a href="{{ route('blog.show', [
                         'slug' => $blog['slug'],
-                        'id' => $blog['id'],
                     ]) }}"
                         class="block bg-white rounded-2xl border border-slate-100 px-5 py-4 mt-3 hover:shadow-md transition">
 

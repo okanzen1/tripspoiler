@@ -24,12 +24,12 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 // City Routes
     Route::get('/cities', [CityController::class, 'index'])->name('cities.index');
-    Route::get('/cities/{slug}-{id}', [CityController::class, 'show'])->name('cities.show');
+    Route::get('/cities/{slug}', [CityController::class, 'show'])->name('cities.show')->where(['slug' => '[-a-zA-Z0-9_]+']);
 // City Routes
 
 // Blog Routes
     Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
-    Route::get('/blog/{slug}-{id}', [BlogController::class, 'show'])->name('blog.show')->where(['slug' => '[-a-zA-Z0-9_]+', 'id' => '[0-9]+']);
+    Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show')->where(['slug' => '[-a-zA-Z0-9_]+']);
 // Blog Routes
 
 // Search Route
