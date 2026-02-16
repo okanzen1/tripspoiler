@@ -42,19 +42,19 @@
                             $image = $activity->images->first();
                         @endphp
 
-                        <div
-                            class="bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition">
+                        <a href="{{ route('activities.show', $slug) }}"
+                            class="block bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition flex flex-col">
 
                             {{-- IMAGE --}}
                             @if ($image)
                                 <img src="{{ route('images.view', $image->id) }}" alt="{{ $title }}"
-                                    class="w-full h-40 object-cover">
+                                    class="w-full h-56 object-cover">
                             @else
                                 <img src="https://picsum.photos/600/400?random={{ $activity->id }}"
-                                    alt="{{ $title }}" class="w-full h-40 object-cover">
+                                    alt="{{ $title }}" class="w-full h-56 object-cover">
                             @endif
 
-                            <div class="p-5">
+                            <div class="p-5 flex flex-col flex-1">
 
                                 {{-- TITLE --}}
                                 <h3 class="font-semibold text-slate-900 leading-snug">
@@ -64,21 +64,20 @@
                                 {{-- TYPE BADGE (opsiyonel ama güzel) --}}
                                 @if ($activity->activity_type === 'pass')
                                     <span
-                                        class="inline-block mt-2 text-xs font-semibold bg-[#C62E2E]/10 text-[#C62E2E] px-3 py-1 rounded-full">
+                                        class="self-start inline-block mt-2 text-xs font-semibold bg-[#C62E2E]/10 text-[#C62E2E] px-3 py-1 rounded-full">
                                         City Pass
                                     </span>
                                 @endif
 
                                 {{-- CTA --}}
-                                <div class="mt-4 flex items-center justify-end">
-                                    <a href="{{ route('activities.show', $slug) }}"
-                                       class="text-sm font-semibold text-[#C62E2E] hover:underline">
+                                <div class="mt-auto pt-4 flex items-center justify-end"> <span
+                                        class="text-sm font-semibold text-[#C62E2E]">
                                         View details →
-                                    </a>
+                                    </span>
                                 </div>
 
                             </div>
-                        </div>
+                        </a>
                     @endforeach
 
                 </div>

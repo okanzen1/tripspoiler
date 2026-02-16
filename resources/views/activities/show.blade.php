@@ -76,7 +76,7 @@
     </section>
 
     {{-- MAIN --}}
-    <section class="bg-white">
+    <section class="bg-white pb-28 lg:pb-0">
         <div class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
 
             {{-- LEFT --}}
@@ -92,7 +92,8 @@
                                 @foreach ($activity->images as $image)
                                     <div class="swiper-slide">
                                         <img src="{{ route('images.view', $image->id) }}"
-                                            class="w-full h-[260px] sm:h-[360px] md:h-[420px] object-cover">
+                                            data-full="{{ route('images.view', $image->id) }}"
+                                            class="w-full h-[260px] sm:h-[360px] md:h-[420px] object-cover cursor-pointer activity-image">
                                     </div>
                                 @endforeach
                             @endif
@@ -102,6 +103,17 @@
                         <div class="swiper-button-prev !text-white"></div>
                         <div class="swiper-pagination"></div>
                     </div>
+                </div>
+
+                <div
+                    class="lg:hidden mt-6 bg-white border border-[#F3D6D1] rounded-2xl p-4 text-sm text-slate-600 space-y-2 shadow-sm">
+                    <div>✔ {{ __('Official ticket provider') }}</div>
+                    <div>✔ {{ __('Instant confirmation') }}</div>
+
+                    <p class="text-xs text-slate-400 pt-2">
+                        {{ __('You’ll be redirected to the official ticket provider to complete your booking.') }}
+                    </p>
+
                 </div>
 
                 {{-- DESCRIPTION --}}
@@ -114,7 +126,7 @@
             </div>
 
             {{-- RIGHT --}}
-            <aside class="lg:col-span-1">
+            <aside class="hidden lg:block lg:col-span-1">
                 <div class="sticky top-24 border border-[#F3D6D1] rounded-3xl p-6 shadow-sm bg-white">
 
                     {{-- CTA --}}
@@ -139,10 +151,27 @@
 
         </div>
     </section>
+    {{-- MOBILE FIXED CTA --}}
+    <div
+        class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#F3D6D1] p-4 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
 
+        <a href="{{ $activity->affiliate_link }}" target="_blank" rel="nofollow sponsored noopener"
+            class="block text-center bg-[#C62E2E] text-white font-semibold py-4 rounded-full">
+            {{ __('Check availability') }}
+        </a>
+
+    </div>
     {{-- FAQ --}}
     <x-faq source="activity-show" :source-id="$activity->id" bgColor="bg-[#FFF8F6]" />
 
+    <div id="imageModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
+
+        <button id="closeModal" class="absolute top-6 right-6 text-white text-3xl font-bold">
+            &times;
+        </button>
+
+        <img id="modalImage" class="max-w-[95%] max-h-[90vh] rounded-xl shadow-2xl">
+    </div>
 @endsection
 
 @push('scripts')
@@ -159,6 +188,46 @@
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
+        });
+    </script>
+
+    <script>
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+
+        function openModal(src) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            modalImg.src = src;
+            document.body.classList.add('overflow-hidden'); // scroll kilitle
+        }
+
+        function closeModalFunc() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            modalImg.src = '';
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        document.querySelectorAll('.activity-image').forEach(img => {
+            img.addEventListener('click', function() {
+                openModal(this.dataset.full);
+            });
+        });
+
+        closeModal.addEventListener('click', closeModalFunc);
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModalFunc();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModalFunc();
+            }
         });
     </script>
 @endpush
