@@ -170,7 +170,20 @@
             &times;
         </button>
 
-        <img id="modalImage" class="max-w-[95%] max-h-[90vh] rounded-xl shadow-2xl">
+        <div class="swiper modalSwiper w-[95%] max-w-5xl">
+            <div class="swiper-wrapper">
+
+                @foreach ($activity->images as $image)
+                    <div class="swiper-slide flex items-center justify-center">
+                        <img src="{{ route('images.view', $image->id) }}" class="max-h-[90vh] object-contain rounded-xl">
+                    </div>
+                @endforeach
+
+            </div>
+
+            <div class="swiper-button-next !text-white"></div>
+            <div class="swiper-button-prev !text-white"></div>
+        </div>
     </div>
 @endsection
 
@@ -192,27 +205,38 @@
     </script>
 
     <script>
+        let modalSwiper;
+
         const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
         const closeModal = document.getElementById('closeModal');
 
-        function openModal(src) {
+        function openModal(index) {
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            modalImg.src = src;
-            document.body.classList.add('overflow-hidden'); // scroll kilitle
+            document.body.classList.add('overflow-hidden');
+
+            if (!modalSwiper) {
+                modalSwiper = new Swiper('.modalSwiper', {
+                    loop: true,
+                    navigation: {
+                        nextEl: '.modalSwiper .swiper-button-next',
+                        prevEl: '.modalSwiper .swiper-button-prev',
+                    },
+                });
+            }
+
+            modalSwiper.slideToLoop(index);
         }
 
         function closeModalFunc() {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
-            modalImg.src = '';
             document.body.classList.remove('overflow-hidden');
         }
 
-        document.querySelectorAll('.activity-image').forEach(img => {
+        document.querySelectorAll('.activity-image').forEach((img, index) => {
             img.addEventListener('click', function() {
-                openModal(this.dataset.full);
+                openModal(index);
             });
         });
 
