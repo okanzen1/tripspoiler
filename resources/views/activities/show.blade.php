@@ -170,13 +170,13 @@
             &times;
         </button>
 
-        <div class="swiper modalSwiper w-full max-w-5xl h-[85vh]">
+        <div class="swiper modalSwiper w-full max-w-5xl">
             <div class="swiper-wrapper">
 
                 @foreach ($activity->images as $image)
                     <div class="swiper-slide flex items-center justify-center">
                         <img src="{{ route('images.view', $image->id) }}"
-                            class="w-full h-full object-contain rounded-xl">
+                            class="max-h-[85vh] w-auto object-contain rounded-xl">
                     </div>
                 @endforeach
 
