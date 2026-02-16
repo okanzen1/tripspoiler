@@ -170,13 +170,13 @@
             &times;
         </button>
 
-        <div class="swiper modalSwiper w-full max-w-5xl">
+        <div class="swiper modalSwiper w-full max-w-5xl h-[85vh]">
             <div class="swiper-wrapper">
 
                 @foreach ($activity->images as $image)
                     <div class="swiper-slide flex items-center justify-center">
                         <img src="{{ route('images.view', $image->id) }}"
-                            class="w-full max-h-[85vh] object-contain rounded-xl">
+                            class="w-full h-full object-contain rounded-xl">
                     </div>
                 @endforeach
 
@@ -219,6 +219,9 @@
             if (!modalSwiper) {
                 modalSwiper = new Swiper('.modalSwiper', {
                     loop: true,
+                    centeredSlides: true,
+                    slidesPerView: 1,
+                    autoHeight: false,
                     navigation: {
                         nextEl: '.modalSwiper .swiper-button-next',
                         prevEl: '.modalSwiper .swiper-button-prev',
