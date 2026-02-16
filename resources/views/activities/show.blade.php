@@ -164,25 +164,26 @@
     {{-- FAQ --}}
     <x-faq source="activity-show" :source-id="$activity->id" bgColor="bg-[#FFF8F6]" />
 
-    <div id="imageModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
-
+    <div id="imageModal"
+        class="fixed inset-0 hidden z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
         <button id="closeModal" class="absolute top-6 right-6 text-white text-3xl font-bold">
             &times;
         </button>
 
-        <div class="swiper modalSwiper w-[95%] max-w-5xl">
+        <div class="swiper modalSwiper w-full max-w-5xl">
             <div class="swiper-wrapper">
 
                 @foreach ($activity->images as $image)
                     <div class="swiper-slide flex items-center justify-center">
-                        <img src="{{ route('images.view', $image->id) }}" class="max-h-[90vh] object-contain rounded-xl">
+                        <img src="{{ route('images.view', $image->id) }}"
+                            class="w-full max-h-[85vh] object-contain rounded-xl">
                     </div>
                 @endforeach
 
             </div>
 
-            <div class="swiper-button-next !text-white"></div>
-            <div class="swiper-button-prev !text-white"></div>
+            <div class="swiper-button-next !text-white !right-2"></div>
+            <div class="swiper-button-prev !text-white !left-2"></div>
         </div>
     </div>
 @endsection
