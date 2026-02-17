@@ -138,7 +138,7 @@
                 @endif
 
                 <div
-                    class="lg:hidden mt-6 bg-white border border-[#F3D6D1] rounded-2xl p-4 text-sm text-slate-600 space-y-2 shadow-sm">
+                    class="lg:hidden mt-6 bg-white border border-[#F3D6D1] rounded-2xl p-4 text-sm text-slate-600 space-y-2 shadow-sm mb-8">
                     <div>✔ {{ __('Official ticket provider') }}</div>
                     <div>✔ {{ __('Instant confirmation') }}</div>
 
