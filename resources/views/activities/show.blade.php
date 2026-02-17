@@ -4,7 +4,7 @@
 @section('meta_description', Str::limit(strip_tags($metaDescription), 155))
 
 @push('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
 @endpush
 
 @section('content')
@@ -81,29 +81,61 @@
 
             {{-- LEFT --}}
             <div class="lg:col-span-2">
+                @if ($activity->images && count($activity->images) > 0)
+                    <div class="mb-10">
 
-                {{-- IMAGE SWIPER --}}
-                <div class="mb-10">
-                    <div class="swiper activitySwiper rounded-3xl overflow-hidden">
+                        <div class="embla overflow-hidden rounded-3xl relative">
+                            <div class="embla__container flex">
 
-                        <div class="swiper-wrapper">
-
-                            @if ($activity->images && count($activity->images) > 0)
                                 @foreach ($activity->images as $image)
-                                    <div class="swiper-slide">
-                                        <img src="{{ route('images.view', $image->id) }}"
-                                            data-full="{{ route('images.view', $image->id) }}"
-                                            class="w-full h-[260px] sm:h-[360px] md:h-[420px] object-cover cursor-pointer activity-image">
+                                    <div class="embla__slide flex-[0_0_100%] px-2">
+                                        <a href="{{ route('images.view', $image->id) }}" data-fancybox="activity-gallery">
+                                            <img src="{{ route('images.view', $image->id) }}"
+                                                class="w-full h-[260px] sm:h-[360px] md:h-[420px] object-cover rounded-3xl">
+                                        </a>
                                     </div>
                                 @endforeach
-                            @endif
-                        </div>
 
-                        <div class="swiper-button-next !text-white"></div>
-                        <div class="swiper-button-prev !text-white"></div>
-                        <div class="swiper-pagination"></div>
+                            </div>
+
+                            <button class="embla-prev
+                                absolute left-4 top-1/2 -translate-y-1/2 z-10
+                                w-11 h-11
+                                rounded-full
+                                bg-white/70 backdrop-blur-md
+                                border border-white/40
+                                shadow-lg
+                                flex items-center justify-center
+                                text-slate-800
+                                hover:bg-white
+                                hover:scale-105
+                                transition">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+
+                            <button class="embla-next
+                                absolute right-4 top-1/2 -translate-y-1/2 z-10
+                                w-11 h-11
+                                rounded-full
+                                bg-white/70 backdrop-blur-md
+                                border border-white/40
+                                shadow-lg
+                                flex items-center justify-center
+                                text-slate-800
+                                hover:bg-white
+                                hover:scale-105
+                                transition">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                @endif
 
                 <div
                     class="lg:hidden mt-6 bg-white border border-[#F3D6D1] rounded-2xl p-4 text-sm text-slate-600 space-y-2 shadow-sm">
@@ -163,99 +195,36 @@
     </div>
     {{-- FAQ --}}
     <x-faq source="activity-show" :source-id="$activity->id" bgColor="bg-[#FFF8F6]" />
-
-    <div id="imageModal"
-        class="fixed inset-0 hidden z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
-        <button id="closeModal" class="absolute top-6 right-6 text-white text-3xl font-bold">
-            &times;
-        </button>
-
-        <div class="swiper modalSwiper w-full max-w-5xl">
-            <div class="swiper-wrapper">
-
-                @foreach ($activity->images as $image)
-                    <div class="swiper-slide flex items-center justify-center">
-                        <img src="{{ route('images.view', $image->id) }}"
-                            class="max-h-[85vh] w-auto object-contain rounded-xl">
-                    </div>
-                @endforeach
-
-            </div>
-
-            <div class="swiper-button-next !text-white !right-2"></div>
-            <div class="swiper-button-prev !text-white !left-2"></div>
-        </div>
-    </div>
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
     <script>
-        new Swiper('.activitySwiper', {
-            loop: true,
-            spaceBetween: 16,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-        });
-    </script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const emblaNode = document.querySelector('.embla');
+            if (!emblaNode) return;
 
-    <script>
-        let modalSwiper;
-
-        const modal = document.getElementById('imageModal');
-        const closeModal = document.getElementById('closeModal');
-
-        function openModal(index) {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.body.classList.add('overflow-hidden');
-
-            if (!modalSwiper) {
-                modalSwiper = new Swiper('.modalSwiper', {
-                    loop: true,
-                    centeredSlides: true,
-                    slidesPerView: 1,
-                    autoHeight: false,
-                    navigation: {
-                        nextEl: '.modalSwiper .swiper-button-next',
-                        prevEl: '.modalSwiper .swiper-button-prev',
-                    },
-                });
-            }
-
-            modalSwiper.slideToLoop(index);
-        }
-
-        function closeModalFunc() {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.classList.remove('overflow-hidden');
-        }
-
-        document.querySelectorAll('.activity-image').forEach((img, index) => {
-            img.addEventListener('click', function() {
-                openModal(index);
+            const embla = EmblaCarousel(emblaNode, {
+                loop: true,
+                align: 'start'
             });
-        });
 
-        closeModal.addEventListener('click', closeModalFunc);
+            document.querySelector('.embla-next').addEventListener('click', () => {
+                embla.scrollNext();
+            });
 
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeModalFunc();
-            }
-        });
+            document.querySelector('.embla-prev').addEventListener('click', () => {
+                embla.scrollPrev();
+            });
 
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                closeModalFunc();
-            }
+            Fancybox.bind("[data-fancybox='activity-gallery']", {
+                dragToClose: false,
+                Toolbar: {
+                    display: ["close"]
+                }
+            });
+
         });
     </script>
 @endpush
