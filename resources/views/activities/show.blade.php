@@ -98,7 +98,8 @@
 
                             </div>
 
-                            <button class="embla-prev
+                            <button
+                                class="embla-prev
                                 absolute left-4 top-1/2 -translate-y-1/2 z-10
                                 w-11 h-11
                                 rounded-full
@@ -111,12 +112,15 @@
                                 hover:scale-105
                                 transition">
 
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7" />
                                 </svg>
                             </button>
 
-                            <button class="embla-next
+                            <button
+                                class="embla-next
                                 absolute right-4 top-1/2 -translate-y-1/2 z-10
                                 w-11 h-11
                                 rounded-full
@@ -129,8 +133,10 @@
                                 hover:scale-105
                                 transition">
 
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
                                 </svg>
                             </button>
                         </div>
@@ -150,8 +156,42 @@
 
                 {{-- DESCRIPTION --}}
                 @if ($activity->description)
-                    <div class="prose prose-slate max-w-none">
-                        {!! $activity->getTranslation('description', app()->getLocale()) !!}
+                    <div x-data="{ expanded: false }" class="relative">
+
+                        {{-- Content wrapper --}}
+                        <div class="prose prose-slate max-w-none overflow-hidden"
+                            :style="expanded
+                                ?
+                                'max-height: ' + $refs.content.scrollHeight +
+                                'px; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1)' :
+                                'max-height: 320px; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)'"
+                            x-ref="content">
+                            {!! $activity->getTranslation('description', app()->getLocale()) !!}
+                        </div>
+
+                        {{-- Fade gradient --}}
+                        <div x-show="!expanded" x-transition:enter="transition-opacity duration-300"
+                            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                            x-transition:leave="transition-opacity duration-300" x-transition:leave-start="opacity-100"
+                            x-transition:leave-end="opacity-0"
+                            class="absolute bottom-8 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent pointer-events-none">
+                        </div>
+
+                        {{-- Toggle button --}}
+                        <div class="mt-4 relative z-10">
+                            <button @click="expanded = !expanded"
+                                class="inline-flex items-center gap-2 text-sm font-semibold text-[#C62E2E] hover:text-[#a02020] transition-colors duration-200">
+                                <span x-text="expanded ? '{{ __('See less') }}' : '{{ __('See more') }}'"></span>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="w-4 h-4 transition-transform duration-500 ease-in-out"
+                                    :class="expanded ? 'rotate-180' : 'rotate-0'" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                        </div>
+
                     </div>
                 @endif
 
@@ -200,6 +240,7 @@
 @push('scripts')
     <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const emblaNode = document.querySelector('.embla');
