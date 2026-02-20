@@ -5,6 +5,15 @@
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #activitiesSection {
+            scroll-margin-top: 100px;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -46,7 +55,7 @@
     </section>
 
     @if ($blog->activities->count() === 1)
-        <section class="bg-white">
+        <section id="activitiesSection" class="bg-white">
             <div class="max-w-6xl mx-auto px-4">
 
                 <!-- Feature Card -->
@@ -88,7 +97,7 @@
     @endif
 
     @if ($blog->activities->count() > 1)
-        <section class="bg-white overflow-hidden">
+        <section id="activitiesSection" class="bg-white overflow-hidden">
             <div class="max-w-6xl mx-auto px-4">
 
                 <!-- HEADER -->
@@ -191,7 +200,11 @@
                 </div>
             @endif
 
-            <a href="#"
+            @if ($blog->activities->count() === 1)
+                <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank"
+            @else
+                <a href="#activitiesSection"
+            @endif
                 class="bg-[#C62E2E] text-white text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">
                 View →
             </a>
@@ -242,7 +255,11 @@
                 </div>
 
                 <!-- RIGHT -->
-                <a href="#"
+                @if ($blog->activities->count() === 1)
+                    <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank"
+                @else
+                    <a href="#activitiesSection"
+                @endif
                     class="bg-[#C62E2E] text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:opacity-90 transition">
                     View →
                 </a>
