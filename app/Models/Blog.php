@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
+use App\Models\Activity;
+
 
 class Blog extends Model
 {
@@ -66,5 +68,16 @@ class Blog extends Model
         return $this->hasMany(Image::class, 'source_id')
             ->where('source', 'blog')
             ->orderBy('sort_order');
+    }
+
+
+    public function activities()
+    {
+        return $this->belongsToMany(
+            Activity::class,
+                'activity_blog',
+                'blog_id',
+                'activity_id'
+            );
     }
 }

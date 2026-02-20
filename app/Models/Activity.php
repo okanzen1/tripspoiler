@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
+use App\Models\Blog;
+
 class Activity extends Model
 {
     use HasTranslations;
@@ -55,5 +57,15 @@ class Activity extends Model
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function blogs()
+    {
+        return $this->belongsToMany(
+            Blog::class,
+                'activity_blog',
+                'activity_id',
+                'blog_id'
+            );
     }
 }

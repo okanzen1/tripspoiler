@@ -44,7 +44,17 @@ class BlogController extends Controller
             ->with([
                 'contents' => function ($q) {
                     $q->where('status', true)
-                        ->orderBy('sort_order', 'asc');
+                    ->orderBy('sort_order', 'asc');
+                },
+                'activities' => function ($q) {
+                    $q->where('status', true)
+                    ->with([
+                        'city.country',
+                        'images' => function ($img) {
+                            $img->orderBy('sort_order')
+                                ->limit(1);
+                        }
+                    ]);
                 }
             ])
             ->firstOrFail();
