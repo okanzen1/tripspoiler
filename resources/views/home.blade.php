@@ -33,8 +33,7 @@
 
             {{-- HEADLINE --}}
             <h1 class="mt-6 text-4xl md:text-6xl font-bold text-slate-900 leading-tight">
-                Discover Cities & Activities<br>
-                <span class="text-[#C62E2E]">before you go.</span>
+                TripSpoiler Travel Guides, Cities & Activities
             </h1>
 
             {{-- SUBTEXT --}}
