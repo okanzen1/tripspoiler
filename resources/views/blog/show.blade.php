@@ -74,12 +74,6 @@
                             {{ $blog->activities->first()->name }}
                         </h3>
 
-                        @if (!empty($blog->activities->first()->description))
-                            <p class="text-sm text-white/80 mt-4 leading-relaxed">
-                                {!! Str::limit($blog->activities->first()->description, 150) !!}
-                            </p>
-                        @endif
-
                         <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank"
                             class="mt-6 inline-block bg-white text-slate-900 px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#C62E2E] hover:text-white transition">
                             Explore this experience →
