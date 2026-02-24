@@ -16,6 +16,7 @@
 
     <title>@yield('title', 'TripSpoiler')</title>
     <meta name="description" content="@yield('meta_description', 'Travel guides and museum tips')" />
+    <meta name="p:domain_verify" content="8b263291d9f5e7d042415fd68edaf422"/>
 
     @vite([
         'resources/css/app.css',
