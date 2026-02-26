@@ -3,42 +3,88 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
-use Illuminate\Http\Request;
+use App\Models\Image;
+use App\Models\Page;
 
 class CityController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $locale = app()->getLocale();
-        $cities = City::where('active', true)->get();
-        $cityId = $request->get('city_id') ?? $cities->first()?->id;
-        $selectedCity = City::where('active', true)->find($cityId);
-        $currentCityName = $selectedCity->name ?? $cities->first()->name;
+        $city = City::where('active', true)->select('id', 'slug')->firstOrFail();
 
-        if ($request->ajax()) {
-            return view('cities.partials.list', compact('selectedCity', 'locale'));
-        }
-
-        return view('cities.index', compact(
-            'cities',
-            'locale',
-            'cityId',
-            'selectedCity',
-            'currentCityName'
-        ));
+        return redirect()->route(
+            'cities.show',
+            $city->getTranslation('slug', $locale)
+        );
     }
 
     public function show(string $slug)
     {
         $locale = app()->getLocale();
 
-        $city = City::query()
-            ->where('active', true)
+        $city = City::where('active', true)
             ->where("slug->{$locale}", $slug)
             ->firstOrFail();
 
-        return view('cities.show', compact('city', 'locale'));
+        $cities = City::where('active', true)
+            ->select('id', 'name', 'slug')
+            ->orderBy("name->{$locale}")
+            ->get();
+
+        $useCache = config('app.global_cache_enabled');
+
+        if ($useCache) {
+
+            $data = cache()->remember(
+                'cities_page_full',
+                now()->addHours(6),
+                function () {
+
+                    $page = Page::where('slug', 'cities')
+                        ->with('contents')
+                        ->first();
+
+                    if (!$page) {
+                        return null;
+                    }
+
+                    $images = Image::where('source', 'cities_page')
+                        ->where('source_id', $page->id)
+                        ->orderBy('sort_order')
+                        ->get();
+
+                    return [
+                        'page'   => $page,
+                        'images' => $images,
+                    ];
+                }
+            );
+
+            $page = $data['page'] ?? null;
+            $pageImages = $data['images'] ?? collect();
+        } else {
+
+            $page = Page::where('slug', 'cities')
+                ->with('contents')
+                ->first();
+
+            $pageImages = $page
+                ? Image::where('source', 'cities_page')
+                ->where('source_id', $page->id)
+                ->orderBy('sort_order')
+                ->get()
+                : collect();
+        }
+
+        $pageContent = $page?->contentForCity($city->id);
+
+        return view('cities.show', compact(
+            'city',
+            'cities',
+            'locale',
+            'pageContent',
+            'pageImages'
+        ));
     }
-
-
 }

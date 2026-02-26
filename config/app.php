@@ -123,4 +123,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'global_cache_enabled' => env('GLOBAL_CACHE_ENABLED', false),
 ];

@@ -13,8 +13,11 @@
     $city->getTranslation('name', $locale) .
     '.')
 
-@section('content')
+    @push('styles')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
+    @endpush
 
+@section('content')
     <section class="relative overflow-hidden
             bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
 
@@ -105,208 +108,119 @@
         </div>
     </section>
 
-    {{-- BURASI ARTIK ŞEHİR İÇERİĞİ --}}
-    <section class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
+    @php
+        $html = $pageContent?->getTranslation('content', $locale);
+    @endphp
 
-            {{-- ÖRNEK İÇERİK ALANI --}}
-            <h2 class="text-xl font-bold text-slate-900 mb-4">
-                About {{ $city->getTranslation('name', $locale) }}
-            </h2>
+    @if (!empty($html))
+        <section class="py-16 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
 
-            <p class="text-slate-600 leading-relaxed">
-                {{ $city->description ?? 'City content will appear here.' }}
-            </p>
+                <div
+                    class="
+                    text-slate-700 leading-relaxed
+                    [&_p]:mb-4
+                    [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4
+                    [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4
+                    [&_li]:mb-1
+                ">
+                    {!! $html !!}
+                </div>
 
-        </div>
-    </section>
+            </div>
+        </section>
+    @endif
 
-    <section class="py-28 bg-white">
-        <div class="max-w-6xl mx-auto px-4 relative">
+    @if($pageImages->isNotEmpty())
+        <section class="py-16 bg-[#FFF5F3]">
+            <div class="max-w-6xl mx-auto px-4">
 
-            <div class="grid md:grid-cols-2 gap-20 items-center">
-
-                <!-- IMAGE -->
                 <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1600"
-                        class="rounded-3xl shadow-2xl object-cover">
 
-                    <!-- FLOATING CARD -->
-                    <div class="absolute -bottom-10 -right-10 bg-white p-6 rounded-2xl shadow-xl w-64 hidden md:block">
-                        <p class="text-sm text-slate-500">Best time to visit</p>
-                        <p class="text-xl font-bold text-[#C62E2E] mt-2">April – June</p>
-                    </div>
-                </div>
+                    {{-- MOBİL OKLAR --}}
+                    <button
+                        class="embla-city-prev md:hidden absolute left-2 top-1/2 -translate-y-1/2 
+                        z-50 pointer-events-auto cursor-pointer
+                        w-10 h-10 bg-white shadow-lg rounded-full
+                        flex items-center justify-center
+                        hover:scale-110 active:scale-95 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
 
-                <!-- TEXT -->
-                <div>
-                    <h2 class="text-4xl font-bold text-slate-900 mb-6">
-                        Why {{ $city->getTranslation('name', $locale) }} feels different
-                    </h2>
+                    <button
+                        class="embla-city-next md:hidden absolute right-2 top-1/2 -translate-y-1/2 
+                        z-50 pointer-events-auto cursor-pointer
+                        w-10 h-10 bg-white shadow-lg rounded-full
+                        flex items-center justify-center
+                        hover:scale-110 active:scale-95 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
 
-                    <p class="text-slate-600 leading-relaxed mb-6">
-                        It’s not just monuments. It’s atmosphere. It’s light.
-                        It’s the rhythm of ferries crossing the water.
-                    </p>
+                    {{-- DESKTOP OKLAR --}}
+                    <div class="hidden md:flex justify-end mb-6 gap-2">
+                        <button
+                            class="embla-city-prev cursor-pointer
+                            w-11 h-11 bg-white shadow-sm rounded-xl
+                            flex items-center justify-center
+                            hover:bg-slate-50 hover:scale-105 active:scale-95
+                            transition border border-slate-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
 
-                    <a href="#"
-                        class="inline-block bg-[#C62E2E] text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition">
-                        Explore Experiences
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <section class="py-28 bg-[#FFF5F3]">
-        <div class="max-w-6xl mx-auto px-4">
-
-            <h2 class="text-4xl font-bold text-slate-900 mb-16">
-                Featured Experiences
-            </h2>
-
-            <div class="grid md:grid-cols-2 gap-10">
-
-                <!-- BIG CARD -->
-                <div class="relative rounded-3xl overflow-hidden group">
-
-                    <img src="https://images.unsplash.com/photo-1553913861-c0fddf2619ee?q=80&w=2000"
-                        class="w-full h-[400px] object-cover transition group-hover:scale-105 duration-500">
-
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-
-                    <div class="absolute bottom-0 p-8 text-white">
-                        <h3 class="text-2xl font-bold mb-4">
-                            Hagia Sophia & Blue Mosque
-                        </h3>
-
-                        <p class="text-white/80 mb-6">
-                            Skip lines. Understand history. Visit smarter.
-                        </p>
-
-                        <a href="#" class="font-semibold underline">
-                            Read Guide →
-                        </a>
+                        <button
+                            class="embla-city-next cursor-pointer
+                            w-11 h-11 bg-white shadow-sm rounded-xl
+                            flex items-center justify-center
+                            hover:bg-slate-50 hover:scale-105 active:scale-95
+                            transition border border-slate-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
                     </div>
 
+                    {{-- SLIDER --}}
+                @if($pageImages->isNotEmpty())
+                        <div class="embla-city overflow-hidden relative z-0">
+                            <div class="embla__container flex">
+
+                                @foreach ($pageImages as $image)
+                                    <div class="embla__slide flex-[0_0_80%] md:flex-[0_0_25%] px-2">
+                                        <a href="{{ route('images.view', $image->id) }}"
+                                        data-fancybox="city-gallery"
+                                        class="block relative z-0 group">
+
+                                            <img src="{{ route('images.view', $image->id) }}"
+                                                class="rounded-2xl object-cover h-72 w-full
+                                                        transition-transform duration-500
+                                                        group-hover:scale-105">
+                                        </a>
+                                    </div>
+                                @endforeach
+
+                            </div>
+                        </div>
+                    @endif
                 </div>
-
-                <!-- SECOND CARD -->
-                <div class="relative rounded-3xl overflow-hidden group">
-
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2000"
-                        class="w-full h-[400px] object-cover transition group-hover:scale-105 duration-500">
-
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-
-                    <div class="absolute bottom-0 p-8 text-white">
-                        <h3 class="text-2xl font-bold mb-4">
-                            Bosphorus Sunset Cruise
-                        </h3>
-
-                        <p class="text-white/80 mb-6">
-                            Experience the city from the water.
-                        </p>
-
-                        <a href="#" class="font-semibold underline">
-                            View Details →
-                        </a>
-                    </div>
-
-                </div>
-
             </div>
+        </section>
+    @endif
 
-        </div>
-    </section>
-
-    <section class="py-16 bg-[#FFF5F3]">
-        <div class="max-w-6xl mx-auto px-4">
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-
-                <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?q=80&w=1000"
-                    class="rounded-2xl object-cover h-60 w-full">
-
-                <img src="https://images.unsplash.com/photo-1553913861-c0fddf2619ee?q=80&w=1000"
-                    class="rounded-2xl object-cover h-60 w-full">
-
-                <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1000"
-                    class="rounded-2xl object-cover h-60 w-full">
-
-                <img src="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?q=80&w=1000"
-                    class="rounded-2xl object-cover h-60 w-full">
-
-            </div>
-
-        </div>
-    </section>
-
-    <section class="py-28 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
-
-            <div class="relative rounded-3xl overflow-hidden group">
-
-                <img src="https://images.unsplash.com/photo-1553913861-c0fddf2619ee?q=80&w=2000"
-                    class="w-full h-[500px] object-cover transition duration-700 group-hover:scale-105">
-
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-
-                <div class="absolute bottom-0 p-12 text-white max-w-xl">
-                    <h3 class="text-4xl font-bold mb-6">
-                        Experience Hagia Sophia differently
-                    </h3>
-
-                    <p class="text-white/80 text-lg mb-8">
-                        Skip the chaos. Understand the history.
-                        Visit at the right time.
-                    </p>
-
-                    <a href="#" class="bg-[#C62E2E] px-6 py-3 rounded-full font-semibold">
-                        View Guide
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <section class="grid md:grid-cols-2">
-
-        <div class="bg-slate-900 text-white flex items-center p-16">
-            <div>
-                <h2 class="text-4xl font-bold mb-6">
-                    European Side
-                </h2>
-                <p class="text-white/80 text-lg">
-                    Imperial mosques, grand bazaars and historic skyline.
-                </p>
-            </div>
-        </div>
-
-        <div class="relative h-[400px] md:h-auto">
-            <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?q=80&w=2000"
-                class="absolute inset-0 w-full h-full object-cover">
-        </div>
-
-    </section>
-
-    <section class="py-24 bg-[#C62E2E] text-white text-center">
-        <div class="max-w-3xl mx-auto px-6">
-
-            <h2 class="text-4xl md:text-5xl font-extrabold">
-                Don’t just visit.
-                <br>
-                Feel it.
-            </h2>
-
-        </div>
-    </section>
-
-    <section class="py-28 bg-white">
+    {{-- <section class="py-16 bg-white">
         <div class="max-w-6xl mx-auto px-4">
 
             <div class="grid md:grid-cols-2 gap-16 items-center">
@@ -343,17 +257,17 @@
             </div>
 
         </div>
-    </section>
+    </section> --}}
 
 @endsection
 
 
 @push('scripts')
+    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
     <script>
         document.getElementById('cityFilter')
             .addEventListener('change', function() {
-
-                // 🔹 Select'i disable et
                 this.disabled = true;
                 this.classList.add('opacity-50');
 
@@ -361,5 +275,54 @@
 
                 window.location.href = `/cities/${slug}`;
             });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // City select redirect
+            const cityFilter = document.getElementById('cityFilter');
+            if (cityFilter) {
+                cityFilter.addEventListener('change', function() {
+                    this.disabled = true;
+                    this.classList.add('opacity-50');
+
+                    const slug = this.options[this.selectedIndex].dataset.slug;
+                    window.location.href = `/cities/${slug}`;
+                });
+            }
+
+            // Embla init
+            const emblaNode = document.querySelector('.embla-city');
+
+            if (emblaNode && typeof EmblaCarousel !== 'undefined') {
+                const embla = EmblaCarousel(emblaNode, {
+                    loop: false,
+                    align: 'start',
+                    dragFree: false,
+                    containScroll: "trimSnaps"
+                });
+
+                const nextBtns = document.querySelectorAll('.embla-city-next');
+                const prevBtns = document.querySelectorAll('.embla-city-prev');
+
+                nextBtns.forEach(btn => {
+                    btn.addEventListener('click', () => embla.scrollNext());
+                });
+
+                prevBtns.forEach(btn => {
+                    btn.addEventListener('click', () => embla.scrollPrev());
+                });
+            }
+            // Fancybox bind
+            if (typeof Fancybox !== 'undefined') {
+                Fancybox.bind("[data-fancybox='city-gallery']", {
+                    dragToClose: false,
+                    Toolbar: {
+                        display: ["close"]
+                    }
+                });
+            }
+
+        });
     </script>
 @endpush
