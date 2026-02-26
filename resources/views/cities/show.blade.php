@@ -116,16 +116,9 @@
         <section class="py-16 bg-white">
             <div class="max-w-6xl mx-auto px-4">
 
-                <div
-                    class="
-                    text-slate-700 leading-relaxed
-                    [&_p]:mb-4
-                    [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4
-                    [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4
-                    [&_li]:mb-1
-                ">
-                    {!! $html !!}
-                </div>
+            <div class="quill-content">
+                {!! $html !!}
+            </div>
 
             </div>
         </section>
