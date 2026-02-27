@@ -25,7 +25,7 @@
                         </div>
 
                         <div class="mt-2 text-slate-900">
-                            {{ $blog['excerpt'] }}
+                            {{ \Illuminate\Support\Str::limit($blog['excerpt'], 140) }}
                         </div>
                     </a>
                 @endforeach
