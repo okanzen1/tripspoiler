@@ -99,27 +99,27 @@
     </section>
 
     <x-most-popular-activities source="home" :source-id="null" limit="12" />
-    <section class="bg-white">
-        <div class="max-w-6xl mx-auto px-4 py-16">
+    <section class="bg-white py-20">
+        <div class="max-w-7xl mx-auto px-4">
 
             <div class="text-center mb-12">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
                     Plan smarter in 3 simple steps
                 </h2>
-                <p class="mt-3 text-slate-600 text-sm max-w-xl mx-auto">
+                <p class="mt-3 text-slate-600 text-lg max-w-2xl mx-auto">
                     No endless tabs, no confusing tickets.
                     Just clear choices before you travel.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-5">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 {{-- STEP 1 --}}
-                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-6 shadow-sm">
+                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-8 shadow-sm">
                     <div class="text-[#C62E2E] font-bold text-sm mb-2">
                         STEP 01
                     </div>
-                    <h3 class="font-semibold text-slate-900 mb-2">
+                    <h3 class="font-semibold text-slate-900 mb-2 text-lg">
                         Explore your destination
                     </h3>
                     <p class="text-sm text-slate-600 leading-relaxed">
@@ -129,11 +129,11 @@
                 </div>
 
                 {{-- STEP 2 --}}
-                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-6 shadow-sm">
+                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-8 shadow-sm">
                     <div class="text-[#C62E2E] font-bold text-sm mb-2">
                         STEP 02
                     </div>
-                    <h3 class="font-semibold text-slate-900 mb-2">
+                    <h3 class="font-semibold text-slate-900 mb-2 text-lg">
                         Compare before you book
                     </h3>
                     <p class="text-sm text-slate-600 leading-relaxed">
@@ -143,11 +143,11 @@
                 </div>
 
                 {{-- STEP 3 --}}
-                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-6 shadow-sm">
+                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-8 shadow-sm">
                     <div class="text-[#C62E2E] font-bold text-sm mb-2">
                         STEP 03
                     </div>
-                    <h3 class="font-semibold text-slate-900 mb-2">
+                    <h3 class="font-semibold text-slate-900 mb-2 text-lg">
                         Travel without second thoughts
                     </h3>
                     <p class="text-sm text-slate-600 leading-relaxed">
