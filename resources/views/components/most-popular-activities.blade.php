@@ -45,23 +45,23 @@
                     <div class="swiper-slide max-w-[300px]">
 
                         <a href="{{ $activity->affiliate_link }}"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="group block">
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="group block h-full">
 
-                            <div class="flex flex-col h-full
+                            <div class="flex flex-col h-[360px]   <!-- BURASI SABİTLENDİ -->
                                         bg-white rounded-2xl overflow-hidden
                                         border border-slate-200
                                         shadow-[0_6px_18px_rgba(0,0,0,0.06)]
                                         hover:shadow-[0_12px_28px_rgba(0,0,0,0.10)]
                                         transition-all duration-300">
 
-                                {{-- IMAGE --}}
+                                {{-- IMAGE (ZATEN SABİT) --}}
                                 <div class="relative h-44 overflow-hidden bg-slate-100">
                                     @if ($image)
                                         <img src="{{ route('images.view', $image->id) }}"
-                                             alt="{{ $activity->name }}"
-                                             class="w-full h-full object-cover
+                                            alt="{{ $activity->name }}"
+                                            class="w-full h-full object-cover
                                                     transition duration-500
                                                     group-hover:scale-105">
                                     @else
@@ -83,21 +83,17 @@
                                                     : ucfirst($type))) }}
                                     </span>
 
-                                    {{-- TITLE --}}
-                                    <h3 class="text-base font-semibold text-slate-900 leading-snug line-clamp-2">
+                                    {{-- TITLE (SABİT YÜKSEKLİK) --}}
+                                    <h3 class="text-base font-semibold text-slate-900 leading-snug
+                                            line-clamp-2 min-h-[48px]">
                                         {{ $activity->name }}
                                     </h3>
 
                                     {{-- CTA --}}
                                     <div class="mt-auto pt-6">
                                         <span class="text-sm font-medium text-[#C62E2E]
-                                                     inline-flex items-center gap-1
-                                                     transition-all duration-300
-                                                     group-hover:gap-2">
-                                            View details
-                                            <span class="transition-transform duration-300 group-hover:translate-x-1">
-                                                →
-                                            </span>
+                                                    inline-flex items-center gap-1">
+                                            View details →
                                         </span>
                                     </div>
 
