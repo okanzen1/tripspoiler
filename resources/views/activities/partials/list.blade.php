@@ -10,12 +10,16 @@
 
 <section class="bg-[#F8FAFC] py-14" x-data="{ filter: 'all' }" x-cloak>
 
-    <div class="max-w-6xl mx-auto px-4">
-
+    <div class="max-w-7xl mx-auto px-4">
+        
         {{-- TITLE --}}
-        <h2 class="text-xl md:text-2xl font-bold text-slate-900 mb-6">
-            Activities & City Passes
+        <h2 class="text-xl md:text-2xl font-bold text-slate-900">
+            Experience the city more deeply
         </h2>
+
+        <p class="text-slate-600 text-base md:text-lg max-w-2xl mb-6 mt-1">
+            Carefully chosen experiences and passes to help you explore beyond the surface.
+        </p>
 
         {{-- FILTER BAR --}}
         <div class="flex gap-3 flex-wrap mb-8">
@@ -123,6 +127,10 @@
                 </div>
             @endforeach
 
+        </div>
+
+        <div class="pt-20">
+            <x-most-popular-blog source="home" :source-id="null"  :city-id="$cityId"  />
         </div>
 
     </div>

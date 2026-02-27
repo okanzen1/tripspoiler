@@ -4,23 +4,37 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use App\Models\Blog;
+use App\Models\City;
 
 class MostPopularBlog extends Component
 {
-    public $source;
-    public $sourceId;
+    public $cityId;
     public $blogs;
+    public $cityName = null;
 
-    public function __construct($source = null, $sourceId = null)
+    public function __construct($cityId = null)
     {
-        $this->source = $source;
-        $this->sourceId = $sourceId;
-
+        $this->cityId = $cityId;
         $locale = app()->getLocale();
 
-        $this->blogs = Blog::where('status', true)
+        if (!empty($this->cityId)) {
+            $city = City::find($this->cityId);
+
+            if ($city) {
+                $names = json_decode($city->getRawOriginal('name'), true);
+                $this->cityName = $names[$locale] ?? $names['en'] ?? null;
+            }
+        }
+
+        $query = Blog::where('status', true);
+
+        if (!empty($this->cityId)) {
+            $query->where('city_id', $this->cityId);
+        }
+
+        $this->blogs = $query
             ->orderByDesc('click_count')
-            ->limit(3)
+            ->limit(4)
             ->get()
             ->map(function ($row) use ($locale) {
 
@@ -39,7 +53,6 @@ class MostPopularBlog extends Component
 
     public function render()
     {
-        // boşsa component hiç render edilmesin
         if ($this->blogs->isEmpty()) {
             return '';
         }

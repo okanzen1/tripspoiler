@@ -1,18 +1,33 @@
 @if (!empty($blogs) && count($blogs))
-    <section class="bg-[#F7F9FB] py-20 mb-10">
+    @php
+        $isHome = request()->routeIs('home');
+    @endphp
 
-        <div class="max-w-7xl mx-auto px-4">
+    <section class="bg-[#F7F9FB] {{ $isHome ? 'pt-10 pb-30' : 'pt-0 md:pt-10' }}">
+
+        <div class="max-w-7xl mx-auto {{ $isHome ? 'px-4' : 'px-0 md:px-4' }}">
 
             {{-- HEADER --}}
             <div class="mb-10">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
-                    Most read on the blog
-                </h2>
 
-                <p class="text-slate-600 mt-3 text-lg">
-                    Short blog posts on a wide range of topics, from quick reads to deeper articles you can explore
-                    anytime.
-                </p>
+                @if($cityName)
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
+                        {{ $cityName }}, thoughtfully explored
+                    </h2>
+
+                    <p class="text-slate-600 mt-3 text-lg">
+                        A curated collection of our most meaningful reads for travelers who prefer depth over noise.
+                    </p>
+                @else
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
+                        Stories worth your time
+                    </h2>
+
+                    <p class="text-slate-600 mt-3 text-lg">
+                        A curated selection of thoughtful reads for curious and conscious travelers.
+                    </p>
+                @endif
+
             </div>
 
             {{-- GRID --}}
