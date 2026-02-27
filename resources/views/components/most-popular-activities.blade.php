@@ -1,95 +1,133 @@
 @if (!empty($activities))
-    <!-- SWIPER CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    <section class="bg-[#F7F9FB] py-20">
-        <div class="max-w-7xl mx-auto px-4">
+<section class="bg-[#F7F9FB] py-20">
+    <div class="max-w-7xl mx-auto px-4">
 
-            <!-- HEADER -->
-            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
-                <div class="max-w-2xl">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
-                        Most Visited Activities
-                        <span class="text-[#C62E2E]">on TripSpoiler</span>
-                    </h2>
-                    <p class="text-slate-600 mt-3 text-lg">
-                        A quick look at the activities travellers keep coming back to.
-                    </p>
-                </div>
-
-                <!-- DESKTOP ONLY NAV -->
-                <div class="hidden md:flex gap-3">
-                    <div
-                        class="swiper-button-prev-custom w-11 h-11 flex items-center justify-center
-                        rounded-lg border bg-white hover:bg-slate-100 shadow cursor-pointer">
-                        ←
-                    </div>
-
-                    <div
-                        class="swiper-button-next-custom w-11 h-11 flex items-center justify-center
-                        rounded-lg border bg-white hover:bg-slate-100 shadow cursor-pointer">
-                        →
-                    </div>
-                </div>
+        <!-- HEADER -->
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div class="max-w-2xl">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
+                    Most Visited Activities
+                    <span class="text-[#C62E2E]">on TripSpoiler</span>
+                </h2>
+                <p class="text-slate-600 mt-3 text-lg">
+                    A quick look at the activities travellers keep coming back to.
+                </p>
             </div>
 
-            <!-- SWIPER -->
-            <div class="swiper">
-                <div class="swiper-wrapper">
-                    @foreach ($activities as $activity)
-                        <div class="swiper-slide max-w-[300px]">
-                            <div
-                                class="relative bg-white rounded-3xl border border-[#F3D6D1]
-                                shadow-sm hover:shadow-lg transition overflow-hidden group cursor-pointer">
+            <!-- NAV -->
+            <div class="hidden md:flex gap-3">
+                <div class="swiper-button-prev-custom w-11 h-11 flex items-center justify-center
+                            rounded-xl bg-white border border-slate-200
+                            shadow-sm hover:shadow-md transition cursor-pointer">
+                    ←
+                </div>
 
-                                {{-- FULL CARD CLICK --}}
-                                <a href="{{ $activity->affiliate_link }}" target="_blank" rel="noopener noreferrer"
-                                    class="absolute inset-0 z-30"></a>
+                <div class="swiper-button-next-custom w-11 h-11 flex items-center justify-center
+                            rounded-xl bg-white border border-slate-200
+                            shadow-sm hover:shadow-md transition cursor-pointer">
+                    →
+                </div>
+            </div>
+        </div>
+
+        <!-- SWIPER -->
+        <div class="swiper">
+            <div class="swiper-wrapper">
+
+                @foreach ($activities as $activity)
+                    @php
+                        $image = $activity->images->first();
+                        $type = $activity->activity_type;
+                    @endphp
+
+                    <div class="swiper-slide max-w-[300px]">
+
+                        <a href="{{ $activity->affiliate_link }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="group block">
+
+                            <div class="flex flex-col h-full
+                                        bg-white rounded-2xl overflow-hidden
+                                        border border-slate-200
+                                        shadow-[0_6px_18px_rgba(0,0,0,0.06)]
+                                        hover:shadow-[0_12px_28px_rgba(0,0,0,0.10)]
+                                        transition-all duration-300">
 
                                 {{-- IMAGE --}}
-                                <div class="relative h-44 overflow-hidden z-10 pointer-events-none">
-                                    <img src="{{ $activity->images->isNotEmpty() ? route('images.view', $activity->images->first()->id) : asset('') }}"
-                                        alt="{{ $activity->name }}"
-                                        class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
-
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                                <div class="relative h-44 overflow-hidden bg-slate-100">
+                                    @if ($image)
+                                        <img src="{{ route('images.view', $image->id) }}"
+                                             alt="{{ $activity->name }}"
+                                             class="w-full h-full object-cover
+                                                    transition duration-500
+                                                    group-hover:scale-105">
+                                    @else
+                                        <div class="w-full h-full bg-gradient-to-b from-slate-100 to-slate-200"></div>
+                                    @endif
                                 </div>
 
                                 {{-- CONTENT --}}
-                                <div class="p-4 flex flex-col h-[180px] relative z-20 pointer-events-none">
-                                    <h3 class="font-semibold text-lg text-slate-900">
+                                <div class="flex flex-col flex-1 bg-[#F9FAFB] px-5 py-5">
+
+                                    {{-- CATEGORY --}}
+                                    <span class="text-xs text-slate-500 mb-2 tracking-wide">
+                                        {{ $type === 'pass'
+                                            ? 'City Pass'
+                                            : ($type === 'product'
+                                                ? 'Experience'
+                                                : ($type === 'package'
+                                                    ? 'Package'
+                                                    : ucfirst($type))) }}
+                                    </span>
+
+                                    {{-- TITLE --}}
+                                    <h3 class="text-base font-semibold text-slate-900 leading-snug line-clamp-2">
                                         {{ $activity->name }}
                                     </h3>
 
-                                    <div class="mt-auto flex justify-end">
-                                        <span class="text-sm font-semibold text-[#C62E2E] group-hover:underline">
-                                            View details →
+                                    {{-- CTA --}}
+                                    <div class="mt-auto pt-6">
+                                        <span class="text-sm font-medium text-[#C62E2E]
+                                                     inline-flex items-center gap-1
+                                                     transition-all duration-300
+                                                     group-hover:gap-2">
+                                            View details
+                                            <span class="transition-transform duration-300 group-hover:translate-x-1">
+                                                →
+                                            </span>
                                         </span>
                                     </div>
+
                                 </div>
 
                             </div>
-                        </div>
-                    @endforeach
-                </div>
+
+                        </a>
+
+                    </div>
+                @endforeach
+
             </div>
-
         </div>
-    </section>
 
-    <!-- SWIPER JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        new Swiper('.swiper', {
-            loop: false,
-            spaceBetween: 20,
-            grabCursor: true,
-            slidesPerView: 'auto',
+    </div>
+</section>
 
-            navigation: {
-                nextEl: '.swiper-button-next-custom',
-                prevEl: '.swiper-button-prev-custom',
-            },
-        });
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    new Swiper('.swiper', {
+        loop: false,
+        spaceBetween: 24,
+        grabCursor: true,
+        slidesPerView: 'auto',
+
+        navigation: {
+            nextEl: '.swiper-button-next-custom',
+            prevEl: '.swiper-button-prev-custom',
+        },
+    });
+</script>
 @endif
