@@ -1,4 +1,5 @@
 @php
+    // mevcut tipler (butonlar sadece bunlardan çıkacak)
     $types = $activities->pluck('activity_type')->unique()->values();
 @endphp
 
@@ -13,7 +14,6 @@
         {{-- FILTER BAR --}}
         <div class="flex gap-3 flex-wrap mb-8">
 
-            {{-- ALL --}}
             <button @click="filter='all'"
                 :class="filter==='all'
                     ? 'bg-[#C62E2E] text-white'
@@ -22,13 +22,12 @@
                 All
             </button>
 
-            {{-- DYNAMIC TYPES --}}
             @foreach ($types as $type)
                 <button @click="filter='{{ $type }}'"
                     :class="filter==='{{ $type }}'
                         ? 'bg-[#C62E2E] text-white'
                         : 'bg-white text-slate-700 hover:bg-slate-100'"
-                    class="px-4 py-2 rounded-full text-sm font-medium transition shadow-sm capitalize">
+                    class="px-4 py-2 rounded-full text-sm font-medium transition shadow-sm">
 
                     {{ $type === 'pass' ? 'City Pass' :
                        ($type === 'product' ? 'Experiences' :
@@ -36,11 +35,10 @@
 
                 </button>
             @endforeach
-
         </div>
 
         {{-- GRID --}}
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
 
             @foreach ($activities as $activity)
                 @php
@@ -50,48 +48,49 @@
                     $type = $activity->activity_type;
                 @endphp
 
-                <div x-show="filter==='all' || filter==='{{ $type }}'"
-                     x-transition.opacity
-                     class="w-full">
-
+                {{-- GRID ITEM (EŞİT BOY) --}}
+                <div
+                    x-show="filter==='all' || filter==='{{ $type }}'"
+                    x-transition.opacity
+                    class="flex h-full"
+                >
                     <a href="{{ route('activities.show', $slug) }}"
-                       class="group flex flex-col bg-white rounded-xl
+                       class="group flex flex-col w-full h-full bg-white rounded-xl
                               overflow-hidden shadow-sm hover:shadow-md
                               transition duration-300">
 
-                        {{-- IMAGE --}}
-                        <div class="relative h-32 md:h-44 overflow-hidden">
-
+                        {{-- IMAGE (SABİT YÜKSEKLİK) --}}
+                        <div class="relative h-32 md:h-44 overflow-hidden bg-slate-100">
                             @if ($image)
                                 <img src="{{ route('images.view', $image->id) }}"
                                      alt="{{ $title }}"
                                      class="w-full h-full object-cover
                                             transition duration-500
                                             group-hover:scale-105">
+                            @else
+                                {{-- placeholder --}}
+                                <div class="w-full h-full bg-gradient-to-b from-slate-100 to-slate-200"></div>
                             @endif
 
                             {{-- BADGE --}}
                             @if ($type === 'pass')
                                 <div class="absolute top-2 left-2">
-                                    <span class="text-[10px] font-medium
-                                                 bg-white px-2 py-1
-                                                 rounded-full shadow-sm">
+                                    <span class="text-[10px] font-medium bg-white px-2 py-1 rounded-full shadow-sm">
                                         City Pass
                                     </span>
                                 </div>
                             @endif
-
                         </div>
 
-                        {{-- CONTENT --}}
+                        {{-- CONTENT (CTA ALTA SABİT) --}}
                         <div class="p-4 flex flex-col flex-1">
-
-                            <span class="text-[11px] text-slate-500 mb-1 capitalize">
-                                {{ $type }}
+                            <span class="text-[11px] text-slate-500 mb-1">
+                                {{ $type === 'pass' ? 'City Pass' :
+                                   ($type === 'product' ? 'Experience' :
+                                   ($type === 'package' ? 'Package' : ucfirst($type))) }}
                             </span>
 
-                            <h3 class="text-sm font-semibold text-slate-900
-                                       leading-snug line-clamp-2">
+                            <h3 class="text-sm font-semibold text-slate-900 leading-snug line-clamp-2">
                                 {{ $title }}
                             </h3>
 
@@ -102,11 +101,9 @@
                                     View details →
                                 </span>
                             </div>
-
                         </div>
 
                     </a>
-
                 </div>
 
             @endforeach
