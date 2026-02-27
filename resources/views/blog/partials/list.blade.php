@@ -9,16 +9,7 @@
                 </h2>
             </div>
 
-            <div
-                class="flex gap-4
-                       md:grid md:grid-cols-5 md:gap-5
-                       overflow-x-auto md:overflow-visible
-                       scroll-smooth
-                       snap-x snap-mandatory
-                       pb-3 md:pb-0
-                       [-ms-overflow-style:none]
-                       [scrollbar-width:none]
-                       [&::-webkit-scrollbar]:hidden">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5">
 
                 @foreach ($blogs as $blog)
 
@@ -26,7 +17,6 @@
                         'slug' => $blog->getTranslation('slug', $locale),
                     ]) }}"
                        class="group relative
-                              min-w-[180px] md:min-w-0
                               aspect-[4/5]
                               rounded-xl
                               overflow-hidden
@@ -34,8 +24,7 @@
                               shadow-sm
                               hover:shadow-lg
                               transition
-                              duration-300
-                              snap-start">
+                              duration-300">
 
                         @if ($blog->images->isNotEmpty())
                             @php $image = $blog->images->first(); @endphp
