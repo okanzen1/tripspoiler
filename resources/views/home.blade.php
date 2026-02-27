@@ -98,7 +98,6 @@
         </div>
     </section>
 
-    <x-most-popular-activities source="home" :source-id="null" limit="12" />
     <section class="bg-white py-20">
         <div class="max-w-7xl mx-auto px-4">
 
@@ -161,7 +160,10 @@
         </div>
     </section>
 
+    <x-most-popular-activities source="home" :source-id="null" limit="12" />
+
     <x-most-popular-blog source="home" :source-id="null" />
+    
     <x-faq source="home" :source-id="null" />
 
 @section('modals')
