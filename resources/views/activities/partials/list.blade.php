@@ -1,87 +1,121 @@
-@if ($activities->count() === 0)
-    <section class="bg-white py-10">
-        <div class="max-w-6xl mx-auto px-4">
-            <p class="text-slate-700">
-                No activities or city passes available at the moment. Please check back later!
-            </p>
+@php
+    $types = $activities->pluck('activity_type')->unique()->values();
+@endphp
+
+<section class="bg-[#F8FAFC] py-14" x-data="{ filter: 'all' }">
+    <div class="max-w-6xl mx-auto px-4">
+
+        {{-- TITLE --}}
+        <h2 class="text-xl md:text-2xl font-bold text-slate-900 mb-6">
+            Activities & City Passes
+        </h2>
+
+        {{-- FILTER BAR --}}
+        <div class="flex gap-3 flex-wrap mb-8">
+
+            {{-- ALL --}}
+            <button @click="filter='all'"
+                :class="filter==='all'
+                    ? 'bg-[#C62E2E] text-white'
+                    : 'bg-white text-slate-700 hover:bg-slate-100'"
+                class="px-4 py-2 rounded-full text-sm font-medium transition shadow-sm">
+                All
+            </button>
+
+            {{-- DYNAMIC TYPES --}}
+            @foreach ($types as $type)
+                <button @click="filter='{{ $type }}'"
+                    :class="filter==='{{ $type }}'
+                        ? 'bg-[#C62E2E] text-white'
+                        : 'bg-white text-slate-700 hover:bg-slate-100'"
+                    class="px-4 py-2 rounded-full text-sm font-medium transition shadow-sm capitalize">
+
+                    {{ $type === 'pass' ? 'City Pass' :
+                       ($type === 'product' ? 'Experiences' :
+                       ($type === 'package' ? 'Packages' : ucfirst($type))) }}
+
+                </button>
+            @endforeach
+
         </div>
-    </section>
-@else
-    {{-- SEO INTRO TEXT --}}
-    @php
-        $content = trim($pageContent?->getTranslation('content', app()->getLocale()) ?? '');
-        // Quill boş html temizliği
-        $content = str_replace(['<p><br></p>', '<br>', '&nbsp;'], '', $content);
-    @endphp
 
-    @if ($content !== '')
-        <section class="bg-white py-10">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="mt-3 prose prose-slate leading-relaxed">
-                    {!! $pageContent->getTranslation('content', app()->getLocale()) !!}
-                </div>
-            </div>
-        </section>
-    @endif
+        {{-- GRID --}}
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
 
-    {{-- ACTIVITIES & CITY PASSES --}}
-    @if ($activities->count() > 0)
-        <section class="bg-white pb-14">
-            <div class="max-w-6xl mx-auto px-4">
+            @foreach ($activities as $activity)
+                @php
+                    $title = $activity->getTranslation('name', $locale);
+                    $slug = $activity->getTranslation('slug', $locale);
+                    $image = $activity->images->first();
+                    $type = $activity->activity_type;
+                @endphp
 
-                <h2 class="text-xl font-bold text-slate-900 mb-6">
-                    Activities & City Passes
-                </h2>
+                <div x-show="filter==='all' || filter==='{{ $type }}'"
+                     x-transition.opacity
+                     class="w-full">
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <a href="{{ route('activities.show', $slug) }}"
+                       class="group flex flex-col bg-white rounded-xl
+                              overflow-hidden shadow-sm hover:shadow-md
+                              transition duration-300">
 
-                    @foreach ($activities as $activity)
-                        @php
-                            $title = $activity->getTranslation('name', $locale);
-                            $slug = $activity->getTranslation('slug', $locale);
-                            $image = $activity->images->first();
-                        @endphp
+                        {{-- IMAGE --}}
+                        <div class="relative h-32 md:h-44 overflow-hidden">
 
-                        <a href="{{ route('activities.show', $slug) }}"
-                            class="block bg-white border border-[#F3D6D1] rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition flex flex-col">
-
-                            {{-- IMAGE --}}
                             @if ($image)
-                                <img src="{{ route('images.view', $image->id) }}" alt="{{ $title }}"
-                                    class="w-full h-56 object-cover">
-                            @else
-                                <img src="https://picsum.photos/600/400?random={{ $activity->id }}"
-                                    alt="{{ $title }}" class="w-full h-56 object-cover">
+                                <img src="{{ route('images.view', $image->id) }}"
+                                     alt="{{ $title }}"
+                                     class="w-full h-full object-cover
+                                            transition duration-500
+                                            group-hover:scale-105">
                             @endif
 
-                            <div class="p-5 flex flex-col flex-1">
-
-                                {{-- TITLE --}}
-                                <h3 class="font-semibold text-slate-900 leading-snug">
-                                    {{ $title }}
-                                </h3>
-
-                                {{-- TYPE BADGE (opsiyonel ama güzel) --}}
-                                @if ($activity->activity_type === 'pass')
-                                    <span
-                                        class="self-start inline-block mt-2 text-xs font-semibold bg-[#C62E2E]/10 text-[#C62E2E] px-3 py-1 rounded-full">
+                            {{-- BADGE --}}
+                            @if ($type === 'pass')
+                                <div class="absolute top-2 left-2">
+                                    <span class="text-[10px] font-medium
+                                                 bg-white px-2 py-1
+                                                 rounded-full shadow-sm">
                                         City Pass
                                     </span>
-                                @endif
-
-                                {{-- CTA --}}
-                                <div class="mt-auto pt-4 flex items-center justify-end"> <span
-                                        class="text-sm font-semibold text-[#C62E2E]">
-                                        View details →
-                                    </span>
                                 </div>
+                            @endif
 
+                        </div>
+
+                        {{-- CONTENT --}}
+                        <div class="p-4 flex flex-col flex-1">
+
+                            <span class="text-[11px] text-slate-500 mb-1 capitalize">
+                                {{ $type }}
+                            </span>
+
+                            <h3 class="text-sm font-semibold text-slate-900
+                                       leading-snug line-clamp-2">
+                                {{ $title }}
+                            </h3>
+
+                            <div class="mt-auto pt-4">
+                                <span class="text-sm font-medium text-[#C62E2E]
+                                             group-hover:translate-x-1
+                                             inline-block transition">
+                                    View details →
+                                </span>
                             </div>
-                        </a>
-                    @endforeach
+
+                        </div>
+
+                    </a>
 
                 </div>
-            </div>
-        </section>
-    @endif
-@endif
+
+            @endforeach
+
+        </div>
+
+    </div>
+</section>
+
+@push('scripts')
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+@endpush
