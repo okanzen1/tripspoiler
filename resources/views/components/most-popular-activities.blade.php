@@ -45,9 +45,9 @@
                     <div class="swiper-slide max-w-[300px]">
 
                         <a href="{{ $activity->affiliate_link }}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="group block h-full">
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="group block h-full">
 
                             <div class="flex flex-col h-[360px]   <!-- BURASI SABİTLENDİ -->
                                         bg-white rounded-2xl overflow-hidden

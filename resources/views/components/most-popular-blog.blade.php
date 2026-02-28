@@ -5,7 +5,7 @@
 
     <section class="bg-[#F7F9FB] {{ $isHome ? 'pt-10 pb-30' : 'pt-0 md:pt-10' }}">
 
-        <div class="max-w-7xl mx-auto {{ $isHome ? 'px-4' : 'px-0 md:px-4' }}">
+        <div class="max-w-7xl mx-auto {{ $isHome ? 'px-4' : 'px-0' }}">
 
             {{-- HEADER --}}
             <div class="mb-10">
