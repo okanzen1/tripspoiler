@@ -44,7 +44,7 @@
                         : ($type === 'product'
                             ? 'Experiences'
                             : ($type === 'package'
-                                ? 'Cobos'
+                                ? 'Combos'
                                 : ucfirst($type))) }}
 
                 </button>
