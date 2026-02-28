@@ -35,7 +35,53 @@
         <!-- SWIPER -->
         <div class="swiper">
             <div class="swiper-wrapper">
+                {{-- ALL ACTIVITIES COVER --}}
+                <div class="swiper-slide max-w-[300px]">
+                    <div class="swiper-slide max-w-[300px]">
+                        <a href="{{ route('activities.index') }}"
+                            class="group block h-full">
 
+                            <div class="relative h-[360px] rounded-2xl overflow-hidden
+                                        shadow-[0_6px_18px_rgba(0,0,0,0.06)]
+                                        hover:shadow-[0_12px_28px_rgba(0,0,0,0.10)]
+                                        transition-all duration-300">
+
+                                {{-- IMAGE --}}
+                                <img src="{{ asset('images/all-activities-cover.png') }}"
+                                    alt="Explore All Activities"
+                                    class="w-full h-full object-cover
+                                        transition duration-700 group-hover:scale-105">
+
+                                {{-- DARK GRADIENT OVERLAY --}}
+                                <div class="absolute inset-0 
+                                            bg-gradient-to-t 
+                                            from-black/55 
+                                            via-black/20 
+                                            to-transparent">
+                                </div>
+
+                                {{-- TEXT CONTENT --}}
+                                <div class="absolute inset-0 flex flex-col justify-end p-6">
+
+                                    <h3 class="text-xl font-semibold text-white leading-snug">
+                                        Explore All Activities
+                                    </h3>
+
+                                    <span class="mt-3 text-sm font-medium text-white/90 
+                                                inline-flex items-center gap-1 
+                                                group-hover:translate-x-1 
+                                                transition duration-300">
+                                        View all activities →
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+                    </div>
+                </div>
+                
                 @foreach ($activities as $activity)
                     @php
                         $image = $activity->images->first();
@@ -43,37 +89,40 @@
                     @endphp
 
                     <div class="swiper-slide max-w-[300px]">
-
                         <a href="{{ $activity->affiliate_link }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="group block h-full">
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="group block h-full">
 
-                            <div class="flex flex-col h-[360px]   <!-- BURASI SABİTLENDİ -->
-                                        bg-white rounded-2xl overflow-hidden
-                                        border border-slate-200
+                            <div class="relative h-[360px] rounded-2xl overflow-hidden
                                         shadow-[0_6px_18px_rgba(0,0,0,0.06)]
                                         hover:shadow-[0_12px_28px_rgba(0,0,0,0.10)]
                                         transition-all duration-300">
 
-                                {{-- IMAGE (ZATEN SABİT) --}}
-                                <div class="relative h-44 overflow-hidden bg-slate-100">
-                                    @if ($image)
-                                        <img src="{{ route('images.view', $image->id) }}"
-                                            alt="{{ $activity->name }}"
-                                            class="w-full h-full object-cover
-                                                    transition duration-500
-                                                    group-hover:scale-105">
-                                    @else
-                                        <div class="w-full h-full bg-gradient-to-b from-slate-100 to-slate-200"></div>
-                                    @endif
+                                {{-- IMAGE --}}
+                                @if ($image)
+                                    <img src="{{ route('images.view', $image->id) }}"
+                                        alt="{{ $activity->name }}"
+                                        class="w-full h-full object-cover
+                                                transition duration-700
+                                                group-hover:scale-105">
+                                @else
+                                    <div class="w-full h-full bg-gradient-to-b from-slate-100 to-slate-200"></div>
+                                @endif
+
+                                {{-- DARK GRADIENT OVERLAY --}}
+                                <div class="absolute inset-0 
+                                            bg-gradient-to-t 
+                                            from-black/55 
+                                            via-black/20 
+                                            to-transparent">
                                 </div>
 
-                                {{-- CONTENT --}}
-                                <div class="flex flex-col flex-1 bg-[#F9FAFB] px-5 py-5">
+                                {{-- TEXT CONTENT --}}
+                                <div class="absolute inset-0 flex flex-col justify-end p-6">
 
                                     {{-- CATEGORY --}}
-                                    <span class="text-xs text-slate-500 mb-2 tracking-wide">
+                                    <span class="text-xs text-white/80 mb-2 tracking-wide">
                                         {{ $type === 'pass'
                                             ? 'City Pass'
                                             : ($type === 'product'
@@ -83,26 +132,24 @@
                                                     : ucfirst($type))) }}
                                     </span>
 
-                                    {{-- TITLE (SABİT YÜKSEKLİK) --}}
-                                    <h3 class="text-base font-semibold text-slate-900 leading-snug
-                                            line-clamp-2 min-h-[48px]">
+                                    {{-- TITLE --}}
+                                    <h3 class="text-lg font-semibold text-white leading-snug line-clamp-2">
                                         {{ $activity->name }}
                                     </h3>
 
                                     {{-- CTA --}}
-                                    <div class="mt-auto pt-6">
-                                        <span class="text-sm font-medium text-[#C62E2E]
-                                                    inline-flex items-center gap-1">
-                                            View details →
-                                        </span>
-                                    </div>
+                                    <span class="mt-3 text-sm font-medium text-white/90 
+                                                inline-flex items-center gap-1 
+                                                group-hover:translate-x-1 
+                                                transition duration-300">
+                                        View details →
+                                    </span>
 
                                 </div>
 
                             </div>
 
                         </a>
-
                     </div>
                 @endforeach
 

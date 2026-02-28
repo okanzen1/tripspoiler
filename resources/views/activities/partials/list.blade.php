@@ -53,7 +53,6 @@
 
         {{-- GRID --}}
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
-
             @foreach ($activities as $activity)
                 @php
                     $title = $activity->getTranslation('name', $locale);
@@ -68,65 +67,71 @@
                     x-transition:enter-end="opacity-100 translate-y-0 scale-100"
                     x-transition:leave="transition-all duration-400 ease-in"
                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                    x-transition:leave-end="opacity-0 translate-y-2 scale-95" class="flex h-full">
+                    x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                    class="h-full">
 
                     <a href="{{ route('activities.show', $slug) }}"
-                        class="group flex flex-col w-full h-full bg-white rounded-xl
-                              overflow-hidden shadow-sm hover:shadow-md
-                              transition-all duration-300">
+                    class="group block h-full">
 
-                        {{-- IMAGE --}}
-                        <div class="relative h-32 md:h-44 overflow-hidden bg-slate-100">
+                        <div class="relative h-[260px] md:h-[320px] rounded-2xl overflow-hidden
+                                    shadow-[0_6px_18px_rgba(0,0,0,0.06)]
+                                    hover:shadow-[0_12px_28px_rgba(0,0,0,0.10)]
+                                    transition-all duration-300">
+
+                            {{-- IMAGE --}}
                             @if ($image)
-                                <img src="{{ route('images.view', $image->id) }}" alt="{{ $title }}"
+                                <img src="{{ route('images.view', $image->id) }}"
+                                    alt="{{ $title }}"
                                     class="w-full h-full object-cover
-                                            transition duration-500
+                                            transition duration-700
                                             group-hover:scale-105">
                             @else
                                 <div class="w-full h-full bg-gradient-to-b from-slate-100 to-slate-200"></div>
                             @endif
 
-                            {{-- BADGE --}}
-                            @if ($type === 'pass')
-                                <div class="absolute top-2 left-2">
-                                    <span class="text-[10px] font-medium bg-white px-2 py-1 rounded-full shadow-sm">
-                                        City Pass
-                                    </span>
-                                </div>
-                            @endif
-                        </div>
+                            {{-- DARK GRADIENT OVERLAY --}}
+                            <div class="absolute inset-0 
+                                        bg-gradient-to-t 
+                                        from-black/55 
+                                        via-black/20 
+                                        to-transparent">
+                            </div>
 
-                        {{-- CONTENT --}}
-                        <div class="p-4 flex flex-col flex-1">
-                            <span class="text-[11px] text-slate-500 mb-1">
-                                {{ $type === 'pass'
-                                    ? 'City Pass'
-                                    : ($type === 'product'
-                                        ? 'Experience'
-                                        : ($type === 'package'
-                                            ? 'Package'
-                                            : ucfirst($type))) }}
-                            </span>
+                            {{-- TEXT CONTENT --}}
+                            <div class="absolute inset-0 flex flex-col justify-end p-5">
 
-                            <h3 class="text-sm font-semibold text-slate-900 leading-snug line-clamp-2">
-                                {{ $title }}
-                            </h3>
+                                {{-- CATEGORY --}}
+                                <span class="text-xs text-white/80 mb-2 tracking-wide">
+                                    {{ $type === 'pass'
+                                        ? 'City Pass'
+                                        : ($type === 'product'
+                                            ? 'Experience'
+                                            : ($type === 'package'
+                                                ? 'Package'
+                                                : ucfirst($type))) }}
+                                </span>
 
-                            <div class="mt-auto pt-4">
-                                <span
-                                    class="text-sm font-medium text-[#C62E2E]
-                                             group-hover:translate-x-1
-                                             inline-block transition">
+                                {{-- TITLE --}}
+                                <h3 class="text-sm md:text-base font-semibold text-white leading-snug line-clamp-2 drop-shadow-lg">
+                                    {{ $title }}
+                                </h3>
+
+                                {{-- CTA --}}
+                                <span class="mt-3 text-sm font-medium text-white/90 
+                                            inline-flex items-center gap-1 
+                                            group-hover:translate-x-1 
+                                            transition duration-300">
                                     View details →
                                 </span>
+
                             </div>
+
                         </div>
 
                     </a>
 
                 </div>
             @endforeach
-
         </div>
 
         <div class="pt-20">
