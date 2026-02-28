@@ -99,6 +99,7 @@
 
     <x-steps-section />
     <x-most-popular-activities source="home" :source-id="null" limit="12" />
+    <x-city-entry-section />
     <x-most-popular-blog source="home" :source-id="null" />
     <x-faq source="home" :source-id="null" />
 
