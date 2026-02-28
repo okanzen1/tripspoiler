@@ -116,8 +116,51 @@
         <section class="py-16 bg-white">
             <div class="max-w-6xl mx-auto px-4">
 
-            <div class="quill-content">
-                {!! $html !!}
+            <div x-data="{ expanded: false }" class="relative">
+
+                {{-- Content wrapper --}}
+                <div class="quill-content overflow-hidden"
+                    :style="expanded
+                        ? 'max-height: ' + $refs.content.scrollHeight + 'px; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                        : 'max-height: 320px; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)'"
+                    x-ref="content">
+
+                    {!! $html !!}
+                </div>
+
+                {{-- Fade gradient --}}
+                <div x-show="!expanded"
+                    x-transition:enter="transition-opacity duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition-opacity duration-300"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="absolute bottom-8 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent pointer-events-none">
+                </div>
+
+                {{-- Toggle button --}}
+                <div class="mt-4 relative z-10">
+                    <button @click="expanded = !expanded"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-[#C62E2E] hover:text-[#a02020] transition-colors duration-200">
+
+                        <span x-text="expanded ? '{{ __('See less') }}' : '{{ __('See more') }}'"></span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-4 h-4 transition-transform duration-500 ease-in-out"
+                            :class="expanded ? 'rotate-180' : 'rotate-0'"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor">
+
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </div>
+
             </div>
 
             </div>
@@ -125,90 +168,55 @@
     @endif
 
     @if($pageImages->isNotEmpty())
-        <section class="py-16 bg-[#FFF5F3]">
-            <div class="max-w-6xl mx-auto px-4">
+        <section class="py-20 bg-[#F7F9FB]">
+            <div class="max-w-7xl mx-auto px-6">
 
-                <div class="relative">
+                <div class="flex items-center justify-between mb-10">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
+                        Moments from {{ $city->getTranslation('name', $locale) }}
+                    </h2>
 
-                    {{-- MOBİL OKLAR --}}
-                    <button
-                        class="embla-city-prev md:hidden absolute left-2 top-1/2 -translate-y-1/2 
-                        z-50 pointer-events-auto cursor-pointer
-                        w-10 h-10 bg-white shadow-lg rounded-full
-                        flex items-center justify-center
-                        hover:scale-110 active:scale-95 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-
-                    <button
-                        class="embla-city-next md:hidden absolute right-2 top-1/2 -translate-y-1/2 
-                        z-50 pointer-events-auto cursor-pointer
-                        w-10 h-10 bg-white shadow-lg rounded-full
-                        flex items-center justify-center
-                        hover:scale-110 active:scale-95 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-
-                    {{-- DESKTOP OKLAR --}}
-                    <div class="hidden md:flex justify-end mb-6 gap-2">
-                        <button
-                            class="embla-city-prev cursor-pointer
-                            w-11 h-11 bg-white shadow-sm rounded-xl
-                            flex items-center justify-center
-                            hover:bg-slate-50 hover:scale-105 active:scale-95
-                            transition border border-slate-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7" />
-                            </svg>
+                    <div class="hidden md:flex gap-3">
+                        <button class="embla-city-prev w-12 h-12 rounded-full bg-white shadow-sm hover:shadow-md transition flex items-center justify-center">
+                            ←
                         </button>
-
-                        <button
-                            class="embla-city-next cursor-pointer
-                            w-11 h-11 bg-white shadow-sm rounded-xl
-                            flex items-center justify-center
-                            hover:bg-slate-50 hover:scale-105 active:scale-95
-                            transition border border-slate-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-700"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
+                        <button class="embla-city-next w-12 h-12 rounded-full bg-white shadow-sm hover:shadow-md transition flex items-center justify-center">
+                            →
                         </button>
                     </div>
-
-                    {{-- SLIDER --}}
-                @if($pageImages->isNotEmpty())
-                        <div class="embla-city overflow-hidden relative z-0">
-                            <div class="embla__container flex">
-
-                                @foreach ($pageImages as $image)
-                                    <div class="embla__slide flex-[0_0_80%] md:flex-[0_0_25%] px-2">
-                                        <a href="{{ route('images.view', $image->id) }}"
-                                        data-fancybox="city-gallery"
-                                        class="block relative z-0 group">
-
-                                            <img src="{{ route('images.view', $image->id) }}"
-                                                class="rounded-2xl object-cover h-72 w-full
-                                                        transition-transform duration-500
-                                                        group-hover:scale-105">
-                                        </a>
-                                    </div>
-                                @endforeach
-
-                            </div>
-                        </div>
-                    @endif
                 </div>
+
+                <div class="embla-city overflow-hidden">
+                    <div class="embla__container flex">
+
+                        @foreach ($pageImages as $image)
+                            <div class="embla__slide flex-[0_0_75%] md:flex-[0_0_45%] lg:flex-[0_0_35%] pr-6">
+                                <a href="{{ route('images.view', $image->id) }}"
+                                data-fancybox="city-gallery"
+                                class="group block relative overflow-hidden rounded-3xl">
+
+                                    <img src="{{ route('images.view', $image->id) }}"
+                                        class="w-full h-[420px] object-cover
+                                                transition duration-700 ease-out
+                                                group-hover:scale-105">
+
+                                    <!-- Soft Overlay -->
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
+
+                                    <!-- Caption -->
+                                    <div class="absolute bottom-6 left-6 text-white opacity-0 group-hover:opacity-100 transition duration-500">
+                                        <span class="text-sm tracking-wide uppercase">
+                                            {{ $city->getTranslation('name', $locale) }}
+                                        </span>
+                                    </div>
+
+                                </a>
+                            </div>
+                        @endforeach
+
+                    </div>
+                </div>
+
             </div>
         </section>
     @endif
@@ -258,6 +266,7 @@
 @push('scripts')
     <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         document.getElementById('cityFilter')
             .addEventListener('change', function() {
