@@ -1,0 +1,5 @@
+.prose .ql-align-center,
+.prose .ql-align-right,
+.prose .ql-align-justify {
+    text-align: left !important;
+}
