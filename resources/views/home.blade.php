@@ -103,11 +103,11 @@
 
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
-                    Plan smarter in 3 simple steps
+                    Plan with clarity. Travel with confidence.
                 </h2>
                 <p class="mt-3 text-slate-600 text-lg max-w-2xl mx-auto">
-                    No endless tabs, no confusing tickets.
-                    Just clear choices before you travel.
+                    No chaos. No noise.  
+                    Just calm insight before you step into a new city.
                 </p>
             </div>
 
@@ -119,11 +119,11 @@
                         STEP 01
                     </div>
                     <h3 class="font-semibold text-slate-900 mb-2 text-lg">
-                        Explore your destination
+                        Feel the place before you arrive
                     </h3>
                     <p class="text-sm text-slate-600 leading-relaxed">
-                        Browse cities, museums and activities with
-                        real context — not marketing fluff.
+                        Discover what truly matters in a city.  
+                        Honest context. Quiet depth. No empty hype.
                     </p>
                 </div>
 
@@ -133,11 +133,12 @@
                         STEP 02
                     </div>
                     <h3 class="font-semibold text-slate-900 mb-2 text-lg">
-                        Compare before you book
+                        Choose with intention
                     </h3>
                     <p class="text-sm text-slate-600 leading-relaxed">
-                        See what’s worth it, what’s overrated
-                        and when skip-the-line actually helps.
+                        See what deserves your time.  
+                        Know what to skip.  
+                        Understand when fast access truly matters.
                     </p>
                 </div>
 
@@ -147,11 +148,11 @@
                         STEP 03
                     </div>
                     <h3 class="font-semibold text-slate-900 mb-2 text-lg">
-                        Travel without second thoughts
+                        Arrive calm. Move with certainty.
                     </h3>
                     <p class="text-sm text-slate-600 leading-relaxed">
-                        Book confidently knowing you’ve already
-                        avoided common travel mistakes.
+                        Travel knowing you made the right call.  
+                        No doubt. No regret. Just presence.
                     </p>
                 </div>
 
@@ -159,7 +160,7 @@
 
         </div>
     </section>
-
+    
     <x-most-popular-activities source="home" :source-id="null" limit="12" />
 
     <x-most-popular-blog source="home" :source-id="null" />
