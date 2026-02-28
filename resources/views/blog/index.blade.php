@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24">
+        <div class="relative max-w-7xl mx-auto px-4 py-16 md:py-24">
 
             {{-- EYEBROW --}}
             <span

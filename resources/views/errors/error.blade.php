@@ -8,7 +8,7 @@
 @section('content')
 
     <section class="bg-[#FFF5F3] border-b border-[#F3D6D1] min-h-screen flex items-center">
-        <div class="max-w-6xl mx-auto px-4 text-center w-full">
+        <div class="max-w-7xl mx-auto px-4 text-center w-full">
 
             <img src="{{ asset('images/logo-tripspoiler-two.png') }}" alt="TripSpoiler"
                 class="mx-auto h-48 md:h-48 mb-6 drop-shadow-md logo-swing" />

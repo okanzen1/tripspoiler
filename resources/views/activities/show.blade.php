@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div class="relative max-w-6xl mx-auto px-4 py-14">
+        <div class="relative max-w-7xl mx-auto px-4 py-14">
 
             {{-- BREADCRUMB --}}
             <nav class="text-sm text-slate-500 mb-4">
@@ -77,7 +77,7 @@
 
     {{-- MAIN --}}
     <section class="bg-white pb-0 lg:pb-0">
-        <div class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
 
             {{-- LEFT --}}
             <div class="lg:col-span-2">

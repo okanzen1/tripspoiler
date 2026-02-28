@@ -22,7 +22,7 @@
     <section class="relative overflow-hidden
                 bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
 
-        <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24 space-y-4">
+        <div class="relative max-w-7xl mx-auto px-4 py-16 md:py-24 space-y-4">
 
             @if (!empty($hero['themes']))
                 <span
@@ -56,7 +56,7 @@
 
     @if ($blog->activities->count() === 1)
         <section id="activitiesSection" class="bg-white">
-            <div class="max-w-6xl mx-auto px-4">
+            <div class="max-w-7xl mx-auto px-4">
 
                 <!-- Feature Card -->
                 <div class="relative rounded-3xl overflow-hidden group">
@@ -98,7 +98,7 @@
 
     @if ($blog->activities->count() > 1)
         <section id="activitiesSection" class="bg-white overflow-hidden">
-            <div class="max-w-6xl mx-auto px-4">
+            <div class="max-w-7xl mx-auto px-4">
 
                 <!-- HEADER -->
                 <div class="flex items-center justify-end mb-12">
@@ -158,7 +158,7 @@
     @endif
 
     <section class="bg-white py-10">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="max-w-7xl mx-auto px-4">
             @foreach ($blog->contents as $content)
                 <h2 class="text-xl font-bold text-slate-900">
                     {{ $content->getTranslation('title', $locale) }}
@@ -217,7 +217,7 @@
 
         <div class="bg-white border-t border-[#F3D6D1] shadow-[0_-10px_40px_rgba(0,0,0,0.08)]">
 
-            <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
 
                 <!-- LEFT -->
                 <div class="flex items-center gap-4">

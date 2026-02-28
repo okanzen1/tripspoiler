@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24">
+        <div class="relative max-w-7xl mx-auto px-4 py-16 md:py-24">
 
             {{-- EYEBROW --}}
             <span
@@ -114,7 +114,7 @@
 
     @if (!empty($html))
         <section class="py-16 bg-white">
-            <div class="max-w-6xl mx-auto px-4">
+            <div class="max-w-7xl mx-auto px-4">
 
             <div x-data="{ expanded: false }" class="relative">
 
@@ -222,7 +222,7 @@
     @endif
 
     {{-- <section class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="max-w-7xl mx-auto px-4">
 
             <div class="grid md:grid-cols-2 gap-16 items-center">
 

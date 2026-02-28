@@ -1,5 +1,5 @@
 <section class="bg-white py-20">
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6">
 
         <div class="text-center mb-15">
             <h2 class="text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight">

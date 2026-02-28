@@ -1,5 +1,5 @@
 <section class="bg-white my-16">
-    <div class="max-w-6xl mx-auto px-4">
+    <div class="max-w-7xl mx-auto px-4">
 
         @if(count($blogs) > 0)
 

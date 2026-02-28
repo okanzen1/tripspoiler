@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24">
+        <div class="relative max-w-7xl mx-auto px-4 py-16 md:py-24">
 
             {{-- EYEBROW --}}
             <span
@@ -44,7 +44,7 @@
     </section>
 
     <section class="bg-white py-14">
-        <div class="max-w-6xl mx-auto px-4 leading-relaxed text-slate-700 space-y-6">
+        <div class="max-w-7xl mx-auto px-4 leading-relaxed text-slate-700 space-y-6">
 
 
             <h2 class="font-semibold text-slate-900 text-lg">
