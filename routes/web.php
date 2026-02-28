@@ -57,6 +57,6 @@ Route::view('/about', 'other.about');
 // about Pages
 
 // Contact Routes
-Route::view('/contact', 'other.contact');
+Route::view('/contact', 'other.contact')->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit')->middleware('throttle:5,1');
 // Contact Routes
