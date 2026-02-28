@@ -57,7 +57,3 @@
     </section>
 
 @endsection
-
-@section('modals')
-    <x-search-modal />
-@endsection

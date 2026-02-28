@@ -103,10 +103,5 @@
     <x-most-popular-blog source="home" :source-id="null" />
     <x-social-presence-section />
     <x-faq source="home" :source-id="null" />
-
-    @section('modals')
-        <x-search-modal />
-    @endsection
-
 @endsection
 
