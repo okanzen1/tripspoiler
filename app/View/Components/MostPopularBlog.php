@@ -34,7 +34,7 @@ class MostPopularBlog extends Component
 
         $this->blogs = $query
             ->orderByDesc('click_count')
-            ->limit(4)
+            ->limit(3)
             ->get()
             ->map(function ($row) use ($locale) {
 

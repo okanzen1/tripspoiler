@@ -17,7 +17,9 @@
             class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-[#C62E2E]">
 
         <button type="submit" id="newsletter-btn"
-            class="w-full bg-[#C62E2E] text-white rounded-xl py-2.5 font-semibold text-sm hover:bg-red-700 transition">
+            class="w-full bg-[#C62E2E] text-white rounded-xl py-2.5 font-semibold text-sm
+                hover:bg-red-700 transition
+                cursor-pointer">
             Notify me about new posts
         </button>
 
