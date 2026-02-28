@@ -3,7 +3,7 @@
         $isHome = request()->routeIs('home');
     @endphp
 
-    <section class="bg-[#F7F9FB] {{ $isHome ? 'pt-10 pb-30' : 'pt-0 md:pt-10' }}">
+    <section class="bg-[#F7F9FB] {{ $isHome ? 'pt-5 md:pt-10 pb-15 md:pb-30' : 'pt-0 md:pt-10' }}">
 
         <div class="max-w-7xl mx-auto {{ $isHome ? 'px-4' : 'px-0' }}">
 

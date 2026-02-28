@@ -1,0 +1,9 @@
+/* Steps Section Scrollbar Hide */
+#stepsWrapper::-webkit-scrollbar {
+    display: none;
+}
+
+#stepsWrapper {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

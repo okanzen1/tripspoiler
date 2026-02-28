@@ -51,3 +51,5 @@
     margin: 0;
     display: inline;
 }
+
+@import "./components/steps-section.css";

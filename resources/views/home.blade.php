@@ -4,7 +4,6 @@
 @section('meta_description', 'Discover the best cities, museums, travel tips and hidden gems around the world.')
 
 @section('content')
-
     {{-- HERO SECTION --}}
     <section class="relative overflow-hidden
                 bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
@@ -98,76 +97,14 @@
         </div>
     </section>
 
-    <section class="bg-white py-20">
-        <div class="max-w-7xl mx-auto px-4">
-
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
-                    Plan with clarity. Travel with confidence.
-                </h2>
-                <p class="mt-3 text-slate-600 text-lg max-w-2xl mx-auto">
-                    No chaos. No noise.  
-                    Just calm insight before you step into a new city.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-                {{-- STEP 1 --}}
-                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-8 shadow-sm">
-                    <div class="text-[#C62E2E] font-bold text-sm mb-2">
-                        STEP 01
-                    </div>
-                    <h3 class="font-semibold text-slate-900 mb-2 text-lg">
-                        Feel the place before you arrive
-                    </h3>
-                    <p class="text-sm text-slate-600 leading-relaxed">
-                        Discover what truly matters in a city.  
-                        Honest context. Quiet depth. No empty hype.
-                    </p>
-                </div>
-
-                {{-- STEP 2 --}}
-                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-8 shadow-sm">
-                    <div class="text-[#C62E2E] font-bold text-sm mb-2">
-                        STEP 02
-                    </div>
-                    <h3 class="font-semibold text-slate-900 mb-2 text-lg">
-                        Choose with intention
-                    </h3>
-                    <p class="text-sm text-slate-600 leading-relaxed">
-                        See what deserves your time.  
-                        Know what to skip.  
-                        Understand when fast access truly matters.
-                    </p>
-                </div>
-
-                {{-- STEP 3 --}}
-                <div class="bg-white rounded-3xl border border-[#F3D6D1] p-8 shadow-sm">
-                    <div class="text-[#C62E2E] font-bold text-sm mb-2">
-                        STEP 03
-                    </div>
-                    <h3 class="font-semibold text-slate-900 mb-2 text-lg">
-                        Arrive calm. Move with certainty.
-                    </h3>
-                    <p class="text-sm text-slate-600 leading-relaxed">
-                        Travel knowing you made the right call.  
-                        No doubt. No regret. Just presence.
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-    
+    <x-steps-section />
     <x-most-popular-activities source="home" :source-id="null" limit="12" />
-
     <x-most-popular-blog source="home" :source-id="null" />
-    
     <x-faq source="home" :source-id="null" />
 
-@section('modals')
-    <x-search-modal />
+    @section('modals')
+        <x-search-modal />
+    @endsection
+
 @endsection
-@endsection
+
