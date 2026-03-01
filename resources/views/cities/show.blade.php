@@ -18,6 +18,7 @@
     @endpush
 
 @section('content')
+
     <section class="relative overflow-hidden
             bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
 
@@ -109,6 +110,7 @@
     </section>
 
     @if($pageContent?->experienceCategories?->count())
+
         @foreach($pageContent->experienceCategories as $category)
             @php
                 $desc = $category->descriptions->first();
@@ -118,7 +120,7 @@
 
             @if(!empty($descriptionHtml))
                 @if($categoryName === 'City Overview')
-                    <section class="relative py-14 bg-[#FAF8F6] overflow-hidden">
+                    <section class="relative py-14 bg-white overflow-hidden">
                         <div class="max-w-7xl mx-auto px-4">
 
                             <div class="mb-3">
@@ -144,8 +146,94 @@
                         </div>
                     </section>
                 @endif
-            @endif
 
+                @if($categoryName === 'History & Identity')
+                    <section class="relative py-20 bg-white overflow-hidden">
+
+                        <div class="max-w-7xl mx-auto px-4">
+
+                            <!-- Label -->
+                            <div class="mb-4">
+                                <span class="text-[11px] tracking-[0.25em] text-gray-500 uppercase">
+                                    History & Identity
+                                </span>
+                            </div>
+
+                            <!-- Heading -->
+                            <h2 class="text-4xl md:text-5xl font-serif text-gray-900 leading-[1.1] mb-12">
+                                The Story of {{ $city->getTranslation('name', $locale) }}
+                            </h2>
+
+                            @if($city->slug == 'istanbul')
+                                <!-- TOP IMAGE -->
+                                <div class="mb-16 overflow-hidden rounded-3xl shadow-[0_30px_80px_rgba(0,0,0,0.18)]">
+                                    <img 
+                                        src="{{ asset('images/cities/istanbul-history.png') }}"
+                                        alt="{{ $city->getTranslation('name', $locale) }} skyline"
+                                        class="w-full h-[380px] md:h-[520px] object-cover"
+                                    >
+                                </div>
+                            @endif
+
+                            <!-- CONTENT GRID -->
+                            <div class="grid md:grid-cols-2 gap-16">
+
+                                <!-- LEFT SIDE -->
+                                <div class="prose !max-w-none
+                                            prose-p:text-gray-700
+                                            prose-p:leading-[1.85]
+                                            prose-p:mb-6
+                                            prose-strong:text-gray-900
+                                            prose-headings:font-serif">
+
+                                    {!! $descriptionHtml !!}
+
+                                </div>
+
+                                @if($city->slug == 'istanbul')
+                                    <!-- RIGHT SIDE VISUAL BLOCK -->
+                                    <div class="relative">
+                                        <div class="sticky top-32 space-y-8">
+
+                                            <div class="border-l-4 border-[#C62E2E] pl-6">
+                                                <p class="text-lg text-gray-900 font-serif leading-snug">
+                                                    A city shaped by empires, faith, trade, and transformation.
+                                                </p>
+                                            </div>
+
+                                            <div class="text-gray-600 text-[15px] leading-relaxed">
+                                                Every district carries a distinct rhythm.
+                                                Architecture, memory, and daily life blend into a layered identity
+                                                that continues to evolve.
+                                            </div>
+
+                                            <!-- CTA BUTTON (SİYAH ALANIN YERİ) -->
+                                            <div class="pt-6">
+                                                <a href="{{ route('blog.index', ['city_id' => $city->id]) }}"
+                                                class="inline-flex items-center gap-2
+                                                        px-7 py-3
+                                                        rounded-full
+                                                        bg-[#C62E2E]
+                                                        text-white text-sm font-medium
+                                                        shadow-md
+                                                        hover:bg-[#a82222]
+                                                        transition duration-300">
+
+                                                    Explore {{ $city->getTranslation('name', $locale) }} Stories
+                                                    <span>→</span>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                @endif
+                                
+                            </div>
+
+                        </div>
+                    </section>
+                @endif
+            @endif
         @endforeach
     @endif
 
