@@ -1,4 +1,4 @@
-<section class="@if ($bgColor) {{ $bgColor }} @endif py-16">
+<section class="{{ $bgColor }} py-16">
     <div class="max-w-4xl mx-auto px-4">
 
         <h2 class="text-2xl md:text-3xl font-bold text-slate-900 text-center">
@@ -6,7 +6,7 @@
         </h2>
 
         <p class="text-slate-600 text-center mt-2 max-w-2xl mx-auto">
-            Questions people often have about TripSpoiler
+            Questions people often have about this experience
         </p>
 
         <div class="mt-10 space-y-4">
@@ -27,3 +27,10 @@
 
     </div>
 </section>
+
+{{-- JSON-LD FAQ Schema --}}
+@if (isset($faqSchema))
+    <script type="application/ld+json">
+        {!! json_encode($faqSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    </script>
+@endif
