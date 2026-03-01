@@ -109,18 +109,18 @@
         </div>
     </section>
 
-    @if($pageContent?->experienceCategories?->count())
+    @if ($pageContent?->experienceCategories?->count())
 
-        @foreach($pageContent->experienceCategories as $category)
+        @foreach ($pageContent->experienceCategories as $category)
             @php
                 $desc = $category->descriptions->first();
                 $descriptionHtml = $desc?->getTranslation('description', $locale);
                 $categoryName = $category->getTranslation('name', $locale);
             @endphp
 
-            @if(!empty($descriptionHtml))
-                @if($categoryName === 'City Overview')
-                    <section class="relative py-14 bg-white overflow-hidden">
+            @if (!empty($descriptionHtml))
+                @if ($categoryName === 'City Overview')
+                    <section class="relative py-20 bg-white overflow-hidden">
                         <div class="max-w-7xl mx-auto px-4">
 
                             <div class="mb-3">
@@ -133,7 +133,8 @@
                                 {{ $city->getTranslation('name', $locale) }}, Defined
                             </h2>
 
-                            <div class="prose !max-w-none
+                            <div
+                                class="prose !max-w-none
                                         prose-p:text-gray-700
                                         prose-p:leading-[1.7]
                                         prose-p:mb-4
@@ -147,7 +148,7 @@
                     </section>
                 @endif
 
-                @if($categoryName === 'History & Identity')
+                @if ($categoryName === 'History & Identity')
                     <section class="relative py-20 bg-white overflow-hidden">
 
                         <div class="max-w-7xl mx-auto px-4">
@@ -164,14 +165,12 @@
                                 The Story of {{ $city->getTranslation('name', $locale) }}
                             </h2>
 
-                            @if($city->slug == 'istanbul')
+                            @if ($city->slug == 'istanbul')
                                 <!-- TOP IMAGE -->
                                 <div class="mb-16 overflow-hidden rounded-3xl shadow-[0_30px_80px_rgba(0,0,0,0.18)]">
-                                    <img 
-                                        src="{{ asset('images/cities/istanbul-history.png') }}"
+                                    <img src="{{ asset('images/cities/istanbul-history.png') }}"
                                         alt="{{ $city->getTranslation('name', $locale) }} skyline"
-                                        class="w-full h-[380px] md:h-[520px] object-cover"
-                                    >
+                                        class="w-full h-[380px] md:h-[520px] object-cover">
                                 </div>
                             @endif
 
@@ -179,7 +178,8 @@
                             <div class="grid md:grid-cols-2 gap-16">
 
                                 <!-- LEFT SIDE -->
-                                <div class="prose !max-w-none
+                                <div
+                                    class="prose !max-w-none
                                             prose-p:text-gray-700
                                             prose-p:leading-[1.85]
                                             prose-p:mb-6
@@ -190,7 +190,7 @@
 
                                 </div>
 
-                                @if($city->slug == 'istanbul')
+                                @if ($city->slug == 'istanbul')
                                     <!-- RIGHT SIDE VISUAL BLOCK -->
                                     <div class="relative">
                                         <div class="sticky top-32 space-y-8">
@@ -234,9 +234,76 @@
                         </div>
                     </section>
                 @endif
+
+                @if ($categoryName === 'Iconic Landmarks')
+                    <section class="relative py-20 bg-white overflow-hidden">
+
+                        <div class="max-w-7xl mx-auto px-4">
+
+                            <!-- Header -->
+                            <div class="mb-20 text-center">
+                                <span class="text-[11px] tracking-[0.3em] text-gray-500 uppercase">
+                                    Iconic Landmarks
+                                </span>
+
+                                <h2 class="mt-6 text-4xl md:text-5xl font-serif text-gray-900 leading-[1.05]">
+                                    The architecture that shapes
+                                    <span class="text-[#C62E2E]">
+                                        {{ $city->getTranslation('name', $locale) }}
+                                    </span>
+                                </h2>
+                            </div>
+
+                            <!-- Main Layout -->
+                            <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+                                <!-- Left: Large Image -->
+                                <div class="relative">
+                                    <div class="overflow-hidden rounded-3xl shadow-[0_35px_90px_rgba(0,0,0,0.18)]">
+                                        <img src="{{ asset('images/cities/' . $city->slug . '-landmarks.png') }}"
+                                            alt="{{ $city->getTranslation('name', $locale) }} landmarks"
+                                            class="w-full h-[420px] md:h-[520px] object-cover transition duration-700 hover:scale-105">
+                                    </div>
+
+                                    <!-- Architectural Accent Line -->
+                                    <div
+                                        class="absolute -bottom-6 -right-6 w-32 h-32 border-r-4 border-b-4 border-[#C62E2E] opacity-40">
+                                    </div>
+                                </div>
+
+                                <!-- Right: Description -->
+                                <div class="relative">
+
+                                    <div class="border-l-4 border-[#C62E2E] pl-6 mb-8">
+                                        <p class="text-xl font-serif text-gray-900 leading-snug">
+                                            Cities become unforgettable through their monuments.
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="prose !max-w-none
+                                                prose-p:text-gray-700
+                                                prose-p:leading-[1.9]
+                                                prose-p:mb-6
+                                                prose-strong:text-gray-900
+                                                prose-headings:font-serif">
+
+                                        {!! $descriptionHtml !!}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </section>
+                @endif
             @endif
         @endforeach
     @endif
+
+
 
     @php
         $html = $pageContent?->getTranslation('content', $locale);
@@ -248,58 +315,53 @@
         <section class="py-16 bg-white">
             <div class="max-w-7xl mx-auto px-4">
 
-            <div x-data="{ expanded: {{ $wordCount > 80 ? 'false' : 'true' }} }" class="relative">
-                {{-- Content wrapper --}}
-                <div class="quill-content overflow-hidden"
-                    :style="expanded
-                        ? 'max-height: ' + $refs.content.scrollHeight + 'px; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-                        : 'max-height: 320px; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)'"
-                    x-ref="content">
+                <div x-data="{ expanded: {{ $wordCount > 80 ? 'false' : 'true' }} }" class="relative">
+                    {{-- Content wrapper --}}
+                    <div class="quill-content overflow-hidden"
+                        :style="expanded
+                            ?
+                            'max-height: ' + $refs.content.scrollHeight +
+                            'px; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1)' :
+                            'max-height: 320px; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)'"
+                        x-ref="content">
 
-                    {!! $html !!}
-                </div>
-
-                {{-- Fade gradient --}}
-                <div x-show="!expanded"
-                    x-transition:enter="transition-opacity duration-300"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition-opacity duration-300"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    class="absolute bottom-8 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent pointer-events-none">
-                </div>
-
-                @if($wordCount > 80)
-                    <div class="mt-4 relative z-10">
-                        <button @click="expanded = !expanded"
-                            class="inline-flex items-center gap-2 text-sm font-semibold text-[#C62E2E] hover:text-[#a02020] transition-colors duration-200">
-
-                            <span x-text="expanded ? '{{ __('See less') }}' : '{{ __('See more') }}'"></span>
-
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="w-4 h-4 transition-transform duration-500 ease-in-out"
-                                :class="expanded ? 'rotate-180' : 'rotate-0'"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-
-                                <path stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
+                        {!! $html !!}
                     </div>
-                @endif
 
-            </div>
+                    {{-- Fade gradient --}}
+                    <div x-show="!expanded" x-transition:enter="transition-opacity duration-300"
+                        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition-opacity duration-300" x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
+                        class="absolute bottom-8 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent pointer-events-none">
+                    </div>
+
+                    @if ($wordCount > 80)
+                        <div class="mt-4 relative z-10">
+                            <button @click="expanded = !expanded"
+                                class="inline-flex items-center gap-2 text-sm font-semibold text-[#C62E2E] hover:text-[#a02020] transition-colors duration-200">
+
+                                <span x-text="expanded ? '{{ __('See less') }}' : '{{ __('See more') }}'"></span>
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="w-4 h-4 transition-transform duration-500 ease-in-out"
+                                    :class="expanded ? 'rotate-180' : 'rotate-0'" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                        </div>
+                    @endif
+
+                </div>
 
             </div>
         </section>
     @endif
 
-    @if($pageImages->isNotEmpty())
+    @if ($pageImages->isNotEmpty())
         <section class="py-20 bg-[#F7F9FB]">
             <div class="max-w-7xl mx-auto px-6">
 
@@ -309,10 +371,12 @@
                     </h2>
 
                     <div class="hidden md:flex gap-3">
-                        <button class="embla-city-prev w-12 h-12 rounded-full bg-white shadow-sm hover:shadow-md transition flex items-center justify-center">
+                        <button
+                            class="embla-city-prev w-12 h-12 rounded-full bg-white shadow-sm hover:shadow-md transition flex items-center justify-center">
                             ←
                         </button>
-                        <button class="embla-city-next w-12 h-12 rounded-full bg-white shadow-sm hover:shadow-md transition flex items-center justify-center">
+                        <button
+                            class="embla-city-next w-12 h-12 rounded-full bg-white shadow-sm hover:shadow-md transition flex items-center justify-center">
                             →
                         </button>
                     </div>
@@ -323,9 +387,8 @@
 
                         @foreach ($pageImages as $image)
                             <div class="embla__slide flex-[0_0_75%] md:flex-[0_0_45%] lg:flex-[0_0_35%] pr-6">
-                                <a href="{{ route('images.view', $image->id) }}"
-                                data-fancybox="city-gallery"
-                                class="group block relative overflow-hidden rounded-3xl">
+                                <a href="{{ route('images.view', $image->id) }}" data-fancybox="city-gallery"
+                                    class="group block relative overflow-hidden rounded-3xl">
 
                                     <img src="{{ route('images.view', $image->id) }}"
                                         class="w-full h-[420px] object-cover
@@ -333,10 +396,13 @@
                                                 group-hover:scale-105">
 
                                     <!-- Soft Overlay -->
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-500">
+                                    </div>
 
                                     <!-- Caption -->
-                                    <div class="absolute bottom-6 left-6 text-white opacity-0 group-hover:opacity-100 transition duration-500">
+                                    <div
+                                        class="absolute bottom-6 left-6 text-white opacity-0 group-hover:opacity-100 transition duration-500">
                                         <span class="text-sm tracking-wide uppercase">
                                             {{ $city->getTranslation('name', $locale) }}
                                         </span>
