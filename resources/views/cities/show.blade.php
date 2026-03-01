@@ -108,16 +108,58 @@
         </div>
     </section>
 
+    @if($pageContent?->experienceCategories?->count())
+        @foreach($pageContent->experienceCategories as $category)
+            @php
+                $desc = $category->descriptions->first();
+                $descriptionHtml = $desc?->getTranslation('description', $locale);
+                $categoryName = $category->getTranslation('name', $locale);
+            @endphp
+
+            @if(!empty($descriptionHtml))
+                @if($categoryName === 'City Overview')
+                    <section class="relative py-14 bg-[#FAF8F6] overflow-hidden">
+                        <div class="max-w-7xl mx-auto px-4">
+
+                            <div class="mb-3">
+                                <span class="text-[11px] tracking-[0.25em] text-gray-500 uppercase">
+                                    Overview
+                                </span>
+                            </div>
+
+                            <h2 class="text-4xl md:text-5xl font-serif text-gray-900 leading-[1.1] mb-6">
+                                {{ $city->getTranslation('name', $locale) }}, Defined
+                            </h2>
+
+                            <div class="prose !max-w-none
+                                        prose-p:text-gray-700
+                                        prose-p:leading-[1.7]
+                                        prose-p:mb-4
+                                        text-left">
+
+                                {!! $descriptionHtml !!}
+
+                            </div>
+
+                        </div>
+                    </section>
+                @endif
+            @endif
+
+        @endforeach
+    @endif
+
     @php
         $html = $pageContent?->getTranslation('content', $locale);
+        $plainText = trim(strip_tags($html));
+        $wordCount = str_word_count($plainText);
     @endphp
 
-    @if (!empty($html))
+    @if (!empty($plainText))
         <section class="py-16 bg-white">
             <div class="max-w-7xl mx-auto px-4">
 
-            <div x-data="{ expanded: false }" class="relative">
-
+            <div x-data="{ expanded: {{ $wordCount > 80 ? 'false' : 'true' }} }" class="relative">
                 {{-- Content wrapper --}}
                 <div class="quill-content overflow-hidden"
                     :style="expanded
@@ -139,27 +181,28 @@
                     class="absolute bottom-8 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent pointer-events-none">
                 </div>
 
-                {{-- Toggle button --}}
-                <div class="mt-4 relative z-10">
-                    <button @click="expanded = !expanded"
-                        class="inline-flex items-center gap-2 text-sm font-semibold text-[#C62E2E] hover:text-[#a02020] transition-colors duration-200">
+                @if($wordCount > 80)
+                    <div class="mt-4 relative z-10">
+                        <button @click="expanded = !expanded"
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-[#C62E2E] hover:text-[#a02020] transition-colors duration-200">
 
-                        <span x-text="expanded ? '{{ __('See less') }}' : '{{ __('See more') }}'"></span>
+                            <span x-text="expanded ? '{{ __('See less') }}' : '{{ __('See more') }}'"></span>
 
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="w-4 h-4 transition-transform duration-500 ease-in-out"
-                            :class="expanded ? 'rotate-180' : 'rotate-0'"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="w-4 h-4 transition-transform duration-500 ease-in-out"
+                                :class="expanded ? 'rotate-180' : 'rotate-0'"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor">
 
-                            <path stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                </div>
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                    </div>
+                @endif
 
             </div>
 
@@ -220,45 +263,6 @@
             </div>
         </section>
     @endif
-
-    {{-- <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
-
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-
-                <!-- IMAGE STACK -->
-                <div class="relative h-[500px]">
-
-                    <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1200"
-                        class="absolute w-[75%] rounded-3xl shadow-2xl object-cover">
-
-                    <img src="https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?q=80&w=1200"
-                        class="absolute bottom-0 right-0 w-[75%] rounded-3xl shadow-2xl object-cover border-8 border-white">
-
-                </div>
-
-                <!-- TEXT -->
-                <div>
-                    <h2 class="text-4xl font-bold text-slate-900 mb-6">
-                        The rhythm of {{ $city->getTranslation('name', $locale) }}
-                    </h2>
-
-                    <p class="text-lg text-slate-600 leading-relaxed mb-6">
-                        It’s chaos and calm at the same time.
-                        Rooftop sunsets. Ferry crossings.
-                        Hidden courtyards.
-                    </p>
-
-                    <a href="#"
-                        class="inline-block bg-[#C62E2E] text-white px-6 py-3 rounded-full font-semibold hover:scale-105 transition">
-                        See Highlights
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-    </section> --}}
 
 @endsection
 
