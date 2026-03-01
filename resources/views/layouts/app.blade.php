@@ -22,6 +22,27 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+
+    @php
+        $schema = [
+            "@context" => "https://schema.org",
+            "@type" => "Organization",
+            "name" => "TripSpoiler",
+            "url" => config('app.url'),
+            "logo" => asset('android-chrome-512x512.png'),
+            "description" => "Curated city experiences, museum guides and travel insights from around the world.",
+            "sameAs" => [
+                "https://www.instagram.com/tripspoilerofficial/",
+                "https://www.tiktok.com/@tripspoilerofficial",
+                "https://www.pinterest.com/tripspoiler/"
+            ]
+        ];
+    @endphp
+
+    <script type="application/ld+json">
+        {!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+
 </head>
 
 <body class="bg-white text-slate-900 antialiased min-h-screen flex flex-col">
