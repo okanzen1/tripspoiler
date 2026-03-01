@@ -7,6 +7,95 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
 @endpush
 
+@php
+    $images = $activity->images->map(fn($image) => route('images.view', $image->id))->toArray();
+
+    $activitySchema = [
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            // PRODUCT (Affiliate)
+            [
+                '@type' => 'Product',
+                '@id' => url()->current() . '#product',
+                'name' => $activity->getTranslation('name', app()->getLocale()),
+                'description' => Str::limit(
+                    strip_tags($activity->getTranslation('description', app()->getLocale())),
+                    300,
+                ),
+                'image' => count($images) ? $images : [asset('images/placeholder.jpg')],
+                'brand' => [
+                    '@type' => 'Organization',
+                    'name' => 'TripSpoiler',
+                ],
+                'mainEntityOfPage' => [
+                    '@type' => 'WebPage',
+                    '@id' => url()->current(),
+                ],
+                'offers' => [
+                    '@type' => 'Offer',
+                    'url' => $activity->affiliate_link,
+                    'availability' => 'https://schema.org/InStock',
+                    'seller' => [
+                        '@type' => 'Organization',
+                        'name' => 'Official Ticket Provider',
+                    ],
+                    'priceSpecification' => [
+                        '@type' => 'PriceSpecification',
+                        'priceCurrency' => 'EUR',
+                    ],
+                ],
+            ],
+
+            // TOURIST ATTRACTION (Travel authority)
+            [
+                '@type' => 'TouristAttraction',
+                '@id' => url()->current() . '#attraction',
+                'name' => $activity->getTranslation('name', app()->getLocale()),
+                'description' => Str::limit(
+                    strip_tags($activity->getTranslation('description', app()->getLocale())),
+                    300,
+                ),
+                'image' => count($images) ? $images : [asset('images/placeholder.jpg')],
+                'touristType' => 'Travelers',
+                'isAccessibleForFree' => false,
+                'availableLanguage' => app()->getLocale(),
+                'sameAs' => url()->current(),
+                'address' => [
+                    '@type' => 'PostalAddress',
+                    'addressLocality' => $activity->city->getTranslation('name', app()->getLocale()),
+                    'addressCountry' => $activity->city->country->getTranslation('name', app()->getLocale()),
+                ],
+            ],
+
+            // BREADCRUMB
+            [
+                '@type' => 'BreadcrumbList',
+                '@id' => url()->current() . '#breadcrumb',
+                'itemListElement' => [
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 1,
+                        'name' => 'Home',
+                        'item' => url('/'),
+                    ],
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 2,
+                        'name' => 'Activities',
+                        'item' => route('activities.index'),
+                    ],
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 3,
+                        'name' => $activity->getTranslation('name', app()->getLocale()),
+                        'item' => url()->current(),
+                    ],
+                ],
+            ],
+        ],
+    ];
+@endphp
+
 @section('content')
 
     {{-- HERO --}}
@@ -267,5 +356,8 @@
             });
 
         });
+    </script>
+    <script type="application/ld+json">
+        {!! json_encode($activitySchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
 @endpush
