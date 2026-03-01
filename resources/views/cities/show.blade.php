@@ -210,7 +210,8 @@
                                             <!-- CTA BUTTON (SİYAH ALANIN YERİ) -->
                                             <div class="pt-6">
                                                 <a href="{{ route('blog.index', ['city_id' => $city->id]) }}"
-                                                class="inline-flex items-center gap-2
+                                                    class="inline-flex items-center justify-center gap-2
+                                                        w-full sm:w-auto
                                                         px-7 py-3
                                                         rounded-full
                                                         bg-[#C62E2E]
@@ -227,7 +228,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                
+
                             </div>
 
                         </div>
