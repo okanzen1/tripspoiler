@@ -41,9 +41,11 @@ class CityController extends Controller
                 now()->addHours(6),
                 function () {
 
-                    $page = Page::where('slug', 'cities')
-                        ->with('contents')
-                        ->first();
+                $page = Page::where('slug', 'cities')
+                    ->with([
+                        'contents.experienceCategories.descriptions'
+                    ])
+                    ->first();
 
                     if (!$page) {
                         return null;
@@ -66,7 +68,9 @@ class CityController extends Controller
         } else {
 
             $page = Page::where('slug', 'cities')
-                ->with('contents')
+                ->with([
+                    'contents.experienceCategories.descriptions'
+                ])
                 ->first();
 
             $pageImages = $page

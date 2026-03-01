@@ -31,6 +31,13 @@ class PageContent extends Model
         'is_active' => 'boolean',
     ];
 
+    public function experienceCategories()
+    {
+        return $this->hasMany(CityExperienceCategory::class)
+            ->orderBy('sort_order')
+            ->orderBy('id');
+    }
+
     public function getImageSource(): string
     {
         return 'page_content';

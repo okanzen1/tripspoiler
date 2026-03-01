@@ -17,12 +17,19 @@ class Page extends Model
         return $this->hasMany(PageContent::class);
     }
 
-    // şehir bazlı content helper
     public function contentForCity(int $cityId)
     {
         return $this->contents()
             ->where('city_id', $cityId)
             ->where('is_active', true)
+            ->with([
+                'experienceCategories' => function ($query) {
+                    $query->where('status', true)
+                        ->orderBy('sort_order')
+                        ->orderBy('id');
+                },
+                'experienceCategories.descriptions'
+            ])
             ->first();
     }
 }
