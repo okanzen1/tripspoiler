@@ -1,4 +1,4 @@
-<footer class="bg-white border-t border-slate-200" id="site-footer">
+<footer class="bg-white border-t border-slate-200">
     <div class="max-w-7xl mx-auto px-4 py-8 text-sm text-slate-500">
 
         <div class="flex flex-col sm:flex-row justify-between gap-4">
