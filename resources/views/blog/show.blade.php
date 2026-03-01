@@ -15,7 +15,35 @@
         }
     </style>
 @endpush
+@php
+    $coverImage = $blog->images->first();
 
+    $articleSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'Article',
+        'headline' => $blog->getTranslation('title', $locale),
+        'description' => $blog->getTranslation('meta_description', $locale),
+        'image' => $coverImage ? route('images.view', $coverImage->id) : asset('android-chrome-512x512.png'),
+        'author' => [
+            '@type' => 'Organization',
+            'name' => 'TripSpoiler',
+        ],
+        'publisher' => [
+            '@type' => 'Organization',
+            'name' => 'TripSpoiler',
+            'logo' => [
+                '@type' => 'ImageObject',
+                'url' => asset('android-chrome-512x512.png'),
+            ],
+        ],
+        'datePublished' => $blog->created_at->toIso8601String(),
+        'dateModified' => $blog->updated_at->toIso8601String(),
+        'mainEntityOfPage' => [
+            '@type' => 'WebPage',
+            '@id' => url()->current(),
+        ],
+    ];
+@endphp
 @section('content')
 
     {{-- BLOG DETAIL HERO --}}
@@ -201,13 +229,11 @@
             @endif
 
             @if ($blog->activities->count() === 1)
-                <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank"
-            @else
-                <a href="#activitiesSection"
-            @endif
-                class="bg-[#C62E2E] text-white text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">
-                View →
-            </a>
+            <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank" @else <a
+                    href="#activitiesSection" @endif
+                    class="bg-[#C62E2E] text-white text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">
+                    View →
+                </a>
 
         </div>
     </div>
@@ -256,19 +282,18 @@
 
                 <!-- RIGHT -->
                 @if ($blog->activities->count() === 1)
-                    <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank"
-                @else
-                    <a href="#activitiesSection"
-                @endif
-                    class="bg-[#C62E2E] text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:opacity-90 transition">
-                    View →
-                </a>
+                <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank" @else <a
+                        href="#activitiesSection" @endif
+                        class="bg-[#C62E2E] text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:opacity-90 transition">
+                        View →
+                    </a>
 
             </div>
 
         </div>
 
     </div>
+
 
 @endsection
 @push('scripts')
@@ -311,5 +336,9 @@
                 prevEl: '.swiper-button-prev-custom',
             },
         });
+    </script>
+
+    <script type="application/ld+json">
+        {!! json_encode($articleSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
 @endpush
