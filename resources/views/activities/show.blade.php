@@ -248,7 +248,7 @@
                     <div x-data="{ expanded: false }" class="relative">
 
                         {{-- Content wrapper --}}
-                        <div class="prose prose-slate max-w-none overflow-hidden"
+                        <div class="prose prose-slate max-w-none overflow-hidden quill-content"
                             :style="expanded
                                 ?
                                 'max-height: ' + $refs.content.scrollHeight +
