@@ -37,7 +37,7 @@ Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show')->
 // Blog Routes
 
 // Search Route
-Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+    Route::get('/search', [SearchController::class, 'search'])->name('search')->middleware('throttle:30,1');
 // Search Route
 
 // Media Routes

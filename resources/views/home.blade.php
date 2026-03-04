@@ -42,10 +42,10 @@
                 Clear guides and blogs about cities, museums and experiences.
             </p>
 
-            {{-- SEARCH (SAFE) --}}
-            {{-- <div class="mt-10 max-w-2xl mx-auto">
-                <x-search-box />
-            </div> --}}
+            {{-- SEARCH --}}
+            <div class="mt-10">
+                <x-search-modal />
+            </div>
 
             {{-- HERO FOOT LINKS (CENTERED & ICON BASED) --}}
             <div class="mt-10 flex flex-col items-center text-center">

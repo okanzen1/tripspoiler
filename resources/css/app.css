@@ -26,6 +26,10 @@
   100% { transform: rotate(0deg); }
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
 @import "./activities.css";
 @import "./quill-content.css";
 @import "./steps-section.css";
