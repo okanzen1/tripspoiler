@@ -101,6 +101,7 @@
     <x-most-popular-activities source="home" :source-id="null" limit="12" />
     <x-city-entry-section />
     <x-most-popular-blog source="home" :source-id="null" />
+    <x-tripspoiler-intro />
     <x-social-presence-section />
     <x-faq source="home" :source-id="null" />
 @endsection
