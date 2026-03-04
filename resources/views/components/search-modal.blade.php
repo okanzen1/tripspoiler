@@ -57,8 +57,13 @@
 
                 </svg>
 
-                <input x-ref="searchInput" x-model="query" @input.debounce.400ms="search" type="text"
-                    placeholder="Search cities, activities or stories..." class="w-full outline-none text-lg">
+                <input x-ref="searchInput"
+                x-model="query"
+                @input.debounce.400ms="search"
+                type="text"
+                placeholder="Search cities, activities or stories..."
+                class="w-full outline-none text-lg"
+                inputmode="search">
 
             </div>
 
@@ -216,9 +221,16 @@
                     openModal() {
 
                         this.open = true
+                        document.body.style.overflow = 'hidden'
 
                         this.$nextTick(() => {
-                            this.$refs.searchInput.focus()
+
+                            setTimeout(() => {
+
+                                this.$refs.searchInput.focus()
+
+                            }, 250)
+
                         })
 
                     },
@@ -229,6 +241,8 @@
                         this.query = ''
                         this.results = []
                         this.loading = false
+
+                        document.body.style.overflow = ''
 
                     },
 
