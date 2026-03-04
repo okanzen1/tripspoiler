@@ -57,51 +57,53 @@
             </p>
 
             {{-- CITY SELECT --}}
-            <div class="mt-10 max-w-sm">
+            <div class="mt-10 flex flex-col md:flex-row gap-6 md:items-end">
 
-                <label class="block text-sm font-semibold text-slate-800 mb-1">
-                    Viewing guides for
-                    <span id="currentCityLabel" class="text-[#C62E2E]">
-                        {{ $city->getTranslation('name', $locale) }}
-                    </span>
-                </label>
+                {{-- CITY FILTER --}}
+                <div class="max-w-sm w-full">
 
-                <p class="text-xs text-slate-500 mb-3">
-                    Change the city to explore another destination
-                </p>
+                    <label class="block text-sm font-semibold text-slate-800 mb-1">
+                        Viewing guides for
+                        <span id="currentCityLabel" class="text-[#C62E2E]">
+                            {{ $city->getTranslation('name', $locale) }}
+                        </span>
+                    </label>
 
-                <div class="relative group">
-                    <select id="cityFilter"
-                        class="w-full appearance-none
-                       bg-white
-                       border border-[#F3D6D1]
-                       rounded-full
-                       px-6 py-4 pr-14
-                       text-slate-900 text-base
-                       shadow-sm
-                       transition
-                       hover:shadow-md
-                       focus:outline-none
-                       focus:border-[#C62E2E]
-                       focus:ring-4 focus:ring-[#C62E2E]/15">
+                    <p class="text-xs text-slate-500 mb-3">
+                        Change the city to explore another destination
+                    </p>
 
-                        @foreach ($cities as $c)
-                            <option data-slug="{{ $c->getTranslation('slug', $locale) }}" @selected($c->id === $city->id)>
-                                {{ $c->getTranslation('name', $locale) }}
-                            </option>
-                        @endforeach
+                    <div class="relative group">
+                        <select id="cityFilter"
+                            class="w-full appearance-none
+                            bg-white border border-[#F3D6D1]
+                            rounded-full px-6 py-4 pr-14
+                            text-slate-900 text-base
+                            shadow-sm transition hover:shadow-md
+                            focus:outline-none
+                            focus:border-[#C62E2E]
+                            focus:ring-4 focus:ring-[#C62E2E]/15">
 
-                    </select>
+                            @foreach ($cities as $c)
+                                <option data-slug="{{ $c->getTranslation('slug', $locale) }}" @selected($c->id === $city->id)>
+                                    {{ $c->getTranslation('name', $locale) }}
+                                </option>
+                            @endforeach
 
-                    {{-- CHEVRON --}}
-                    <div
-                        class="pointer-events-none absolute inset-y-0 right-5
-                       flex items-center text-slate-400
-                       transition group-focus-within:text-[#C62E2E]">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M6 9l6 6 6-6" />
-                        </svg>
+                        </select>
+
+                        <div class="pointer-events-none absolute inset-y-0 right-5 flex items-center text-slate-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </div>
                     </div>
+
+                </div>
+
+                {{-- SEARCH --}}
+                <div class="flex-1 w-full">
+                    <x-search-modal full="true" />
                 </div>
 
             </div>

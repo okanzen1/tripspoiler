@@ -26,9 +26,9 @@
                 Try searching for a city, museum or activity instead.
             </p>
 
-            {{-- <div class="mt-8 max-w-xl mx-auto">
-                <x-search-box />
-            </div> --}}
+            <div class="mt-8 max-w-xl mx-auto">
+               <x-search-modal />
+            </div>
 
             <div class="mt-10 flex flex-wrap justify-center gap-4 text-sm font-medium">
                 <a href="{{ url('/') }}" class="px-5 py-3 rounded-2xl bg-white border">

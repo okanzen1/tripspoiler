@@ -1,29 +1,45 @@
+@props([
+    'full' => false, // Activities gibi sayfalarda genişletmek için
+])
+
 <div x-data="globalSearch()" x-init="init()" @keydown.escape.window="close()">
 
     {{-- SEARCH BAR --}}
     <div @click="openModal()"
-        class="mt-10 mx-auto max-w-xl flex items-center gap-3
+        class="mt-10 relative
         bg-white border border-[#F3D6D1]
         px-6 py-4 rounded-full shadow-sm hover:shadow-md
-        cursor-pointer transition">
+        cursor-pointer transition
+        {{ $full ? 'w-full' : 'mx-auto max-w-xl flex items-center gap-3' }}">
 
-       <svg xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5 text-slate-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round">
+        {{-- NORMAL (full değilken): solda svg + solda text --}}
+        @unless ($full)
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="M20 20l-3.5-3.5"></path>
+            </svg>
 
-            <circle cx="11" cy="11" r="7"></circle>
-            <path d="M20 20l-3.5-3.5"></path>
+            <span class="text-slate-500">
+                Search cities, countries or activities
+            </span>
+        @endunless
 
-        </svg>
+        {{-- FULL (Activities): ortada svg + text birlikte --}}
+        @if ($full)
+            <div class="flex items-center justify-center gap-3 w-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20l-3.5-3.5"></path>
+                </svg>
 
-        <span class="text-slate-500">
-            Search cities, countries or activities
-        </span>
+                <span class="text-slate-500">
+                    Search cities, countries or activities
+                </span>
+            </div>
+        @endif
 
     </div>
 
@@ -43,13 +59,8 @@
             {{-- INPUT --}}
             <div class="flex items-center gap-3 border border-slate-200 rounded-xl px-4 py-3">
 
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5 text-slate-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                     stroke-linejoin="round">
 
                     <circle cx="11" cy="11" r="7"></circle>
@@ -57,13 +68,9 @@
 
                 </svg>
 
-                <input x-ref="searchInput"
-                x-model="query"
-                @input.debounce.400ms="search"
-                type="text"
-                placeholder="Search cities, activities or stories..."
-                class="w-full outline-none text-lg"
-                inputmode="search">
+                <input x-ref="searchInput" x-model="query" @input.debounce.400ms="search" type="text"
+                    placeholder="Search cities, activities or stories..." class="w-full outline-none text-lg"
+                    inputmode="search">
 
             </div>
 
@@ -91,66 +98,51 @@
                                     class="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-[#FFF2F2] text-[#C62E2E]">
 
                                     {{-- CITY ICON --}}
-                                        <template x-if="item.type === 'city'">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-4 h-4"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="1.6"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round">
+                                    <template x-if="item.type === 'city'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="1.6"
+                                            stroke-linecap="round" stroke-linejoin="round">
 
-                                                <path d="M3 21h18"/>
-                                                <path d="M5 21V7l7-4 7 4v14"/>
-                                                <path d="M9 9h.01"/>
-                                                <path d="M15 9h.01"/>
-                                                <path d="M9 13h.01"/>
-                                                <path d="M15 13h.01"/>
+                                            <path d="M3 21h18" />
+                                            <path d="M5 21V7l7-4 7 4v14" />
+                                            <path d="M9 9h.01" />
+                                            <path d="M15 9h.01" />
+                                            <path d="M9 13h.01" />
+                                            <path d="M15 13h.01" />
 
-                                                </svg>
-                                        </template>
+                                        </svg>
+                                    </template>
                                     {{-- CITY ICON --}}
 
                                     {{-- ACTIVITY ICON --}}
-                                        <template x-if="item.type === 'activity'">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-4 h-4"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="1.6"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round">
+                                    <template x-if="item.type === 'activity'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="1.6"
+                                            stroke-linecap="round" stroke-linejoin="round">
 
-                                                <path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3
+                                            <path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3
                                                 a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5
-                                                a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V9z"/>
+                                                a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V9z" />
 
-                                                <path d="M12 7v10"/>
+                                            <path d="M12 7v10" />
 
-                                            </svg>
-                                        </template>
+                                        </svg>
+                                    </template>
                                     {{-- ACTIVITY ICON --}}
 
                                     {{-- BLOG ICON --}}
-                                        <template x-if="item.type === 'blog'">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-4 h-4"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="1.6"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round">
+                                    <template x-if="item.type === 'blog'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="1.6"
+                                            stroke-linecap="round" stroke-linejoin="round">
 
-                                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5V4.5A2.5 2.5 0 0 1 6.5 2z"/>
-                                                <path d="M8 7h8"/>
-                                                <path d="M8 11h8"/>
+                                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5V4.5A2.5 2.5 0 0 1 6.5 2z" />
+                                            <path d="M8 7h8" />
+                                            <path d="M8 11h8" />
 
-                                                </svg>
-                                        </template>
+                                        </svg>
+                                    </template>
                                     {{-- BLOG ICON --}}
 
                                 </div>
