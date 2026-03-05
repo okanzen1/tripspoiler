@@ -37,10 +37,12 @@ class BlogController extends Controller
     public function show(string $slug) 
     {
         $locale = app()->getLocale();
-
         $blog = Blog::query()
             ->where('status', true)
-            ->where("slug->{$locale}", $slug)
+            ->where(function ($q) use ($locale, $slug) {
+                $q->where("slug->{$locale}", $slug)
+                ->orWhere("slug->en", $slug);
+            })
             ->with([
                 'contents' => function ($q) {
                     $q->where('status', true)

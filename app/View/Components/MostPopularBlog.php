@@ -17,30 +17,50 @@ class MostPopularBlog extends Component
         $this->cityId = $cityId;
         $locale = app()->getLocale();
 
+        /*
+        |--------------------------------------------------------------------------
+        | City Name
+        |--------------------------------------------------------------------------
+        */
+
         if (!empty($this->cityId)) {
-            $city = City::find($this->cityId);
+
+            $city = City::select('id', 'name')
+                ->find($this->cityId);
 
             if ($city) {
+
                 $names = json_decode($city->getRawOriginal('name'), true);
-                $this->cityName = $names[$locale] ?? $names['en'] ?? null;
+
+                $this->cityName = $names[$locale]
+                    ?? $names['en']
+                    ?? null;
             }
         }
 
-        $query = Blog::where('status', true);
+        /*
+        |--------------------------------------------------------------------------
+        | Blogs
+        |--------------------------------------------------------------------------
+        */
+
+        $query = Blog::query()
+            ->where('status', true);
 
         if (!empty($this->cityId)) {
             $query->where('city_id', $this->cityId);
         }
 
         $this->blogs = $query
+            ->select('id', 'slug', 'title', 'excerpt')
             ->orderByDesc('click_count')
             ->limit(3)
             ->get()
             ->map(function ($row) use ($locale) {
 
-                $titles = json_decode($row->getRawOriginal('title'), true);
-                $slug = json_decode($row->getRawOriginal('slug'), true);
-                $excerpts = json_decode($row->getRawOriginal('excerpt'), true);
+                $titles = json_decode($row->getRawOriginal('title'), true) ?? [];
+                $slug = json_decode($row->getRawOriginal('slug'), true) ?? [];
+                $excerpts = json_decode($row->getRawOriginal('excerpt'), true) ?? [];
 
                 return [
                     'id' => $row->id,

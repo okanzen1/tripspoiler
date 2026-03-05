@@ -13,10 +13,9 @@ class CityController extends Controller
         $locale = app()->getLocale();
         $city = City::where('active', true)->select('id', 'slug')->firstOrFail();
 
-        return redirect()->route(
-            'cities.show',
-            $city->getTranslation('slug', $locale)
-        );
+        return redirect()->route('cities.show', [
+            'slug' => $city->getTranslation('slug', $locale)
+        ]);
     }
 
     public function show(string $slug)
@@ -24,13 +23,17 @@ class CityController extends Controller
         $locale = app()->getLocale();
 
         $city = City::where('active', true)
-            ->where("slug->{$locale}", $slug)
+            ->where(function ($q) use ($locale, $slug) {
+                $q->where("slug->{$locale}", $slug)
+                ->orWhere("slug->en", $slug);
+            })
             ->firstOrFail();
 
         $cities = City::where('active', true)
             ->select('id', 'name', 'slug')
             ->orderBy("name->{$locale}")
             ->get();
+
 
         $useCache = config('app.global_cache_enabled');
 

@@ -1,62 +1,146 @@
 <?php
 
-use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\NewsletterSubscribeController;
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\ImageController;
-use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\NewsletterSubscribeController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SitemapController;
+
+/*
+|--------------------------------------------------------------------------
+| Global Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
-// home page
-Route::get('/', [HomeController::class, 'index'])->name('home');
-// home page
 
-// activities page
-Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
-Route::get('/activities/{slug}', [ActivityController::class, 'show'])->name('activities.show');
-// activities page
+/*
+|--------------------------------------------------------------------------
+| Localized Routes
+|--------------------------------------------------------------------------
+*/
 
-// City Routes
-Route::get('/cities', [CityController::class, 'index'])
-    ->name('cities.index');
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [
+            'localeSessionRedirect',
+            'localizationRedirect',
+            'localeViewPath'
+        ]
+    ],
+    function () {
 
-Route::get('/cities/{slug}', [CityController::class, 'show'])
-    ->name('cities.show')
-    ->where('slug', '[-a-zA-Z0-9_]+');
-// City Routes
+        /*
+    |--------------------------------------------------------------------------
+    | Home
+    |--------------------------------------------------------------------------
+    */
 
-// Blog Routes
-Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
-Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show')->where(['slug' => '[-a-zA-Z0-9_]+']);
-// Blog Routes
+        Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Search Route
-    Route::get('/search', [SearchController::class, 'search'])->name('search')->middleware('throttle:30,1');
-// Search Route
 
-// Media Routes
-Route::get('/media/{image}', [ImageController::class, 'show'])->name('images.view');
-// Media Routes
+        /*
+    |--------------------------------------------------------------------------
+    | Activities
+    |--------------------------------------------------------------------------
+    */
 
-// Newsletter Subscription Route
-Route::post('/newsletter/subscribe', [NewsletterSubscribeController::class, 'store'])->name('newsletter.subscribe');
-// Newsletter Subscription Route
+        Route::prefix('activities')->name('activities.')->group(function () {
 
-// privacy Pages
-Route::view('/privacy', 'other.privacy');
-// privacy Pages
+            Route::get('/', [ActivityController::class, 'index'])->name('index');
 
-// about Pages
-Route::view('/about', 'other.about');
-// about Pages
+            Route::get('{slug}', [ActivityController::class, 'show'])
+                ->name('show')
+                ->where('slug', '[-a-zA-Z0-9_]+');
+        });
 
-// Contact Routes
-Route::view('/contact', 'other.contact')->name('contact');
-Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit')->middleware('throttle:5,1');
-// Contact Routes
+
+        /*
+    |--------------------------------------------------------------------------
+    | Cities
+    |--------------------------------------------------------------------------
+    */
+
+        Route::prefix('cities')->name('cities.')->group(function () {
+
+            Route::get('/', [CityController::class, 'index'])->name('index');
+
+            Route::get('{slug}', [CityController::class, 'show'])
+                ->name('show')
+                ->where('slug', '[-a-zA-Z0-9_]+');
+        });
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Blog
+    |--------------------------------------------------------------------------
+    */
+
+        Route::prefix('blog')->name('blog.')->group(function () {
+
+            Route::get('/', [BlogController::class, 'index'])->name('index');
+
+            Route::get('{slug}', [BlogController::class, 'show'])
+                ->name('show')
+                ->where('slug', '[-a-zA-Z0-9_]+');
+        });
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Search
+    |--------------------------------------------------------------------------
+    */
+
+        Route::get('/search', [SearchController::class, 'search'])
+            ->name('search')
+            ->middleware('throttle:30,1');
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Media
+    |--------------------------------------------------------------------------
+    */
+
+        Route::get('/media/{image}', [ImageController::class, 'show'])
+            ->name('images.view');
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Newsletter
+    |--------------------------------------------------------------------------
+    */
+
+        Route::post('/newsletter/subscribe', [NewsletterSubscribeController::class, 'store'])
+            ->name('newsletter.subscribe');
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Static Pages
+    |--------------------------------------------------------------------------
+    */
+
+        Route::view('/privacy', 'other.privacy')->name('privacy');
+
+        Route::view('/about', 'other.about')->name('about');
+
+        Route::view('/contact', 'other.contact')->name('contact');
+
+        Route::post('/contact', [ContactController::class, 'submit'])
+            ->name('contact.submit')
+            ->middleware('throttle:5,1');
+    }
+);

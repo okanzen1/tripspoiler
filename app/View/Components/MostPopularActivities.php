@@ -24,21 +24,22 @@ class MostPopularActivities extends Component
 
     public function activities()
     {
-        $cacheKey = "most_popular_activities_{$this->source}_" . ($this->sourceId ?? 'null');
-        
+        $locale = app()->getLocale();
+
+        $cacheKey = "most_popular_activities_{$locale}_{$this->source}_" . ($this->sourceId ?? 'null');
+
         return Cache::remember($cacheKey, now()->addMinutes(30), function () {
-            $locale = app()->getLocale();
+
             return Activity::query()
                 ->with([
-                    'images' => function ($q) {
-                        $q->orderBy('sort_order', 'asc')->limit(1);
-                    }
+                    'images' => fn($q) => $q->orderBy('sort_order')->limit(1)
                 ])
                 ->where('status', true)
                 ->where('most_popular', true)
-                ->orderBy('sort_order', 'asc')
+                ->orderBy('sort_order')
                 ->limit($this->limit)
                 ->get();
+
         });
     }
 
@@ -47,7 +48,7 @@ class MostPopularActivities extends Component
         $activities = $this->activities();
 
         if ($activities->isEmpty()) {
-            return null;
+            return '';
         }
 
         return view('components.most-popular-activities', [

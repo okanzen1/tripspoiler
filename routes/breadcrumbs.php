@@ -19,11 +19,14 @@ Breadcrumbs::for('activities.show', function (BreadcrumbTrail $trail, $activity)
 
     $trail->parent('activities.index');
 
+    $name = $activity->getTranslation('name', $locale)
+        ?? $activity->getTranslation('name', 'en');
+
+    $slug = $activity->getTranslation('slug', $locale)
+        ?? $activity->getTranslation('slug', 'en');
+
     $trail->push(
-        $activity->getTranslation('name', $locale),
-        route(
-            'activities.show',
-            $activity->getTranslation('slug', $locale)
-        )
+        $name,
+        route('activities.show', ['slug' => $slug])
     );
 });

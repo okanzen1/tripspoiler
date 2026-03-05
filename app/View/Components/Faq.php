@@ -30,7 +30,12 @@ class Faq extends Component
             return '';
         }
 
-        // FAQ Schema oluştur
+        /*
+        |--------------------------------------------------------------------------
+        | FAQ Schema
+        |--------------------------------------------------------------------------
+        */
+
         $faqSchema = [
             '@context' => 'https://schema.org',
             '@type' => 'FAQPage',
@@ -38,12 +43,19 @@ class Faq extends Component
         ];
 
         foreach ($faqs as $faq) {
+
+            $question = $faq->getTranslation('question', $locale)
+                ?? $faq->getTranslation('question', 'en');
+
+            $answer = $faq->getTranslation('answer', $locale)
+                ?? $faq->getTranslation('answer', 'en');
+
             $faqSchema['mainEntity'][] = [
                 '@type' => 'Question',
-                'name' => strip_tags($faq->getTranslation('question', $locale)),
+                'name' => strip_tags($question),
                 'acceptedAnswer' => [
                     '@type' => 'Answer',
-                    'text' => strip_tags($faq->getTranslation('answer', $locale)),
+                    'text' => strip_tags($answer),
                 ],
             ];
         }
