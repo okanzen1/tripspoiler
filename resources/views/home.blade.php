@@ -52,15 +52,19 @@
 
                 {{-- PRIMARY NAV --}}
                 <div class="flex items-center justify-center gap-10 text-sm font-medium text-slate-700">
-                    <a href="{{ url('/activities') }}" class="hover:text-[#C62E2E] transition">
+
+                    <a href="{{ url('/activities') }}" class="underline md:no-underline hover:text-[#C62E2E] transition">
                         Activities
                     </a>
-                    <a href="{{ url('/cities') }}" class="hover:text-[#C62E2E] transition">
+
+                    <a href="{{ url('/cities') }}" class="underline md:no-underline hover:text-[#C62E2E] transition">
                         Cities
                     </a>
-                    <a href="{{ url('/blog') }}" class="hover:text-[#C62E2E] transition">
+
+                    <a href="{{ url('/blog') }}" class="underline md:no-underline hover:text-[#C62E2E] transition">
                         Blog
                     </a>
+
                 </div>
 
                 {{-- DIVIDER --}}
