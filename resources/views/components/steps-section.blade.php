@@ -3,12 +3,11 @@
 
         <div class="text-center mb-15">
             <h2 class="text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight">
-                Plan with clarity. Travel with confidence.
+                {{ __('steps-section.title') }}
             </h2>
 
             <p class="mt-4 text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">
-                No chaos. No noise.
-                Just calm insight before you step into a new city.
+                {!! nl2br(__('steps-section.desc')) !!}
             </p>
         </div>
 
@@ -24,20 +23,20 @@
         [
             'icon' => 'eye',
             'step' => '01',
-            'title' => 'Feel the place before you arrive',
-            'text' => 'Discover what truly matters in a city. Honest context. Quiet depth. No empty hype.',
+            'title' => __('steps-section.step1_title'),
+            'text' => __('steps-section.step1_text'),
         ],
         [
             'icon' => 'compass',
             'step' => '02',
-            'title' => 'Choose with intention',
-            'text' => 'See what deserves your time. Know what to skip. Understand when fast access truly matters.',
+            'title' => __('steps-section.step2_title'),
+            'text' => __('steps-section.step2_text'),
         ],
         [
             'icon' => 'check',
             'step' => '03',
-            'title' => 'Arrive calm. Move with certainty.',
-            'text' => 'Travel knowing you made the right call. No doubt. No regret. Just presence.',
+            'title' => __('steps-section.step3_title'),
+            'text' => __('steps-section.step3_text'),
         ],
     ] as $item)
                 <div
@@ -71,7 +70,7 @@
                     </div>
 
                     <div class="text-xs tracking-widest uppercase text-slate-400">
-                        Step {{ $item['step'] }}
+                        {{ __('steps-section.step_label') }} {{ $item['step'] }}
                     </div>
 
                     <h3 class="text-lg font-medium text-slate-900">

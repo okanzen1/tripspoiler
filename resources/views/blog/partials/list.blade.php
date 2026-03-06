@@ -4,11 +4,11 @@
         @if(count($blogs) > 0)
 
             <h2 class="text-xl md:text-2xl font-bold text-slate-900">
-                Stories Beyond the Surface
+                {{ __('blog.section_title') }}
             </h2>
 
             <p class="text-slate-600 text-base md:text-lg max-w-2xl mb-8 mt-1">
-                Thoughtful stories and local insights to help you see the city beyond its landmarks.
+                {{ __('blog.section_description') }}
             </p>
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
@@ -66,7 +66,7 @@
                                             inline-flex items-center gap-1 
                                             group-hover:translate-x-1 
                                             transition duration-300">
-                                    Read story →
+                                    {{ __('blog.read_story') }}
                                 </span>
 
                             </div>

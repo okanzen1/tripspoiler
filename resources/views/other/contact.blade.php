@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Contact TripSpoiler')
-@section('meta_description', 'Get in touch with TripSpoiler for questions, feedback or collaboration.')
+@section('title', __('contact.meta_title'))
+@section('meta_description', __('contact.meta_description'))
 
 @section('content')
 
@@ -24,20 +24,18 @@
             <span
                 class="inline-block text-xs font-semibold tracking-wide uppercase
                    text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
-                Contact
+                {{ __('contact.hero_badge') }}
             </span>
 
             {{-- TITLE (FULL WIDTH) --}}
             <h1 class="mt-4 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-                Get in touch with
-                <span class="text-[#C62E2E]">the TripSpoiler team</span>
+                {{ __('contact.hero_title_1') }}
+                <span class="text-[#C62E2E]">{{ __('contact.hero_title_2') }}</span>
             </h1>
 
             {{-- DESCRIPTION (NO MAX-W, FULL WIDTH) --}}
             <p class="mt-5 text-slate-600 leading-relaxed text-base md:text-lg">
-                Questions, feedback or ideas to share? We’re always happy to hear from
-                travelers and curious minds interested in cities, museums, activities
-                and meaningful experiences.
+                {{ __('contact.hero_desc') }}
             </p>
 
         </div>
@@ -66,7 +64,7 @@
                 {{-- NAME --}}
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-1">
-                        Your name
+                        {{ __('contact.name_label') }}
                     </label>
                     <input type="text" name="name" required
                         class="w-full rounded-2xl border border-[#F3D6D1]
@@ -79,7 +77,7 @@
                 {{-- EMAIL --}}
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-1">
-                        Your email
+                        {{ __('contact.email_label') }}
                     </label>
                     <input type="email" name="email" required
                         class="w-full rounded-2xl border border-[#F3D6D1]
@@ -92,7 +90,7 @@
                 {{-- MESSAGE --}}
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-1">
-                        Message
+                        {{ __('contact.message_label') }}
                     </label>
                     <textarea name="message" rows="5" required
                         class="w-full rounded-2xl border border-[#F3D6D1]
@@ -110,13 +108,13 @@
                         px-8 py-3 rounded-full
                         transition
                         cursor-pointer">
-                    Send message
+                    {{ __('contact.submit_button') }}
                 </button>
 
             </form>
 
             <p class="text-sm text-slate-500 mt-6">
-                We usually reply within one or two business days.
+                {{ __('contact.reply_text') }}
             </p>
 
         </div>

@@ -1,10 +1,10 @@
 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6">
     <h3 class="text-lg font-semibold text-slate-900">
-        Don’t miss new posts
+        {{ __('newsletter-subscribe.title') }}
     </h3>
 
     <p class="text-sm text-slate-600 mt-2">
-        Get an occasional email when we publish new TripSpoiler articles.
+        {{ __('newsletter-subscribe.desc') }}
     </p>
 
     <form id="newsletter-form" class="mt-4 space-y-3">
@@ -13,14 +13,14 @@
         {{-- Honeypot --}}
         <input type="text" name="website" class="hidden">
 
-        <input type="email" name="email" placeholder="you@example.com" required
+        <input type="email" name="email" placeholder="{{ __('newsletter-subscribe.email_placeholder') }}" required
             class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-[#C62E2E]">
 
         <button type="submit" id="newsletter-btn"
             class="w-full bg-[#C62E2E] text-white rounded-xl py-2.5 font-semibold text-sm
                 hover:bg-red-700 transition
                 cursor-pointer">
-            Notify me about new posts
+            {{ __('newsletter-subscribe.button') }}
         </button>
 
         <div id="newsletter-message" class="hidden text-sm rounded-xl px-4 py-3"></div>
@@ -63,7 +63,7 @@
 
         } catch (error) {
             messageBox.textContent =
-                error.message || 'Something went wrong. Please try again.';
+                error.message || '{{ __('newsletter-subscribe.error') }}';
 
             messageBox.className =
                 'mt-2 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600';

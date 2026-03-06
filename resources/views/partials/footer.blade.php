@@ -8,18 +8,18 @@
             <div class="flex gap-4">
 
                 <a href="{{ url('/about') }}"
-                   class="{{ request()->is('about') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
-                    About
+                    class="{{ request()->is('about') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
+                    {{ __('footer.about') }}
                 </a>
 
                 <a href="{{ url('/contact') }}"
-                   class="{{ request()->is('contact') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
-                    Contact
+                    class="{{ request()->is('contact') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
+                    {{ __('footer.contact') }}
                 </a>
 
                 <a href="{{ url('/privacy') }}"
-                   class="{{ request()->is('privacy') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
-                    Privacy
+                    class="{{ request()->is('privacy') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
+                    {{ __('footer.privacy') }}
                 </a>
 
             </div>

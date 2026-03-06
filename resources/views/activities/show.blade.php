@@ -156,7 +156,7 @@
 
                 @if ($activity->audio_guide)
                     <span>
-                        🎧 {{ __('Audio Guide Included') }}
+                        🎧 {{ __('activities.audio_guide') }}
                     </span>
                 @endif
             </div>

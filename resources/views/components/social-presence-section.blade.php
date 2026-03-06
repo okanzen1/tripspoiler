@@ -1,7 +1,6 @@
 @props([
-    'title' => 'Follow the journey',
-    'text' =>
-        'Behind every guide is research, reflection and real exploration. Follow TripSpoiler for calm insights, curated moments and thoughtful travel inspiration.',
+    'title' => __('social-presence-section.title'),
+    'text' => __('social-presence-section.text'),
 ])
 
 <section class="relative bg-[#FFFAF9] py-20 md:py-28 overflow-hidden">
@@ -21,7 +20,7 @@
                 <span
                     class="inline-block text-xs font-semibold tracking-wide uppercase
                              text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
-                    Social presence
+                    {{ __('social-presence-section.badge') }}
                 </span>
 
                 <h2 class="mt-6 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
@@ -42,7 +41,7 @@
                               text-white font-semibold
                               transition-all duration-300 hover:scale-[1.02]">
 
-                        <span>Instagram</span>
+                        <span>{{ __('social-presence-section.instagram') }}</span>
                         <span class="opacity-80 group-hover:translate-x-1 transition">→</span>
                     </a>
 
@@ -53,7 +52,7 @@
                               bg-black text-white font-semibold
                               transition-all duration-300 hover:scale-[1.02]">
 
-                        <span>TikTok</span>
+                        <span>{{ __('social-presence-section.tiktok') }}</span>
                         <span class="opacity-80 group-hover:translate-x-1 transition">→</span>
                     </a>
 

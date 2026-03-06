@@ -51,13 +51,13 @@
             [
                 '@type' => 'ListItem',
                 'position' => 1,
-                'name' => 'Home',
+                'name' => __('blog.home'),
                 'item' => url('/')
             ],
             [
                 '@type' => 'ListItem',
                 'position' => 2,
-                'name' => 'Blog',
+                'name' => __('blog.blog'),
                 'item' => route('blog.index')
             ],
             [
@@ -139,7 +139,7 @@
 
                         <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank"
                             class="mt-6 inline-block bg-white text-slate-900 px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#C62E2E] hover:text-white transition">
-                            Explore this experience →
+                            {{ __('blog.explore_experience') }}
                         </a>
 
                     </div>
@@ -198,7 +198,7 @@
 
                                         <a href="{{ $activity->affiliate_link }}" target="_blank"
                                             class="mt-6 inline-block bg-white text-slate-900 px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#C62E2E] hover:text-white transition">
-                                            Explore this experience →
+                                            {{ __('blog.explore_experience') }}
                                         </a>
                                     </div>
                                 </div>
@@ -235,7 +235,7 @@
             @if ($blog->activities->count() === 1)
                 <div class="pr-3">
                     <div class="text-xs text-slate-500">
-                        Editor’s Pick
+                        {{ __('blog.editors_pick') }}
                     </div>
                     <div class="text-sm font-semibold text-slate-900 truncate max-w-[180px]">
                         {{ $blog->activities->first()->name }}
@@ -246,10 +246,10 @@
             @if ($blog->activities->count() > 1)
                 <div class="pr-3">
                     <div class="text-xs text-slate-500">
-                        Editor’s Picks
+                        {{ __('blog.editors_picks') }}
                     </div>
                     <div class="text-sm font-semibold text-slate-900 truncate max-w-[180px]">
-                        {{ $blog->activities->count() }} Experiences
+                        {{ $blog->activities->count() }} {{ __('blog.experiences') }}
                     </div>
                 </div>
             @endif
@@ -258,7 +258,7 @@
             <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank" @else <a
                     href="#activitiesSection" @endif
                     class="bg-[#C62E2E] text-white text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">
-                    View →
+                    {{ __('blog.view') }}
                 </a>
 
         </div>
@@ -283,7 +283,7 @@
 
                         <div>
                             <div class="text-xs text-slate-500 uppercase tracking-wide">
-                                Editor’s Pick
+                                {{ __('blog.editors_pick') }}
                             </div>
 
                             <div class="text-sm md:text-base font-semibold text-slate-900">
@@ -295,11 +295,11 @@
                     @if ($blog->activities->count() > 1)
                         <div>
                             <div class="text-xs text-slate-500 uppercase tracking-wide">
-                                Editor’s Picks
+                                {{ __('blog.editors_picks') }}
                             </div>
 
                             <div class="text-sm md:text-base font-semibold text-slate-900">
-                                {{ $blog->activities->count() }} Experiences
+                                {{ $blog->activities->count() }} {{ __('blog.experiences') }}
                             </div>
                         </div>
                     @endif
@@ -311,7 +311,7 @@
                 <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank" @else <a
                         href="#activitiesSection" @endif
                         class="bg-[#C62E2E] text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:opacity-90 transition">
-                        View →
+                        {{ __('blog.view') }}
                     </a>
 
             </div>

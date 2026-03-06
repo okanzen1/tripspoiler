@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Activities - TripSpoiler')
-@section('meta_description', 'Find the best activities, combo tours and city passes around the world.')
+@section('title', __('activities.index_meta_title'))
+@section('meta_description', __('activities.index_meta_description'))
 
 @section('content')
 
@@ -24,21 +24,20 @@
             <span
                 class="inline-block text-xs font-semibold tracking-wide uppercase
                    text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
-                Things to do & experiences
+                {{ __('activities-hero.eyebrow') }}
             </span>
 
             {{-- TITLE (FULL WIDTH) --}}
             <h1 class="mt-4 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-                Discover activities and experiences worth your time
+                {{ __('activities-hero.title') }}
                 <span id="currentCityName" class="text-[#C62E2E]">
-                    across {{ $currentCityName }}
+                    {{ __('activities-hero.across') }} {{ $currentCityName }}
                 </span>
             </h1>
+
             {{-- DESCRIPTION (FULL WIDTH, NO MAX-W) --}}
             <p class="mt-5 text-slate-600 leading-relaxed text-base md:text-lg">
-                Explore thoughtfully selected activities, guided tours, museum tickets and local
-                experiences across cities worldwide. TripSpoiler helps you see what truly matters,
-                so you can plan your trip with confidence.
+                {{ __('activities-hero.description') }}
             </p>
 
             <div class="mt-10 flex flex-col md:flex-row gap-6 md:items-end">
@@ -47,14 +46,14 @@
                 <div class="max-w-sm w-full">
 
                     <label class="block text-sm font-semibold text-slate-800 mb-1">
-                        Showing activities in
+                        {{ __('activities-hero.showing_in') }}
                         <span id="currentCityLabel" class="text-[#C62E2E]">
-                            {{ $currentCityName ?? 'this city' }}
+                            {{ $currentCityName ?? __('activities-hero.this_city') }}
                         </span>
                     </label>
 
                     <p class="text-xs text-slate-500 mb-3">
-                        Change the city to explore activities elsewhere
+                        {{ __('activities-hero.change_city_hint') }}
                     </p>
 
                     <div class="relative group">
@@ -115,7 +114,7 @@
 
             // Update hero text
             if (cityNameEl) {
-                cityNameEl.textContent = 'across ' + cityName;
+                cityNameEl.textContent = "{{ __('activities.across') }} " + cityName;
             }
 
             if (cityLabelEl) {

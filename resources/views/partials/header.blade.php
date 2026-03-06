@@ -13,31 +13,31 @@
 
             <a href="{{ route('home') }}"
                class="{{ request()->routeIs('home') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
-                Home
+                {{ __('navbar.home') }}
             </a>
 
             <a href="{{ route('activities.index') }}"
                class="{{ request()->routeIs('activities.*') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
-                Activities
+                {{ __('navbar.activities') }}
             </a>
 
             <a href="{{ route('cities.index') }}"
                class="{{ request()->routeIs('cities.*') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
-                Cities
+                {{ __('navbar.cities') }}
             </a>
 
             <a href="{{ route('blog.index') }}"
                class="{{ request()->routeIs('blog.*') ? 'text-[#C62E2E]' : 'hover:text-[#C62E2E]' }}">
-                Blog
+                {{ __('navbar.blog') }}
             </a>
 
             {{-- LANGUAGE SWITCHER --}}
-            {{-- <div class="relative">
+            <div class="relative">
                 <input id="langToggle" type="checkbox" class="peer hidden">
 
                 <label for="langToggle"
                        class="cursor-pointer flex items-center gap-1 hover:text-[#C62E2E] select-none">
-                    {{ strtoupper(app()->getLocale()) }}
+                    {{ LaravelLocalization::getCurrentLocaleNative() }}
 
                     <svg class="w-3 h-3 mt-[1px]" fill="none" stroke="currentColor" stroke-width="2"
                          viewBox="0 0 24 24">
@@ -66,7 +66,7 @@
 
                 </div>
 
-            </div> --}}
+            </div>
 
         </nav>
 

@@ -22,7 +22,7 @@
         </a>
 
         {{-- LANGUAGE --}}
-        {{-- <div class="mt-4 pt-4 border-t border-slate-200">
+        <div class="mt-4 pt-4 border-t border-slate-200">
 
             <p class="text-xs font-semibold text-slate-400 uppercase mb-2">
                 Language
@@ -46,7 +46,7 @@
 
             </div>
 
-        </div> --}}
+        </div>
 
     </nav>
 </div>

@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Page not found – TripSpoiler')
-@section('meta_description',
-    'The page you’re looking for doesn’t exist. Discover cities, museums and travel tips on
-    TripSpoiler.')
+@section('title', __('error.title'))
+@section('meta_description', __('error.meta_description'))
 
 @section('content')
 
@@ -14,16 +12,15 @@
                 class="mx-auto h-48 md:h-48 mb-6 drop-shadow-md logo-swing" />
 
             <span class="text-sm font-semibold text-[#C62E2E] tracking-wide uppercase">
-                Oops, wrong turn
+                {{ __('error.eyebrow') }}
             </span>
 
             <h1 class="mt-4 text-3xl md:text-5xl font-bold text-slate-900">
-                We couldn’t find that page
+                {{ __('error.heading') }}
             </h1>
 
             <p class="mt-4 text-slate-600 max-w-xl mx-auto leading-relaxed">
-                The link might be broken or the page may have been removed.
-                Try searching for a city, museum or activity instead.
+                {{ __('error.desc') }}
             </p>
 
             <div class="mt-8 max-w-xl mx-auto">
@@ -32,23 +29,19 @@
 
             <div class="mt-10 flex flex-wrap justify-center gap-4 text-sm font-medium">
                 <a href="{{ url('/') }}" class="px-5 py-3 rounded-2xl bg-white border">
-                    Go to Home
+                    {{ __('error.home') }}
                 </a>
 
                 <a href="{{ url('/cities') }}" class="px-5 py-3 rounded-2xl bg-white border">
-                    Browse Cities
+                    {{ __('error.cities') }}
                 </a>
 
-                {{-- <a href="{{ url('/museums') }}" class="px-5 py-3 rounded-2xl bg-white border">
-                    Explore Museums
-                </a> --}}
-
                 <a href="{{ url('/activities') }}" class="px-5 py-3 rounded-2xl bg-white border">
-                    Discover Activities
+                    {{ __('error.activities') }}
                 </a>
 
                 <a href="{{ url('/blog') }}" class="px-5 py-3 rounded-2xl bg-white border">
-                    Read the Blog
+                    {{ __('error.blog') }}
                 </a>
             </div>
 

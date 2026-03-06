@@ -11,22 +11,20 @@
             <div>
 
                 <span class="text-xs font-semibold tracking-widest uppercase text-[#C62E2E]">
-                    What is TripSpoiler
+                    {{ __('tripspoiler-intro.eyebrow') }}
                 </span>
 
                 <h2 class="mt-4 text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
-                    Travel deeper. <br>
-                    Not just further.
+                    {{ __('tripspoiler-intro.title_line1') }} <br>
+                    {{ __('tripspoiler-intro.title_line2') }}
                 </h2>
 
                 <p class="mt-6 text-lg text-slate-600 leading-relaxed">
-                    TripSpoiler is built for travelers who want to understand a city before they arrive.
+                    {{ __('tripspoiler-intro.p1') }}
                 </p>
 
                 <p class="mt-4 text-slate-600 leading-relaxed">
-                    We share thoughtful guides, museum insights and meaningful experiences that help you see a place
-                    with clarity.
-                    Instead of overwhelming lists, we focus on what truly makes a city memorable.
+                    {{ __('tripspoiler-intro.p2') }}
                 </p>
 
                 <div class="mt-8 flex flex-wrap gap-4">
@@ -34,13 +32,13 @@
                     <a href="{{ url('/cities') }}"
                         class="px-6 py-3 bg-[#C62E2E] text-white rounded-xl font-semibold
                               hover:bg-[#B91C1C] transition">
-                        Explore Cities
+                        {{ __('tripspoiler-intro.explore_cities') }}
                     </a>
 
                     <a href="{{ url('/activities') }}"
                         class="px-6 py-3 border border-slate-200 rounded-xl font-semibold
                               hover:border-[#C62E2E] hover:text-[#C62E2E] transition">
-                        Discover Activities
+                        {{ __('tripspoiler-intro.discover_activities') }}
                     </a>
 
                 </div>
@@ -51,30 +49,30 @@
             <div class="grid grid-cols-2 gap-4">
 
                 <div class="bg-[#FFF5F3] p-6 rounded-2xl shadow-sm">
-                    <div class="text-3xl font-bold text-[#C62E2E]">Cities</div>
+                    <div class="text-3xl font-bold text-[#C62E2E]">{{ __('tripspoiler-intro.cities') }}</div>
                     <p class="text-sm text-slate-600 mt-2">
-                        Curated city guides for curious travelers.
+                        {{ __('tripspoiler-intro.cities_desc') }}
                     </p>
                 </div>
 
                 <div class="bg-[#FFF5F3] p-6 rounded-2xl shadow-sm">
-                    <div class="text-3xl font-bold text-[#C62E2E]">Museums</div>
+                    <div class="text-3xl font-bold text-[#C62E2E]">{{ __('tripspoiler-intro.museums') }}</div>
                     <p class="text-sm text-slate-600 mt-2">
-                        Discover museums with context and meaning.
+                        {{ __('tripspoiler-intro.museums_desc') }}
                     </p>
                 </div>
 
                 <div class="bg-[#FFF5F3] p-6 rounded-2xl shadow-sm">
-                    <div class="text-3xl font-bold text-[#C62E2E]">Experiences</div>
+                    <div class="text-3xl font-bold text-[#C62E2E]">{{ __('tripspoiler-intro.experiences') }}</div>
                     <p class="text-sm text-slate-600 mt-2">
-                        Carefully selected activities worth your time.
+                        {{ __('tripspoiler-intro.experiences_desc') }}
                     </p>
                 </div>
 
                 <div class="bg-[#FFF5F3] p-6 rounded-2xl shadow-sm">
-                    <div class="text-3xl font-bold text-[#C62E2E]">Stories</div>
+                    <div class="text-3xl font-bold text-[#C62E2E]">{{ __('tripspoiler-intro.stories') }}</div>
                     <p class="text-sm text-slate-600 mt-2">
-                        Thoughtful reads for mindful travelers.
+                        {{ __('tripspoiler-intro.stories_desc') }}
                     </p>
                 </div>
 

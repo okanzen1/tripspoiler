@@ -8,11 +8,11 @@
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
             <div class="max-w-2xl">
                 <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
-                    Most Visited Activities
-                    <span class="text-[#C62E2E]">on TripSpoiler</span>
+                    {{ __('most-popular-activities.title_prefix') }}
+                    <span class="text-[#C62E2E]">{{ __('most-popular-activities.title_highlight') }}</span>
                 </h2>
                 <p class="text-slate-600 mt-3 text-lg">
-                    A quick look at the activities travellers keep coming back to.
+                    {{ __('most-popular-activities.desc') }}
                 </p>
             </div>
 
@@ -48,7 +48,7 @@
 
                                 {{-- IMAGE --}}
                                 <img src="{{ asset('images/all-activities-cover.png') }}"
-                                    alt="Explore All Activities"
+                                    alt="{{ __('most-popular-activities.cover_title') }}"
                                     class="w-full h-full object-cover
                                         transition duration-700 group-hover:scale-105">
 
@@ -64,14 +64,14 @@
                                 <div class="absolute inset-0 flex flex-col justify-end p-6">
 
                                     <h3 class="text-xl font-semibold text-white leading-snug">
-                                        Explore All Activities
+                                        {{ __('most-popular-activities.cover_title') }}
                                     </h3>
 
                                     <span class="mt-3 text-sm font-medium text-white/90 
                                                 inline-flex items-center gap-1 
                                                 group-hover:translate-x-1 
                                                 transition duration-300">
-                                        View all activities →
+                                        {{ __('most-popular-activities.cover_cta') }}
                                     </span>
 
                                 </div>
@@ -124,11 +124,11 @@
                                     {{-- CATEGORY --}}
                                     <span class="text-xs text-white/80 mb-2 tracking-wide">
                                         {{ $type === 'pass'
-                                            ? 'City Pass'
+                                            ? __('most-popular-activities.category_pass')
                                             : ($type === 'product'
-                                                ? 'Experience'
+                                                ? __('most-popular-activities.category_product')
                                                 : ($type === 'package'
-                                                    ? 'Package'
+                                                    ? __('most-popular-activities.category_package')
                                                     : ucfirst($type))) }}
                                     </span>
 
@@ -142,7 +142,7 @@
                                                 inline-flex items-center gap-1 
                                                 group-hover:translate-x-1 
                                                 transition duration-300">
-                                        View details →
+                                        {{ __('most-popular-activities.cta') }}
                                     </span>
 
                                 </div>

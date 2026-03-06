@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Travel Blog & Guides - TripSpoiler')
+@section('title', __('blog.index_meta_title'))
+@section('meta_description', __('blog.index_meta_description'))
 
 @section('content')
     {{-- BLOG HERO — FULL WIDTH, LEFT ALIGNED --}}
@@ -11,8 +12,8 @@
         <div class="absolute inset-0 pointer-events-none">
             <div
                 class="absolute -top-32 left-0
-                   w-[520px] h-[520px]
-                   bg-[#C62E2E]/10 rounded-full blur-[160px]">
+                w-[520px] h-[520px]
+                bg-[#C62E2E]/10 rounded-full blur-[160px]">
             </div>
         </div>
 
@@ -21,22 +22,21 @@
             {{-- EYEBROW --}}
             <span
                 class="inline-block text-xs font-semibold tracking-wide uppercase
-                   text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
-                Travel stories & inspiration
+                text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
+                {{ __('blog-hero.eyebrow') }}
             </span>
 
             {{-- TITLE --}}
             <h1 class="mt-4 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-                Travel stories and guides
+                {{ __('blog-hero.title') }}
                 <span id="currentCityName" class="text-[#C62E2E]">
-                    from {{ $currentCityName }}
+                    {{ __('blog-hero.from') }} {{ $currentCityName }}
                 </span>
             </h1>
 
             {{-- DESCRIPTION --}}
             <p class="mt-5 text-slate-600 leading-relaxed text-base md:text-lg">
-                Thoughtfully written blog posts with real travel tips, local context and
-                honest experiences to help you plan smarter trips.
+                {{ __('blog-hero.description') }}
             </p>
 
             {{-- CITY SELECT --}}
@@ -46,14 +46,14 @@
                 <div class="max-w-sm w-full">
 
                     <label class="block text-sm font-semibold text-slate-800 mb-1">
-                        Showing blog posts from
+                        {{ __('blog-hero.showing_from') }}
                         <span id="currentCityLabel" class="text-[#C62E2E]">
                             {{ $currentCityName }}
                         </span>
                     </label>
 
                     <p class="text-xs text-slate-500 mb-3">
-                        Change the city to explore stories from another destination
+                        {{ __('blog-hero.change_city_hint') }}
                     </p>
 
                     <div class="relative group">

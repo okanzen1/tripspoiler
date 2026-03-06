@@ -1,4 +1,4 @@
 @include('errors.error', [
     'code' => 500,
-    'message' => 'Something went wrong. Please try again later.'
+    'message' => __('error.code500')
 ])

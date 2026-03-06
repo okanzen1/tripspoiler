@@ -2,11 +2,11 @@
     <div class="max-w-4xl mx-auto px-4">
 
         <h2 class="text-2xl md:text-3xl font-bold text-slate-900 text-center">
-            Frequently asked questions
+            {{ __('faq.title') }}
         </h2>
 
         <p class="text-slate-600 text-center mt-2 max-w-2xl mx-auto">
-            Questions people often have about this experience
+            {{ __('faq.desc') }}
         </p>
 
         <div class="mt-10 space-y-4">

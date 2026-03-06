@@ -14,11 +14,11 @@
         
         {{-- TITLE --}}
         <h2 class="text-xl md:text-2xl font-bold text-slate-900">
-            Experience the city more deeply
+            {{ __('activities.section_title') }}
         </h2>
 
         <p class="text-slate-600 text-base md:text-lg max-w-2xl mb-6 mt-1">
-            Carefully chosen experiences and passes to help you explore beyond the surface.
+            {{ __('activities.section_description') }}
         </p>
 
         {{-- FILTER BAR --}}
@@ -29,7 +29,7 @@
                     'bg-[#C62E2E] text-white' :
                     'bg-white text-slate-700 hover:bg-slate-100'"
                 class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-sm">
-                All
+                {{ __('activities.filter_all') }}
             </button>
 
             @foreach ($types as $type)
@@ -40,11 +40,11 @@
                     class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-sm">
 
                     {{ $type === 'pass'
-                        ? 'City Pass'
+                        ? __('activities.type_pass')
                         : ($type === 'product'
-                            ? 'Experiences'
+                            ? __('activities.type_product')
                             : ($type === 'package'
-                                ? 'Combos'
+                                ? __('activities.type_package')
                                 : ucfirst($type))) }}
 
                 </button>
@@ -103,11 +103,11 @@
                                 {{-- CATEGORY --}}
                                 <span class="text-xs text-white/80 mb-2 tracking-wide">
                                     {{ $type === 'pass'
-                                        ? 'City Pass'
+                                        ? __('activities.category_pass')
                                         : ($type === 'product'
-                                            ? 'Experience'
+                                            ? __('activities.category_product')
                                             : ($type === 'package'
-                                                ? 'Package'
+                                                ? __('activities.category_package')
                                                 : ucfirst($type))) }}
                                 </span>
 
@@ -121,7 +121,7 @@
                                             inline-flex items-center gap-1 
                                             group-hover:translate-x-1 
                                             transition duration-300">
-                                    View details →
+                                    {{ __('activities.view_details') }}
                                 </span>
 
                             </div>
@@ -135,7 +135,7 @@
         </div>
 
         <div class="pt-20">
-            <x-most-popular-blog source="home" :source-id="null"  :city-id="$cityId"  />
+            <x-most-popular-blog source="home" :source-id="null" :city-id="$cityId" />
         </div>
 
     </div>

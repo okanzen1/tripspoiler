@@ -2,16 +2,13 @@
 
 @section('title',
     $pageContent?->getTranslation('meta_title', $locale) ??
-    $city->getTranslation('name', $locale) .
-    '
-    City Guide - TripSpoiler')
+    $city->getTranslation('name', $locale) . ' ' . __('cities.title_suffix')
+)
 
 @section('meta_description',
     $pageContent?->getTranslation('meta_description', $locale) ??
-    'Meaningful, calm and curated
-    city guides for ' .
-    $city->getTranslation('name', $locale) .
-    '.')
+    __('cities.meta_description_prefix') . ' ' . $city->getTranslation('name', $locale) . '.'
+)
 
     @push('styles')
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
@@ -37,23 +34,21 @@
             <span
                 class="inline-block text-xs font-semibold tracking-wide uppercase
                text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
-                City Guides
+                {{ __('cities-hero.eyebrow') }}
             </span>
 
             {{-- TITLE --}}
             <h1 class="mt-4 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-                Get to know
+                {{ __('cities-hero.title_prefix') }}
                 <span id="currentCityName" class="text-[#C62E2E]">
                     {{ $city->getTranslation('name', $locale) }}
                 </span>
-                before you go
+                {{ __('cities-hero.title_suffix') }}
             </h1>
 
             {{-- DESCRIPTION --}}
             <p class="mt-5 text-slate-600 leading-relaxed text-base md:text-lg">
-                Thoughtful guides to museums, neighbourhoods and calm experiences.
-                TripSpoiler helps you understand a city beyond the highlights,
-                so you arrive feeling prepared and confident.
+                {{ __('cities-hero.description') }}
             </p>
 
             {{-- CITY SELECT --}}
@@ -63,14 +58,14 @@
                 <div class="max-w-sm w-full">
 
                     <label class="block text-sm font-semibold text-slate-800 mb-1">
-                        Viewing guides for
+                        {{ __('cities-hero.filter_label_prefix') }}
                         <span id="currentCityLabel" class="text-[#C62E2E]">
                             {{ $city->getTranslation('name', $locale) }}
                         </span>
                     </label>
 
                     <p class="text-xs text-slate-500 mb-3">
-                        Change the city to explore another destination
+                        {{ __('cities-hero.filter_description') }}
                     </p>
 
                     <div class="relative group">
@@ -127,12 +122,12 @@
 
                             <div class="mb-3">
                                 <span class="text-[11px] tracking-[0.25em] text-gray-500 uppercase">
-                                    Overview
+                                   {{ __('cities.overview_label') }}
                                 </span>
                             </div>
 
                             <h2 class="text-4xl md:text-5xl font-serif text-gray-900 leading-[1.1] mb-6">
-                                {{ $city->getTranslation('name', $locale) }}, Defined
+                                {{ $city->getTranslation('name',$locale) }}{{ __('cities.overview_title_suffix') }}
                             </h2>
 
                             <div
@@ -158,20 +153,20 @@
                             <!-- Label -->
                             <div class="mb-4">
                                 <span class="text-[11px] tracking-[0.25em] text-gray-500 uppercase">
-                                    History & Identity
+                                    {{ __('cities.history_label') }}
                                 </span>
                             </div>
 
                             <!-- Heading -->
                             <h2 class="text-4xl md:text-5xl font-serif text-gray-900 leading-[1.1] mb-12">
-                                The Story of {{ $city->getTranslation('name', $locale) }}
+                                {{ __('cities.history_title_prefix') }} {{ $city->getTranslation('name',$locale) }}
                             </h2>
 
                             @if ($city->slug == 'istanbul')
                                 <!-- TOP IMAGE -->
                                 <div class="mb-16 overflow-hidden rounded-3xl shadow-[0_30px_80px_rgba(0,0,0,0.18)]">
                                     <img src="{{ asset('images/cities/istanbul-history.png') }}"
-                                        alt="{{ $city->getTranslation('name', $locale) }} skyline"
+                                       alt="{{ $city->getTranslation('name',$locale) }} {{ __('cities.skyline_suffix') }}"
                                         class="w-full h-[380px] md:h-[520px] object-cover">
                                 </div>
                             @endif
@@ -199,14 +194,12 @@
 
                                             <div class="border-l-4 border-[#C62E2E] pl-6">
                                                 <p class="text-lg text-gray-900 font-serif leading-snug">
-                                                    A city shaped by empires, faith, trade, and transformation.
+                                                    {{ __('cities.history_quote') }}
                                                 </p>
                                             </div>
 
                                             <div class="text-gray-600 text-[15px] leading-relaxed">
-                                                Every district carries a distinct rhythm.
-                                                Architecture, memory, and daily life blend into a layered identity
-                                                that continues to evolve.
+                                                {{ __('cities.history_text') }}
                                             </div>
 
                                             <!-- CTA BUTTON (SİYAH ALANIN YERİ) -->
@@ -222,7 +215,7 @@
                                                         hover:bg-[#a82222]
                                                         transition duration-300">
 
-                                                    Explore {{ $city->getTranslation('name', $locale) }} Stories
+                                                   {{ __('cities.history_cta',['city'=>$city->getTranslation('name',$locale)]) }}
                                                     <span>→</span>
                                                 </a>
                                             </div>
@@ -245,11 +238,11 @@
                             <!-- Header -->
                             <div class="mb-20 text-center">
                                 <span class="text-[11px] tracking-[0.3em] text-gray-500 uppercase">
-                                    Iconic Landmarks
+                                    {{ __('cities.landmarks_label') }}
                                 </span>
 
                                 <h2 class="mt-6 text-4xl md:text-5xl font-serif text-gray-900 leading-[1.05]">
-                                    The architecture that shapes
+                                    {{ __('cities.landmarks_title_prefix') }}
                                     <span class="text-[#C62E2E]">
                                         {{ $city->getTranslation('name', $locale) }}
                                     </span>
@@ -278,7 +271,7 @@
 
                                     <div class="border-l-4 border-[#C62E2E] pl-6 mb-8">
                                         <p class="text-xl font-serif text-gray-900 leading-snug">
-                                            Cities become unforgettable through their monuments.
+                                            {{ __('cities.landmarks_quote') }}
                                         </p>
                                     </div>
 
@@ -304,8 +297,6 @@
             @endif
         @endforeach
     @endif
-
-
 
     @php
         $html = $pageContent?->getTranslation('content', $locale);
@@ -343,7 +334,7 @@
                             <button @click="expanded = !expanded"
                                 class="inline-flex items-center gap-2 text-sm font-semibold text-[#C62E2E] hover:text-[#a02020] transition-colors duration-200">
 
-                                <span x-text="expanded ? '{{ __('See less') }}' : '{{ __('See more') }}'"></span>
+                                <span x-text="expanded ? '{{ __('cities.see_less') }}' : '{{ __('cities.see_more') }}'"></span>
 
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                     class="w-4 h-4 transition-transform duration-500 ease-in-out"
@@ -369,7 +360,7 @@
 
                 <div class="flex items-center justify-between mb-10">
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
-                        Moments from {{ $city->getTranslation('name', $locale) }}
+                        {{ __('cities.gallery_title_prefix') }} {{ $city->getTranslation('name',$locale) }}
                     </h2>
 
                     <div class="hidden md:flex gap-3">

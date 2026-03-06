@@ -1,10 +1,10 @@
 @props([
     'image' => 'images/tripspoiler-statement.png',
-    'alt' => 'TripSpoiler city visual',
-    'eyebrow' => 'Travel with clarity',
-    'title' => 'Travel begins long before the journey',
-    'text' => 'Discover cities with context. Choose experiences with intention. Arrive prepared and present.',
-    'buttonText' => 'Explore cities',
+    'alt' => __('city-entry-section.alt'),
+    'eyebrow' => __('city-entry-section.eyebrow'),
+    'title' => __('city-entry-section.title'),
+    'text' => __('city-entry-section.text'),
+    'buttonText' => __('city-entry-section.button'),
     'buttonUrl' => '/cities',
 ])
 

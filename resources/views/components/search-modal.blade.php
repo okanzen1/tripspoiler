@@ -21,7 +21,7 @@
             </svg>
 
             <span class="text-slate-500">
-                Search cities, countries or activities
+                {{ __('search-modal.placeholder_bar') }}
             </span>
         @endunless
 
@@ -36,7 +36,7 @@
                 </svg>
 
                 <span class="text-slate-500">
-                    Search cities, countries or activities
+                    {{ __('search-modal.placeholder_bar') }}
                 </span>
             </div>
         @endif
@@ -69,7 +69,7 @@
                 </svg>
 
                 <input x-ref="searchInput" x-model="query" @input.debounce.400ms="search" type="text"
-                    placeholder="Search cities, activities or stories..." class="w-full outline-none text-lg"
+                    placeholder="{{ __('search-modal.placeholder_input') }}" class="w-full outline-none text-lg"
                     inputmode="search">
 
             </div>
@@ -80,7 +80,7 @@
 
                 <template x-if="loading">
                     <div class="text-sm text-slate-400">
-                        Searching...
+                        {{ __('search-modal.searching') }}
                     </div>
                 </template>
 
@@ -170,7 +170,7 @@
                 <template x-if="!loading && query.length >= 3 && results.length === 0">
 
                     <div class="text-sm text-slate-400 py-4">
-                        No results found
+                        {{ __('search-modal.no_results') }}
                     </div>
 
                 </template>
@@ -179,7 +179,7 @@
                 <template x-if="query.length < 3">
 
                     <div class="text-xs text-slate-400 py-4">
-                        Type at least 3 characters
+                        {{ __('search-modal.min_chars') }}
                     </div>
 
                 </template>

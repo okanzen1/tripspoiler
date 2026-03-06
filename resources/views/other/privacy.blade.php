@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Privacy Policy - TripSpoiler')
-@section('meta_description', 'Learn how TripSpoiler handles personal data, cookies and analytics.')
+@section('title', __('privacy.meta_title'))
+@section('meta_description', __('privacy.meta_description'))
 
 @section('content')
 
@@ -24,20 +24,18 @@
             <span
                 class="inline-block text-xs font-semibold tracking-wide uppercase
                    text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
-                Privacy Policy
+                {{ __('privacy.hero_badge') }}
             </span>
 
             {{-- TITLE (FULL WIDTH) --}}
             <h1 class="mt-4 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-                Your privacy
-                <span class="text-[#C62E2E]">matters to us</span>
+                {{ __('privacy.hero_title_1') }}
+                <span class="text-[#C62E2E]">{{ __('privacy.hero_title_2') }}</span>
             </h1>
 
             {{-- DESCRIPTION (NO MAX-W, FULL WIDTH) --}}
             <p class="mt-5 text-slate-600 leading-relaxed text-base md:text-lg">
-                This page explains how TripSpoiler collects and uses information
-                when you browse our website, and how we approach data protection
-                with transparency and care.
+                {{ __('privacy.hero_desc') }}
             </p>
 
         </div>
@@ -48,96 +46,87 @@
 
 
             <h2 class="font-semibold text-slate-900 text-lg">
-                1. About TripSpoiler
+                {{ __('privacy.section1_title') }}
             </h2>
 
             <p>
-                TripSpoiler is a travel discovery website that provides guides about
-                museums, attractions, activities and city experiences around the world.
+                {{ __('privacy.section1_text') }}
             </p>
 
 
 
             <h2 class="font-semibold text-slate-900 text-lg">
-                2. Information we collect
+                {{ __('privacy.section2_title') }}
             </h2>
 
             <p>
-                We do not ask visitors to create accounts or submit personal details.
-                However, like most websites, we may collect anonymous usage data such as:
+                {{ __('privacy.section2_text') }}
             </p>
 
             <ul class="list-disc pl-6 space-y-2">
-                <li>pages viewed</li>
-                <li>time spent on the site</li>
-                <li>device and browser type</li>
-                <li>approximate location (country level)</li>
+                <li>{{ __('privacy.list_1') }}</li>
+                <li>{{ __('privacy.list_2') }}</li>
+                <li>{{ __('privacy.list_3') }}</li>
+                <li>{{ __('privacy.list_4') }}</li>
             </ul>
 
             <p>
-                This information helps us understand how people use the site so we
-                can improve content and user experience.
+                {{ __('privacy.section2_text2') }}
             </p>
 
 
 
             <h2 class="font-semibold text-slate-900 text-lg">
-                3. Cookies & Analytics
+                {{ __('privacy.section3_title') }}
             </h2>
 
             <p>
-                We may use cookies and analytics tools to better understand website traffic.
-                These cookies do not personally identify you.
+                {{ __('privacy.section3_text') }}
             </p>
 
 
 
             <h2 class="font-semibold text-slate-900 text-lg">
-                4. External links
+                {{ __('privacy.section4_title') }}
             </h2>
 
             <p>
-                TripSpoiler may include links to third-party websites.
-                We are not responsible for the privacy practices of external platforms.
-                We recommend reviewing their policies when visiting them.
+                {{ __('privacy.section4_text') }}
             </p>
 
 
 
             <h2 class="font-semibold text-slate-900 text-lg">
-                5. Data security
+                {{ __('privacy.section5_title') }}
             </h2>
 
             <p>
-                We do not sell or trade user data.
-                Any analytics data is stored securely by trusted providers.
+                {{ __('privacy.section5_text') }}
             </p>
 
 
 
             <h2 class="font-semibold text-slate-900 text-lg">
-                6. Changes to this policy
+                {{ __('privacy.section6_title') }}
             </h2>
 
             <p>
-                This page may be updated in the future to reflect improvements
-                or legal requirements.
+                {{ __('privacy.section6_text') }}
             </p>
 
 
 
             <h2 class="font-semibold text-slate-900 text-lg">
-                7. Contact
+                {{ __('privacy.section7_title') }}
             </h2>
 
             <p>
-                If you have questions about this policy,
-                you can contact us at:
+                {{ __('privacy.section7_text') }}
             </p>
 
             <p class="font-medium">
                 <a href="{{ url('/contact') }}" class="text-[#C62E2E] hover:underline">
-                    Contact page →
+                    {{ __('privacy.contact_link') }}
                 </a>
             </p>
 

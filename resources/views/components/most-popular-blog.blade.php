@@ -12,19 +12,19 @@
 
                 @if ($cityName)
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
-                        <span class="text-[#C62E2E]">{{ $cityName }}</span>, thoughtfully explored
+                        <span class="text-[#C62E2E]">{{ $cityName }}</span>{{ __('most-popular-blog.city_title_suffix') }}
                     </h2>
 
                     <p class="text-slate-600 mt-3 text-lg">
-                        A curated collection of our most meaningful reads for travelers who prefer depth over noise.
+                        {{ __('most-popular-blog.city_desc') }}
                     </p>
                 @else
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
-                        Stories worth <span class="text-[#C62E2E]">your time</span>
+                       {!! __('most-popular-blog.title') !!}
                     </h2>
 
                     <p class="text-slate-600 mt-3 text-lg">
-                        A curated selection of thoughtful reads for curious and conscious travelers.
+                        {{ __('most-popular-blog.desc') }}
                     </p>
                 @endif
 
@@ -79,19 +79,19 @@
 
                             @if ($cityName)
                                 <h3 class="text-lg md:text-xl font-semibold text-white leading-snug">
-                                    Discover {{ $cityName }}, more deeply
+                                    {{ __('most-popular-blog.cta_city_title_prefix') }} {{ $cityName }}{{ __('most-popular-blog.cta_city_title_suffix') }}
                                 </h3>
 
                                 <p class="mt-2 text-white/80 text-sm md:text-base leading-relaxed">
-                                    Stories and local insights that let {{ $cityName }} unfold slowly.
+                                    {{ __('most-popular-blog.cta_city_desc_prefix') }} {{ $cityName }} {{ __('most-popular-blog.cta_city_desc_suffix') }}
                                 </p>
                             @else
                                 <h3 class="text-lg md:text-xl font-semibold text-white leading-snug">
-                                    Explore the TripSpoiler journal
+                                    {{ __('most-popular-blog.cta_title') }}
                                 </h3>
 
                                 <p class="mt-2 text-white/80 text-sm md:text-base leading-relaxed">
-                                    Calm stories and thoughtful guides for curious travelers.
+                                    {{ __('most-popular-blog.cta_desc') }}
                                 </p>
                             @endif
                         </div>
@@ -103,7 +103,7 @@
                                     group-hover:tracking-wide">
 
                             <span class="border-b border-white/60 pb-1 group-hover:border-white">
-                                Browse all stories
+                                {{ __('most-popular-blog.browse') }}
                             </span>
 
                             <span class="ml-3 transition-transform duration-300 group-hover:translate-x-2">
