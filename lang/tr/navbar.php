@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'home' => 'Ev',
+  'home' => 'Anasayfa',
   'activities' => 'Faaliyetler',
   'cities' => 'Şehirler',
   'blog' => 'Blog',
