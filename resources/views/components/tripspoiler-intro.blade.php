@@ -14,7 +14,7 @@
                     {{ __('tripspoiler-intro.eyebrow') }}
                 </span>
 
-                <h2 class="mt-4 text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
+                <h2 class="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 leading-tight break-words">
                     {{ __('tripspoiler-intro.title_line1') }} <br>
                     {{ __('tripspoiler-intro.title_line2') }}
                 </h2>
@@ -46,7 +46,7 @@
             </div>
 
             {{-- RIGHT --}}
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                 <div class="bg-[#FFF5F3] p-6 rounded-2xl shadow-sm">
                     <div class="text-3xl font-bold text-[#C62E2E]">{{ __('tripspoiler-intro.cities') }}</div>
