@@ -17,43 +17,68 @@ class SitemapController extends Controller
 
         $locales = LaravelLocalization::getSupportedLocales();
 
-        foreach ($locales as $locale => $properties) {
+        $cities = City::where('active', true)->get();
+        $blogs = Blog::where('status', true)->get();
+        $activities = Activity::where('status', true)->get();
 
-            app()->setLocale($locale);
+        foreach ($locales as $locale => $properties) {
 
             /*
             |--------------------------------------------------------------------------
-            | Static pages
+            | Static Pages
             |--------------------------------------------------------------------------
             */
 
             $sitemap->add(
-                Url::create(route('home'))->setPriority(1.0)
+                Url::create(
+                    LaravelLocalization::getLocalizedURL($locale, route('home', [], false))
+                )
+                ->setPriority(1.0)
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
             );
 
             $sitemap->add(
-                Url::create(route('activities.index'))->setPriority(0.8)
+                Url::create(
+                    LaravelLocalization::getLocalizedURL($locale, route('activities.index', [], false))
+                )
+                ->setPriority(0.8)
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
             );
 
             $sitemap->add(
-                Url::create(route('cities.index'))->setPriority(0.8)
+                Url::create(
+                    LaravelLocalization::getLocalizedURL($locale, route('cities.index', [], false))
+                )
+                ->setPriority(0.8)
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
             );
 
             $sitemap->add(
-                Url::create(route('blog.index'))->setPriority(0.7)
+                Url::create(
+                    LaravelLocalization::getLocalizedURL($locale, route('blog.index', [], false))
+                )
+                ->setPriority(0.7)
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
             );
 
             $sitemap->add(
-                Url::create("/{$locale}/about")->setPriority(0.5)
+                Url::create(
+                    LaravelLocalization::getLocalizedURL($locale, route('about', [], false))
+                )->setPriority(0.5)
             );
 
             $sitemap->add(
-                Url::create("/{$locale}/privacy")->setPriority(0.5)
+                Url::create(
+                    LaravelLocalization::getLocalizedURL($locale, route('privacy', [], false))
+                )->setPriority(0.5)
             );
 
             $sitemap->add(
-                Url::create("/{$locale}/contact")->setPriority(0.5)
+                Url::create(
+                    LaravelLocalization::getLocalizedURL($locale, route('contact', [], false))
+                )->setPriority(0.5)
             );
+
 
             /*
             |--------------------------------------------------------------------------
@@ -61,20 +86,26 @@ class SitemapController extends Controller
             |--------------------------------------------------------------------------
             */
 
-            City::where('active', true)
-                ->each(function (City $city) use ($sitemap, $locale) {
+            foreach ($cities as $city) {
 
-                    $slug = $city->getTranslation('slug', $locale)
-                        ?? $city->getTranslation('slug', 'en');
+                $slug = $city->getTranslation('slug', $locale)
+                    ?? $city->getTranslation('slug', 'en');
 
-                    if (!$slug) return;
+                if (!$slug) continue;
 
-                    $sitemap->add(
-                        Url::create(route('cities.show', [
-                            'slug' => $slug
-                        ]))->setPriority(0.7)
-                    );
-                });
+                $sitemap->add(
+                    Url::create(
+                        LaravelLocalization::getLocalizedURL(
+                            $locale,
+                            route('cities.show', ['slug' => $slug], false)
+                        )
+                    )
+                    ->setPriority(0.7)
+                    ->setLastModificationDate($city->updated_at)
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                );
+            }
+
 
             /*
             |--------------------------------------------------------------------------
@@ -82,20 +113,26 @@ class SitemapController extends Controller
             |--------------------------------------------------------------------------
             */
 
-            Blog::where('status', true)
-                ->each(function (Blog $post) use ($sitemap, $locale) {
+            foreach ($blogs as $post) {
 
-                    $slug = $post->getTranslation('slug', $locale)
-                        ?? $post->getTranslation('slug', 'en');
+                $slug = $post->getTranslation('slug', $locale)
+                    ?? $post->getTranslation('slug', 'en');
 
-                    if (!$slug) return;
+                if (!$slug) continue;
 
-                    $sitemap->add(
-                        Url::create(route('blog.show', [
-                            'slug' => $slug
-                        ]))->setPriority(0.6)
-                    );
-                });
+                $sitemap->add(
+                    Url::create(
+                        LaravelLocalization::getLocalizedURL(
+                            $locale,
+                            route('blog.show', ['slug' => $slug], false)
+                        )
+                    )
+                    ->setPriority(0.6)
+                    ->setLastModificationDate($post->updated_at)
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                );
+            }
+
 
             /*
             |--------------------------------------------------------------------------
@@ -103,20 +140,26 @@ class SitemapController extends Controller
             |--------------------------------------------------------------------------
             */
 
-            Activity::where('status', true)
-                ->each(function (Activity $activity) use ($sitemap, $locale) {
+            foreach ($activities as $activity) {
 
-                    $slug = $activity->getTranslation('slug', $locale)
-                        ?? $activity->getTranslation('slug', 'en');
+                $slug = $activity->getTranslation('slug', $locale)
+                    ?? $activity->getTranslation('slug', 'en');
 
-                    if (!$slug) return;
+                if (!$slug) continue;
 
-                    $sitemap->add(
-                        Url::create(route('activities.show', [
-                            'slug' => $slug
-                        ]))->setPriority(0.7)
-                    );
-                });
+                $sitemap->add(
+                    Url::create(
+                        LaravelLocalization::getLocalizedURL(
+                            $locale,
+                            route('activities.show', ['slug' => $slug], false)
+                        )
+                    )
+                    ->setPriority(0.7)
+                    ->setLastModificationDate($activity->updated_at)
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                );
+            }
+
         }
 
         return $sitemap->toResponse(request());

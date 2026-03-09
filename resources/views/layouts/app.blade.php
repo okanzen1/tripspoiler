@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="utf-8" />
@@ -19,6 +19,20 @@
     <meta name="p:domain_verify" content="8b263291d9f5e7d042415fd68edaf422" />
     <meta name="yandex-verification" content="a7cedc75b9464208" />
 
+    {{-- Canonical --}}
+    <link rel="canonical" href="{{ url()->current() }}" />
+
+    {{-- Hreflang --}}
+    @foreach(LaravelLocalization::getSupportedLocales() as $locale => $properties)
+        <link rel="alternate"
+              hreflang="{{ $locale }}"
+              href="{{ LaravelLocalization::getLocalizedURL($locale, null, [], true) }}">
+    @endforeach
+
+    {{-- x-default --}}
+    <link rel="alternate"
+          hreflang="x-default"
+          href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
