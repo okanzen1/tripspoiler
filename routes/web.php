@@ -60,7 +60,7 @@ Route::group(
 
             Route::get('{slug}', [ActivityController::class, 'show'])
                 ->name('show')
-                ->where('slug', '[-a-zA-Z0-9_]+');
+                ->where('slug', '.*');
         });
 
 
@@ -76,7 +76,7 @@ Route::group(
 
             Route::get('{slug}', [CityController::class, 'show'])
                 ->name('show')
-                ->where('slug', '[-a-zA-Z0-9_]+');
+                ->where('slug', '.*');
         });
 
 
@@ -92,7 +92,7 @@ Route::group(
 
             Route::get('{slug}', [BlogController::class, 'show'])
                 ->name('show')
-                ->where('slug', '[-a-zA-Z0-9_]+');
+                ->where('slug', '.*');
         });
 
 
