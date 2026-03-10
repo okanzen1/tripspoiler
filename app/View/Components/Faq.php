@@ -39,6 +39,8 @@ class Faq extends Component
         $faqSchema = [
             '@context' => 'https://schema.org',
             '@type' => 'FAQPage',
+            '@id' => url()->current().'#faq',
+            'url' => url()->current(),
             'mainEntity' => [],
         ];
 
@@ -52,10 +54,10 @@ class Faq extends Component
 
             $faqSchema['mainEntity'][] = [
                 '@type' => 'Question',
-                'name' => strip_tags($question),
+                'name' => trim(strip_tags($question)),
                 'acceptedAnswer' => [
                     '@type' => 'Answer',
-                    'text' => strip_tags($answer),
+                    'text' => trim(strip_tags($answer)),
                 ],
             ];
         }

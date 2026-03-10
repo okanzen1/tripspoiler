@@ -20,24 +20,41 @@
 
     $articleSchema = [
         '@context' => 'https://schema.org',
-        '@type' => 'Article',
+        '@type' => 'BlogPosting',
+        '@id' => url()->current() . '#article',
+
         'headline' => $blog->getTranslation('title', $locale),
+
         'description' => $blog->getTranslation('meta_description', $locale),
-        'image' => $coverImage ? route('images.view', $coverImage->id) : asset('android-chrome-512x512.png'),
+
+        'image' => [
+            '@type' => 'ImageObject',
+            'url' => $coverImage ? route('images.view', $coverImage->id) : asset('android-chrome-512x512.png'),
+        ],
+
         'author' => [
             '@type' => 'Organization',
             'name' => 'TripSpoiler',
+            'url' => 'https://tripspoiler.com',
         ],
+
         'publisher' => [
             '@type' => 'Organization',
             'name' => 'TripSpoiler',
+            'url' => 'https://tripspoiler.com',
             'logo' => [
                 '@type' => 'ImageObject',
                 'url' => asset('android-chrome-512x512.png'),
             ],
         ],
+
         'datePublished' => $blog->created_at->toIso8601String(),
         'dateModified' => $blog->updated_at->toIso8601String(),
+
+        'inLanguage' => $locale,
+
+        'url' => url()->current(),
+
         'mainEntityOfPage' => [
             '@type' => 'WebPage',
             '@id' => url()->current(),
@@ -52,19 +69,19 @@
                 '@type' => 'ListItem',
                 'position' => 1,
                 'name' => __('blog.home'),
-                'item' => url('/')
+                'item' => url('/'),
             ],
             [
                 '@type' => 'ListItem',
                 'position' => 2,
                 'name' => __('blog.blog'),
-                'item' => route('blog.index')
+                'item' => route('blog.index'),
             ],
             [
                 '@type' => 'ListItem',
                 'position' => 3,
                 'name' => $blog->getTranslation('title', $locale),
-                'item' => url()->current()
+                'item' => url()->current(),
             ],
         ],
     ];

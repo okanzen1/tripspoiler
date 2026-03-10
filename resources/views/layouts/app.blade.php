@@ -23,33 +23,50 @@
     <link rel="canonical" href="{{ url()->current() }}" />
 
     {{-- Hreflang --}}
-    @foreach(LaravelLocalization::getSupportedLocales() as $locale => $properties)
-        <link rel="alternate"
-              hreflang="{{ $locale }}"
-              href="{{ LaravelLocalization::getLocalizedURL($locale, null, [], true) }}">
+    @foreach (LaravelLocalization::getSupportedLocales() as $locale => $properties)
+        <link rel="alternate" hreflang="{{ $locale }}"
+            href="{{ LaravelLocalization::getLocalizedURL($locale, null, [], true) }}">
     @endforeach
 
     {{-- x-default --}}
-    <link rel="alternate"
-          hreflang="x-default"
-          href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}">
+    <link rel="alternate" hreflang="x-default" href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
     @php
         $schema = [
-            "@context" => "https://schema.org",
-            "@type" => "Organization",
-            "name" => "TripSpoiler",
-            "url" => config('app.url'),
-            "logo" => asset('android-chrome-512x512.png'),
-            "description" => "Curated city experiences, museum guides and travel insights from around the world.",
-            "sameAs" => [
-                "https://www.instagram.com/tripspoilerofficial/",
-                "https://www.tiktok.com/@tripspoilerofficial",
-                "https://www.pinterest.com/tripspoiler/"
-            ]
+            '@context' => 'https://schema.org',
+            '@graph' => [
+                [
+                    '@type' => 'Organization',
+                    '@id' => config('app.url') . '#organization',
+                    'name' => 'TripSpoiler',
+                    'url' => config('app.url'),
+                    'logo' => [
+                        '@type' => 'ImageObject',
+                        'url' => asset('android-chrome-512x512.png'),
+                    ],
+                    'description' =>
+                        'Curated city experiences, museum guides and travel insights from around the world.',
+                    'sameAs' => [
+                        'https://www.instagram.com/tripspoilerofficial/',
+                        'https://www.tiktok.com/@tripspoilerofficial',
+                        'https://www.pinterest.com/tripspoiler/',
+                    ],
+                ],
+
+                [
+                    '@type' => 'WebSite',
+                    '@id' => config('app.url') . '#website',
+                    'url' => config('app.url'),
+                    'name' => 'TripSpoiler',
+                    'publisher' => [
+                        '@id' => config('app.url') . '#organization',
+                    ],
+                    'inLanguage' => app()->getLocale(),
+                ],
+            ],
         ];
     @endphp
 
