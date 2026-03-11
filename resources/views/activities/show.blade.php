@@ -238,11 +238,11 @@
 
                 <div
                     class="lg:hidden mt-6 bg-white border border-[#F3D6D1] rounded-2xl p-4 text-sm text-slate-600 space-y-2 shadow-sm mb-8">
-                    <div>✔ {{ __('Official ticket provider') }}</div>
-                    <div>✔ {{ __('Instant confirmation') }}</div>
+                    <div>✔ {{ __('activity.official_ticket_provider') }}</div>
+                    <div>✔ {{ __('activity.instant_confirmation') }}</div>
 
                     <p class="text-xs text-slate-400 pt-2">
-                        {{ __('You’ll be redirected to the official ticket provider to complete your booking.') }}
+                        {{ __('activity.redirect_notice') }}
                     </p>
 
                 </div>
@@ -297,18 +297,18 @@
                     {{-- CTA --}}
                     <a href="{{ $activity->affiliate_link }}" target="_blank" rel="nofollow sponsored noopener"
                         class="block text-center bg-[#C62E2E] text-white font-semibold py-4 rounded-full hover:opacity-90 transition">
-                        {{ __('Check availability') }}
+                        {{ __('activity.check_availability') }}
                     </a>
 
                     {{-- Redirect info --}}
                     <p class="text-xs text-slate-400 text-center mt-3">
-                        {{ __('You’ll be redirected to the official ticket provider to complete your booking.') }}
+                        {{ __('activity.redirect_notice') }}
                     </p>
 
                     {{-- Trust points --}}
                     <div class="mt-6 text-sm text-slate-600 space-y-2">
-                        <div>✔ {{ __('Official ticket provider') }}</div>
-                        <div>✔ {{ __('Instant confirmation') }}</div>
+                        <div>✔ {{ __('activity.official_ticket_provider') }}</div>
+                        <div>✔ {{ __('activity.instant_confirmation') }}</div>
                     </div>
 
                 </div>
@@ -322,7 +322,7 @@
 
         <a href="{{ $activity->affiliate_link }}" target="_blank" rel="nofollow sponsored noopener"
             class="block text-center bg-[#C62E2E] text-white font-semibold py-4 rounded-full">
-            {{ __('Check availability') }}
+            {{ __('activity.check_availability') }}
         </a>
 
     </div>

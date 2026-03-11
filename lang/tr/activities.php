@@ -16,4 +16,8 @@ return array (
   'category_product' => 'Deneyim',
   'category_package' => 'Paket',
   'view_details' => 'Detayları görüntüle →',
+  'official_ticket_provider' => 'Resmi bilet sağlayıcısı',
+  'instant_confirmation' => 'Anında onay',
+  'redirect_notice' => 'Rezervasyonunuzu tamamlamak için resmi bilet sağlayıcısına yönlendirileceksiniz.',
+  'check_availability' => 'Uygunluğu kontrol et',
 );

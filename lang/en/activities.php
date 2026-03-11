@@ -26,4 +26,9 @@ return [
     'category_package' => 'Package',
 
     'view_details' => 'View details →',
+
+    'official_ticket_provider' => 'Official ticket provider',
+    'instant_confirmation' => 'Instant confirmation',
+    'redirect_notice' => 'You’ll be redirected to the official ticket provider to complete your booking.',
+    'check_availability' => 'Check availability',
 ];

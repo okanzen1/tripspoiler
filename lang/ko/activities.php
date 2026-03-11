@@ -16,4 +16,8 @@ return array (
   'category_product' => '경험',
   'category_package' => '패키지',
   'view_details' => '세부 정보 보기 →',
+  'official_ticket_provider' => '공식 티켓 제공업체',
+  'instant_confirmation' => '즉시 확인',
+  'redirect_notice' => '예약을 완료하기 위해 공식 티켓 제공업체로 이동합니다.',
+  'check_availability' => '가능 여부 확인',
 );

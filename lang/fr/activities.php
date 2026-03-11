@@ -16,4 +16,8 @@ return array (
   'category_product' => 'Expérience',
   'category_package' => 'Paquet',
   'view_details' => 'Voir les détails →',
+  'official_ticket_provider' => 'Fournisseur officiel de billets',
+  'instant_confirmation' => 'Confirmation instantanée',
+  'redirect_notice' => 'Vous serez redirigé vers le fournisseur officiel de billets pour finaliser votre réservation.',
+  'check_availability' => 'Vérifier la disponibilité',
 );

@@ -16,4 +16,8 @@ return array (
   'category_product' => 'Опыт',
   'category_package' => 'Пакет',
   'view_details' => 'Посмотреть детали →',
+  'official_ticket_provider' => 'Официальный поставщик билетов',
+  'instant_confirmation' => 'Мгновенное подтверждение',
+  'redirect_notice' => 'Вы будете перенаправлены к официальному поставщику билетов для завершения бронирования.',
+  'check_availability' => 'Проверить наличие',
 );
