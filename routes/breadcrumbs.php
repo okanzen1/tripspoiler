@@ -7,7 +7,7 @@ use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 | Activities list
 */
 Breadcrumbs::for('activities.index', function (BreadcrumbTrail $trail) {
-    $trail->push('Activities', route('activities.index'));
+    $trail->push(__('breadcrumbs.activities'), route('activities.index'));
 });
 
 /*

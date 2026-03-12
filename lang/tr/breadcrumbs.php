@@ -1,0 +1,5 @@
+<?php
+
+return [
+    'activities' => 'Aktiviteler',
+];
