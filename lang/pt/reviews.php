@@ -23,4 +23,25 @@ return array (
     'read_reviews' => 'Leia mais comentários',
     'write_review' => 'Escreva um comentário',
   ),
+  'form' => 
+  array (
+    'title' => 'Escreva um comentário',
+    'name' => 'Nome',
+    'email' => 'E-mail',
+    'rating' => 'Sua avaliação',
+    'comment' => 'Comentário',
+    'submit' => 'Enviar avaliação',
+    'submitting' => 'Enviando...',
+  ),
+  'success' => 
+  array (
+    'title' => 'Sua avaliação foi enviada',
+    'description' => 'Obrigado por compartilhar sua experiência.',
+  ),
+  'errors' => 
+  array (
+    'rating_required' => 'Selecione a classificação.',
+    'something_wrong' => 'Algo deu errado.',
+    'server_error' => 'Erro no servidor. Por favor, tente novamente.',
+  ),
 );

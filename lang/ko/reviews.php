@@ -23,4 +23,25 @@ return array (
     'read_reviews' => '더 많은 리뷰 보기',
     'write_review' => '리뷰 작성',
   ),
+  'form' => 
+  array (
+    'title' => '리뷰 작성',
+    'name' => '이름',
+    'email' => '이메일',
+    'rating' => '귀하의 평가',
+    'comment' => '논평',
+    'submit' => '리뷰 제출',
+    'submitting' => '제출 중...',
+  ),
+  'success' => 
+  array (
+    'title' => '귀하의 리뷰가 제출되었습니다',
+    'description' => '귀하의 경험을 공유해 주셔서 감사합니다.',
+  ),
+  'errors' => 
+  array (
+    'rating_required' => '등급을 선택해주세요.',
+    'something_wrong' => '문제가 발생했습니다.',
+    'server_error' => '서버 오류입니다. 다시 시도해 주세요.',
+  ),
 );

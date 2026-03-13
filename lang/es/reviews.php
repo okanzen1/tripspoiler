@@ -23,4 +23,25 @@ return array (
     'read_reviews' => 'Leer más reseñas',
     'write_review' => 'Escribe una reseña',
   ),
+  'form' => 
+  array (
+    'title' => 'Escribe una reseña',
+    'name' => 'Nombre',
+    'email' => 'Correo electrónico',
+    'rating' => 'Tu calificación',
+    'comment' => 'Comentario',
+    'submit' => 'Enviar reseña',
+    'submitting' => 'Sumisión...',
+  ),
+  'success' => 
+  array (
+    'title' => 'Tu reseña ha sido enviada.',
+    'description' => 'Gracias por compartir tu experiencia.',
+  ),
+  'errors' => 
+  array (
+    'rating_required' => 'Por favor seleccione calificación.',
+    'something_wrong' => 'Algo salió mal.',
+    'server_error' => 'Error del servidor. Por favor inténtalo de nuevo.',
+  ),
 );

@@ -12,6 +12,8 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NewsletterSubscribeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\ReviewController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -142,5 +144,16 @@ Route::group(
         Route::post('/contact', [ContactController::class, 'submit'])
             ->name('contact.submit')
             ->middleware('throttle:5,1');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reviews
+    |--------------------------------------------------------------------------
+    */
+        Route::post('/reviews', [ReviewController::class, 'store'])
+            ->middleware('throttle:5,1')
+            ->name('reviews.store');
+
     }
+    
 );

@@ -23,4 +23,25 @@ return array (
     'read_reviews' => 'Lire plus d\'avis',
     'write_review' => 'Écrire un avis',
   ),
+  'form' => 
+  array (
+    'title' => 'Écrire un avis',
+    'name' => 'Nom',
+    'email' => 'E-mail',
+    'rating' => 'Votre note',
+    'comment' => 'Commentaire',
+    'submit' => 'Soumettre l\'avis',
+    'submitting' => 'Soumission...',
+  ),
+  'success' => 
+  array (
+    'title' => 'Votre avis a été soumis',
+    'description' => 'Merci d\'avoir partagé votre expérience.',
+  ),
+  'errors' => 
+  array (
+    'rating_required' => 'Veuillez sélectionner une note.',
+    'something_wrong' => 'Quelque chose s\'est mal passé.',
+    'server_error' => 'Erreur de serveur. Veuillez réessayer.',
+  ),
 );

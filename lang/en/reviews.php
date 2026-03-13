@@ -38,4 +38,40 @@ return [
 
     ],
 
+    'form' => [
+
+        'title' => 'Write a Review',
+
+        'name' => 'Name',
+
+        'email' => 'Email',
+
+        'rating' => 'Your Rating',
+
+        'comment' => 'Comment',
+
+        'submit' => 'Submit Review',
+
+        'submitting' => 'Submitting...',
+
+    ],
+
+    'success' => [
+
+        'title' => 'Your review has been submitted',
+
+        'description' => 'Thank you for sharing your experience.',
+
+    ],
+
+    'errors' => [
+
+        'rating_required' => 'Please select rating.',
+
+        'something_wrong' => 'Something went wrong.',
+
+        'server_error' => 'Server error. Please try again.',
+
+    ],
+
 ];

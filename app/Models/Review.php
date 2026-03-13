@@ -10,6 +10,7 @@ class Review extends Model
     protected $fillable = [
         'name',
         'email',
+        'email_hash',
         'source',
         'source_id',
         'rating',
@@ -19,9 +20,10 @@ class Review extends Model
 
     protected $casts = [
         'approved' => 'boolean',
+        'name' => 'encrypted',
+        'email' => 'encrypted',
     ];
-
-
+    
     public function getNameAttribute($value)
     {
         try {

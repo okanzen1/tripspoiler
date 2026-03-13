@@ -23,4 +23,25 @@ return array (
     'read_reviews' => 'Leggi altre recensioni',
     'write_review' => 'Scrivi una recensione',
   ),
+  'form' => 
+  array (
+    'title' => 'Scrivi una recensione',
+    'name' => 'Nome',
+    'email' => 'E-mail',
+    'rating' => 'La tua valutazione',
+    'comment' => 'Commento',
+    'submit' => 'Invia recensione',
+    'submitting' => 'Invio...',
+  ),
+  'success' => 
+  array (
+    'title' => 'La tua recensione è stata inviata',
+    'description' => 'Grazie per aver condiviso la tua esperienza',
+  ),
+  'errors' => 
+  array (
+    'rating_required' => 'Seleziona la valutazione.',
+    'something_wrong' => 'Qualcosa è andato storto.',
+    'server_error' => 'Errore del server. Per favore riprova.',
+  ),
 );

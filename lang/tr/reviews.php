@@ -23,4 +23,25 @@ return array (
     'read_reviews' => 'Daha Fazla İncelemeyi Okuyun',
     'write_review' => 'Yorum Yaz',
   ),
+  'form' => 
+  array (
+    'title' => 'Yorum Yaz',
+    'name' => 'İsim',
+    'email' => 'E-posta',
+    'rating' => 'Derecelendirmeniz',
+    'comment' => 'Yorum',
+    'submit' => 'İncelemeyi Gönder',
+    'submitting' => 'Gönderiliyor...',
+  ),
+  'success' => 
+  array (
+    'title' => 'İncelemeniz gönderildi',
+    'description' => 'Deneyiminizi paylaştığınız için teşekkür ederiz.',
+  ),
+  'errors' => 
+  array (
+    'rating_required' => 'Lütfen derecelendirmeyi seçin.',
+    'something_wrong' => 'Bir şeyler ters gitti.',
+    'server_error' => 'Sunucu hatası. Lütfen tekrar deneyin.',
+  ),
 );

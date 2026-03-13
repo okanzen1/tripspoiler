@@ -23,4 +23,25 @@ return array (
     'read_reviews' => '阅读更多评论',
     'write_review' => '写评论',
   ),
+  'form' => 
+  array (
+    'title' => '写评论',
+    'name' => '姓名',
+    'email' => '电子邮件',
+    'rating' => '您的评价',
+    'comment' => '评论',
+    'submit' => '提交评论',
+    'submitting' => '正在提交...',
+  ),
+  'success' => 
+  array (
+    'title' => '您的评论已提交',
+    'description' => '感谢您分享您的经验。',
+  ),
+  'errors' => 
+  array (
+    'rating_required' => '请选择评级。',
+    'something_wrong' => '出了点问题。',
+    'server_error' => '服务器错误。请再试一次。',
+  ),
 );

@@ -13,6 +13,8 @@
 
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+
 
     <title>@yield('title', 'TripSpoiler')</title>
     <meta name="description" content="@yield('meta_description', 'Travel guides and museum tips')" />
@@ -85,6 +87,8 @@
     </main>
 
     @stack('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     @include('partials.footer')
 
 </body>

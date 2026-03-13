@@ -23,4 +23,25 @@ return array (
     'read_reviews' => 'اقرأ المزيد من التقييمات',
     'write_review' => 'اكتب مراجعة',
   ),
+  'form' => 
+  array (
+    'title' => 'اكتب مراجعة',
+    'name' => 'اسم',
+    'email' => 'بريد إلكتروني',
+    'rating' => 'تقييمك',
+    'comment' => 'تعليق',
+    'submit' => 'إرسال المراجعة',
+    'submitting' => 'تقديم...',
+  ),
+  'success' => 
+  array (
+    'title' => 'لقد تم تقديم رأيك',
+    'description' => 'شكرا لتقاسم تجربتك.',
+  ),
+  'errors' => 
+  array (
+    'rating_required' => 'الرجاء تحديد التقييم.',
+    'something_wrong' => 'حدث خطأ ما.',
+    'server_error' => 'خطأ في الخادم. يرجى المحاولة مرة أخرى.',
+  ),
 );

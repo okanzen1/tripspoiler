@@ -23,4 +23,25 @@ return array (
     'read_reviews' => 'レビューをもっと読む',
     'write_review' => 'レビューを書く',
   ),
+  'form' => 
+  array (
+    'title' => 'レビューを書く',
+    'name' => '名前',
+    'email' => '電子メール',
+    'rating' => 'あなたの評価',
+    'comment' => 'コメント',
+    'submit' => 'レビューを送信する',
+    'submitting' => '送信中...',
+  ),
+  'success' => 
+  array (
+    'title' => 'レビューが送信されました',
+    'description' => 'ご経験を共有していただきありがとうございます。',
+  ),
+  'errors' => 
+  array (
+    'rating_required' => '評価を選択してください。',
+    'something_wrong' => '何か問題が発生しました。',
+    'server_error' => 'サーバーエラー。もう一度試してください。',
+  ),
 );
