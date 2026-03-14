@@ -22,7 +22,7 @@ class ActivityController extends Controller
         $activities = Activity::where('city_id', $cityId)
             ->with('images')
             ->where('status', true)
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
 
         $page = Page::where('slug', 'activities')
