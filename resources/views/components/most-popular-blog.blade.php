@@ -1,4 +1,5 @@
 @if (!empty($blogs) && count($blogs))
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     @php
         $isHome = request()->routeIs('home');
     @endphp
@@ -120,6 +121,5 @@
                 </div>
             </div>
     </section>
-
-
 @endif
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
