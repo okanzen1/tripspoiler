@@ -101,7 +101,7 @@
     <div id="blogList">
         @include('blog.partials.list', ['blogs' => $blogs])
     </div>
-
+    <x-most-popular-activities source="home" :source-id="null" limit="12" :color="'bg-white'" :cityId="$cityId" />
     <x-reviews :source="'blog'" :source-id="null" :sectionHeader="true" :reviewSummary="true" :testimonials="true" :color="'bg-white'" />
     <x-social-presence-section :color="'bg-white'" />
 @endsection

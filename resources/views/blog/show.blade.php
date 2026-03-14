@@ -4,7 +4,6 @@
 @section('meta_description', $blog->getTranslation('meta_description', $locale))
 
 @push('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         html {
             scroll-behavior: smooth;
@@ -358,7 +357,7 @@
 
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
     <script>
         new Swiper('.premiumSwiper', {
             slidesPerView: 1.1,
