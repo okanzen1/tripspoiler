@@ -134,12 +134,12 @@
             @endforeach
         </div>
 
-        <div class="pt-20">
-            <x-most-popular-blog source="home" :source-id="null" :city-id="$cityId" />
-        </div>
-
+       
     </div>
 </section>
+
+<x-most-popular-blog source="home" :source-id="null" :city-id="$cityId" />
+
 
 @push('scripts')
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>

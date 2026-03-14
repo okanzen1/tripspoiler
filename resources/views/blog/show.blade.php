@@ -358,29 +358,6 @@
         });
     </script>
     
-    <script>
-        new Swiper('.premiumSwiper', {
-            slidesPerView: 1.1,
-            spaceBetween: 24,
-            grabCursor: true,
-            centeredSlides: false,
-
-            breakpoints: {
-                768: {
-                    slidesPerView: 1.4,
-                },
-                1024: {
-                    slidesPerView: 1.6,
-                }
-            },
-
-            navigation: {
-                nextEl: '.swiper-button-next-custom',
-                prevEl: '.swiper-button-prev-custom',
-            },
-        });
-    </script>
-
     <script type="application/ld+json">
         {!! json_encode($articleSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>

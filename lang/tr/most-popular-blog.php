@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'city_title_suffix' => 'düşünceli bir şekilde araştırıldı',
+  'city_title_suffix' => ' düşünceli bir şekilde araştırıldı',
   'city_desc' => 'Gürültü yerine derinliği tercih eden gezginler için en anlamlı okumalarımızdan oluşan bir koleksiyon.',
   'title' => '<span class="text-[#C62E2E]">zaman ayırmaya değer hikayeler</span>',
   'desc' => 'Meraklı ve bilinçli gezginler için özenle seçilmiş bir okuma seçkisi.',

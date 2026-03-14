@@ -384,31 +384,4 @@
 
             <x-review-modal :source="$source ?? null" :sourceId="$sourceId ?? null" />
         </section>
-
-        @once
-            @push('scripts')
-                <script>
-                    new Swiper(".reviewsSwiper", {
-
-                        spaceBetween: 24,
-
-                        slidesPerView: 1.15,
-
-                        breakpoints: {
-
-                            640: {
-                                slidesPerView: 1.5
-                            },
-
-                            1024: {
-                                slidesPerView: 3
-                            }
-
-                        }
-
-                    });
-                </script>
-            @endpush
-        @endonce
-
     @endif

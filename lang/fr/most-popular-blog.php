@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'city_title_suffix' => 'une exploration réfléchie',
+  'city_title_suffix' => ' une exploration réfléchie',
   'city_desc' => 'Une collection de nos lectures les plus significatives pour les voyageurs qui préfèrent la profondeur au bruit.',
   'title' => 'Des histoires qui valent <span class="text-[#C62E2E]">votre temps</span>',
   'desc' => 'Une sélection de lectures bien pensées pour les voyageurs curieux et conscients.',

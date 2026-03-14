@@ -37,55 +37,53 @@
             </div>
 
             <!-- SWIPER -->
-            <div class="swiper">
+            <div class="swiper most-popular-swiper">
                 <div class="swiper-wrapper">
                     {{-- ALL ACTIVITIES COVER --}}
                     <div class="swiper-slide max-w-[300px]">
-                        <div class="swiper-slide max-w-[300px]">
-                            <a href="{{ route('activities.index') }}" class="group block h-full">
+                        <a href="{{ route('activities.index') }}" class="group block h-full">
 
+                            <div
+                                class="relative h-[360px] rounded-2xl overflow-hidden
+                                    shadow-[0_6px_18px_rgba(0,0,0,0.06)]
+                                    hover:shadow-[0_12px_28px_rgba(0,0,0,0.10)]
+                                    transition-all duration-300">
+
+                                {{-- IMAGE --}}
+                                <img src="{{ asset('images/all-activities-cover.png') }}"
+                                    alt="{{ __('most-popular-activities.cover_title') }}"
+                                    class="w-full h-full object-cover
+                                    transition duration-700 group-hover:scale-105">
+
+                                {{-- DARK GRADIENT OVERLAY --}}
                                 <div
-                                    class="relative h-[360px] rounded-2xl overflow-hidden
-                                        shadow-[0_6px_18px_rgba(0,0,0,0.06)]
-                                        hover:shadow-[0_12px_28px_rgba(0,0,0,0.10)]
-                                        transition-all duration-300">
+                                    class="absolute inset-0 
+                                        bg-gradient-to-t 
+                                        from-black/55 
+                                        via-black/20 
+                                        to-transparent">
+                                </div>
 
-                                    {{-- IMAGE --}}
-                                    <img src="{{ asset('images/all-activities-cover.png') }}"
-                                        alt="{{ __('most-popular-activities.cover_title') }}"
-                                        class="w-full h-full object-cover
-                                        transition duration-700 group-hover:scale-105">
+                                {{-- TEXT CONTENT --}}
+                                <div class="absolute inset-0 flex flex-col justify-end p-6">
 
-                                    {{-- DARK GRADIENT OVERLAY --}}
-                                    <div
-                                        class="absolute inset-0 
-                                            bg-gradient-to-t 
-                                            from-black/55 
-                                            via-black/20 
-                                            to-transparent">
-                                    </div>
+                                    <h3 class="text-xl font-semibold text-white leading-snug">
+                                        {{ __('most-popular-activities.cover_title') }}
+                                    </h3>
 
-                                    {{-- TEXT CONTENT --}}
-                                    <div class="absolute inset-0 flex flex-col justify-end p-6">
-
-                                        <h3 class="text-xl font-semibold text-white leading-snug">
-                                            {{ __('most-popular-activities.cover_title') }}
-                                        </h3>
-
-                                        <span
-                                            class="mt-3 text-sm font-medium text-white/90 
-                                                inline-flex items-center gap-1 
-                                                group-hover:translate-x-1 
-                                                transition duration-300">
-                                            {{ __('most-popular-activities.cover_cta') }}
-                                        </span>
-
-                                    </div>
+                                    <span
+                                        class="mt-3 text-sm font-medium text-white/90 
+                                            inline-flex items-center gap-1 
+                                            group-hover:translate-x-1 
+                                            transition duration-300">
+                                        {{ __('most-popular-activities.cover_cta') }}
+                                    </span>
 
                                 </div>
 
-                            </a>
-                        </div>
+                            </div>
+
+                        </a>
                     </div>
 
                     @foreach ($activities as $activity)
@@ -164,20 +162,6 @@
 
         </div>
     </section>
+@endif
 
-    @push('scripts')
-        <script>
-            new Swiper('.swiper', {
-                loop: false,
-                spaceBetween: 24,
-                grabCursor: true,
-                slidesPerView: 'auto',
 
-                navigation: {
-                    nextEl: '.swiper-button-next-custom',
-                    prevEl: '.swiper-button-prev-custom',
-                },
-            });
-        </script>
-    @endif
-@endpush

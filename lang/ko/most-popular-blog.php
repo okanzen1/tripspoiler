@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'city_title_suffix' => '신중하게 탐색',
+  'city_title_suffix' => ' 신중하게 탐색',
   'city_desc' => '소음보다 깊이를 선호하는 여행자를 위해 가장 의미 있는 읽을거리를 엄선하여 소개합니다.',
   'title' => '<span class="text-[#C62E2E]">시간을 투자할 가치가 있는 스토리</span>',
   'desc' => '호기심 많고 의식 있는 여행자를 위한 사려 깊은 읽을거리를 엄선했습니다.',

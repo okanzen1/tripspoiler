@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'city_title_suffix' => '熟考に熟考を重ねた',
+  'city_title_suffix' => ' 熟考に熟考を重ねた',
   'city_desc' => 'ノイズよりも深みを好む旅行者のために、最も有意義な読み物を厳選。',
   'title' => '<span class="text-[#C62E2E]">あなたの時間を費やす価値のある物語</span>。',
   'desc' => '好奇心旺盛で意識の高い旅行者のために、心のこもった読み物を厳選。',

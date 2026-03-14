@@ -22,7 +22,7 @@ class BlogController extends Controller
             ->get();
 
         if ($request->ajax()) {
-            return view('blog.partials.list', compact('blogs', 'locale'));
+            return view('blog.partials.list', compact('blogs', 'locale','cityId'));
         }
 
         return view('blog.index', compact(

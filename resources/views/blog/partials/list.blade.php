@@ -83,3 +83,5 @@
         </div>
     </section>
 @endif
+<x-most-popular-activities source="home" :source-id="null" limit="12" :color="'bg-white'" :cityId="$cityId" />
+
