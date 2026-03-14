@@ -25,7 +25,7 @@ class CityController extends Controller
         $city = City::where('active', true)
             ->where(function ($q) use ($locale, $slug) {
                 $q->where("slug->{$locale}", $slug)
-                ->orWhere("slug->en", $slug);
+                    ->orWhere("slug->en", $slug);
             })
             ->firstOrFail();
 
@@ -44,11 +44,11 @@ class CityController extends Controller
                 now()->addHours(6),
                 function () {
 
-                $page = Page::where('slug', 'cities')
-                    ->with([
-                        'contents.experienceCategories.descriptions'
-                    ])
-                    ->first();
+                    $page = Page::where('slug', 'cities')
+                        ->with([
+                            'contents.experienceCategories.descriptions'
+                        ])
+                        ->first();
 
                     if (!$page) {
                         return null;
@@ -86,12 +86,66 @@ class CityController extends Controller
 
         $pageContent = $page?->contentForCity($city->id);
 
+        $citySchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'TouristDestination',
+
+            '@id' => url()->current() . '#destination',
+
+            'name' => $city->getTranslation('name', $locale),
+
+            'description' => __('cities.meta_description_prefix') . ' ' . $city->getTranslation('name', $locale) . '.',
+
+            'url' => url()->current(),
+
+            'touristType' => 'Tourists',
+
+            'isPartOf' => [
+                '@id' => config('app.url') . '#website'
+            ],
+
+            'provider' => [
+                '@id' => config('app.url') . '#organization'
+            ],
+
+            'sameAs' => [
+                'https://en.wikipedia.org/wiki/' . urlencode($city->getTranslation('name','en'))
+            ]
+        ];
+
+        $breadcrumbSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                [
+                    '@type' => 'ListItem',
+                    'position' => 1,
+                    'name' => 'Home',
+                    'item' => config('app.url')
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 2,
+                    'name' => 'Cities',
+                    'item' => config('app.url') . '/cities'
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 3,
+                    'name' => $city->getTranslation('name', $locale),
+                    'item' => url()->current()
+                ]
+            ]
+        ];
+
         return view('cities.show', compact(
             'city',
             'cities',
             'locale',
             'pageContent',
-            'pageImages'
+            'pageImages',
+            'citySchema',
+            'breadcrumbSchema'
         ));
     }
 }
