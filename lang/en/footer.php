@@ -8,4 +8,7 @@ return [
 
     'privacy' => 'Privacy',
 
+    'reviews' => 'Reviews',
+
+    'supported_by' => 'Supported by',
 ];
