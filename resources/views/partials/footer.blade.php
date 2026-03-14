@@ -17,7 +17,7 @@
                         {{ __('footer.supported_by') }}
                     </span>
 
-                    <a href="https://megapass.com" target="_blank" rel="noopener">
+                    <a href="https://megapass.com?discountCode=tripspoiler" target="_blank" rel="noopener">
                         <img src="{{ asset('/images/partners/megapass.svg') }}" alt="Megapass"
                             class="h-7 opacity-80 hover:opacity-100 transition">
                     </a>
