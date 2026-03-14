@@ -3,6 +3,7 @@
 ])
 
 @if (!empty($activities))
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <section class="{{ $color }} py-20">
         <div class="max-w-7xl mx-auto px-4">
 
@@ -163,5 +164,6 @@
         </div>
     </section>
 @endif
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 
