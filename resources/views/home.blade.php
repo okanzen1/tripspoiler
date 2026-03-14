@@ -106,8 +106,8 @@
     <x-city-entry-section />
     <x-most-popular-blog source="home" :source-id="null" />
     <x-tripspoiler-intro />
-    <x-social-presence-section :color="'default'" />
-    <x-reviews source="home" :source-id="null" />
-    <x-faq source="home" :source-id="null" />
+    <x-social-presence-section />
+    <x-reviews :source="'home'" :source-id="null" :sectionHeader="true" :reviewSummary="true" :testimonials="true" />
+    <x-faq :source="'home'" :source-id="null" />
 @endsection
 

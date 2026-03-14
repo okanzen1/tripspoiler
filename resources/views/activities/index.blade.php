@@ -100,6 +100,8 @@
         @include('activities.partials.list', ['activities' => $activities])
     </div>
 
+    <x-reviews :source="'activity'" :source-id="null" :color="'bg-[#F8FAFC]'" :sectionHeader="false" :reviewSummary="false" :testimonials="true" />
+    <x-social-presence-section :color="'bg-[#F8FAFC]'" />
 @endsection
 
 @push('scripts')
@@ -141,6 +143,8 @@
             const track = document.getElementById('comboTrack');
             const next = document.getElementById('nextBtn');
             const prev = document.getElementById('prevBtn');
+
+            if (!track || !next || !prev) return;
 
             const step = 340;
             let offset = 0;

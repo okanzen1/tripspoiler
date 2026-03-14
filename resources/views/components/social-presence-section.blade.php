@@ -1,11 +1,11 @@
 @props([
     'title' => __('social-presence-section.title'),
     'text' => __('social-presence-section.text'),
-    'color' => 'default',
+    'color' => 'bg-[#FFFAF9]',
 ])
 
 <section
-    class="relative @if ($color === 'default') bg-[#FFFAF9] @else bg-white @endif py-20 md:py-28 overflow-hidden">
+    class="relative {{ $color }} py-20 md:py-28 overflow-hidden">
 
     {{-- Ambient glow --}}
     <div class="absolute inset-0 pointer-events-none">

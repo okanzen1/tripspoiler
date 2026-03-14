@@ -17,7 +17,7 @@ class Reviews extends Component
         $this->source = $source;
         $this->sourceId = $sourceId;
 
-        $limit = $source === 'home' ? 3 : 3;
+        $limit = $source === 'home' ? 5 : 5;
 
         $query = Review::where('source', $source)
             ->when($sourceId, fn($q) => $q->where('source_id', $sourceId))
