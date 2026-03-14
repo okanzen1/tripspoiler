@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReviewSubmitted;
 use Illuminate\Http\Request;
 
 use Illuminate\Validation\Rule;
@@ -162,7 +164,7 @@ class ReviewController extends Controller
         }
 
         // KAYDET
-        Review::create([
+        $review = Review::create([
             'name' => trim($validated['name']),
             'email' => $normalizedEmail,
             'email_hash' => $emailHash,
@@ -172,6 +174,10 @@ class ReviewController extends Controller
             'source_id' => $validated['source_id'] ?? null,
             'approved' => false,
         ]);
+
+        if (app()->environment('production')) {
+            Mail::to('info@tripspoiler.com')->send(new ReviewSubmitted($review));
+        }
 
         return response()->json([
             'success' => true
