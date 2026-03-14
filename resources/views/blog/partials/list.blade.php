@@ -1,7 +1,6 @@
-<section class="bg-white my-16">
-    <div class="max-w-7xl mx-auto px-4">
-
-        @if(count($blogs) > 0)
+@if (count($blogs) > 0)
+    <section class="bg-white my-16">
+        <div class="max-w-7xl mx-auto px-4">
 
             <h2 class="text-xl md:text-2xl font-bold text-slate-900">
                 {{ __('blog.section_title') }}
@@ -21,31 +20,32 @@
                     <a href="{{ route('blog.show', [
                         'slug' => $blog->getTranslation('slug', $locale),
                     ]) }}"
-                       class="group block h-full">
+                        class="group block h-full">
 
-                        <div class="relative h-[260px] md:h-[320px]
-                                    rounded-2xl overflow-hidden
-                                    shadow-[0_6px_18px_rgba(0,0,0,0.06)]
-                                    hover:shadow-[0_12px_28px_rgba(0,0,0,0.10)]
-                                    transition-all duration-300">
+                        <div
+                            class="relative h-[260px] md:h-[320px]
+                                rounded-2xl overflow-hidden
+                                shadow-[0_6px_18px_rgba(0,0,0,0.06)]
+                                hover:shadow-[0_12px_28px_rgba(0,0,0,0.10)]
+                                transition-all duration-300">
 
                             {{-- IMAGE --}}
                             @if ($image)
-                                <img src="{{ route('images.view', $image->id) }}"
-                                     alt="{{ $blog->name }}"
-                                     class="w-full h-full object-cover
-                                            transition duration-700
-                                            group-hover:scale-105">
+                                <img src="{{ route('images.view', $image->id) }}" alt="{{ $blog->name }}"
+                                    class="w-full h-full object-cover
+                                        transition duration-700
+                                        group-hover:scale-105">
                             @else
                                 <div class="w-full h-full bg-gradient-to-b from-slate-100 to-slate-200"></div>
                             @endif
 
                             {{-- DARK GRADIENT OVERLAY --}}
-                            <div class="absolute inset-0 
-                                        bg-gradient-to-t 
-                                        from-black/55 
-                                        via-black/20 
-                                        to-transparent">
+                            <div
+                                class="absolute inset-0 
+                                    bg-gradient-to-t 
+                                    from-black/55 
+                                    via-black/20 
+                                    to-transparent">
                             </div>
 
                             {{-- TEXT CONTENT --}}
@@ -57,15 +57,17 @@
                                 </span>
 
                                 {{-- TITLE --}}
-                                <h3 class="text-sm md:text-base font-semibold text-white leading-snug line-clamp-2 drop-shadow-lg">
+                                <h3
+                                    class="text-sm md:text-base font-semibold text-white leading-snug line-clamp-2 drop-shadow-lg">
                                     {{ Str::limit($blog->getTranslation('title', $locale), 60) }}
                                 </h3>
 
                                 {{-- CTA --}}
-                                <span class="mt-3 text-sm font-medium text-white/90 
-                                            inline-flex items-center gap-1 
-                                            group-hover:translate-x-1 
-                                            transition duration-300">
+                                <span
+                                    class="mt-3 text-sm font-medium text-white/90 
+                                        inline-flex items-center gap-1 
+                                        group-hover:translate-x-1 
+                                        transition duration-300">
                                     {{ __('blog.read_story') }}
                                 </span>
 
@@ -74,12 +76,10 @@
                         </div>
 
                     </a>
-
                 @endforeach
 
             </div>
 
-        @endif
-
-    </div>
-</section>
+        </div>
+    </section>
+@endif
