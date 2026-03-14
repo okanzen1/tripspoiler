@@ -6,7 +6,7 @@
                 {{ __('blog.section_title') }}
             </h2>
 
-            <p class="text-slate-600 text-base md:text-lg max-w-2xl mb-8 mt-1">
+            <p class="text-slate-600 text-base md:text-lg mb-8 mt-1">
                 {{ __('blog.section_description') }}
             </p>
 
