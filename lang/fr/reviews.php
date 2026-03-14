@@ -5,6 +5,7 @@ return array (
   'badge_review' => 'Avis des voyageurs',
   'title' => 'Les voyageurs adorent découvrir les villes avec TripSpoiler',
   'description' => 'De vrais retours de voyageurs qui ont exploré plus intelligemment, évité le bruit et trouvé des expériences qui valaient vraiment la peine.',
+  'section_description' => 'Découvrez les commentaires honnêtes des voyageurs qui ont utilisé TripSpoiler pour comparer les pass urbains, explorer les attractions et découvrir des expériences qui ont rendu leurs voyages plus significatifs. De vraies histoires, de vraies idées et de vrais moments de voyageurs du monde entier.',
   'summary' => 
   array (
     'average_rating' => 'Note moyenne',
@@ -22,6 +23,7 @@ return array (
   array (
     'read_reviews' => 'Lire plus d\'avis',
     'write_review' => 'Écrire un avis',
+    'browse_reviews' => 'Parcourir les avis',
   ),
   'form' => 
   array (
@@ -43,5 +45,26 @@ return array (
     'rating_required' => 'Veuillez sélectionner une note.',
     'something_wrong' => 'Quelque chose s\'est mal passé.',
     'server_error' => 'Erreur de serveur. Veuillez réessayer.',
+  ),
+  'meta' => 
+  array (
+    'title' => 'Avis et expériences de voyageurs | VoyageSpoiler',
+    'description' => 'Lisez de vrais avis de voyageurs sur TripSpoiler. Découvrez des commentaires honnêtes sur les pass urbains, les attractions et les expériences avant de planifier votre voyage.',
+  ),
+  'hero' => 
+  array (
+    'title_line1' => 'Les voyageurs partagent',
+    'title_line2' => 'leurs expériences',
+    'description' => 'Histoires vraies de voyageurs qui ont utilisé TripSpoiler pour comparer les pass urbains, explorer les attractions et planifier des voyages plus intelligents.',
+    'rating_text' => 'note de :compter les avis des voyageurs',
+  ),
+  'cards' => 
+  array (
+    'review1' => 'TripSpoiler a rendu la comparaison des pass urbains incroyablement simple.',
+    'review1_city' => 'Londres',
+    'review2' => 'J\'ai économisé des heures de recherche grâce à TripSpoiler.',
+    'review2_city' => 'Singapour',
+    'review3' => 'Les comparaisons sont super claires et utiles.',
+    'review3_city' => 'Rome',
   ),
 );

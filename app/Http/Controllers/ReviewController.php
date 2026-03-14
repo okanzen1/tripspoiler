@@ -4,10 +4,43 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use Illuminate\Http\Request;
+
 use Illuminate\Validation\Rule;
 
 class ReviewController extends Controller
 {
+    public function go(Request $request)
+    {
+        session([
+            'review_source' => $request->source,
+            'review_source_id' => $request->source_id
+        ]);
+
+        return redirect()->route('reviews.index');
+    }
+
+    public function index()
+    {
+        $source = session('review_source');
+        $sourceId = session('review_source_id');
+        $general = [];
+
+        $reviews = Review::where('approved', true)
+            // ->when($source, fn($q) => $q->where('source', $source))
+            // ->when($sourceId, fn($q) => $q->where('source_id', $sourceId))
+            ->latest()
+            ->paginate(20);
+
+        $average = round(Review::where('approved', true)->avg('rating') ?? 0, 1);
+
+        $general = [
+            'averageRating' => $average,
+            'stars' => round($average),
+        ];
+
+        return view('reviews.index', compact('reviews', 'source', 'sourceId', 'general'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

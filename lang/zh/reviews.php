@@ -5,6 +5,7 @@ return array (
   'badge_review' => '旅行者评论',
   'title' => '旅行者喜欢通过 TripSpoiler 探索城市',
   'description' => '来自旅行者的真实反馈，他们更聪明地探索，跳过噪音，发现真正值得他们花时间的体验。',
+  'section_description' => '发现旅行者使用 TripSpoiler 比较城市通行证、探索景点并发现让他们的旅行更有意义的体验的真实反馈。来自世界各地旅行者的真实故事、真实见解和真实时刻。',
   'summary' => 
   array (
     'average_rating' => '平均评分',
@@ -22,6 +23,7 @@ return array (
   array (
     'read_reviews' => '阅读更多评论',
     'write_review' => '写评论',
+    'browse_reviews' => '浏览评论',
   ),
   'form' => 
   array (
@@ -43,5 +45,26 @@ return array (
     'rating_required' => '请选择评级。',
     'something_wrong' => '出了点问题。',
     'server_error' => '服务器错误。请再试一次。',
+  ),
+  'meta' => 
+  array (
+    'title' => '旅行者评论和体验 |旅行剧透',
+    'description' => '在 TripSpoiler 上阅读真实的旅行者评论。在计划您的旅行之前，了解有关城市通行证、景点和体验的诚实反馈。',
+  ),
+  'hero' => 
+  array (
+    'title_line1' => '旅行者分享',
+    'title_line2' => '他们的经历',
+    'description' => '来自旅行者的真实故事，他们使用 TripSpoiler 比较城市通行证、探索景点并计划更明智的旅行。',
+    'rating_text' => '评级来自：count 旅行者评论',
+  ),
+  'cards' => 
+  array (
+    'review1' => 'TripSpoiler 让比较城市通行证变得异常简单。',
+    'review1_city' => '伦敦',
+    'review2' => '感谢 TripSpoiler，我节省了数小时的研究时间。',
+    'review2_city' => '新加坡',
+    'review3' => '比较非常清晰且有帮助。',
+    'review3_city' => '罗马',
   ),
 );

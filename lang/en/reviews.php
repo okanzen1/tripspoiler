@@ -10,6 +10,7 @@ return [
 
     'description' => 'Real feedback from travelers who explored smarter, skipped the noise and found experiences actually worth their time.',
 
+    'section_description' => 'Discover honest feedback from travelers who used TripSpoiler to compare city passes, explore attractions, and uncover experiences that made their trips more meaningful. Real stories, real insights, and real moments from travelers around the world.',
 
     'summary' => [
 
@@ -29,12 +30,13 @@ return [
 
     ],
 
-
     'buttons' => [
 
         'read_reviews' => 'Read More Reviews',
 
         'write_review' => 'Write a Review',
+
+        'browse_reviews' => 'Browse Reviews',
 
     ],
 
@@ -71,6 +73,37 @@ return [
         'something_wrong' => 'Something went wrong.',
 
         'server_error' => 'Server error. Please try again.',
+
+    ],
+
+    'meta' => [
+
+        'title' => 'Traveler Reviews & Experiences | TripSpoiler',
+
+        'description' => 'Read real traveler reviews on TripSpoiler. Discover honest feedback about city passes, attractions and experiences before planning your trip.',
+    ],
+
+    'hero' => [
+
+        'title_line1' => 'Travelers share',
+
+        'title_line2' => 'their experiences',
+
+        'description' => 'Real stories from travelers who used TripSpoiler to compare city passes, explore attractions and plan smarter trips.',
+
+        'rating_text' => 'rating from :count traveler reviews',
+    ],
+
+    'cards' => [
+
+        'review1' => 'TripSpoiler made comparing city passes incredibly easy.',
+        'review1_city' => 'London',
+
+        'review2' => 'I saved hours of research thanks to TripSpoiler.',
+        'review2_city' => 'Singapore',
+
+        'review3' => 'The comparisons are super clear and helpful.',
+        'review3_city' => 'Rome',
 
     ],
 

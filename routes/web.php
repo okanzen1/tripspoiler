@@ -145,15 +145,14 @@ Route::group(
             ->name('contact.submit')
             ->middleware('throttle:5,1');
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | Reviews
     |--------------------------------------------------------------------------
     */
-        Route::post('/reviews', [ReviewController::class, 'store'])
-            ->middleware('throttle:5,1')
-            ->name('reviews.store');
-
+        Route::post('/reviews/go', [ReviewController::class, 'go'])->name('reviews.go');
+        Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+        Route::post('/reviews', [ReviewController::class, 'store'])->middleware('throttle:5,1')->name('reviews.store');
     }
-    
+
 );

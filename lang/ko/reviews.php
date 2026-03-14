@@ -5,6 +5,7 @@ return array (
   'badge_review' => '여행자 리뷰',
   'title' => '여행자들은 TripSpoiler로 도시를 발견하는 것을 좋아합니다.',
   'description' => '더 스마트하게 탐색하고, 소음을 피하고, 실제로 시간을 투자할 가치가 있는 경험을 찾은 여행자의 실제 피드백입니다.',
+  'section_description' => 'TripSpoiler를 사용하여 도시 패스를 비교하고 관광명소를 탐색하며 여행을 더욱 의미 있게 만든 경험을 찾아낸 여행자의 솔직한 피드백을 찾아보세요. 전 세계 여행자들의 실제 이야기, 실제 통찰력, 실제 순간을 만나보세요.',
   'summary' => 
   array (
     'average_rating' => '평균 평점',
@@ -22,6 +23,7 @@ return array (
   array (
     'read_reviews' => '더 많은 리뷰 보기',
     'write_review' => '리뷰 작성',
+    'browse_reviews' => '리뷰 찾아보기',
   ),
   'form' => 
   array (
@@ -43,5 +45,26 @@ return array (
     'rating_required' => '등급을 선택해주세요.',
     'something_wrong' => '문제가 발생했습니다.',
     'server_error' => '서버 오류입니다. 다시 시도해 주세요.',
+  ),
+  'meta' => 
+  array (
+    'title' => '여행자 리뷰 및 경험 | 트립스포일러',
+    'description' => 'TripSpoiler에서 실제 여행자 리뷰를 읽어보세요. 여행을 계획하기 전에 시티 패스, 명소, 체험에 대한 솔직한 피드백을 찾아보세요.',
+  ),
+  'hero' => 
+  array (
+    'title_line1' => '여행자들이 공유하는 것',
+    'title_line2' => '그들의 경험',
+    'description' => 'TripSpoiler를 사용하여 시티 패스를 비교하고 명소를 탐색하며 더욱 스마트한 여행을 계획한 여행자의 실제 이야기입니다.',
+    'rating_text' => '평점:count 여행자 리뷰',
+  ),
+  'cards' => 
+  array (
+    'review1' => 'TripSpoiler는 도시 패스 비교를 매우 쉽게 만들었습니다.',
+    'review1_city' => '런던',
+    'review2' => 'TripSpoiler 덕분에 조사 시간을 절약했습니다.',
+    'review2_city' => '싱가포르',
+    'review3' => '비교는 매우 명확하고 도움이 됩니다.',
+    'review3_city' => '로마',
   ),
 );

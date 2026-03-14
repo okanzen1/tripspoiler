@@ -5,6 +5,7 @@ return array (
   'badge_review' => '旅行者のレビュー',
   'title' => '旅行者は Tripspoiler で都市を発見するのが大好きです',
   'description' => 'より賢く探索し、騒音を無視して、実際に時間を費やす価値のある体験を見つけた旅行者からのリアルなフィードバック。',
+  'section_description' => 'Tripspoiler を使用してシティ パスを比較し、観光スポットを探索し、旅行をより有意義にした経験を発見した旅行者からの正直なフィードバックをご覧ください。世界中の旅行者から寄せられた本当の話、本当の洞察、そして本当の瞬間。',
   'summary' => 
   array (
     'average_rating' => '平均評価',
@@ -22,6 +23,7 @@ return array (
   array (
     'read_reviews' => 'レビューをもっと読む',
     'write_review' => 'レビューを書く',
+    'browse_reviews' => 'レビューを閲覧する',
   ),
   'form' => 
   array (
@@ -43,5 +45,26 @@ return array (
     'rating_required' => '評価を選択してください。',
     'something_wrong' => '何か問題が発生しました。',
     'server_error' => 'サーバーエラー。もう一度試してください。',
+  ),
+  'meta' => 
+  array (
+    'title' => '旅行者の口コミと体験談 |トリップスポイラー',
+    'description' => 'Tripspoiler で実際の旅行者の口コミをお読みください。旅行を計画する前に、シティパス、アトラクション、体験に関する正直なフィードバックをご覧ください。',
+  ),
+  'hero' => 
+  array (
+    'title_line1' => 'トラベラーズシェア',
+    'title_line2' => '彼らの経験',
+    'description' => 'Tripspoiler を利用してシティパスを比較し、観光名所を探索し、より賢い旅行を計画した旅行者から寄せられた実話。',
+    'rating_text' => 'からの評価:旅行者のレビューを数件',
+  ),
+  'cards' => 
+  array (
+    'review1' => 'Tripspoiler を使用すると、シティパスの比較が驚くほど簡単になりました。',
+    'review1_city' => 'ロンドン',
+    'review2' => 'Tripspoiler のおかげで、何時間もの調査時間を節約できました。',
+    'review2_city' => 'シンガポール',
+    'review3' => '比較が非常にわかりやすくて助かります。',
+    'review3_city' => 'ローマ',
   ),
 );

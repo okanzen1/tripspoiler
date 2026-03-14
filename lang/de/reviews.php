@@ -5,6 +5,7 @@ return array (
   'badge_review' => 'Reisebewertung',
   'title' => 'Reisende lieben es, Städte mit TripSpoiler zu entdecken',
   'description' => 'Echtes Feedback von Reisenden, die intelligenter unterwegs waren, den Lärm umgangen und Erlebnisse gefunden haben, die ihre Zeit wirklich wert waren.',
+  'section_description' => 'Entdecken Sie ehrliches Feedback von Reisenden, die TripSpoiler verwendet haben, um Stadtpässe zu vergleichen, Attraktionen zu erkunden und Erlebnisse zu entdecken, die ihre Reisen bedeutungsvoller gemacht haben. Echte Geschichten, echte Einblicke und echte Momente von Reisenden aus der ganzen Welt.',
   'summary' => 
   array (
     'average_rating' => 'Durchschnittliche Bewertung',
@@ -22,6 +23,7 @@ return array (
   array (
     'read_reviews' => 'Lesen Sie weitere Bewertungen',
     'write_review' => 'Schreiben Sie eine Bewertung',
+    'browse_reviews' => 'Durchsuchen Sie Rezensionen',
   ),
   'form' => 
   array (
@@ -43,5 +45,26 @@ return array (
     'rating_required' => 'Bitte Bewertung auswählen.',
     'something_wrong' => 'Etwas ist schief gelaufen.',
     'server_error' => 'Serverfehler. Bitte versuchen Sie es erneut.',
+  ),
+  'meta' => 
+  array (
+    'title' => 'Bewertungen und Erfahrungen von Reisenden | TripSpoiler',
+    'description' => 'Lesen Sie echte Reisebewertungen auf TripSpoiler. Erhalten Sie ehrliches Feedback zu City-Pässen, Attraktionen und Erlebnissen, bevor Sie Ihre Reise planen.',
+  ),
+  'hero' => 
+  array (
+    'title_line1' => 'Reisende teilen',
+    'title_line2' => 'ihre Erfahrungen',
+    'description' => 'Echte Geschichten von Reisenden, die TripSpoiler genutzt haben, um City-Pässe zu vergleichen, Sehenswürdigkeiten zu erkunden und intelligentere Reisen zu planen.',
+    'rating_text' => 'Bewertung von:Reisebewertungen zählen',
+  ),
+  'cards' => 
+  array (
+    'review1' => 'TripSpoiler hat den Vergleich von City-Pässen unglaublich einfach gemacht.',
+    'review1_city' => 'London',
+    'review2' => 'Dank TripSpoiler habe ich stundenlange Recherche gespart.',
+    'review2_city' => 'Singapur',
+    'review3' => 'Die Vergleiche sind super anschaulich und hilfreich.',
+    'review3_city' => 'Rom',
   ),
 );
