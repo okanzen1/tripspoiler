@@ -51,6 +51,7 @@
                     ],
                     'description' =>
                         'Curated city experiences, museum guides and travel insights from around the world.',
+                    'foundingDate' => '2024',
                     'sameAs' => [
                         'https://www.instagram.com/tripspoilerofficial/',
                         'https://www.tiktok.com/@tripspoilerofficial',
@@ -79,11 +80,14 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VKGSGTFYD1"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-    gtag('config', 'G-VKGSGTFYD1');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-VKGSGTFYD1');
     </script>
 
 </head>

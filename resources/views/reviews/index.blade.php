@@ -84,9 +84,6 @@
 
         </div>
 
-
-
-        {{ __('reviews.cards.review1_city') }}
         <!-- DESKTOP FLOATING REVIEW CARDS -->
         <div class="absolute inset-0 pointer-events-none hidden lg:block">
 
@@ -103,7 +100,6 @@
 
                     <div
                         class="w-9 h-9 rounded-full bg-[#c62e2e] flex items-center justify-center text-white text-xs font-semibold">
-                        {{ __('reviews.cards.review1_name') }}
                         EM
                     </div>
 
@@ -275,3 +271,13 @@
     <x-review-modal :source="$source ?? null" :sourceId="$sourceId ?? null" />
 
 @endsection
+
+@push('scripts')
+    <script type="application/ld+json">
+        {!! json_encode($reviewSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+
+    <script type="application/ld+json">
+        {!! json_encode($itemListSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+@endpush

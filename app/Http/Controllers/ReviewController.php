@@ -32,13 +32,97 @@ class ReviewController extends Controller
             ->paginate(20);
 
         $average = round(Review::where('approved', true)->avg('rating') ?? 0, 1);
+        $totalReviews = Review::where('approved', true)->count();
 
         $general = [
             'averageRating' => $average,
             'stars' => round($average),
+            'totalReviews' => $totalReviews,
         ];
 
-        return view('reviews.index', compact('reviews', 'source', 'sourceId', 'general'));
+        /*
+        |--------------------------------------------------------------------------
+        | Review Schema
+        |--------------------------------------------------------------------------
+        */
+
+        $reviewSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Organization',
+            '@id' => config('app.url') . '#organization',
+            'name' => 'TripSpoiler',
+            'url' => config('app.url'),
+            'aggregateRating' => [
+                '@type' => 'AggregateRating',
+                'ratingValue' => $average,
+                'reviewCount' => $totalReviews,
+                'bestRating' => '5',
+                'worstRating' => '1',
+            ],
+            'review' => [],
+        ];
+
+        foreach ($reviews as $review) {
+            $reviewSchema['review'][] = [
+                '@type' => 'Review',
+                'author' => [
+                    '@type' => 'Person',
+                    'name' => $review->name,
+                ],
+                'datePublished' => $review->created_at->toIso8601String(),
+                'reviewBody' => $review->comment,
+                'reviewRating' => [
+                    '@type' => 'Rating',
+                    'ratingValue' => $review->rating,
+                    'bestRating' => '5',
+                    'worstRating' => '1',
+                ],
+            ];
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | ItemList Schema
+        |--------------------------------------------------------------------------
+        */
+
+        $itemListSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'ItemList',
+            '@id' => url()->current() . '#review-list',
+            'itemListElement' => [],
+        ];
+
+        foreach ($reviews as $index => $review) {
+            $itemListSchema['itemListElement'][] = [
+                '@type' => 'ListItem',
+                'position' => $index + 1,
+                'item' => [
+                    '@type' => 'Review',
+                    'author' => [
+                        '@type' => 'Person',
+                        'name' => $review->name,
+                    ],
+                    'reviewBody' => $review->comment,
+                    'reviewRating' => [
+                        '@type' => 'Rating',
+                        'ratingValue' => $review->rating,
+                        'bestRating' => '5',
+                        'worstRating' => '1',
+                    ],
+                    'datePublished' => $review->created_at->toIso8601String(),
+                ],
+            ];
+        }
+
+        return view('reviews.index', compact(
+            'reviews',
+            'source',
+            'sourceId',
+            'general',
+            'reviewSchema',
+            'itemListSchema'
+        ));
     }
 
     public function store(Request $request)
