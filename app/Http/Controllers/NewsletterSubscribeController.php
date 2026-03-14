@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BlogSubscriber;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewBlogSubscriberNotification;
 
 class NewsletterSubscribeController extends Controller
 {
@@ -38,6 +40,11 @@ class NewsletterSubscribeController extends Controller
         BlogSubscriber::create([
             'email' => $normalizedEmail,
         ]);
+
+        if (app()->environment('production')) {
+            Mail::to('info@tripspoiler.com')
+                ->send(new NewBlogSubscriberNotification($normalizedEmail));
+        }
 
         return response()->json([
             'status' => 'success',
