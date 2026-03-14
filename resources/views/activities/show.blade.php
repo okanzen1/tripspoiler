@@ -336,6 +336,7 @@
 
     </div>
     {{-- FAQ --}}
+    <x-reviews :source="'activity-show'" :source-id="$activity->id"  :sectionHeader="true" :reviewSummary="true" :testimonials="true" />
     <x-faq source="activity-show" :source-id="$activity->id" bgColor="bg-[#FFF8F6]" />
 @endsection
 

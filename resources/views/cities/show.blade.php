@@ -351,6 +351,8 @@
         </section>
     @endif
 
+    <x-reviews :source="'cities'" :source-id="null" :sectionHeader="true" :reviewSummary="true" :testimonials="true" :color="'bg-white'" />
+
     @if ($pageImages->isNotEmpty())
         <section class="py-20 bg-[#F7F9FB]">
             <div class="max-w-7xl mx-auto px-6">

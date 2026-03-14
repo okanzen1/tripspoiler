@@ -107,4 +107,17 @@ return [
 
     ],
 
+    'empty' => [
+
+        'title' => 'Turn your trip into',
+
+        'highlight' => 'an inspiring travel story',
+
+        'description' => 'Share your TripSpoiler experience and help future travelers discover cities with better insights, smarter planning and unforgettable moments.',
+
+        'sub' => 'Your experience could inspire the next great trip',
+
+    ],
+
+
 ];

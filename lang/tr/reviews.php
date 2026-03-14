@@ -67,4 +67,11 @@ return array (
     'review3' => 'Karşılaştırmalar son derece net ve faydalıdır.',
     'review3_city' => 'Roma',
   ),
+  'empty' => 
+  array (
+    'title' => 'Seyahatinizi dönüştürün',
+    'highlight' => 'ilham verici bir seyahat hikayesi',
+    'description' => 'TripSpoiler deneyiminizi paylaşın ve gelecekteki gezginlerin daha iyi bilgiler, daha akıllı planlama ve unutulmaz anlarla şehirleri keşfetmesine yardımcı olun.',
+    'sub' => 'Deneyiminiz bir sonraki harika geziye ilham verebilir',
+  ),
 );

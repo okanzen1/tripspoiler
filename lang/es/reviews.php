@@ -67,4 +67,11 @@ return array (
     'review3' => 'Las comparaciones son súper claras y útiles.',
     'review3_city' => 'Roma',
   ),
+  'empty' => 
+  array (
+    'title' => 'Convierte tu viaje en',
+    'highlight' => 'una historia de viaje inspiradora',
+    'description' => 'Comparte tu experiencia TripSpoiler y ayuda a futuros viajeros a descubrir ciudades con mejores conocimientos, una planificación más inteligente y momentos inolvidables.',
+    'sub' => 'Tu experiencia podría inspirar el próximo gran viaje',
+  ),
 );

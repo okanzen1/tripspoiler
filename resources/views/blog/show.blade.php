@@ -241,7 +241,8 @@
             @endforeach
         </div>
     </section>
-
+    
+    <x-reviews :source="'blog-show'" :source-id="$blog->id" :sectionHeader="true" :reviewSummary="true" :testimonials="true" :color="'bg-white'" />
     <x-faq source="blog-content" :source-id="$blog->id" />
 
     <!-- MOBILE STICKY BAR -->

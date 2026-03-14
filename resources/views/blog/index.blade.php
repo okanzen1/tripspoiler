@@ -101,6 +101,8 @@
     <div id="blogList">
         @include('blog.partials.list', ['blogs' => $blogs])
     </div>
+
+    <x-reviews :source="'blog'" :source-id="null" :sectionHeader="true" :reviewSummary="true" :testimonials="true" :color="'bg-white'" />
 @endsection
 
 @push('scripts')

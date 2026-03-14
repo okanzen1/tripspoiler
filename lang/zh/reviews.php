@@ -67,4 +67,11 @@ return array (
     'review3' => '比较非常清晰且有帮助。',
     'review3_city' => '罗马',
   ),
+  'empty' => 
+  array (
+    'title' => '把你的旅行变成',
+    'highlight' => '一个鼓舞人心的旅行故事',
+    'description' => '分享您的 TripSoiler 体验，帮助未来的旅行者通过更深入的见解、更明智的规划和难忘的时刻来探索城市。',
+    'sub' => '您的经历可能会激发下一次愉快的旅行',
+  ),
 );
