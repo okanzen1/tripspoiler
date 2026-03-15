@@ -1,3 +1,11 @@
+import Swiper from 'swiper';
+import { Navigation } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+
+Swiper.use([Navigation]);
+
 window.initSwipers = function () {
 
     /* MOST POPULAR ACTIVITIES */
@@ -10,6 +18,7 @@ window.initSwipers = function () {
         }
 
         new Swiper(mostPopular, {
+            modules: [Navigation],
             loop: false,
             spaceBetween: 24,
             grabCursor: true,
@@ -20,7 +29,6 @@ window.initSwipers = function () {
                 prevEl: '.swiper-button-prev-custom',
             }
         });
-
     }
 
 
@@ -42,7 +50,6 @@ window.initSwipers = function () {
                 1024: { slidesPerView: 3 }
             }
         });
-
     }
 
 
@@ -72,7 +79,6 @@ window.initSwipers = function () {
             }
 
         });
-
     }
 
 };
