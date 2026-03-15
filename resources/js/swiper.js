@@ -4,8 +4,6 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-Swiper.use([Navigation]);
-
 window.initSwipers = function () {
 
     /* MOST POPULAR ACTIVITIES */
@@ -25,8 +23,8 @@ window.initSwipers = function () {
             slidesPerView: 'auto',
 
             navigation: {
-                nextEl: '.swiper-button-next-custom',
-                prevEl: '.swiper-button-prev-custom',
+                nextEl: mostPopular.closest('section')?.querySelector('.swiper-button-next-custom'),
+                prevEl: mostPopular.closest('section')?.querySelector('.swiper-button-prev-custom'),
             }
         });
     }
@@ -63,6 +61,7 @@ window.initSwipers = function () {
         }
 
         new Swiper(premiumSwiper, {
+            modules: [Navigation],
 
             slidesPerView: 1.1,
             spaceBetween: 24,
@@ -74,8 +73,8 @@ window.initSwipers = function () {
             },
 
             navigation: {
-                nextEl: '.swiper-button-next-custom',
-                prevEl: '.swiper-button-prev-custom',
+                nextEl: premiumSwiper.closest('section')?.querySelector('.swiper-button-next-custom'),
+                prevEl: premiumSwiper.closest('section')?.querySelector('.swiper-button-prev-custom'),
             }
 
         });
