@@ -1,6 +1,10 @@
 import './bootstrap';
 import './swiper';
 
-window.addEventListener('load', () => {
-    initSwipers();
+window.addEventListener('DOMContentLoaded', () => {
+
+    if (window.initSwipers) {
+        window.initSwipers();
+    }
+
 });

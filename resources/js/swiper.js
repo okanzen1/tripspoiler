@@ -20,6 +20,7 @@ window.initSwipers = function () {
                 prevEl: '.swiper-button-prev-custom',
             }
         });
+
     }
 
 
@@ -41,6 +42,7 @@ window.initSwipers = function () {
                 1024: { slidesPerView: 3 }
             }
         });
+
     }
 
 
@@ -70,6 +72,7 @@ window.initSwipers = function () {
             }
 
         });
+
     }
 
 };
