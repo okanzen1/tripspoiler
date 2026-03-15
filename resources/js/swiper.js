@@ -23,8 +23,8 @@ window.initSwipers = function () {
             slidesPerView: 'auto',
 
             navigation: {
-                nextEl: mostPopular.closest('section')?.querySelector('.swiper-button-next-custom'),
-                prevEl: mostPopular.closest('section')?.querySelector('.swiper-button-prev-custom'),
+                nextEl: '.most-popular-next',
+                prevEl: '.most-popular-prev',
             }
         });
     }
@@ -40,13 +40,14 @@ window.initSwipers = function () {
         }
 
         new Swiper(reviewsSwiper, {
+            modules: [Navigation],
             spaceBetween: 24,
             slidesPerView: 1.15,
 
             breakpoints: {
                 640: { slidesPerView: 1.5 },
                 1024: { slidesPerView: 3 }
-            }
+            },
         });
     }
 
@@ -62,7 +63,6 @@ window.initSwipers = function () {
 
         new Swiper(premiumSwiper, {
             modules: [Navigation],
-
             slidesPerView: 1.1,
             spaceBetween: 24,
             grabCursor: true,
@@ -73,10 +73,9 @@ window.initSwipers = function () {
             },
 
             navigation: {
-                nextEl: premiumSwiper.closest('section')?.querySelector('.swiper-button-next-custom'),
-                prevEl: premiumSwiper.closest('section')?.querySelector('.swiper-button-prev-custom'),
+                nextEl: '.premium-next',
+                prevEl: '.premium-prev',
             }
-
         });
     }
 

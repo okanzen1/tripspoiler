@@ -176,13 +176,13 @@
                     <!-- Desktop Arrows -->
                     <div class="hidden md:flex gap-3">
                         <div
-                            class="swiper-button-prev-custom w-11 h-11 flex items-center justify-center
+                            class="premium-prev w-11 h-11 flex items-center justify-center
                             rounded-full border bg-white hover:bg-slate-100 shadow cursor-pointer">
                             ←
                         </div>
 
-                        <div
-                            class="swiper-button-next-custom w-11 h-11 flex items-center justify-center
+                       <div
+                            class="premium-next w-11 h-11 flex items-center justify-center
                             rounded-full border bg-white hover:bg-slate-100 shadow cursor-pointer">
                             →
                         </div>

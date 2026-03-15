@@ -21,14 +21,14 @@
                 <!-- NAV -->
                 <div class="hidden md:flex gap-3">
                     <div
-                        class="swiper-button-prev-custom w-11 h-11 flex items-center justify-center
+                        class="most-popular-prev w-11 h-11 flex items-center justify-center
                             rounded-xl bg-white border border-slate-200
                             shadow-sm hover:shadow-md transition cursor-pointer">
                         ←
                     </div>
 
                     <div
-                        class="swiper-button-next-custom w-11 h-11 flex items-center justify-center
+                        class="most-popular-next w-11 h-11 flex items-center justify-center
                             rounded-xl bg-white border border-slate-200
                             shadow-sm hover:shadow-md transition cursor-pointer">
                         →
@@ -40,7 +40,7 @@
             <div class="swiper most-popular-swiper">
                 <div class="swiper-wrapper">
                     {{-- ALL ACTIVITIES COVER --}}
-                    <div class="swiper-slide max-w-[300px]">
+                    <div class="swiper-slide !w-[300px]">
                         <a href="{{ route('activities.index') }}" class="group block h-full">
 
                             <div
@@ -92,7 +92,7 @@
                             $type = $activity->activity_type;
                         @endphp
 
-                        <div class="swiper-slide max-w-[300px]">
+                        <div class="swiper-slide !w-[300px]">
                             <a href="{{ $activity->affiliate_link }}" target="_blank" rel="noopener noreferrer"
                                 class="group block h-full">
 
