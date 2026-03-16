@@ -132,7 +132,9 @@
                 .then(r => r.text())
                 .then(html => {
                     document.getElementById('blogList').innerHTML = html;
-                    initSwipers();
+                    if (window.initSwipers) {
+                        window.initSwipers();
+                    }
                 });
         });
     </script>
