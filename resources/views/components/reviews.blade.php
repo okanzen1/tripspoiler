@@ -98,22 +98,22 @@
                         <!-- back card -->
                         <div
                             class="absolute top-10 left-0 w-[250px] rotate-[-8deg] overflow-hidden rounded-[26px] border border-white/70 bg-white p-2 shadow-[0_18px_40px_rgba(15,23,42,0.10)] transition duration-500 hover:-translate-y-1 hover:rotate-[-10deg]">
-                            <img src="{{ asset('/images/no-empty-three.png') }}"
-                                alt="Travel planning" class="h-[320px] w-full rounded-[20px] object-cover">
+                            <img src="{{ asset('/images/no-empty-three.png') }}" alt="Travel planning"
+                                class="h-[320px] w-full rounded-[20px] object-cover">
                         </div>
 
                         <!-- middle main card -->
                         <div
                             class="absolute top-0 left-[145px] z-10 w-[280px] rotate-[4deg] overflow-hidden rounded-[28px] border border-white/70 bg-white p-2 shadow-[0_22px_50px_rgba(15,23,42,0.14)] transition duration-500 hover:-translate-y-2 hover:rotate-[2deg]">
-                            <img src="{{asset('/images/no-empty-two.png') }}"
-                                alt="City traveler" class="h-[355px] w-full rounded-[22px] object-cover">
+                            <img src="{{ asset('/images/no-empty-two.png') }}" alt="City traveler"
+                                class="h-[355px] w-full rounded-[22px] object-cover">
                         </div>
 
                         <!-- front card -->
                         <div
                             class="absolute right-0 bottom-4 z-20 w-[235px] rotate-[9deg] overflow-hidden rounded-[24px] border border-white/70 bg-white p-2 shadow-[0_18px_40px_rgba(15,23,42,0.12)] transition duration-500 hover:-translate-y-1 hover:rotate-[7deg]">
-                            <img src="{{ asset('/images/no-empty-one.png') }}"
-                                alt="Travel memories" class="h-[290px] w-full rounded-[18px] object-cover">
+                            <img src="{{ asset('/images/no-empty-one.png') }}" alt="Travel memories"
+                                class="h-[290px] w-full rounded-[18px] object-cover">
                         </div>
 
                         <!-- soft accent -->
@@ -127,20 +127,20 @@
 
                         <div
                             class="absolute top-8 left-0 w-[150px] rotate-[-8deg] overflow-hidden rounded-[20px] border border-white/70 bg-white p-1.5 shadow-lg">
-                            <img src="{{ asset('/images/no-empty-three.png') }}"
-                                alt="Travel planning" class="h-[210px] w-full rounded-[16px] object-cover">
+                            <img src="{{ asset('/images/no-empty-three.png') }}" alt="Travel planning"
+                                class="h-[210px] w-full rounded-[16px] object-cover">
                         </div>
 
                         <div
                             class="absolute top-0 left-[92px] z-10 w-[170px] rotate-[4deg] overflow-hidden rounded-[22px] border border-white/70 bg-white p-1.5 shadow-xl">
-                            <img src="{{asset('/images/no-empty-two.png') }}"
-                                alt="City traveler" class="h-[240px] w-full rounded-[18px] object-cover">
+                            <img src="{{ asset('/images/no-empty-two.png') }}" alt="City traveler"
+                                class="h-[240px] w-full rounded-[18px] object-cover">
                         </div>
 
                         <div
                             class="absolute right-0 bottom-2 z-20 w-[145px] rotate-[8deg] overflow-hidden rounded-[18px] border border-white/70 bg-white p-1.5 shadow-lg">
-                            <img src="{{ asset('/images/no-empty-one.png') }}"
-                                alt="Travel memories" class="h-[190px] w-full rounded-[14px] object-cover">
+                            <img src="{{ asset('/images/no-empty-one.png') }}" alt="Travel memories"
+                                class="h-[190px] w-full rounded-[14px] object-cover">
                         </div>
 
                     </div>
@@ -386,16 +386,20 @@
         </section>
     @endif
     @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-         new Swiper('.reviewsSwiper', {
-            spaceBetween: 24,
-            slidesPerView: 1.15,
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+            new Swiper('.reviewsSwiper', {
+                spaceBetween: 24,
+                slidesPerView: 1.15,
 
-            breakpoints: {
-                640: { slidesPerView: 1.5 },
-                1024: { slidesPerView: 3 }
-            },
-        });
-    </script>
-
+                breakpoints: {
+                    640: {
+                        slidesPerView: 1.5
+                    },
+                    1024: {
+                        slidesPerView: 3
+                    }
+                },
+            });
+        </script>
+    @endpush
