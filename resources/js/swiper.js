@@ -1,9 +1,3 @@
-import Swiper from 'swiper';
-import { Navigation } from 'swiper/modules';
-
-import 'swiper/css';
-import 'swiper/css/navigation';
-
 window.initSwipers = function () {
 
     /* MOST POPULAR ACTIVITIES */
@@ -16,7 +10,6 @@ window.initSwipers = function () {
         }
 
         new Swiper(mostPopular, {
-            modules: [Navigation],
             loop: false,
             spaceBetween: 24,
             grabCursor: true,
@@ -40,7 +33,6 @@ window.initSwipers = function () {
         }
 
         new Swiper(reviewsSwiper, {
-            modules: [Navigation],
             spaceBetween: 24,
             slidesPerView: 1.15,
 
@@ -62,7 +54,6 @@ window.initSwipers = function () {
         }
 
         new Swiper(premiumSwiper, {
-            modules: [Navigation],
             slidesPerView: 1.1,
             spaceBetween: 24,
             grabCursor: true,

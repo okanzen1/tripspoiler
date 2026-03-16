@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
 
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
 
@@ -101,6 +101,7 @@
     
 
     @stack('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     @include('partials.footer')
 
 </body>
