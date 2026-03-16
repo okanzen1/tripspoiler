@@ -164,4 +164,17 @@
     </section>
 @endif
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+     new Swiper('.most-popular-swiper', {
+            loop: false,
+            spaceBetween: 24,
+            grabCursor: true,
+            slidesPerView: 'auto',
+
+            navigation: {
+                nextEl: '.most-popular-next',
+                prevEl: '.most-popular-prev',
+            }
+        });
+</script>
 

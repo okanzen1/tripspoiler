@@ -1,28 +1,4 @@
 window.initSwipers = function () {
-
-    /* MOST POPULAR ACTIVITIES */
-    const mostPopular = document.querySelector('.most-popular-swiper');
-
-    if (mostPopular) {
-
-        if (mostPopular.swiper) {
-            mostPopular.swiper.destroy(true, true);
-        }
-
-        new Swiper(mostPopular, {
-            loop: false,
-            spaceBetween: 24,
-            grabCursor: true,
-            slidesPerView: 'auto',
-
-            navigation: {
-                nextEl: '.most-popular-next',
-                prevEl: '.most-popular-prev',
-            }
-        });
-    }
-
-
     /* REVIEWS */
     const reviewsSwiper = document.querySelector('.reviewsSwiper');
 
