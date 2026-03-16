@@ -340,6 +340,25 @@
 
 @endsection
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        new Swiper('.premiumSwiper', {
+            slidesPerView: 1.1,
+            spaceBetween: 24,
+            grabCursor: true,
+
+            breakpoints: {
+                768: { slidesPerView: 1.4 },
+                1024: { slidesPerView: 1.6 }
+            },
+
+            navigation: {
+                nextEl: '.premium-next',
+                prevEl: '.premium-prev',
+            }
+        });
+    </script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 

@@ -163,18 +163,20 @@
         </div>
     </section>
 @endif
+@push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-     new Swiper('.most-popular-swiper', {
-            loop: false,
-            spaceBetween: 24,
-            grabCursor: true,
-            slidesPerView: 'auto',
+    <script>
+        new Swiper('.most-popular-swiper', {
+                loop: false,
+                spaceBetween: 24,
+                grabCursor: true,
+                slidesPerView: 'auto',
 
-            navigation: {
-                nextEl: '.most-popular-next',
-                prevEl: '.most-popular-prev',
-            }
-        });
-</script>
+                navigation: {
+                    nextEl: '.most-popular-next',
+                    prevEl: '.most-popular-prev',
+                }
+            });
+    </script>
+@endpush
 

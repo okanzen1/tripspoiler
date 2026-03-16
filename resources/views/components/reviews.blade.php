@@ -385,3 +385,17 @@
             <x-review-modal :source="$source ?? null" :sourceId="$sourceId ?? null" />
         </section>
     @endif
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+         new Swiper('.reviewsSwiper', {
+            spaceBetween: 24,
+            slidesPerView: 1.15,
+
+            breakpoints: {
+                640: { slidesPerView: 1.5 },
+                1024: { slidesPerView: 3 }
+            },
+        });
+    </script>
+

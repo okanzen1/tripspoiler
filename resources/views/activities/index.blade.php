@@ -132,9 +132,6 @@
                 .then(r => r.text())
                 .then(html => {
                     document.getElementById('activityList').innerHTML = html;
-                    if (window.initSwipers) {
-                        window.initSwipers();
-                    }
                 });
         });
     </script>
