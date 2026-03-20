@@ -20,7 +20,7 @@
         <div class="relative max-w-4xl mx-auto px-4 py-16 md:py-24 text-center">
 
             {{-- MAIN LOGO --}}
-            <img src="{{ asset('images/logo-tripspoiler-two.png') }}" alt="TripSpoiler"
+            <img src="{{ asset('images/logo-tripspoiler-two.webp') }}" alt="TripSpoiler"
                 class="mx-auto h-48 md:h-48 mb-6 drop-shadow-md logo-swing" />
 
             {{-- EYEBROW --}}

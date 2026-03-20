@@ -8,7 +8,7 @@
     <section class="relative h-[480px] lg:h-[720px] overflow-hidden bg-black">
 
         <!-- HERO IMAGE -->
-        <img src="{{ asset('images/review-all-hero.png') }}" class="absolute inset-0 w-full h-full object-cover">
+        <img src="{{ asset('images/review-all-hero.webp') }}" class="absolute inset-0 w-full h-full object-cover">
 
         <!-- OVERLAY -->
         <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-black/10"></div>
