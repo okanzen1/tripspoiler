@@ -50,7 +50,7 @@
                                     transition-all duration-300">
 
                                 {{-- IMAGE --}}
-                                <img src="{{ asset('images/all-activities-cover.png') }}"
+                                <img src="{{ asset('images/all-activities-cover.webp') }}"
                                     alt="{{ __('most-popular-activities.cover_title') }}"
                                     class="w-full h-full object-cover
                                     transition duration-700 group-hover:scale-105">
