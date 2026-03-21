@@ -161,7 +161,7 @@
                             @if ($city->slug == 'istanbul')
                                 <!-- TOP IMAGE -->
                                 <div class="mb-16 overflow-hidden rounded-3xl shadow-[0_30px_80px_rgba(0,0,0,0.18)]">
-                                    <img src="{{ asset('images/cities/istanbul-history.png') }}"
+                                    <img src="{{ asset('images/cities/istanbul-history.webp') }}"
                                         alt="{{ $city->getTranslation('name', $locale) }} {{ __('cities.skyline_suffix') }}"
                                         class="w-full h-[380px] md:h-[520px] object-cover">
                                 </div>
@@ -251,7 +251,7 @@
                                 <!-- Left: Large Image -->
                                 <div class="relative">
                                     <div class="overflow-hidden rounded-3xl shadow-[0_35px_90px_rgba(0,0,0,0.18)]">
-                                        <img src="{{ asset('images/cities/' . $city->slug . '-landmarks.png') }}"
+                                        <img src="{{ asset('images/cities/' . $city->slug . '-landmarks.webp') }}"
                                             alt="{{ $city->getTranslation('name', $locale) }} landmarks"
                                             class="w-full h-[420px] md:h-[520px] object-cover transition duration-700 hover:scale-105">
                                     </div>
