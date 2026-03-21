@@ -72,7 +72,7 @@
                               transform transition duration-300
                               hover:-translate-y-2 hover:scale-[1.03]">
 
-                        <img src="{{ asset('images/social-instagram.png') }}" alt="TripSpoiler Instagram"
+                        <img src="{{ asset('images/social-instagram.webp') }}" alt="TripSpoiler Instagram"
                             class="w-full h-full object-cover">
                     </a>
 
@@ -82,7 +82,7 @@
                               transform transition duration-300
                               hover:-translate-y-2 hover:scale-[1.03]">
 
-                        <img src="{{ asset('images/social-tiktok.png') }}" alt="TripSpoiler TikTok"
+                        <img src="{{ asset('images/social-tiktok.webp') }}" alt="TripSpoiler TikTok"
                             class="w-full h-full object-cover">
                     </a>
 

@@ -1,5 +1,5 @@
 @props([
-    'image' => 'images/tripspoiler-statement.png',
+    'image' => 'images/tripspoiler-statement.webp',
     'alt' => __('city-entry-section.alt'),
     'eyebrow' => __('city-entry-section.eyebrow'),
     'title' => __('city-entry-section.title'),
