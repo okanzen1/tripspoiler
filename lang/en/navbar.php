@@ -10,4 +10,6 @@ return [
 
     'blog' => 'Blog',
 
+    'language' => 'Language',
+
 ];

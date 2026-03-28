@@ -5,4 +5,5 @@ return array (
   'activities' => 'Faaliyetler',
   'cities' => 'Şehirler',
   'blog' => 'Blog',
+  'language' => 'Dil',
 );

@@ -5,4 +5,5 @@ return array (
   'activities' => '活動内容',
   'cities' => '都市',
   'blog' => 'ブログ',
+  'language' => '言語',
 );

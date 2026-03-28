@@ -2,29 +2,29 @@
     <nav class="flex flex-col px-4 py-3 text-sm">
 
         <a href="{{ route('home') }}" class="py-2 {{ request()->routeIs('home') ? 'text-[#C62E2E]' : 'text-slate-700' }}">
-            Home
+            {{ __('navbar.home') }}
         </a>
 
         <a href="{{ route('activities.index') }}"
             class="py-2 {{ request()->routeIs('activities.*') ? 'text-[#C62E2E]' : 'text-slate-700' }}">
-            Activities
+            {{ __('navbar.activities') }}
         </a>
 
         <a href="{{ route('cities.index') }}"
             class="py-2 {{ request()->routeIs('cities.*') ? 'text-[#C62E2E]' : 'text-slate-700' }}">
-            Cities
+            {{ __('navbar.cities') }}
         </a>
 
         <a href="{{ route('blog.index') }}"
             class="py-2 {{ request()->routeIs('blog.*') ? 'text-[#C62E2E]' : 'text-slate-700' }}">
-            Blog
+            {{ __('navbar.blog') }}
         </a>
 
         {{-- LANGUAGE --}}
         <div class="mt-4 pt-4 border-t border-slate-200">
 
             <p class="text-xs font-semibold text-slate-400 uppercase mb-2">
-                Language
+                {{ __('navbar.language') }}
             </p>
 
             <div class="flex flex-wrap gap-2">
