@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CityController;
@@ -153,6 +153,12 @@ Route::group(
         Route::post('/reviews/go', [ReviewController::class, 'go'])->name('reviews.go');
         Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
         Route::post('/reviews', [ReviewController::class, 'store'])->middleware('throttle:5,1')->name('reviews.store');
+
+
+        Route::post('/set-city', function (Request $request) {
+            session(['selected_city_id' => $request->city_id]);
+            return response()->json(['ok' => true]);
+        });
     }
 
 );

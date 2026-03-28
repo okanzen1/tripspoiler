@@ -12,8 +12,9 @@ class BlogController extends Controller
     {
         $locale = app()->getLocale();
         $cities = City::where('active', true)->get();
-        $cityId = $request->get('city_id') ?? 1;
-        $currentCityName = $cities->firstWhere('id', $cityId)->name ?? $cities->first()->name;
+        $cityId = (int) ($request->get('city_id') ?? session('selected_city_id') ?? 1);
+        $currentCity = $cities->firstWhere('id', $cityId) ?? $cities->first();
+        $currentCityName = $currentCity?->getTranslation('name', $locale);
 
         $blogs = Blog::where('status', true)
             ->with('city', 'images')

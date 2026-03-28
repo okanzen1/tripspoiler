@@ -14,7 +14,7 @@ class ActivityController extends Controller
         $locale = app()->getLocale();
 
         $cities = City::where('active', true)->get();
-        $cityId = (int) ($request->get('city_id') ?? 1);
+        $cityId = (int) ($request->get('city_id') ?? session('selected_city_id') ?? 1);
 
         $currentCity = $cities->firstWhere('id', $cityId) ?? $cities->first();
         $currentCityName = $currentCity?->getTranslation('name', $locale);

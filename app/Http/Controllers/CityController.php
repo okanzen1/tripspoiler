@@ -11,7 +11,20 @@ class CityController extends Controller
     public function index()
     {
         $locale = app()->getLocale();
-        $city = City::where('active', true)->select('id', 'slug')->firstOrFail();
+
+        $cityId = session('selected_city_id');
+
+        $city = null;
+
+        if ($cityId) {
+            $city = City::where('id', $cityId)
+                ->where('active', true)
+                ->first();
+        }
+
+        if (!$city) {
+            $city = City::where('active', true)->firstOrFail();
+        }
 
         return redirect()->route('cities.show', [
             'slug' => $city->getTranslation('slug', $locale)
@@ -28,10 +41,13 @@ class CityController extends Controller
                     ->orWhere("slug->en", $slug);
             })
             ->firstOrFail();
+        
+        session(['selected_city_id' => $city->id]);
 
         $cities = City::where('active', true)
             ->select('id', 'name', 'slug')
             ->orderBy("name->{$locale}")
+            ->orderBy('id')
             ->get();
 
 
@@ -109,7 +125,7 @@ class CityController extends Controller
             ],
 
             'sameAs' => [
-                'https://en.wikipedia.org/wiki/' . urlencode($city->getTranslation('name','en'))
+                'https://en.wikipedia.org/wiki/' . urlencode($city->getTranslation('name', 'en'))
             ]
         ];
 

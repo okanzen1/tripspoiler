@@ -123,6 +123,17 @@
                 cityLabelEl.textContent = cityName;
             }
 
+            fetch(`{{ LaravelLocalization::localizeUrl('/set-city') }}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    city_id: this.value
+                })
+            });
+
             // Fetch activities (existing logic)
             fetch(`{{ route('activities.index') }}?city_id=${this.value}`, {
                     headers: {
