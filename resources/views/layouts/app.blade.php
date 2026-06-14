@@ -20,7 +20,7 @@
     <meta name="yandex-verification" content="a7cedc75b9464208" />
 
     {{-- Canonical --}}
-    <link rel="canonical" href="{{ url()->current() }}" />
+   <link rel="canonical" href="{{ LaravelLocalization::getLocalizedURL(app()->getLocale(), null, [], true) }}" />
 
     {{-- Hreflang --}}
     @foreach (LaravelLocalization::getSupportedLocales() as $locale => $properties)
