@@ -1,9 +1,13 @@
 <?php
 
-return array (
-  'badge' => 'Sosyal varlık',
-  'title' => 'Yolculuğu takip edin',
-  'text' => 'Her rehberin arkasında araştırma, düşünme ve gerçek keşif vardır. Sakin içgörüler, seçilmiş anlar ve düşünceli seyahat ilhamı için TripSpoiler\'ı takip edin.',
-  'instagram' => 'Instagram',
-  'tiktok' => 'TikTok',
-);
+return [
+
+    'eyebrow' => 'Bizi takip et',
+    'title' => 'Seyahat ipuçları',
+    'title_highlight' => 'akışına gelsin.',
+    'text' => 'Gezdiğimiz şehirlerden kısa videolar ve hızlı ipuçları; gitmeden önce.',
+    'instagram_cta' => 'Reels, fotoğraflar ve şehir ipuçları',
+    'tiktok_cta' => 'Yoldan kısa videolar',
+    'follow' => 'Takip et',
+
+];

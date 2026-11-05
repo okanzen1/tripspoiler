@@ -1,14 +1,20 @@
 <?php
 
-return array (
-  'title' => 'Planifier avec clarté. Voyager en toute confiance.',
-  'desc' => 'Pas de chaos. Pas de bruit.
-        Juste le calme avant d\'entrer dans une nouvelle ville.',
-  'step_label' => 'Étape',
-  'step1_title' => 'Sentir le lieu avant d\'arriver',
-  'step1_text' => 'Découvrez ce qui compte vraiment dans une ville. Un contexte honnête. Une profondeur tranquille. Pas d\'effets d\'annonce vides de sens.',
-  'step2_title' => 'Choisir avec intention',
-  'step2_text' => 'Voyez ce qui mérite que vous y consacriez du temps. Sachez ce qu\'il faut laisser de côté. Comprendre quand la rapidité d\'accès est vraiment importante.',
-  'step3_title' => 'Arriver calmement. Avancez avec certitude.',
-  'step3_text' => 'Voyager en sachant que vous avez pris la bonne décision. Pas de doute. Pas de regret. Juste une présence.',
-);
+return [
+
+    'eyebrow' => 'Comment ça marche',
+    'title' => 'Planifiez votre voyage en',
+    'title_highlight' => 'trois étapes.',
+    'desc' => 'De la première idée au billet en main, sans deviner.',
+    'step_label' => 'Étape',
+    'step1_title' => 'Lisez le guide',
+    'step1_text' => 'Découvrez ce que raconte chaque site, la durée de visite et le meilleur moment pour y aller.',
+    'step1_cta' => 'Voir les guides',
+    'step2_title' => 'Comparez les options',
+    'step2_text' => 'Voyez city pass et billets simples côte à côte, et choisissez ce qui convient à votre programme.',
+    'step2_cta' => 'Comparer les pass',
+    'step3_title' => 'Réservez et partez',
+    'step3_text' => 'Achetez auprès d’un partenaire de confiance, gardez le billet sur votre téléphone et évitez la file.',
+    'step3_cta' => 'Voir les activités',
+
+];

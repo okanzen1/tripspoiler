@@ -1,5 +1,5 @@
 @php
-    $types = $activities->pluck('activity_type')->unique()->values();
+    $types = $activities->pluck('type')->unique()->values();
 @endphp
 
 <style>
@@ -56,9 +56,9 @@
             @foreach ($activities as $activity)
                 @php
                     $title = $activity->getTranslation('name', $locale);
-                    $slug = $activity->getTranslation('slug', $locale);
-                    $image = $activity->images->first();
-                    $type = $activity->activity_type;
+                    $slug = $activity->slug;
+                    $image = $activity->cover;
+                    $type = $activity->type;
                 @endphp
 
                 <div x-show="filter==='all' || filter==='{{ $type }}'"
@@ -80,7 +80,7 @@
 
                             {{-- IMAGE --}}
                             @if ($image)
-                                <img src="{{ route('images.view', $image->id) }}"
+                                <img loading="lazy" decoding="async" src="{{ $image->url('sm') }}"
                                     alt="{{ $title }}"
                                     class="w-full h-full object-cover
                                             transition duration-700
@@ -138,9 +138,9 @@
     </div>
 </section>
 
-<x-most-popular-blog source="home" :source-id="null" :city-id="$cityId" />
+<x-most-popular-blog :city-id="$cityId" />
 
 
 @push('scripts')
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
 @endpush

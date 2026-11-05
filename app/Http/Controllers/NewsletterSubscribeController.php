@@ -24,22 +24,22 @@ class NewsletterSubscribeController extends Controller
             'email' => 'required|email:rfc,dns|max:255',
         ]);
 
-        // Normalize + hash
         $normalizedEmail = mb_strtolower(trim($validated['email']));
-        $emailHash = hash('sha256', $normalizedEmail);
+        $subscriber = BlogSubscriber::where('email_hash', BlogSubscriber::hash($normalizedEmail))->first();
 
-        // Exists check
-        if (BlogSubscriber::where('email_hash', $emailHash)->exists()) {
+        if ($subscriber && !$subscriber->unsubscribed_at) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'This email is already subscribed.',
             ], 409);
         }
 
-        // Save (encrypt modelde)
-        BlogSubscriber::create([
-            'email' => $normalizedEmail,
-        ]);
+        // Daha önce abonelikten çıktıysa yeniden aktif olur
+        $subscriber ??= new BlogSubscriber(['email' => $normalizedEmail]);
+        $subscriber->fill([
+            'unsubscribed_at' => null,
+            'source_path' => mb_substr((string) parse_url((string) $request->headers->get('referer'), PHP_URL_PATH), 0, 500) ?: null,
+        ])->save();
 
         if (app()->environment('production')) {
             Mail::to('info@tripspoiler.com')

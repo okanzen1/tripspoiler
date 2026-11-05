@@ -1,0 +1,36 @@
+<?php
+
+return [
+
+    'meta_title' => 'Yapılacak şeyler · TripSpoiler',
+    'meta_description' => 'Biletler, turlar, şehir kartları ve sesli rehberler; almadan önce seçilmiş ve anlatılmış.',
+    'eyebrow' => 'Aktiviteler',
+    'title' => 'Yapılacak şeyler:',
+    'title_city' => ':city',
+    'desc' => 'Özenle seçilmiş biletler, turlar ve şehir kartları. Neyin dahil olduğunu oku, sonra güvenilir partnerden doğrudan al.',
+    'stat_total' => 'Aktivite',
+    'stat_passes' => 'Şehir kartı',
+    'stat_audio' => 'Sesli rehberli',
+    'stat_languages' => 'Dil',
+    'choose_city' => 'Şehir seç',
+    'all' => 'Tümü',
+    'pass' => 'Şehir kartları',
+    'product' => 'Deneyimler',
+    'package' => 'Paketler',
+    'search' => 'Aktivite ara…',
+    'details' => 'Detaylar',
+    'audio' => 'Sesli rehber',
+    'results' => ':count aktivite',
+    'no_results' => 'Aramana uyan aktivite yok',
+    'no_results_hint' => 'Daha kısa bir kelime ya da başka bir filtre dene.',
+    'empty_title' => 'Henüz aktivite yok',
+    'empty_text' => 'Bu şehir için aktiviteler ekliyoruz. Yakında tekrar bak.',
+    'how_title' => 'Nasıl çalışır',
+    'how_1' => 'Bir aktivite seç, neyin dahil olduğunu oku',
+    'how_2' => '“:button” düğmesine bas, güvenilir partnerimize git',
+    'how_3' => 'Ödemeyi partnere yap, biletin doğrudan gelsin',
+    'city' => 'Şehir',
+
+    'cities_count' => ':count şehir',
+    'activity_count' => ':count aktivite',
+];

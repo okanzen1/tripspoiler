@@ -1,0 +1,27 @@
+<?php
+
+// Yorumlar sayfası
+return [
+    'meta_title' => 'Opiniones de viajeros | TripSpoiler',
+    'meta_description' => 'Opiniones honestas de viajeros que planearon su viaje con TripSpoiler: valoraciones, experiencias y consejos.',
+    'eyebrow' => 'Opiniones',
+    'title' => 'Lo que dicen',
+    'title_highlight' => 'los viajeros',
+    'desc' => 'Experiencias reales de quienes planearon su viaje con TripSpoiler. Cada opinión se revisa antes de publicarse.',
+    'write' => 'Escribir una opinión',
+    'score_title' => 'Valoración media',
+    'based_on' => ':count opiniones',
+    'all' => 'Todas',
+    'stars' => ':n estrellas',
+    'recent' => 'Últimas opiniones',
+    'empty_title' => 'Aún no hay opiniones',
+    'empty_text' => 'Sé el primero en contar cómo fue tu viaje.',
+    'verified' => 'Opinión revisada',
+    'about_activity' => 'Sobre',
+    'general' => 'General',
+    'read_more' => 'Leer más',
+    'read_less' => 'Ver menos',
+    'load_more' => 'Ver más opiniones',
+    'share_title' => '¿Planeaste tu viaje con nosotros?',
+    'share_text' => 'Cuéntales a otros viajeros cómo fue; solo te lleva un minuto.',
+];

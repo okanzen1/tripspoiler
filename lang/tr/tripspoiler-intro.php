@@ -1,19 +1,25 @@
 <?php
 
-return array (
-  'eyebrow' => 'TripSpoiler nedir',
-  'title_line1' => 'Daha derine seyahat et.',
-  'title_line2' => 'Sadece daha ileri değil.',
-  'p1' => 'TripSpoiler, bir şehri varmadan önce anlamak isteyen gezginler için tasarlanmıştır.',
-  'p2' => 'Bir yeri net bir şekilde görmenize yardımcı olacak düşünceli rehberler, müze içgörüleri ve anlamlı deneyimler paylaşıyoruz. Bunaltıcı listeler yerine, bir şehri gerçekten unutulmaz kılan şeylere odaklanıyoruz.',
-  'explore_cities' => 'Şehirleri Keşfedin',
-  'discover_activities' => 'Etkinlikleri Keşfedin',
-  'cities' => 'Şehirler',
-  'cities_desc' => 'Meraklı gezginler için seçilmiş şehir rehberleri.',
-  'museums' => 'Müzeler',
-  'museums_desc' => 'Bağlamı ve anlamı olan müzeleri keşfedin.',
-  'experiences' => 'Deneyimler',
-  'experiences_desc' => 'Zaman ayırmaya değer, özenle seçilmiş etkinlikler.',
-  'stories' => 'Hikayeler',
-  'stories_desc' => 'Dikkatli gezginler için düşünceli okumalar.',
-);
+return [
+
+    'eyebrow' => 'TripSpoiler nedir',
+    'title' => 'Şehri',
+    'title_highlight' => 'gitmeden tanı.',
+    'desc' => 'TripSpoiler, bir yeri varmadan önce anlamak isteyen gezginler için.',
+    'p2' => 'Net rehberler, dürüst karşılaştırmalar ve önemli yerler için biletler. Bitmeyen listeler yok; sadece bir şehri gezmeye değer kılanlar.',
+    'explore_cities' => 'Şehirleri keşfet',
+    'discover_activities' => 'Aktivitelere göz at',
+    'cities' => 'Şehirler',
+    'cities_desc' => 'Neyin, nasıl görüleceğini anlatan şehir rehberleri.',
+    'experiences' => 'Deneyimler',
+    'experiences_desc' => 'Zamanına değecek turlar, biletler ve sesli rehberler.',
+    'passes' => 'Şehir kartları',
+    'passes_desc' => 'Kartlar karşılaştırmalı; işine yarayanı seç.',
+    'stories' => 'Rehberler',
+    'stories_desc' => 'Gitmeden önce okunacak pratik yazılar.',
+    'count_cities' => ':count şehir',
+    'count_experiences' => ':count deneyim',
+    'count_passes' => ':count şehir kartı',
+    'count_stories' => ':count rehber',
+
+];

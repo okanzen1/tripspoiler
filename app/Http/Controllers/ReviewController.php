@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Review;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReviewSubmitted;
@@ -27,11 +28,15 @@ class ReviewController extends Controller
         $sourceId = session('review_source_id');
         $general = [];
 
-        $reviews = Review::where('approved', true)
-            // ->when($source, fn($q) => $q->where('source', $source))
-            // ->when($sourceId, fn($q) => $q->where('source_id', $sourceId))
+        // yıldız süzgeci (?rating=5) ve dağılım
+        $rating = in_array((int) request('rating'), [1, 2, 3, 4, 5], true) ? (int) request('rating') : null;
+        $reviews = Review::approved()
+            ->with('activity')
+            ->when($rating, fn ($q) => $q->where('rating', $rating))
             ->latest()
-            ->paginate(20);
+            ->paginate(12)
+            ->withQueryString();
+        $distribution = Review::approved()->selectRaw('rating, count(*) as n')->groupBy('rating')->pluck('n', 'rating');
 
         $average = round(Review::where('approved', true)->avg('rating') ?? 0, 1);
         $totalReviews = Review::where('approved', true)->count();
@@ -40,6 +45,8 @@ class ReviewController extends Controller
             'averageRating' => $average,
             'stars' => round($average),
             'totalReviews' => $totalReviews,
+            'distribution' => collect([5, 4, 3, 2, 1])->mapWithKeys(fn ($r) => [$r => (int) ($distribution[$r] ?? 0)])->all(),
+            'rating' => $rating,
         ];
 
         /*
@@ -144,16 +151,16 @@ class ReviewController extends Controller
             return response()->json(['success' => true]);
         }
 
-        // EMAIL normalize
         $normalizedEmail = mb_strtolower(trim($validated['email']));
-
-        // HASH (duplicate kontrolü için)
         $emailHash = hash('sha256', $normalizedEmail);
 
-        // DUPLICATE kontrolü
+        // Aktivite sayfasından geldiyse o aktiviteye, değilse sitenin geneline yazılır
+        $activityId = in_array($validated['source'], ['activity', 'activity-show'], true) && !empty($validated['source_id'])
+            ? Activity::whereKey($validated['source_id'])->value('id')
+            : null;
+
         $exists = Review::where('email_hash', $emailHash)
-            ->where('source', $validated['source'])
-            ->where('source_id', $validated['source_id'])
+            ->where('activity_id', $activityId)
             ->exists();
 
         if ($exists) {
@@ -167,11 +174,9 @@ class ReviewController extends Controller
         $review = Review::create([
             'name' => trim($validated['name']),
             'email' => $normalizedEmail,
-            'email_hash' => $emailHash,
+            'activity_id' => $activityId,
             'rating' => $validated['rating'],
             'comment' => strip_tags(trim($validated['comment'])),
-            'source' => $validated['source'],
-            'source_id' => $validated['source_id'] ?? null,
             'approved' => false,
         ]);
 

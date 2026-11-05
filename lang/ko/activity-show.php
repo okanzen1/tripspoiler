@@ -1,0 +1,30 @@
+<?php
+
+// Aktivite detay sayfası
+return [
+    'breadcrumb' => '경로',
+    'home' => '홈',
+    'photos' => '사진 :count장',
+    'all_photos' => '모든 사진 보기',
+    'type' => '유형',
+    'duration' => '소요 시간',
+    'audio' => '오디오 가이드',
+    'audio_yes' => '포함',
+    'location' => '위치',
+    'booking' => '예약',
+    'booking_value' => '파트너 사이트에서',
+    'about' => '이 액티비티 소개',
+    'read_more' => '더 보기',
+    'read_less' => '접기',
+    'book_eyebrow' => '티켓 및 예약 가능 여부',
+    'book_via' => '예약처',
+    'cta' => '예약 가능 여부 확인',
+    'trust_official' => '공식 티켓 판매처',
+    'trust_instant' => '즉시 확정',
+    'trust_secure' => '파트너 사이트에서 안전하게 결제',
+    'how_title' => '이용 방법',
+    'similar_eyebrow' => '같은 도시에서',
+    'similar_title' => '더 즐길 거리:',
+    'similar_desc' => '같은 도시의 다른 티켓, 투어, 시티 카드.',
+    'gallery_close' => '닫기',
+];

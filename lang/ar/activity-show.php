@@ -1,0 +1,30 @@
+<?php
+
+// Aktivite detay sayfası
+return [
+    'breadcrumb' => 'مسار التنقل',
+    'home' => 'الرئيسية',
+    'photos' => ':count صور',
+    'all_photos' => 'عرض كل الصور',
+    'type' => 'النوع',
+    'duration' => 'المدة',
+    'audio' => 'دليل صوتي',
+    'audio_yes' => 'مشمول',
+    'location' => 'الموقع',
+    'booking' => 'الحجز',
+    'booking_value' => 'على موقع الشريك',
+    'about' => 'عن هذا النشاط',
+    'read_more' => 'اقرأ المزيد',
+    'read_less' => 'عرض أقل',
+    'book_eyebrow' => 'التذاكر والتوفر',
+    'book_via' => 'الحجز عبر',
+    'cta' => 'تحقق من التوفر',
+    'trust_official' => 'مزود تذاكر رسمي',
+    'trust_instant' => 'تأكيد فوري',
+    'trust_secure' => 'دفع آمن على موقع الشريك',
+    'how_title' => 'كيف يعمل',
+    'similar_eyebrow' => 'في نفس المدينة',
+    'similar_title' => 'المزيد في',
+    'similar_desc' => 'تذاكر وجولات وبطاقات مدينة أخرى لنفس المدينة.',
+    'gallery_close' => 'إغلاق',
+];

@@ -1,0 +1,30 @@
+<?php
+
+// Aktivite detay sayfası
+return [
+    'breadcrumb' => 'Fil d’Ariane',
+    'home' => 'Accueil',
+    'photos' => ':count photos',
+    'all_photos' => 'Voir toutes les photos',
+    'type' => 'Type',
+    'duration' => 'Durée',
+    'audio' => 'Audioguide',
+    'audio_yes' => 'Inclus',
+    'location' => 'Lieu',
+    'booking' => 'Réservation',
+    'booking_value' => 'Sur le site partenaire',
+    'about' => 'À propos de cette activité',
+    'read_more' => 'Lire la suite',
+    'read_less' => 'Voir moins',
+    'book_eyebrow' => 'Billets et disponibilités',
+    'book_via' => 'Réservé via',
+    'cta' => 'Voir les disponibilités',
+    'trust_official' => 'Fournisseur officiel de billets',
+    'trust_instant' => 'Confirmation immédiate',
+    'trust_secure' => 'Paiement sécurisé sur le site partenaire',
+    'how_title' => 'Comment ça marche',
+    'similar_eyebrow' => 'Dans la même ville',
+    'similar_title' => 'À faire aussi à',
+    'similar_desc' => 'D’autres billets, visites et city cards pour la même ville.',
+    'gallery_close' => 'Fermer',
+];

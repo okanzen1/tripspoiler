@@ -2,14 +2,11 @@
 
 return [
 
-    'title' => 'Don’t miss new posts',
-
-    'desc' => 'Get an occasional email when we publish new TripSpoiler articles.',
-
-    'email_placeholder' => 'you@example.com',
-
-    'button' => 'Notify me about new posts',
-
+    'title' => 'New guides in your inbox',
+    'desc' => 'We only write when there is something worth reading.',
+    'email_placeholder' => 'your@email.com',
+    'button' => 'Subscribe',
     'error' => 'Something went wrong. Please try again.',
+    'note' => 'No spam. Unsubscribe anytime.',
 
 ];

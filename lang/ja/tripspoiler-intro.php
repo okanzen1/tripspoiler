@@ -1,19 +1,25 @@
 <?php
 
-return array (
-  'eyebrow' => 'TripSpoilerとは',
-  'title_line1' => 'より深く旅する。',
-  'title_line2' => 'もっと先じゃない。',
-  'p1' => 'TripSpoilerは、到着前に都市を理解したい旅行者のために作られました。',
-  'p2' => '私たちは、心のこもったガイド、美術館の見識、有意義な体験を共有することで、その場所を明瞭に見ることができるようにします。圧倒的なリストではなく、その都市を本当に思い出深いものにしているものに焦点を当てます。',
-  'explore_cities' => '都市探索',
-  'discover_activities' => 'アクティビティ',
-  'cities' => '都市',
-  'cities_desc' => '好奇心旺盛な旅行者のためにキュレーションされた都市ガイド。',
-  'museums' => '博物館',
-  'museums_desc' => '文脈と意味を持つ美術館を発見する。',
-  'experiences' => '経験',
-  'experiences_desc' => '時間を費やす価値のある活動を厳選。',
-  'stories' => 'ストーリー',
-  'stories_desc' => 'マインドフルな旅行者のための思慮深い読み物。',
-);
+return [
+
+    'eyebrow' => 'TripSpoilerとは',
+    'title' => '出発前に',
+    'title_highlight' => '街を知ろう。',
+    'desc' => 'TripSpoilerは、到着前にその土地を理解したい旅行者のためのサイトです。',
+    'p2' => 'わかりやすいガイド、正直な比較、主要スポットのチケット。終わりのないリストではなく、本当に行く価値のあるものだけ。',
+    'explore_cities' => '都市を見る',
+    'discover_activities' => 'アクティビティを見る',
+    'cities' => '都市',
+    'cities_desc' => '見どころと回り方がわかる都市ガイド。',
+    'experiences' => '体験',
+    'experiences_desc' => '時間をかける価値のあるツアー・チケット・音声ガイド。',
+    'passes' => 'シティパス',
+    'passes_desc' => 'パスを比較して、お得なものを選べます。',
+    'stories' => 'ガイド',
+    'stories_desc' => '出発前に読みたい実用記事。',
+    'count_cities' => ':count都市',
+    'count_experiences' => ':count件の体験',
+    'count_passes' => ':count種類のパス',
+    'count_stories' => ':count本のガイド',
+
+];

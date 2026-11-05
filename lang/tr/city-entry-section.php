@@ -1,9 +1,15 @@
 <?php
 
-return array (
-  'alt' => 'TripSpoiler şehir görseli',
-  'eyebrow' => 'Netlikle seyahat edin',
-  'title' => 'Seyahat, yolculuktan çok önce başlar',
-  'text' => 'Şehirleri bağlamlarıyla keşfedin. Deneyimleri niyetle seçin. Hazırlıklı ve mevcut olarak gelin.',
-  'button' => 'Şehirleri keşfedin',
-);
+return [
+
+    'alt' => 'TripSpoiler şehir görseli',
+    'eyebrow' => 'Gitmeden önce',
+    'title' => 'Seyahat, yolculuktan',
+    'title_highlight' => 'çok önce başlar.',
+    'text' => 'Şehri oku, zamanına değecek olanı seç, nereye gittiğini bilerek var.',
+    'button' => 'Şehirleri keşfet',
+    'cities_label' => 'Şehirlerimiz',
+    'secondary' => 'Aktivitelere göz at',
+
+    'city_button' => ':city şehrini keşfet',
+];

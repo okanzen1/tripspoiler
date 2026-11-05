@@ -1,14 +1,20 @@
 <?php
 
-return array (
-  'title' => 'Netlikle plan yapın. Güvenle seyahat edin.',
-  'desc' => 'Kaos yok. Gürültü yok.
-        Sadece yeni bir şehre adım atmadan önce sakin bir içgörü.',
-  'step_label' => 'Adım',
-  'step1_title' => 'Gelmeden önce mekanı hissedin',
-  'step1_text' => 'Bir şehirde gerçekten neyin önemli olduğunu keşfedin. Dürüst bağlam. Sessiz derinlik. Boş abartı yok.',
-  'step2_title' => 'Niyet ederek seçin',
-  'step2_text' => 'Zamanınızı nelerin hak ettiğini görün. Neyi atlayacağınızı bilin. Hızlı erişimin ne zaman gerçekten önemli olduğunu anlayın.',
-  'step3_title' => 'Sakin olun. Kesinlik ile hareket edin.',
-  'step3_text' => 'Doğru kararı verdiğinizi bilerek seyahat edin. Şüphe yok. Pişmanlık yok. Sadece varlık.',
-);
+return [
+
+    'eyebrow' => 'Nasıl çalışır',
+    'title' => 'Seyahatini',
+    'title_highlight' => 'üç adımda planla.',
+    'desc' => 'İlk fikirden bilet elinde olana kadar, tahmin yürütmeden.',
+    'step_label' => 'Adım',
+    'step1_title' => 'Rehberi oku',
+    'step1_text' => 'Her yerin neyi anlattığını, ne kadar sürdüğünü ve en iyi ne zaman gidileceğini öğren.',
+    'step1_cta' => 'Rehberlere göz at',
+    'step2_title' => 'Seçenekleri karşılaştır',
+    'step2_text' => 'Şehir kartlarını ve tekli biletleri yan yana gör, planına uyanı seç.',
+    'step2_cta' => 'Kartları karşılaştır',
+    'step3_title' => 'Al ve git',
+    'step3_text' => 'Güvenilir bir partnerden satın al, bileti telefonunda taşı, sırayı atla.',
+    'step3_cta' => 'Aktiviteleri gör',
+
+];

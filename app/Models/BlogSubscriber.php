@@ -2,63 +2,33 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Str;
 
+/**
+ * Blog abonesi. E-posta şifreli tutulur (panelle aynı APP_KEY); tekrar kontrolü email_hash ile.
+ */
 class BlogSubscriber extends Model
 {
-    protected $table = 'blog_subscribers';
+    protected $fillable = ['email', 'source_path', 'unsubscribed_at'];
 
-    protected $fillable = [
-        'email',
-        'status',
-        'unsubscribe_token',
+    protected $casts = [
+        'email' => 'encrypted',
+        'unsubscribed_at' => 'datetime',
     ];
 
-    protected $attributes = [
-        'status' => 1,
-    ];
-
-    /**
-     * Model oluşturulurken otomatik token üret
-     */
-    protected static function booted()
+    protected static function booted(): void
     {
-        static::creating(function ($subscriber) {
-            if (empty($subscriber->unsubscribe_token)) {
-                $subscriber->unsubscribe_token = Str::random(48);
-            }
-        });
+        static::saving(fn (self $subscriber) => $subscriber->email_hash = self::hash($subscriber->email));
     }
 
-    /**
-     * EMAIL SETTER
-     * DB'ye kaydedilirken otomatik encrypt edilir
-     */
-    public function setEmailAttribute($value)
+    public static function hash(string $email): string
     {
-        $normalized = mb_strtolower(trim($value));
-
-        $this->attributes['email'] = Crypt::encryptString($normalized);
-        $this->attributes['email_hash'] = hash('sha256', $normalized);
+        return hash('sha256', mb_strtolower(trim($email)));
     }
 
-
-    /**
-     * EMAIL GETTER
-     * Okunurken otomatik decrypt edilir
-     */
-    public function getEmailAttribute($value)
+    public function scopeActive(Builder $query): void
     {
-        return Crypt::decryptString($value);
-    }
-
-    /**
-     * Sadece aktif aboneler
-     */
-    public function scopeActive($query)
-    {
-        return $query->where('status', 1);
+        $query->whereNull('unsubscribed_at');
     }
 }

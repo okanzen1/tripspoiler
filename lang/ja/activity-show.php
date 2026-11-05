@@ -1,0 +1,30 @@
+<?php
+
+// Aktivite detay sayfası
+return [
+    'breadcrumb' => 'パンくずリスト',
+    'home' => 'ホーム',
+    'photos' => '写真 :count 枚',
+    'all_photos' => 'すべての写真',
+    'type' => '種類',
+    'duration' => '所要時間',
+    'audio' => '音声ガイド',
+    'audio_yes' => '付き',
+    'location' => '場所',
+    'booking' => '予約',
+    'booking_value' => 'パートナーサイトで',
+    'about' => 'このアクティビティについて',
+    'read_more' => '続きを読む',
+    'read_less' => '閉じる',
+    'book_eyebrow' => 'チケットと空き状況',
+    'book_via' => '予約先',
+    'cta' => '空き状況を確認',
+    'trust_official' => '公式チケット販売元',
+    'trust_instant' => '即時確認',
+    'trust_secure' => 'パートナーサイトで安全にお支払い',
+    'how_title' => 'ご利用の流れ',
+    'similar_eyebrow' => '同じ都市で',
+    'similar_title' => 'ほかのおすすめ:',
+    'similar_desc' => '同じ都市のチケット、ツアー、シティカード。',
+    'gallery_close' => '閉じる',
+];

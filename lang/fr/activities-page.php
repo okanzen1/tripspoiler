@@ -1,0 +1,36 @@
+<?php
+
+return [
+
+    'meta_title' => 'Que faire · TripSpoiler',
+    'meta_description' => 'Billets, visites, city pass et audioguides, choisis et expliqués avant de réserver.',
+    'eyebrow' => 'Activités',
+    'title' => 'Que faire à',
+    'title_city' => ':city',
+    'desc' => 'Billets, visites et city pass sélectionnés. Lisez ce qui est inclus, puis réservez directement auprès d’un partenaire de confiance.',
+    'stat_total' => 'Activités',
+    'stat_passes' => 'City pass',
+    'stat_audio' => 'Avec audioguide',
+    'stat_languages' => 'Langues',
+    'choose_city' => 'Choisir une ville',
+    'all' => 'Tout',
+    'pass' => 'City pass',
+    'product' => 'Expériences',
+    'package' => 'Forfaits',
+    'search' => 'Rechercher…',
+    'details' => 'Détails',
+    'audio' => 'Audioguide',
+    'results' => ':count activités',
+    'no_results' => 'Aucun résultat',
+    'no_results_hint' => 'Essayez un mot plus court ou un autre filtre.',
+    'empty_title' => 'Pas encore d’activités',
+    'empty_text' => 'Nous ajoutons des activités pour cette ville. Revenez bientôt.',
+    'how_title' => 'Comment ça marche',
+    'how_1' => 'Choisissez une activité et lisez ce qui est inclus',
+    'how_2' => 'Cliquez sur « :button » pour aller chez notre partenaire',
+    'how_3' => 'Payez et recevez votre billet du partenaire',
+    'city' => 'Ville',
+
+    'cities_count' => ':count villes',
+    'activity_count' => '{1} :count activité|[2,*] :count activités',
+];

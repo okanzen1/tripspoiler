@@ -1,9 +1,12 @@
 <?php
 
-return array (
-  'title' => 'Yeni gönderileri kaçırmayın',
-  'desc' => 'Yeni TripSpoiler makaleleri yayınladığımızda ara sıra e-posta alın.',
-  'email_placeholder' => 'you@example.com',
-  'button' => 'Yeni gönderiler hakkında beni bilgilendir',
-  'error' => 'Bir şeyler yanlış gitti. Lütfen tekrar deneyin.',
-);
+return [
+
+    'title' => 'Yeni rehberler e-postana gelsin',
+    'desc' => 'Sadece okumaya değer bir şey olduğunda yazarız.',
+    'email_placeholder' => 'eposta@adresin.com',
+    'button' => 'Abone ol',
+    'error' => 'Bir şeyler ters gitti. Lütfen tekrar dene.',
+    'note' => 'Spam yok. İstediğin an çıkabilirsin.',
+
+];

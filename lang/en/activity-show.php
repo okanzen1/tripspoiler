@@ -1,0 +1,30 @@
+<?php
+
+// Aktivite detay sayfası
+return [
+    'breadcrumb' => 'Breadcrumb',
+    'home' => 'Home',
+    'photos' => ':count photos',
+    'all_photos' => 'Show all photos',
+    'type' => 'Type',
+    'duration' => 'Duration',
+    'audio' => 'Audio guide',
+    'audio_yes' => 'Included',
+    'location' => 'Location',
+    'booking' => 'Booking',
+    'booking_value' => 'On the partner site',
+    'about' => 'About this activity',
+    'read_more' => 'Read more',
+    'read_less' => 'Show less',
+    'book_eyebrow' => 'Tickets & availability',
+    'book_via' => 'Booked through',
+    'cta' => 'Check availability',
+    'trust_official' => 'Official ticket provider',
+    'trust_instant' => 'Instant confirmation',
+    'trust_secure' => 'Secure payment on the partner site',
+    'how_title' => 'How it works',
+    'similar_eyebrow' => 'In the same city',
+    'similar_title' => 'More to do in',
+    'similar_desc' => 'Other tickets, tours and city cards picked for the same city.',
+    'gallery_close' => 'Close',
+];

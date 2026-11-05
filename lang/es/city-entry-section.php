@@ -1,9 +1,15 @@
 <?php
 
-return array (
-  'alt' => 'TripSpoiler visual de la ciudad',
-  'eyebrow' => 'Viajar con claridad',
-  'title' => 'El viaje comienza mucho antes de emprenderlo',
-  'text' => 'Descubra ciudades con contexto. Elija experiencias con intención. Llegue preparado y presente.',
-  'button' => 'Explorar ciudades',
-);
+return [
+
+    'alt' => 'Imagen de ciudad de TripSpoiler',
+    'eyebrow' => 'Antes de ir',
+    'title' => 'El viaje empieza',
+    'title_highlight' => 'mucho antes de partir.',
+    'text' => 'Lee sobre la ciudad, elige lo que vale tu tiempo y llega sabiendo adónde vas.',
+    'button' => 'Explorar ciudades',
+    'cities_label' => 'Nuestras ciudades',
+    'secondary' => 'Ver actividades',
+
+    'city_button' => 'Descubre :city',
+];

@@ -1,0 +1,36 @@
+<?php
+
+return [
+
+    'meta_title' => 'Aktivitäten · TripSpoiler',
+    'meta_description' => 'Tickets, Touren, City Pässe und Audioguides – ausgewählt und erklärt vor der Buchung.',
+    'eyebrow' => 'Aktivitäten',
+    'title' => 'Unternehmungen in',
+    'title_city' => ':city',
+    'desc' => 'Ausgewählte Tickets, Touren und City Pässe. Lies, was enthalten ist, und buche direkt bei einem vertrauenswürdigen Partner.',
+    'stat_total' => 'Aktivitäten',
+    'stat_passes' => 'City Pässe',
+    'stat_audio' => 'Mit Audioguide',
+    'stat_languages' => 'Sprachen',
+    'choose_city' => 'Stadt wählen',
+    'all' => 'Alle',
+    'pass' => 'City Pässe',
+    'product' => 'Erlebnisse',
+    'package' => 'Pakete',
+    'search' => 'Aktivitäten suchen…',
+    'details' => 'Details',
+    'audio' => 'Audioguide',
+    'results' => ':count Aktivitäten',
+    'no_results' => 'Nichts gefunden',
+    'no_results_hint' => 'Versuche ein kürzeres Wort oder einen anderen Filter.',
+    'empty_title' => 'Noch keine Aktivitäten',
+    'empty_text' => 'Wir fügen Aktivitäten für diese Stadt hinzu. Schau bald wieder vorbei.',
+    'how_title' => 'So funktioniert’s',
+    'how_1' => 'Aktivität wählen und lesen, was enthalten ist',
+    'how_2' => 'Auf „:button“ klicken und zum Partner wechseln',
+    'how_3' => 'Beim Partner bezahlen, Ticket direkt erhalten',
+    'city' => 'Stadt',
+
+    'cities_count' => ':count Städte',
+    'activity_count' => '{1} :count Aktivität|[2,*] :count Aktivitäten',
+];

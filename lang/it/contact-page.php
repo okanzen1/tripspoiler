@@ -1,0 +1,32 @@
+<?php
+
+// İletişim sayfası
+return [
+    'eyebrow' => 'Contatti',
+    'title' => 'Parliamo',
+    'title_highlight' => 'del tuo viaggio',
+    'desc' => 'Una domanda su una città, un’idea per una guida o una collaborazione? Scrivici: ogni messaggio lo legge una persona vera.',
+    'reply_title' => 'Risposta rapida',
+    'reply_text' => 'Di solito rispondiamo entro un giorno lavorativo.',
+    'email_title' => 'Email',
+    'social_title' => 'Seguici',
+    'form_title' => 'Inviaci un messaggio',
+    'form_text' => 'Scegli un argomento così il messaggio arriva alla persona giusta.',
+    'topic' => 'Argomento',
+    'topic_general' => 'Domanda generale',
+    'topic_booking' => 'Prenotazione / biglietto',
+    'topic_partner' => 'Collaborazione',
+    'topic_bug' => 'Segnala un problema',
+    'booking_note' => 'Non vendiamo biglietti: prenotazione e pagamento sono con il nostro partner. Per modifiche, rimborsi o un biglietto non arrivato, l’aiuto più rapido è il supporto del partner (il link è nell’email di conferma).',
+    'name' => 'Il tuo nome',
+    'email' => 'La tua email',
+    'message' => 'Messaggio',
+    'message_placeholder' => 'Come possiamo aiutarti?',
+    'send' => 'Invia messaggio',
+    'sending' => 'Invio…',
+    'privacy' => 'Usiamo la tua email solo per risponderti.',
+    'success_title' => 'Messaggio inviato!',
+    'success_text' => 'Grazie per averci scritto. Ti risponderemo presto.',
+    'send_another' => 'Invia un altro messaggio',
+    'error' => 'Qualcosa è andato storto. Riprova tra poco.',
+];

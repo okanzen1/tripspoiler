@@ -2,50 +2,43 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
-use App\Models\Activity;
-
 
 class Blog extends Model
 {
     use HasTranslations;
 
     protected $fillable = [
+        'city_id',
         'title',
-        'excerpt',
         'slug',
+        'excerpt',
+        'content',
+        'tags',
+        'cover_path',
         'meta_title',
         'meta_description',
-        'themes',
-        'city_id',
-        'source',
-        'source_id',
-        'sort_order',
-        'status',
-        'click_count',
+        'active',
+        'published_at',
     ];
 
     /**
-     * Translatable alanlar
+     * Translatable alanlar (slug her dilde aynı)
      */
     public $translatable = [
         'title',
         'excerpt',
-        'themes',
-        'slug',
+        'content',
+        'tags',
         'meta_title',
         'meta_description',
     ];
 
-    /**
-     * Castler
-     */
     protected $casts = [
-        'status' => 'boolean',
-        'themes' => 'array',
-        'click_count' => 'integer',
-        'sort_order' => 'integer',
+        'active' => 'boolean',
+        'published_at' => 'datetime',
     ];
 
     public function city()
@@ -53,31 +46,40 @@ class Blog extends Model
         return $this->belongsTo(City::class);
     }
 
-    /**
-     * Relations
-     */
-    public function contents()
-    {
-        return $this->hasMany(BlogContent::class)
-            ->where('status', true)
-            ->orderBy('sort_order');
-    }
-
-    public function images()
-    {
-        return $this->hasMany(Image::class, 'source_id')
-            ->where('source', 'blog')
-            ->orderBy('sort_order');
-    }
-
-
     public function activities()
     {
-        return $this->belongsToMany(
-            Activity::class,
-                'activity_blog',
-                'blog_id',
-                'activity_id'
-            );
+        return $this->belongsToMany(Activity::class)->withPivot('sort_order')->orderByPivot('sort_order');
+    }
+
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class)->where('active', true)->orderBy('sort_order')->orderBy('id');
+    }
+
+    /**
+     * Yayında olanlar: aktif ve yayın tarihi gelmiş.
+     */
+    public function scopePublished(Builder $query): void
+    {
+        $query->where('active', true)
+            ->where(fn ($q) => $q->whereNull('published_at')->orWhere('published_at', '<=', now()));
+    }
+
+    /**
+     * @param  'sm'|null  $size  liste için küçük kopya
+     */
+    public function coverUrl(?string $size = null): ?string
+    {
+        return ActivityImage::mediaUrl($this->cover_path, $size);
+    }
+
+    /**
+     * Okuma süresi (dakika), İngilizce metne göre.
+     */
+    public function readingMinutes(): int
+    {
+        $content = $this->getTranslation('content', 'en', false);
+
+        return max(1, (int) round(str_word_count(strip_tags((string) $content)) / 220));
     }
 }

@@ -17,30 +17,36 @@ class Reviews extends Component
         $this->source = $source;
         $this->sourceId = $sourceId;
 
-        $limit = $source === 'home' ? 5 : 5;
-
-        $query = Review::where('source', $source)
-            ->when($sourceId, fn($q) => $q->where('source_id', $sourceId))
-            ->where('approved', true);
+        $query = Review::approved()
+            ->when(
+                $source === 'activity' && $sourceId,
+                fn($q) => $q->where('activity_id', $sourceId),
+                fn($q) => $q->whereNull('activity_id')
+            );
 
         // Ortalama rating (tüm yorumlardan)
         $average = round($query->avg('rating') ?? 0, 1);
 
-        // Slider için sadece 5 yıldızlı yorumlar
+        // Kayan kartlar: 4-5 yıldızlı en yeni yorumlar
         $this->reviews = (clone $query)
-            ->where('rating', 5)
+            ->where('rating', '>=', 4)
             ->latest()
-            ->take($limit)
+            ->take(9)
             ->get();
 
         $this->general = [
             'averageRating' => $average,
             'stars' => round($average),
+            'count' => (clone $query)->count(),
         ];
     }
 
     public function render()
     {
+        if (!\App\Support\SiteSections::enabled('reviews')) {
+            return '';
+        }
+
         return view('components.reviews');
     }
 }

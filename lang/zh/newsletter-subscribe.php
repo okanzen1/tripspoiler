@@ -1,9 +1,12 @@
 <?php
 
-return array (
-  'title' => '不要错过新文章',
-  'desc' => '当我们发布新的 TripSpoiler 文章时，您会收到一封不定期电子邮件。',
-  'email_placeholder' => 'you@example.com',
-  'button' => '通知我有关新职位的信息',
-  'error' => '出错了。请重试。',
-);
+return [
+
+    'title' => '新指南发送到你的邮箱',
+    'desc' => '只有值得一读的内容时我们才会发信。',
+    'email_placeholder' => 'your@email.com',
+    'button' => '订阅',
+    'error' => '出了点问题，请重试。',
+    'note' => '绝无垃圾邮件，可随时退订。',
+
+];

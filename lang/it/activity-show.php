@@ -1,0 +1,30 @@
+<?php
+
+// Aktivite detay sayfası
+return [
+    'breadcrumb' => 'Percorso',
+    'home' => 'Home',
+    'photos' => ':count foto',
+    'all_photos' => 'Mostra tutte le foto',
+    'type' => 'Tipo',
+    'duration' => 'Durata',
+    'audio' => 'Audioguida',
+    'audio_yes' => 'Inclusa',
+    'location' => 'Luogo',
+    'booking' => 'Prenotazione',
+    'booking_value' => 'Sul sito del partner',
+    'about' => 'Informazioni sull’attività',
+    'read_more' => 'Leggi di più',
+    'read_less' => 'Mostra meno',
+    'book_eyebrow' => 'Biglietti e disponibilità',
+    'book_via' => 'Prenotato tramite',
+    'cta' => 'Verifica disponibilità',
+    'trust_official' => 'Fornitore ufficiale di biglietti',
+    'trust_instant' => 'Conferma immediata',
+    'trust_secure' => 'Pagamento sicuro sul sito del partner',
+    'how_title' => 'Come funziona',
+    'similar_eyebrow' => 'Nella stessa città',
+    'similar_title' => 'Altro da fare a',
+    'similar_desc' => 'Altri biglietti, tour e city card per la stessa città.',
+    'gallery_close' => 'Chiudi',
+];

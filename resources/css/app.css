@@ -6,7 +6,7 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
@@ -26,10 +26,107 @@
   100% { transform: rotate(0deg); }
 }
 
+/* Üstteki kayan duyuru şeridi: iki kopya yan yana, yarısı kadar kayınca başa döner */
+.announcement-track {
+  animation: announcementScroll var(--announcement-duration, 40s) linear infinite;
+}
+
+.announcement-bar:hover .announcement-track,
+.announcement-bar:focus-within .announcement-track {
+  animation-play-state: paused;
+}
+
+@keyframes announcementScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-track { animation: none; }
+}
+
+/* Footer üstündeki partner logoları: iki kopya yan yana kayar; üstüne gelince durur */
+.partners-track {
+  animation: announcementScroll var(--partners-duration, 40s) linear infinite;
+}
+
+.partners-strip:hover .partners-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-track { animation: none; }
+}
+
+/* Menü ya da arama açıkken (bulanık katman üstte) arkadaki kayan öğeler durur; yoksa telefonda yanıp söner */
+.overlay-open .announcement-track,
+.overlay-open .features-track,
+.overlay-open .partners-track,
+.overlay-open .hero-float {
+  animation-play-state: paused;
+}
+
+/* Anasayfa hero hareketleri. Animasyon sonunda transform: none — içteki fixed arama penceresi etkilenmesin */
+.hero-zoom {
+  animation: heroZoom 14s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-reveal {
+  animation: heroReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+.hero-float {
+  animation: heroReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) both,
+             heroFloat 7s ease-in-out calc(var(--d, 0ms) + 0.9s) infinite;
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1.12); }
+  to   { transform: scale(1); }
+}
+
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: none; }
+  50%      { transform: translateY(-10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-zoom, .hero-reveal, .hero-float { animation: none; }
+}
+
+/* Anasayfa özellik kartları: iki kopya yan yana, yarısı kadar kayınca başa döner; üstüne gelince durur */
+.features-track {
+  animation: announcementScroll var(--features-duration, 48s) linear infinite;
+}
+
+.features-marquee:hover .features-track,
+.features-marquee:focus-within .features-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .features-track { animation: none; }
+  .features-scroller { overflow-x: auto; }
+}
+
+.bar-dismissed .announcement-bar { display: none; }
+
 [x-cloak] {
     display: none !important;
 }
 
 @import "./activities.css";
 @import "./quill-content.css";
-@import "./steps-section.css";
+@import "./rich-text.css";
+
+
+/* Tailwind v4 düğmelerde imleci varsayılana çekiyor: tıklanabilir her şeyde el işareti */
+button:not(:disabled), [role="button"]:not([aria-disabled="true"]), label[for], select, summary, input[type="checkbox"], input[type="radio"], input[type="file"] {
+  cursor: pointer;
+}

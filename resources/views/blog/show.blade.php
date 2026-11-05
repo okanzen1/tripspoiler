@@ -15,7 +15,7 @@
     </style>
 @endpush
 @php
-    $coverImage = $blog->images->first();
+    $coverImage = $blog->coverUrl();
 
     $articleSchema = [
         '@context' => 'https://schema.org',
@@ -28,7 +28,7 @@
 
         'image' => [
             '@type' => 'ImageObject',
-            'url' => $coverImage ? route('images.view', $coverImage->id) : asset('android-chrome-512x512.png'),
+            'url' => $coverImage ?: asset('android-chrome-512x512.png'),
         ],
 
         'author' => [
@@ -60,30 +60,6 @@
         ],
     ];
 
-    $breadcrumbSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'BreadcrumbList',
-        'itemListElement' => [
-            [
-                '@type' => 'ListItem',
-                'position' => 1,
-                'name' => __('blog.home'),
-                'item' => url('/'),
-            ],
-            [
-                '@type' => 'ListItem',
-                'position' => 2,
-                'name' => __('blog.blog'),
-                'item' => route('blog.index'),
-            ],
-            [
-                '@type' => 'ListItem',
-                'position' => 3,
-                'name' => $blog->getTranslation('title', $locale),
-                'item' => url()->current(),
-            ],
-        ],
-    ];
 @endphp
 
 @section('content')
@@ -93,6 +69,12 @@
                 bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
 
         <div class="relative max-w-7xl mx-auto px-4 py-16 md:py-24 space-y-4">
+            <x-breadcrumbs class="mb-6" :items="[
+                ['label' => __('activity-show.home'), 'url' => route('home')],
+                ['label' => __('blog-page.blog'), 'url' => route('blog.index')],
+                ...($blog->city ? [['label' => $blog->city->name, 'url' => route('blog.index', ['city_id' => $blog->city_id])]] : []),
+                ['label' => $blog->title, 'url' => url()->current()],
+            ]" />
 
             @if (!empty($hero['themes']))
                 <span
@@ -132,9 +114,7 @@
                 <div class="relative rounded-3xl overflow-hidden group">
 
                     <!-- Background Image -->
-                    <img src="{{ $blog->activities->first()->images->isNotEmpty()
-                        ? route('images.view', $blog->activities->first()->images->first()->id)
-                        : asset('images/placeholder.jpg') }}"
+                    <img loading="lazy" decoding="async" src="{{ $blog->activities->first()->cover?->url('sm') ?? asset('images/all-activities-cover.webp') }}"
                         alt="{{ $blog->activities->first()->name }}"
                         class="w-full h-[420px] object-cover transition duration-700 group-hover:scale-105">
 
@@ -153,7 +133,7 @@
                             {{ $blog->activities->first()->name }}
                         </h3>
 
-                        <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank"
+                        <a href="{{ $blog->activities->first()->affiliate_url }}" target="_blank"
                             class="mt-6 inline-block bg-white text-slate-900 px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#C62E2E] hover:text-white transition">
                             {{ __('blog.explore_experience') }}
                         </a>
@@ -196,7 +176,7 @@
                             <div class="swiper-slide">
                                 <div class="relative rounded-3xl overflow-hidden group cursor-pointer">
 
-                                    <img src="{{ $activity->images->isNotEmpty() ? route('images.view', $activity->images->first()->id) : asset('images/placeholder.jpg') }}"
+                                    <img loading="lazy" decoding="async" src="{{ $activity->cover?->url('sm') ?? asset('images/all-activities-cover.webp') }}"
                                         alt="{{ $activity->name }}"
                                         class="w-full h-[520px] object-cover transition duration-700 group-hover:scale-105">
 
@@ -212,7 +192,7 @@
                                             {{ $activity->name }}
                                         </h3>
 
-                                        <a href="{{ $activity->affiliate_link }}" target="_blank"
+                                        <a href="{{ $activity->affiliate_url }}" target="_blank"
                                             class="mt-6 inline-block bg-white text-slate-900 px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#C62E2E] hover:text-white transition">
                                             {{ __('blog.explore_experience') }}
                                         </a>
@@ -229,20 +209,14 @@
 
     <section class="bg-white py-10">
         <div class="max-w-7xl mx-auto px-4">
-            @foreach ($blog->contents as $content)
-                <h2 class="text-xl font-bold text-slate-900">
-                    {{ $content->getTranslation('title', $locale) }}
-                </h2>
-
-                <p class="mt-3 text-slate-600 max-w-3xl leading-relaxed">
-                    {!! $content->getTranslation('content', $locale) !!}
-                </p>
-            @endforeach
+            <article class="quill-content max-w-3xl">
+                {!! $blog->content !!}
+            </article>
         </div>
     </section>
     
     <x-reviews :source="'blog-show'" :source-id="$blog->id" :sectionHeader="true" :reviewSummary="true" :testimonials="true" :color="'bg-white'" />
-    <x-faq source="blog-content" :source-id="$blog->id" />
+    <x-faq source="blog" :source-id="$blog->id" />
 
     <!-- MOBILE STICKY BAR -->
     <div id="mobileStickyBar"
@@ -272,7 +246,7 @@
             @endif
 
             @if ($blog->activities->count() === 1)
-            <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank" @else <a
+            <a href="{{ $blog->activities->first()->affiliate_url }}" target="_blank" @else <a
                     href="#activitiesSection" @endif
                     class="bg-[#C62E2E] text-white text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">
                     {{ __('blog.view') }}
@@ -292,9 +266,7 @@
                 <div class="flex items-center gap-4">
                     @if ($blog->activities->count() === 1)
                         <!-- Desktop Thumbnail -->
-                        <img src="{{ $blog->activities->first()->images->isNotEmpty()
-                            ? route('images.view', $blog->activities->first()->images->first()->id)
-                            : asset('images/placeholder.jpg') }}"
+                        <img loading="lazy" decoding="async" src="{{ $blog->activities->first()->cover?->url('sm') ?? asset('images/all-activities-cover.webp') }}"
                             alt="{{ $blog->activities->first()->name }}"
                             class="hidden md:block w-14 h-14 object-cover rounded-lg">
 
@@ -325,7 +297,7 @@
 
                 <!-- RIGHT -->
                 @if ($blog->activities->count() === 1)
-                <a href="{{ $blog->activities->first()->affiliate_link }}" target="_blank" @else <a
+                <a href="{{ $blog->activities->first()->affiliate_url }}" target="_blank" @else <a
                         href="#activitiesSection" @endif
                         class="bg-[#C62E2E] text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:opacity-90 transition">
                         {{ __('blog.view') }}
@@ -379,8 +351,5 @@
     
     <script type="application/ld+json">
         {!! json_encode($articleSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
-    </script>
-    <script type="application/ld+json">
-        {!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
 @endpush

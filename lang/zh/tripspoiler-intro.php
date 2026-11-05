@@ -1,19 +1,25 @@
 <?php
 
-return array (
-  'eyebrow' => '什么是 TripSpoiler',
-  'title_line1' => '深度旅行',
-  'title_line2' => '不仅仅是进一步。',
-  'p1' => 'TripSpoiler 专为那些希望在抵达前了解一个城市的旅行者而设计。',
-  'p2' => '我们分享周到的指南、对博物馆的见解和有意义的体验，帮助您清晰地了解一个地方。我们关注的不是令人目不暇接的清单，而是真正让一座城市令人难忘的东西。',
-  'explore_cities' => '探索城市',
-  'discover_activities' => '发现活动',
-  'cities' => '城市',
-  'cities_desc' => '为好奇的旅行者精心策划的城市指南。',
-  'museums' => '博物馆',
-  'museums_desc' => '探索博物馆的背景和意义。',
-  'experiences' => '经历',
-  'experiences_desc' => '精心挑选的值得您花时间参与的活动。',
-  'stories' => '故事',
-  'stories_desc' => '为心灵旅行者提供的思想读物。',
-);
+return [
+
+    'eyebrow' => 'TripSpoiler 是什么',
+    'title' => '出发前',
+    'title_highlight' => '先了解这座城市。',
+    'desc' => 'TripSpoiler 为想在抵达前就了解目的地的旅行者而设。',
+    'p2' => '清晰的指南、真诚的比较，以及重要景点的门票。没有冗长的清单，只有让一座城市值得一去的内容。',
+    'explore_cities' => '探索城市',
+    'discover_activities' => '浏览活动',
+    'cities' => '城市',
+    'cities_desc' => '城市指南：看什么、怎么看。',
+    'experiences' => '体验',
+    'experiences_desc' => '值得花时间的团游、门票和语音导览。',
+    'passes' => '城市通票',
+    'passes_desc' => '通票对比，选出最划算的。',
+    'stories' => '指南',
+    'stories_desc' => '出发前值得一读的实用文章。',
+    'count_cities' => ':count 座城市',
+    'count_experiences' => ':count 项体验',
+    'count_passes' => ':count 款通票',
+    'count_stories' => ':count 篇指南',
+
+];

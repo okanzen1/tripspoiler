@@ -1,75 +1,68 @@
 @extends('layouts.app')
 
 @section('title', __('about.meta_title'))
-@section('meta_description',
-    __('about.meta_description'))
+@section('meta_description', __('about.meta_description'))
+
+{{--
+    Hakkımızda: büyük fotoğraf kartı (panel: Sayfalar › Hakkımızda › Hero alanı), hikâye, nasıl çalışır, ilkeler ve kapanış.
+    Bütün yazılar panelden (Sayfalar › Hakkımızda › Sayfa içeriği); boşsa dil dosyası.
+--}}
+@php
+    $hero = \App\Support\PageHero::texts('about', [
+        'eyebrow' => __('about-page.eyebrow'),
+        'title' => __('about-page.title'),
+        'description' => __('about-page.desc'),
+    ]);
+    $look = \App\Support\PageHero::visual('about');
+    ['desktop' => $photo, 'mobile' => $photoMobile] = \App\Models\PageBanner::urls('about', null);
+    $stats = array_values(array_filter([
+        [\App\Models\City::visible()->count(), __('about-page.stat_cities')],
+        [\App\Models\Activity::visible()->count(), __('about-page.stat_activities')],
+        [\App\Models\Blog::published()->count(), __('about-page.stat_guides')],
+    ], fn ($s) => $s[0] > 0));
+    $overlay = ['soft' => 'from-slate-950/70 via-slate-950/20', 'medium' => 'from-slate-950/90 via-slate-950/40', 'strong' => 'from-slate-950 via-slate-950/70'][$look['overlay']];
+@endphp
 
 @section('content')
-    {{-- ABOUT HERO — FULL WIDTH TEXT --}}
-    <section class="relative overflow-hidden
-                bg-gradient-to-b from-[#FFF5F3] via-[#FFF8F6] to-white">
+    {{-- BANNER: beyaz sayfada büyük yuvarlak fotoğraf kartı; yazı sol altta, sayılar beyaz haplar --}}
+    <section class="bg-white pb-6 pt-6 md:pt-8">
+        <div class="mx-auto max-w-7xl px-4">
+            <x-breadcrumbs :items="[
+                ['label' => __('activity-show.home'), 'url' => route('home')],
+                ['label' => __('footer.about'), 'url' => route('about')],
+            ]" />
 
-        {{-- SOFT GLOW --}}
-        <div class="absolute inset-0 pointer-events-none">
-            <div
-                class="absolute -top-32 left-0
-                   w-[520px] h-[520px]
-                   bg-[#C62E2E]/10 rounded-full blur-[160px]">
+            <div class="relative isolate mt-6 flex min-h-[560px] flex-col justify-end overflow-hidden rounded-[36px] bg-slate-900 p-6 text-white sm:p-10 md:min-h-[620px] lg:p-14">
+                <picture class="absolute inset-0 -z-10">
+                    @if ($photoMobile)<source media="(max-width: 767px)" srcset="{{ $photoMobile }}">@endif
+                    <img src="{{ $photo }}" alt="" fetchpriority="high" class="h-full w-full object-cover" style="object-position: {{ $look['focus'] }}% center">
+                </picture>
+                <div class="absolute inset-0 -z-10 bg-gradient-to-t {{ $overlay }} to-transparent"></div>
+
+                <div class="max-w-2xl">
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] backdrop-blur">
+                        <span class="size-1.5 rounded-full bg-[#FF6B6E]"></span>{{ $hero['eyebrow'] }}
+                    </span>
+                    <h1 class="mt-5 text-[44px] font-extrabold leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-[72px]">
+                        {{ $hero['title'] }} <span class="text-[#FF8A8C]">{{ __('about-page.title_sub') }}</span>
+                    </h1>
+                    <p class="mt-5 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">{{ $hero['description'] }}</p>
+                </div>
+
+                @if ($stats)
+                    <dl class="mt-8 flex flex-wrap gap-3">
+                        @foreach ($stats as [$value, $label])
+                            <div class="inline-flex items-baseline gap-2 rounded-2xl bg-white px-5 py-3 text-slate-900 shadow-lg">
+                                <dd class="text-2xl font-extrabold tabular-nums tracking-tight">{{ $value }}</dd>
+                                <dt class="text-sm font-medium text-slate-500">{{ $label }}</dt>
+                            </div>
+                        @endforeach
+                    </dl>
+                @endif
             </div>
         </div>
-
-        <div class="relative max-w-7xl mx-auto px-4 py-16 md:py-24">
-
-            {{-- EYEBROW --}}
-            <span
-                class="inline-block text-xs font-semibold tracking-wide uppercase
-                   text-[#C62E2E] bg-[#C62E2E]/10 px-4 py-1 rounded-full">
-                {{ __('about.hero_badge') }}
-            </span>
-
-            {{-- TITLE --}}
-            <h1 class="mt-4 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-                {{ __('about.hero_title_1') }}<br>
-                <span class="text-[#C62E2E]">
-                    {{ __('about.hero_title_2') }}
-                </span>
-            </h1>
-
-            {{-- DESCRIPTION — NO WIDTH LIMIT --}}
-            <p class="mt-5 text-slate-600 leading-relaxed text-base md:text-lg">
-                {{ __('about.hero_desc') }}
-            </p>
-
-        </div>
     </section>
 
-    {{-- CONTENT --}}
-    <section class="bg-white py-14">
-        <div class="max-w-7xl mx-auto px-4 leading-relaxed text-slate-700 space-y-6">
-
-            <p>
-                {{ __('about.p1') }}
-            </p>
-
-            <p>
-                {{ __('about.p2') }}
-            </p>
-
-            <p>
-                {{ __('about.p3') }}
-            </p>
-
-            <p>
-                {{ __('about.p4') }}
-            </p>
-
-            <p>
-                {{ __('about.p5') }}
-                <strong>{{ __('about.p6') }}</strong>
-            </p>
-
-        </div>
-    </section>
-
-
+    {{-- Bölümler: hikâye, nasıl çalışır, ilkeler, kapanış + diğerleri; sıra ve aç/kapa panelde (Sayfalar › Hakkımızda › Bölümler) --}}
+    <x-page-sections page="about" />
 @endsection

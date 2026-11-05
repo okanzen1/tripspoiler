@@ -1,13 +1,21 @@
 <?php
 
-return array (
-  'title_prefix' => 'En Çok Ziyaret Edilen Etkinlikler',
-  'title_highlight' => 'TripSpoiler\'da',
-  'desc' => 'Gezginlerin geri dönmeye devam ettiği etkinliklere hızlı bir bakış.',
-  'cover_title' => 'Tüm Etkinlikleri Keşfedin',
-  'cover_cta' => 'Tüm etkinlikleri görüntüle →',
-  'category_pass' => 'Şehir Kartı',
-  'category_product' => 'Deneyim',
-  'category_package' => 'Paket',
-  'cta' => 'Detayları görüntüle →',
-);
+return [
+
+    'eyebrow' => 'Şu an popüler',
+    'title_prefix' => 'Gezginlerin en çok',
+    'title_highlight' => 'tercih ettikleri.',
+    'desc' => 'Özenle seçilmiş biletler, turlar ve şehir kartları; almadan önce dürüst bilgilerle.',
+    'cover_title' => 'Tüm aktiviteler',
+    'cover_text' => 'Tüm biletler, turlar ve şehir kartları tek yerde.',
+    'cover_cta' => 'Hepsini gör',
+    'category_pass' => 'Şehir kartı',
+    'category_product' => 'Deneyim',
+    'category_package' => 'Paket',
+    'cta' => 'Detaylar',
+    'see_all' => 'Tümünü gör',
+    'audio' => 'Sesli rehber',
+    'prev' => 'Önceki',
+    'next' => 'Sonraki',
+
+];

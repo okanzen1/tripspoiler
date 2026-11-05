@@ -1,0 +1,32 @@
+<?php
+
+// İletişim sayfası
+return [
+    'eyebrow' => 'Contacto',
+    'title' => 'Hablemos',
+    'title_highlight' => 'de tu viaje',
+    'desc' => '¿Una pregunta sobre una ciudad, una idea para una guía o una colaboración? Escríbenos; una persona real lee cada mensaje.',
+    'reply_title' => 'Respuesta rápida',
+    'reply_text' => 'Solemos responder en un día laborable.',
+    'email_title' => 'Correo',
+    'social_title' => 'Síguenos',
+    'form_title' => 'Envíanos un mensaje',
+    'form_text' => 'Elige un tema para que tu mensaje llegue a la persona adecuada.',
+    'topic' => 'Tema',
+    'topic_general' => 'Pregunta general',
+    'topic_booking' => 'Reserva / entrada',
+    'topic_partner' => 'Colaboración',
+    'topic_bug' => 'Informar de un problema',
+    'booking_note' => 'No vendemos entradas: tu reserva y el pago son con nuestro socio. Para cambios, reembolsos o una entrada que no llegó, la ayuda más rápida es el soporte del socio (el enlace está en tu correo de confirmación).',
+    'name' => 'Tu nombre',
+    'email' => 'Tu correo',
+    'message' => 'Mensaje',
+    'message_placeholder' => '¿Cómo podemos ayudarte?',
+    'send' => 'Enviar mensaje',
+    'sending' => 'Enviando…',
+    'privacy' => 'Solo usamos tu correo para responderte.',
+    'success_title' => '¡Mensaje enviado!',
+    'success_text' => 'Gracias por escribirnos. Te responderemos pronto.',
+    'send_another' => 'Enviar otro mensaje',
+    'error' => 'Algo salió mal. Inténtalo de nuevo en un momento.',
+];

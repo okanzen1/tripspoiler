@@ -1,0 +1,30 @@
+<?php
+
+// Aktivite detay sayfası
+return [
+    'breadcrumb' => 'Ruta de navegación',
+    'home' => 'Inicio',
+    'photos' => ':count fotos',
+    'all_photos' => 'Ver todas las fotos',
+    'type' => 'Tipo',
+    'duration' => 'Duración',
+    'audio' => 'Audioguía',
+    'audio_yes' => 'Incluida',
+    'location' => 'Ubicación',
+    'booking' => 'Reserva',
+    'booking_value' => 'En la web del socio',
+    'about' => 'Sobre esta actividad',
+    'read_more' => 'Leer más',
+    'read_less' => 'Ver menos',
+    'book_eyebrow' => 'Entradas y disponibilidad',
+    'book_via' => 'Reserva a través de',
+    'cta' => 'Ver disponibilidad',
+    'trust_official' => 'Proveedor oficial de entradas',
+    'trust_instant' => 'Confirmación inmediata',
+    'trust_secure' => 'Pago seguro en la web del socio',
+    'how_title' => 'Cómo funciona',
+    'similar_eyebrow' => 'En la misma ciudad',
+    'similar_title' => 'Más que hacer en',
+    'similar_desc' => 'Otras entradas, tours y tarjetas turísticas de la misma ciudad.',
+    'gallery_close' => 'Cerrar',
+];

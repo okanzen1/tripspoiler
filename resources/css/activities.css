@@ -3,3 +3,48 @@
 .prose .ql-align-justify {
     text-align: left !important;
 }
+/* Aktiviteler: filtre değişince kartlar sırayla belirir */
+.card-in {
+    animation: actsCardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--d, 0ms);
+}
+
+@keyframes actsCardIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.98); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* Yükleniyor: parlayan iskelet, araç çubuğu altında kayan kırmızı çizgi, zıplayan noktalar */
+.acts-skeleton {
+    background: linear-gradient(100deg, #eef2f6 30%, #f8fafc 50%, #eef2f6 70%);
+    background-size: 300% 100%;
+    animation: actsShimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes actsShimmer {
+    from { background-position: 100% 0; }
+    to   { background-position: 0 0; }
+}
+
+.acts-progress {
+    background: linear-gradient(90deg, transparent, #C62E2E 40%, #FF6B6E 60%, transparent);
+    background-size: 50% 100%;
+    background-repeat: no-repeat;
+    animation: actsProgress 0.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes actsProgress {
+    from { background-position: -100% 0; }
+    to   { background-position: 200% 0; }
+}
+
+.acts-dot { animation: actsDot 0.9s ease-in-out infinite; }
+
+@keyframes actsDot {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50%      { opacity: 1; transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-in, .acts-skeleton, .acts-progress, .acts-dot { animation: none; }
+}

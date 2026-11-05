@@ -1,9 +1,15 @@
 <?php
 
-return array (
-  'alt' => 'TripSpoiler Stadtbild',
-  'eyebrow' => 'Mit Klarheit reisen',
-  'title' => 'Reisen beginnt lange vor der Reise',
-  'text' => 'Entdecken Sie Städte mit Kontext. Wählen Sie Erlebnisse mit Absicht. Kommen Sie vorbereitet und präsent an.',
-  'button' => 'Städte erkunden',
-);
+return [
+
+    'alt' => 'TripSpoiler Stadtbild',
+    'eyebrow' => 'Vor der Reise',
+    'title' => 'Reisen beginnt',
+    'title_highlight' => 'lange vor der Abreise.',
+    'text' => 'Lies über eine Stadt, wähle, was deine Zeit wert ist, und komm an, wissend wohin.',
+    'button' => 'Städte entdecken',
+    'cities_label' => 'Unsere Städte',
+    'secondary' => 'Aktivitäten ansehen',
+
+    'city_button' => ':city entdecken',
+];

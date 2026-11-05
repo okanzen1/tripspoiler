@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}">
 
 <head>
     <meta charset="utf-8" />
@@ -10,6 +10,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
 
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
@@ -92,7 +96,9 @@
 
 <body class="bg-white text-slate-900 antialiased min-h-screen flex flex-col">
 
+    @include('partials.announcement-bar')
     @include('partials.header')
+    @include('partials.side-dock')
 
     <main class="flex-1">
         @yield('content')
@@ -101,7 +107,31 @@
 
     @stack('scripts')
     
+    @include('partials.partners-strip')
     @include('partials.footer')
+
+    {{-- Dil değişince sayfa aynı yerde kalsın: tıklanan dil bağlantısında kaydırma konumu saklanır, yeni sayfada geri yüklenir --}}
+    <script>
+        (() => {
+            const key = 'ts-lang-scroll';
+            const path = (url) => new URL(url, location.href).pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/';
+            document.addEventListener('click', (e) => {
+                const link = e.target.closest('a[hreflang]');
+                if (!link || e.metaKey || e.ctrlKey) return;
+                try { sessionStorage.setItem(key, JSON.stringify({ path: path(link.href), y: window.scrollY })); } catch (err) {}
+            });
+            try {
+                const saved = JSON.parse(sessionStorage.getItem(key) || 'null');
+                sessionStorage.removeItem(key);
+                if (saved && saved.path === path(location.href)) {
+                    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+                    const restore = () => window.scrollTo({ top: saved.y, behavior: 'instant' });
+                    restore();
+                    window.addEventListener('load', restore, { once: true });
+                }
+            } catch (err) {}
+        })();
+    </script>
 
 </body>
 

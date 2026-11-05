@@ -1,9 +1,20 @@
 <?php
 
-return array (
-  'about' => 'Hakkında',
-  'contact' => 'İletişim',
-  'privacy' => 'Gizlilik',
-  'reviews' => 'Yorumlar',
-  'supported_by' => 'Destekleyen:',
-);
+return [
+
+    'tagline' => 'Bağımsız seyahat rehberleri, dürüst karşılaştırmalar ve önemli yerler için biletler.',
+    'explore' => 'Keşfet',
+    'company' => 'Kurumsal',
+    'home' => 'Anasayfa',
+    'activities' => 'Aktiviteler',
+    'cities' => 'Şehirler',
+    'blog' => 'Blog',
+    'about' => 'Hakkımızda',
+    'contact' => 'İletişim',
+    'privacy' => 'Gizlilik',
+    'reviews' => 'Yorumlar',
+    'follow' => 'Bizi takip et',
+    'rights' => 'Tüm hakları saklıdır.',
+    'supported_by' => 'Destekleyen:',
+
+];

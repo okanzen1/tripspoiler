@@ -1,9 +1,13 @@
 <?php
 
-return array (
-  'badge' => 'Presença social',
-  'title' => 'Seguir a viagem',
-  'text' => 'Por detrás de cada guia está a pesquisa, a reflexão e a exploração real. Siga o TripSpoiler para obter informações calmas, momentos selecionados e inspiração para viagens bem pensadas.',
-  'instagram' => 'Instagram',
-  'tiktok' => 'TikTok',
-);
+return [
+
+    'eyebrow' => 'Siga a gente',
+    'title' => 'Dicas de viagem,',
+    'title_highlight' => 'direto no seu feed.',
+    'text' => 'Vídeos curtos e dicas rápidas das nossas cidades, antes de ir.',
+    'instagram_cta' => 'Reels, fotos e dicas',
+    'tiktok_cta' => 'Vídeos curtos da estrada',
+    'follow' => 'Seguir',
+
+];

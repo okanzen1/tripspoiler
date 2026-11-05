@@ -1,9 +1,12 @@
 <?php
 
-return array (
-  'title' => 'Ne manquez pas les nouveaux articles',
-  'desc' => 'Recevez un e-mail occasionnel lorsque nous publions de nouveaux articles sur TripSpoiler.',
-  'email_placeholder' => 'you@example.com',
-  'button' => 'M\'avertir des nouveaux messages',
-  'error' => 'Un problème s\'est produit. Veuillez réessayer.',
-);
+return [
+
+    'title' => 'De nouveaux guides dans votre boîte mail',
+    'desc' => 'Nous n’écrivons que lorsqu’il y a quelque chose qui vaut la peine d’être lu.',
+    'email_placeholder' => 'vous@email.com',
+    'button' => 'S’abonner',
+    'error' => 'Une erreur est survenue. Veuillez réessayer.',
+    'note' => 'Pas de spam. Désinscription à tout moment.',
+
+];

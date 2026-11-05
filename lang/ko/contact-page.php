@@ -1,0 +1,32 @@
+<?php
+
+// İletişim sayfası
+return [
+    'eyebrow' => '문의하기',
+    'title' => '여행에 대해',
+    'title_highlight' => '이야기해요',
+    'desc' => '도시에 대한 질문, 가이드 아이디어, 제휴 문의가 있나요? 모든 메시지는 실제 사람이 읽습니다.',
+    'reply_title' => '빠른 답변',
+    'reply_text' => '보통 영업일 기준 하루 안에 답변해요.',
+    'email_title' => '이메일',
+    'social_title' => '팔로우하기',
+    'form_title' => '메시지 보내기',
+    'form_text' => '메시지가 알맞은 담당자에게 가도록 주제를 선택하세요.',
+    'topic' => '주제',
+    'topic_general' => '일반 문의',
+    'topic_booking' => '예약 / 티켓',
+    'topic_partner' => '제휴',
+    'topic_bug' => '문제 신고',
+    'booking_note' => '저희는 직접 티켓을 판매하지 않습니다. 예약과 결제는 파트너에서 이루어집니다. 변경, 환불, 티켓 미수신은 파트너 고객센터가 가장 빠르게 도와드립니다(링크는 확인 이메일에 있어요).',
+    'name' => '이름',
+    'email' => '이메일',
+    'message' => '메시지',
+    'message_placeholder' => '무엇을 도와드릴까요?',
+    'send' => '메시지 보내기',
+    'sending' => '보내는 중…',
+    'privacy' => '이메일은 답변을 위해서만 사용합니다.',
+    'success_title' => '메시지를 보냈어요!',
+    'success_text' => '연락해 주셔서 감사합니다. 곧 답변드릴게요.',
+    'send_another' => '다른 메시지 보내기',
+    'error' => '문제가 발생했어요. 잠시 후 다시 시도해 주세요.',
+];

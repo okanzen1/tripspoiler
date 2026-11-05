@@ -2,34 +2,43 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Ziyaretçi yorumu. activity_id boşsa sitenin geneli hakkında. E-posta şifreli tutulur.
+ */
 class Review extends Model
 {
     protected $fillable = [
+        'activity_id',
         'name',
         'email',
-        'email_hash',
-        'source',
-        'source_id',
         'rating',
         'comment',
         'approved',
     ];
 
     protected $casts = [
-        'approved' => 'boolean',
-        'name' => 'encrypted',
         'email' => 'encrypted',
+        'rating' => 'integer',
+        'approved' => 'boolean',
     ];
-    
-    public function getNameAttribute($value)
+
+    protected static function booted(): void
     {
-        try {
-            return Crypt::decryptString($value);
-        } catch (\Exception $e) {
-            return $value;
-        }
+        static::saving(function (self $review) {
+            $review->email_hash = filled($review->email) ? hash('sha256', mb_strtolower(trim($review->email))) : null;
+        });
+    }
+
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class);
+    }
+
+    public function scopeApproved(Builder $query): void
+    {
+        $query->where('approved', true);
     }
 }

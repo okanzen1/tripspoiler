@@ -1,0 +1,27 @@
+<?php
+
+// Yorumlar sayfası
+return [
+    'meta_title' => 'Gezgin yorumları | TripSpoiler',
+    'meta_description' => 'Seyahatini TripSpoiler ile planlayan gezginlerden dürüst yorumlar: puanlar, deneyimler ve ipuçları.',
+    'eyebrow' => 'Yorumlar',
+    'title' => 'Gezginler',
+    'title_highlight' => 'bizim hakkımızda ne diyor?',
+    'desc' => 'Seyahatini TripSpoiler ile planlayanların gerçek deneyimleri. Her yorum yayınlanmadan önce incelenir.',
+    'write' => 'Yorum yaz',
+    'score_title' => 'Ortalama puan',
+    'based_on' => ':count yorum',
+    'all' => 'Tümü',
+    'stars' => ':n yıldız',
+    'recent' => 'Son yorumlar',
+    'empty_title' => 'Henüz yorum yok',
+    'empty_text' => 'Seyahatinin nasıl geçtiğini anlatan ilk kişi sen ol.',
+    'verified' => 'İncelenmiş yorumlar',
+    'about_activity' => 'Hakkında',
+    'general' => 'Genel',
+    'read_more' => 'Devamını oku',
+    'read_less' => 'Daha az göster',
+    'load_more' => 'Daha fazla yorum göster',
+    'share_title' => 'Seyahatini bizimle mi planladın?',
+    'share_text' => 'Nasıl geçtiğini diğer gezginlerle paylaş; yalnızca bir dakikanı alır.',
+];

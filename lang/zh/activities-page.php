@@ -1,0 +1,36 @@
+<?php
+
+return [
+
+    'meta_title' => '活动 · TripSpoiler',
+    'meta_description' => '门票、团游、城市通票和语音导览，预订前精选并说明。',
+    'eyebrow' => '活动',
+    'title' => '',
+    'title_city' => ':city 玩什么',
+    'desc' => '精选门票、团游和城市通票。先看包含内容，再直接向可信赖的合作伙伴预订。',
+    'stat_total' => '项活动',
+    'stat_passes' => '款城市通票',
+    'stat_audio' => '含语音导览',
+    'stat_languages' => '种语言',
+    'choose_city' => '选择城市',
+    'all' => '全部',
+    'pass' => '城市通票',
+    'product' => '体验',
+    'package' => '套餐',
+    'search' => '搜索活动…',
+    'details' => '详情',
+    'audio' => '语音导览',
+    'results' => ':count 项活动',
+    'no_results' => '没有结果',
+    'no_results_hint' => '试试更短的词或其他筛选。',
+    'empty_title' => '暂无活动',
+    'empty_text' => '我们正在为这座城市添加活动，敬请期待。',
+    'how_title' => '使用方式',
+    'how_1' => '选择活动，查看包含内容',
+    'how_2' => '点击“:button”前往合作伙伴',
+    'how_3' => '向合作伙伴付款并直接获取门票',
+    'city' => '城市',
+
+    'cities_count' => ':count 个城市',
+    'activity_count' => ':count 项活动',
+];

@@ -6,4 +6,5 @@ return array (
   'cities' => '城市',
   'blog' => '博客',
   'language' => '语言',
+  'cta' => '探索活动',
 );

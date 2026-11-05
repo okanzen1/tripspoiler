@@ -2,8 +2,9 @@
 
 return array (
   'home' => 'Anasayfa',
-  'activities' => 'Faaliyetler',
+  'activities' => 'Aktiviteler',
   'cities' => 'Şehirler',
   'blog' => 'Blog',
   'language' => 'Dil',
+  'cta' => 'Aktiviteleri keşfet',
 );

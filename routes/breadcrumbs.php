@@ -22,8 +22,8 @@ Breadcrumbs::for('activities.show', function (BreadcrumbTrail $trail, $activity)
     $name = $activity->getTranslation('name', $locale)
         ?? $activity->getTranslation('name', 'en');
 
-    $slug = $activity->getTranslation('slug', $locale)
-        ?? $activity->getTranslation('slug', 'en');
+    $slug = $activity->slug
+        ?? $activity->slug;
 
     $trail->push(
         $name,

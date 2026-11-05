@@ -1,19 +1,25 @@
 <?php
 
-return array (
-  'eyebrow' => 'Qué es TripSpoiler',
-  'title_line1' => 'Viaje más profundo.',
-  'title_line2' => 'No sólo más allá.',
-  'p1' => 'TripSpoiler está pensado para los viajeros que quieren conocer una ciudad antes de llegar a ella.',
-  'p2' => 'Compartimos guías, museos y experiencias significativas que le ayudarán a ver un lugar con claridad. En lugar de listas abrumadoras, nos centramos en lo que realmente hace que una ciudad sea memorable.',
-  'explore_cities' => 'Explorar ciudades',
-  'discover_activities' => 'Descubre las actividades',
-  'cities' => 'Ciudades',
-  'cities_desc' => 'Guías de ciudades seleccionadas para viajeros curiosos.',
-  'museums' => 'Museos',
-  'museums_desc' => 'Descubra museos con contexto y significado.',
-  'experiences' => 'Experiencias',
-  'experiences_desc' => 'Actividades cuidadosamente seleccionadas que merecen su tiempo.',
-  'stories' => 'Historias',
-  'stories_desc' => 'Lecturas reflexivas para viajeros conscientes.',
-);
+return [
+
+    'eyebrow' => 'Qué es TripSpoiler',
+    'title' => 'Conoce la ciudad',
+    'title_highlight' => 'antes de ir.',
+    'desc' => 'TripSpoiler es para viajeros que quieren entender un lugar antes de llegar.',
+    'p2' => 'Guías claras, comparaciones honestas y entradas para los lugares que importan. Sin listas interminables, solo lo que hace que una ciudad valga la pena.',
+    'explore_cities' => 'Explorar ciudades',
+    'discover_activities' => 'Ver actividades',
+    'cities' => 'Ciudades',
+    'cities_desc' => 'Guías de ciudad: qué ver y cómo.',
+    'experiences' => 'Experiencias',
+    'experiences_desc' => 'Tours, entradas y audioguías que valen tu tiempo.',
+    'passes' => 'City passes',
+    'passes_desc' => 'Passes comparados para que elijas el que compensa.',
+    'stories' => 'Guías',
+    'stories_desc' => 'Historias prácticas para leer antes de ir.',
+    'count_cities' => ':count ciudades',
+    'count_experiences' => ':count experiencias',
+    'count_passes' => ':count passes',
+    'count_stories' => ':count guías',
+
+];

@@ -1,0 +1,36 @@
+<?php
+
+return [
+
+    'meta_title' => '즐길 거리 · TripSpoiler',
+    'meta_description' => '티켓, 투어, 시티 패스, 오디오 가이드를 예약 전에 골라 설명합니다.',
+    'eyebrow' => '액티비티',
+    'title' => '',
+    'title_city' => ':city에서 할 일',
+    'desc' => '엄선한 티켓, 투어, 시티 패스. 포함 내역을 확인하고 믿을 수 있는 파트너에게 직접 예약하세요.',
+    'stat_total' => '액티비티',
+    'stat_passes' => '시티 패스',
+    'stat_audio' => '오디오 가이드',
+    'stat_languages' => '언어',
+    'choose_city' => '도시 선택',
+    'all' => '전체',
+    'pass' => '시티 패스',
+    'product' => '체험',
+    'package' => '패키지',
+    'search' => '액티비티 검색…',
+    'details' => '자세히',
+    'audio' => '오디오 가이드',
+    'results' => ':count개',
+    'no_results' => '결과 없음',
+    'no_results_hint' => '더 짧은 단어나 다른 필터를 사용해 보세요.',
+    'empty_title' => '아직 액티비티가 없습니다',
+    'empty_text' => '이 도시의 액티비티를 준비 중입니다.',
+    'how_title' => '이용 방법',
+    'how_1' => '액티비티를 고르고 포함 내역 확인',
+    'how_2' => '“:button” 버튼을 눌러 파트너 사이트로 이동',
+    'how_3' => '파트너에게 결제하고 티켓 받기',
+    'city' => '도시',
+
+    'cities_count' => ':count개 도시',
+    'activity_count' => '활동 :count개',
+];

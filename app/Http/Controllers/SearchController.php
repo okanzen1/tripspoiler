@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\City;
 use App\Models\Activity;
 use App\Models\Blog;
+use App\Models\City;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -12,33 +13,8 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $query = trim($request->get('q', ''));
-
-        if (mb_strlen($query) < 2) {
-            return response()->json(['search' => []]);
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Locale
-        |--------------------------------------------------------------------------
-        */
-
         $locale = LaravelLocalization::getCurrentLocale();
-
-        /*
-        |--------------------------------------------------------------------------
-        | Query sanitize
-        |--------------------------------------------------------------------------
-        */
-
-        $query = mb_strtolower($query);
-        $query = preg_replace('/[^\p{L}\p{N}\s]/u', '', $query);
-
-        $words = array_filter(
-            preg_split('/\s+/', $query),
-            fn($word) => mb_strlen($word) >= 2
-        );
+        $words = $this->words((string) $request->get('q', ''));
 
         if (empty($words)) {
             return response()->json(['search' => []]);
@@ -50,46 +26,20 @@ class SearchController extends Controller
         |--------------------------------------------------------------------------
         */
 
+        // Sadece rehberi olan şehirler (boş şehir sayfasına götürmesin)
         $cities = City::with('country')
-            ->where('active', true)
-            ->whereHas('country', fn($q) => $q->where('active', true))
-            ->where(function ($q) use ($words, $locale) {
-
-                foreach ($words as $word) {
-
-                    $q->where(function ($sub) use ($word, $locale) {
-
-                        $sub->whereRaw(
-                            "LOWER(JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"'))) LIKE ?",
-                            ["%{$word}%"]
-                        )
-                        ->orWhereRaw(
-                            "LOWER(JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"en\"'))) LIKE ?",
-                            ["%{$word}%"]
-                        );
-
-                    });
-
-                }
-
-            })
+            ->visible()
+            ->whereIn('id', CityController::guideCityIds())
+            ->where(fn ($q) => $this->matchAll($q, 'name', null, $words))
             ->limit(10)
             ->get()
-            ->map(function ($city) use ($locale) {
-
-                $slug = $city->getTranslation('slug', $locale)
-                    ?? $city->getTranslation('slug', 'en');
-
-                return [
-                    'type' => 'city',
-                    'name' => $city->getTranslation('name', $locale)
-                        ?? $city->getTranslation('name', 'en'),
-                    'country' => $city->country?->getTranslation('name', $locale)
-                        ?? $city->country?->getTranslation('name', 'en'),
-                    'url' => route('cities.show', ['slug' => $slug]),
-                ];
-
-            });
+            ->map(fn ($city) => [
+                'type' => 'city',
+                'name' => $city->name,
+                'subtitle' => $city->country?->name,
+                'image' => null,
+                'url' => route('cities.show', ['slug' => $city->slug]),
+            ]);
 
         /*
         |--------------------------------------------------------------------------
@@ -97,45 +47,20 @@ class SearchController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $activities = Activity::with('city.country')
-            ->where('status', true)
-            ->where(function ($q) use ($words, $locale) {
-
-                foreach ($words as $word) {
-
-                    $q->where(function ($sub) use ($word, $locale) {
-
-                        $sub->whereRaw(
-                            "LOWER(JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"'))) LIKE ?",
-                            ["%{$word}%"]
-                        )
-                        ->orWhereRaw(
-                            "LOWER(JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"en\"'))) LIKE ?",
-                            ["%{$word}%"]
-                        );
-
-                    });
-
-                }
-
-            })
+        $activities = Activity::with(['city.country', 'cover'])
+            ->visible()
+            ->where(fn ($q) => $this->matchAll($q, 'name', $locale, $words))
+            ->orderByDesc('is_popular')
+            ->orderBy('sort_order')
             ->limit(10)
             ->get()
-            ->map(function ($activity) use ($locale) {
-
-                $slug = $activity->getTranslation('slug', $locale)
-                    ?? $activity->getTranslation('slug', 'en');
-
-                return [
-                    'type' => 'activity',
-                    'name' => $activity->getTranslation('name', $locale)
-                        ?? $activity->getTranslation('name', 'en'),
-                    'country' => $activity->city?->country?->getTranslation('name', $locale)
-                        ?? $activity->city?->country?->getTranslation('name', 'en'),
-                    'url' => route('activities.show', ['slug' => $slug]),
-                ];
-
-            });
+            ->map(fn ($activity) => [
+                'type' => 'activity',
+                'name' => $activity->name,
+                'subtitle' => collect([$activity->city?->name, $activity->city?->country?->name])->filter()->join(', '),
+                'image' => $activity->cover?->url('sm'),
+                'url' => route('activities.show', ['slug' => $activity->slug]),
+            ]);
 
         /*
         |--------------------------------------------------------------------------
@@ -144,57 +69,66 @@ class SearchController extends Controller
         */
 
         $blogs = Blog::with('city.country')
-            ->where('status', true)
-            ->where(function ($q) use ($words, $locale) {
-
-                foreach ($words as $word) {
-
-                    $q->where(function ($sub) use ($word, $locale) {
-
-                        $sub->whereRaw(
-                            "LOWER(JSON_UNQUOTE(JSON_EXTRACT(title, '$.\"{$locale}\"'))) LIKE ?",
-                            ["%{$word}%"]
-                        )
-                        ->orWhereRaw(
-                            "LOWER(JSON_UNQUOTE(JSON_EXTRACT(title, '$.\"en\"'))) LIKE ?",
-                            ["%{$word}%"]
-                        );
-
-                    });
-
-                }
-
-            })
+            ->published()
+            ->where(fn ($q) => $this->matchAll($q, 'title', $locale, $words))
+            ->latest('published_at')
             ->limit(10)
             ->get()
-            ->map(function ($blog) use ($locale) {
-
-                $slug = $blog->getTranslation('slug', $locale)
-                    ?? $blog->getTranslation('slug', 'en');
-
-                return [
-                    'type' => 'blog',
-                    'name' => $blog->getTranslation('title', $locale)
-                        ?? $blog->getTranslation('title', 'en'),
-                    'country' => $blog->city?->country?->getTranslation('name', $locale)
-                        ?? $blog->city?->country?->getTranslation('name', 'en'),
-                    'url' => route('blog.show', ['slug' => $slug]),
-                ];
-
-            });
-
-        /*
-        |--------------------------------------------------------------------------
-        | Merge Results
-        |--------------------------------------------------------------------------
-        */
+            ->map(fn ($blog) => [
+                'type' => 'blog',
+                'name' => $blog->title,
+                'subtitle' => __('home-hero.guide_minutes', ['count' => $blog->readingMinutes()]) . ' · ' . __('home-hero.guide_unit'),
+                'image' => $blog->coverUrl('sm'),
+                'url' => route('blog.show', ['slug' => $blog->slug]),
+            ]);
 
         return response()->json([
             'search' => collect()
                 ->merge($cities)
                 ->merge($activities)
                 ->merge($blogs)
-                ->values()
+                ->values(),
         ]);
+    }
+
+    /**
+     * Arama kelimeleri: küçük harf, noktalama yok, en az 2 harf. "ı" → "i" (Topkapı = topkapi).
+     *
+     * @return list<string>
+     */
+    private function words(string $query): array
+    {
+        $query = str_replace('ı', 'i', mb_strtolower(trim($query)));
+        $query = preg_replace('/[^\p{L}\p{N}\s]/u', '', $query);
+
+        return array_values(array_filter(
+            preg_split('/\s+/', $query),
+            fn ($word) => mb_strlen($word) >= 2
+        ));
+    }
+
+    /**
+     * Her kelime alanda geçmeli. Büyük/küçük harf ve aksan duyarsız (Boğaz = bogaz, Dolmabahçe = dolmabahce).
+     * $locale verilirse JSON alanın o dildeki ve İngilizce hali aranır; null ise düz sütun.
+     */
+    private function matchAll(Builder $query, string $column, ?string $locale, array $words): void
+    {
+        $fields = $locale === null
+            ? [$column]
+            : array_unique([
+                "JSON_UNQUOTE(JSON_EXTRACT({$column}, '$.\"{$locale}\"'))",
+                "JSON_UNQUOTE(JSON_EXTRACT({$column}, '$.\"en\"'))",
+            ]);
+
+        foreach ($words as $word) {
+            $query->where(function ($sub) use ($fields, $word) {
+                foreach ($fields as $field) {
+                    $sub->orWhereRaw(
+                        "REPLACE(LOWER({$field}), 'ı', 'i') COLLATE utf8mb4_0900_ai_ci LIKE ?",
+                        ["%{$word}%"]
+                    );
+                }
+            });
+        }
     }
 }

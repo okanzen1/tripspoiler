@@ -1,77 +1,77 @@
 <?php
 
 return array (
-  'badge' => 'Gezgin Yorumları',
-  'badge_review' => 'Gezgin Yorumu',
-  'title' => 'Gezginler TripSpoiler ile şehirleri keşfetmeyi seviyor',
-  'description' => 'Daha akıllıca keşfeden, gürültüyü atlayan ve gerçekten zaman ayırmaya değer deneyimler bulan gezginlerden gelen gerçek geri bildirimler.',
-  'section_description' => 'Şehir geçiş kartlarını karşılaştırmak, turistik yerleri keşfetmek ve seyahatlerini daha anlamlı kılan deneyimleri ortaya çıkarmak için TripSpoiler\'ı kullanan gezginlerin dürüst geri bildirimlerini keşfedin. Dünyanın dört bir yanındaki gezginlerden gerçek hikayeler, gerçek bilgiler ve gerçek anlar.',
-  'summary' => 
+  'badge' => 'Gezgin yorumları',
+  'badge_review' => 'Gezgin yorumu',
+  'title' => 'Gezginler şehirleri TripSpoiler ile keşfediyor',
+  'description' => 'Daha akıllı gezen, kalabalığa takılmayan ve gerçekten zamanına değecek deneyimleri bulan gezginlerden gerçek yorumlar.',
+  'section_description' => 'Şehir kartlarını karşılaştırmak, gezilecek yerleri bulmak ve seyahatini daha anlamlı kılmak için TripSpoiler\'ı kullanan gezginlerin dürüst yorumlarını oku. Dünyanın dört bir yanından gerçek hikâyeler ve gerçek deneyimler.',
+  'summary' =>
   array (
-    'average_rating' => 'Ortalama Derecelendirme',
-    'happy_travelers' => 'Mutlu Gezginler',
-    'happy_travelers_desc' => 'Birden fazla şehirdeki gezginler TripSpoiler\'ı kullanarak daha iyi deneyimler keşfettiler.',
-    'why_love' => 'Neden Onu Seviyorlar?',
-    'reasons' => 
+    'average_rating' => 'Ortalama puan',
+    'happy_travelers' => 'Mutlu gezginler',
+    'happy_travelers_desc' => 'Farklı şehirlerdeki gezginler TripSpoiler sayesinde daha iyi deneyimler buldu.',
+    'why_love' => 'Neden seviyorlar?',
+    'reasons' =>
     array (
-      0 => 'Düzenlenmiş, karmaşık değil',
-      1 => 'Şehir geçişlerini karşılaştırmak kolay',
-      2 => 'Yararlı seyahat ipuçları',
+      0 => 'Özenle seçilmiş, karmaşa yok',
+      1 => 'Şehir kartlarını karşılaştırmak kolay',
+      2 => 'İşe yarayan seyahat ipuçları',
     ),
   ),
-  'buttons' => 
+  'buttons' =>
   array (
-    'read_reviews' => 'Daha Fazla İncelemeyi Okuyun',
-    'write_review' => 'Yorum Yaz',
-    'browse_reviews' => 'İncelemelere Göz Atın',
+    'read_reviews' => 'Daha fazla yorum oku',
+    'write_review' => 'Yorum yaz',
+    'browse_reviews' => 'Yorumlara göz at',
   ),
-  'form' => 
+  'form' =>
   array (
-    'title' => 'Yorum Yaz',
-    'name' => 'İsim',
+    'title' => 'Yorum yaz',
+    'name' => 'Adın',
     'email' => 'E-posta',
-    'rating' => 'Derecelendirmeniz',
-    'comment' => 'Yorum',
-    'submit' => 'İncelemeyi Gönder',
-    'submitting' => 'Gönderiliyor...',
+    'rating' => 'Puanın',
+    'comment' => 'Yorumun',
+    'submit' => 'Yorumu gönder',
+    'submitting' => 'Gönderiliyor…',
   ),
-  'success' => 
+  'success' =>
   array (
-    'title' => 'İncelemeniz gönderildi',
-    'description' => 'Deneyiminizi paylaştığınız için teşekkür ederiz.',
+    'title' => 'Yorumun gönderildi',
+    'description' => 'Deneyimini paylaştığın için teşekkürler.',
   ),
-  'errors' => 
+  'errors' =>
   array (
-    'rating_required' => 'Lütfen derecelendirmeyi seçin.',
+    'rating_required' => 'Lütfen bir puan seç.',
     'something_wrong' => 'Bir şeyler ters gitti.',
-    'server_error' => 'Sunucu hatası. Lütfen tekrar deneyin.',
+    'server_error' => 'Sunucu hatası. Lütfen tekrar dene.',
   ),
-  'meta' => 
+  'meta' =>
   array (
-    'title' => 'Gezgin Yorumları ve Deneyimleri | Gezi Spoyleri',
-    'description' => 'TripSpoiler\'da gerçek gezgin yorumlarını okuyun. Seyahatinizi planlamadan önce şehir kartları, gezilecek yerler ve deneyimler hakkındaki dürüst geri bildirimleri keşfedin.',
+    'title' => 'Gezgin yorumları ve deneyimleri | TripSpoiler',
+    'description' => 'TripSpoiler\'da gerçek gezgin yorumlarını oku. Seyahatini planlamadan önce şehir kartları, gezilecek yerler ve deneyimler hakkındaki dürüst yorumlara göz at.',
   ),
-  'hero' => 
+  'hero' =>
   array (
-    'title_line1' => 'Gezginler paylaşıyor',
-    'title_line2' => 'onların deneyimleri',
-    'description' => 'Şehir geçiş kartlarını karşılaştırmak, turistik yerleri keşfetmek ve daha akıllı geziler planlamak için TripSpoiler\'ı kullanan gezginlerin gerçek hikayeleri.',
-    'rating_text' => 'değerlendirme:gezgin yorumlarını say',
+    'title_line1' => 'Gezginler',
+    'title_line2' => 'deneyimlerini anlatıyor',
+    'description' => 'Şehir kartlarını karşılaştırmak, gezilecek yerleri bulmak ve daha akıllı seyahat planlamak için TripSpoiler\'ı kullanan gezginlerden gerçek hikâyeler.',
+    'rating_text' => ':count gezgin yorumundan gelen puan',
   ),
-  'cards' => 
+  'cards' =>
   array (
-    'review1' => 'TripSpoiler şehir geçişlerini karşılaştırmayı inanılmaz derecede kolaylaştırdı.',
+    'review1' => 'TripSpoiler şehir kartlarını karşılaştırmayı inanılmaz kolaylaştırdı.',
     'review1_city' => 'Londra',
-    'review2' => 'TripSpoiler sayesinde saatlerce süren araştırmadan tasarruf ettim.',
+    'review2' => 'TripSpoiler sayesinde saatlerce araştırma yapmaktan kurtuldum.',
     'review2_city' => 'Singapur',
-    'review3' => 'Karşılaştırmalar son derece net ve faydalıdır.',
+    'review3' => 'Karşılaştırmalar çok net ve işe yarıyor.',
     'review3_city' => 'Roma',
   ),
-  'empty' => 
+  'empty' =>
   array (
-    'title' => 'Seyahatinizi dönüştürün',
-    'highlight' => 'ilham verici bir seyahat hikayesi',
-    'description' => 'TripSpoiler deneyiminizi paylaşın ve gelecekteki gezginlerin daha iyi bilgiler, daha akıllı planlama ve unutulmaz anlarla şehirleri keşfetmesine yardımcı olun.',
-    'sub' => 'Deneyiminiz bir sonraki harika geziye ilham verebilir',
+    'title' => 'Seyahatini',
+    'highlight' => 'ilham veren bir hikâyeye dönüştür',
+    'description' => 'TripSpoiler deneyimini paylaş; sonraki gezginler daha iyi bilgiyle, daha akıllı planla şehirleri keşfetsin.',
+    'sub' => 'Senin deneyimin bir sonraki güzel gezinin ilhamı olabilir',
   ),
 );

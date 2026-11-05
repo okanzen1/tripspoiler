@@ -106,7 +106,7 @@ Route::group(
 
         Route::get('/search', [SearchController::class, 'search'])
             ->name('search')
-            ->middleware('throttle:30,1');
+            ->middleware('throttle:90,1');
 
 
         /*

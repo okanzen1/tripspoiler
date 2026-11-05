@@ -54,6 +54,15 @@ return [
             'throw' => false,
         ],
 
+        // PANELDEN YÜKLENEN GÖRSELLER (tripspoiler-admin ile aynı disk)
+        'media' => [
+            'driver' => 'local',
+            'root' => env('MEDIA_ROOT') ?: storage_path('app/public/media'),
+            'url' => env('MEDIA_URL') ?: rtrim(env('APP_URL'), '/') . '/storage/media',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

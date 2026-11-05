@@ -3,7 +3,7 @@
 return array (
   'index_meta_title' => 'Aktiviteler - TripSpoiler',
   'index_meta_description' => 'Dünyanın dört bir yanındaki en iyi etkinlikleri, kombo turları ve şehir geçişlerini bulun.',
-  'activities' => 'Faaliyetler',
+  'activities' => 'Aktiviteler',
   'audio_guide' => 'Sesli Rehber Dahil',
   'across' => 'karşısında',
   'section_title' => 'Şehri daha derinlemesine deneyimleyin',
@@ -18,6 +18,6 @@ return array (
   'view_details' => 'Detayları görüntüle →',
   'official_ticket_provider' => 'Resmi bilet sağlayıcısı',
   'instant_confirmation' => 'Anında onay',
-  'redirect_notice' => 'Rezervasyonunuzu tamamlamak için resmi bilet sağlayıcısına yönlendirileceksiniz.',
+  'redirect_notice' => 'Rezervasyonu tamamlamak için resmi bilet sağlayıcısının sitesine yönlendirileceksin.',
   'check_availability' => 'Uygunluğu kontrol et',
 );

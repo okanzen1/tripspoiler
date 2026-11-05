@@ -17,9 +17,9 @@ class SitemapController extends Controller
 
         $locales = LaravelLocalization::getSupportedLocales();
 
-        $cities = City::where('active', true)->get();
-        $blogs = Blog::where('status', true)->get();
-        $activities = Activity::where('status', true)->get();
+        $cities = City::visible()->get();
+        $blogs = Blog::published()->get();
+        $activities = Activity::visible()->get();
 
         foreach ($locales as $locale => $properties) {
 
@@ -87,9 +87,7 @@ class SitemapController extends Controller
             */
 
             foreach ($cities as $city) {
-
-                $slug = $city->getTranslation('slug', $locale)
-                    ?? $city->getTranslation('slug', 'en');
+                $slug = $city->slug;
 
                 if (!$slug) continue;
 
@@ -114,9 +112,7 @@ class SitemapController extends Controller
             */
 
             foreach ($blogs as $post) {
-
-                $slug = $post->getTranslation('slug', $locale)
-                    ?? $post->getTranslation('slug', 'en');
+                $slug = $post->slug;
 
                 if (!$slug) continue;
 
@@ -141,9 +137,7 @@ class SitemapController extends Controller
             */
 
             foreach ($activities as $activity) {
-
-                $slug = $activity->getTranslation('slug', $locale)
-                    ?? $activity->getTranslation('slug', 'en');
+                $slug = $activity->slug;
 
                 if (!$slug) continue;
 

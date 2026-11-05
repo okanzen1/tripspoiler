@@ -17,7 +17,9 @@ class MostPopularActivities extends Component
         string $source = 'home',
         $sourceId = null,
         int $limit = 8,
-        ?int $cityId = null
+        ?int $cityId = null,
+        public ?int $excludeId = null,
+        public bool $popularOnly = true,
     ) {
         $this->source = $source;
         $this->sourceId = $sourceId;
@@ -31,19 +33,19 @@ class MostPopularActivities extends Component
 
         $cacheKey = "most_popular_activities_{$locale}_{$this->source}_"
             . ($this->sourceId ?? 'null')
-            . "_city_" . ($this->cityId ?? 'all');
+            . "_city_" . ($this->cityId ?? 'all')
+            . "_ex_" . ($this->excludeId ?? 'none') . ($this->popularOnly ? '_popular' : '_all');
 
         $query = function () {
 
             return Activity::query()
-                ->with([
-                    'images' => fn($q) => $q->orderBy('sort_order')->limit(1)
-                ])
+                ->with(['cover', 'city'])
                 ->when(!empty($this->cityId), function ($q) {
                     $q->where('city_id', $this->cityId);
                 })
-                ->where('status', true)
-                ->where('most_popular', true)
+                ->visible()
+                ->when($this->popularOnly, fn ($q) => $q->where('is_popular', true))
+                ->when($this->excludeId, fn ($q) => $q->whereKeyNot($this->excludeId))
                 ->orderBy('sort_order')
                 ->limit($this->limit)
                 ->get();

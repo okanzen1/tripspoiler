@@ -5,63 +5,60 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\City;
 use App\Models\Activity;
-use App\Models\Page;
 
 class ActivityController extends Controller
 {
     public function index(Request $request)
     {
-        $locale = app()->getLocale();
-
-        $cities = City::where('active', true)->get();
-        $cityId = (int) ($request->get('city_id') ?? session('selected_city_id') ?? 1);
-
-        $currentCity = $cities->firstWhere('id', $cityId) ?? $cities->first();
-        $currentCityName = $currentCity?->getTranslation('name', $locale);
-
-        $activities = Activity::where('city_id', $cityId)
-            ->with('images')
-            ->where('status', true)
-            ->orderBy('sort_order', 'asc')
+        // Sadece aktivitesi olan şehirler (boş şehir seçenek olarak çıkmasın)
+        $cities = City::visible()
+            ->with('country')
+            ->whereHas('activities', fn ($q) => $q->where('active', true))
+            ->withCount(['activities' => fn ($q) => $q->where('active', true)])
+            ->orderByDesc('population')
             ->get();
 
-        $page = Page::where('slug', 'activities')
-            ->with('contents')
-            ->first();
+        $requested = $request->get('city');
+        $city = ($requested ? $cities->firstWhere('slug', $requested) : null)
+            ?? $cities->firstWhere('id', (int) session('selected_city_id'))
+            ?? $cities->first();
 
-        $pageContent = $page?->contentForCity($cityId);
-
-        if ($request->ajax()) {
-            return view('activities.partials.list', compact(
-                'activities',
-                'locale',
-                'cityId',
-                'pageContent'
-            ));
+        if ($city) {
+            session(['selected_city_id' => $city->id]);
         }
 
-        return view('activities.index', compact(
-            'activities',
-            'cities',
-            'cityId',
-            'locale',
-            'currentCityName',
-            'pageContent'
-        ));
+        $activities = $city
+            ? Activity::visible()->where('city_id', $city->id)->with(['cover', 'city'])->orderBy('sort_order')->orderBy('id')->get()
+            : collect();
+
+        // Banner resmi (panel: Sayfalar › Aktiviteler › Banner resimleri)
+        $banner = \App\Models\PageBanner::urls('activities', $city?->id);
+
+        return view('activities.index', [
+            'banner' => $banner['desktop'],
+            'bannerMobile' => $banner['mobile'],
+            'cities' => $cities,
+            'city' => $city,
+            'activities' => $activities,
+            'stats' => [
+                'total' => $activities->count(),
+                'passes' => $activities->where('type', 'pass')->count(),
+                'audio' => $activities->where('audio_guide', true)->count(),
+                'languages' => count(\Mcamara\LaravelLocalization\Facades\LaravelLocalization::getSupportedLocales()),
+            ],
+        ]);
     }
 
     public function show(string $slug)
-    {   
+    {
         $locale = app()->getLocale();
-        $activity = Activity::where('status', true)
-            ->where(function ($q) use ($locale, $slug) {
-                $q->where("slug->{$locale}", $slug)
-                ->orWhere("slug->en", $slug);
-            })
-            ->with(['images', 'city.country'])
-        ->firstOrFail();
-        
-        $name = $activity->getTranslation('name', $locale);
+
+        $activity = Activity::visible()
+            ->where('slug', $slug)
+            ->with(['images', 'city.country', 'partner'])
+            ->firstOrFail();
+
+        $name = $activity->name;
         $metaTitle = $activity->getTranslation('meta_title', $locale) ?: $name . ' | TripSpoiler';
         $metaDescription = $activity->getTranslation('meta_description', $locale) ?: 'Learn about ' . $name . '. What it includes, how it works, and whether it makes sense for your trip.';
 

@@ -1,0 +1,27 @@
+<?php
+
+// Yorumlar sayfası
+return [
+    'meta_title' => 'Avis des voyageurs | TripSpoiler',
+    'meta_description' => 'Des avis honnêtes de voyageurs ayant préparé leur séjour avec TripSpoiler : notes, expériences et conseils.',
+    'eyebrow' => 'Avis',
+    'title' => 'Ce que disent',
+    'title_highlight' => 'les voyageurs',
+    'desc' => 'De vraies expériences de personnes qui ont préparé leur voyage avec TripSpoiler. Chaque avis est vérifié avant publication.',
+    'write' => 'Laisser un avis',
+    'score_title' => 'Note moyenne',
+    'based_on' => ':count avis',
+    'all' => 'Tous',
+    'stars' => ':n étoiles',
+    'recent' => 'Derniers avis',
+    'empty_title' => 'Pas encore d’avis',
+    'empty_text' => 'Soyez le premier à raconter votre voyage.',
+    'verified' => 'Avis vérifié',
+    'about_activity' => 'À propos de',
+    'general' => 'Général',
+    'read_more' => 'Lire la suite',
+    'read_less' => 'Voir moins',
+    'load_more' => 'Voir plus d’avis',
+    'share_title' => 'Vous avez préparé un voyage avec nous ?',
+    'share_text' => 'Racontez-le aux autres voyageurs ; cela prend une minute.',
+];

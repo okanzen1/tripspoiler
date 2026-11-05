@@ -12,4 +12,6 @@ return [
 
     'language' => 'Language',
 
+    'cta' => 'Explore activities',
+
 ];

@@ -1,0 +1,30 @@
+<?php
+
+// Aktivite detay sayfası
+return [
+    'breadcrumb' => 'Sayfa yolu',
+    'home' => 'Anasayfa',
+    'photos' => ':count fotoğraf',
+    'all_photos' => 'Tüm fotoğraflar',
+    'type' => 'Tür',
+    'duration' => 'Süre',
+    'audio' => 'Sesli rehber',
+    'audio_yes' => 'Dahil',
+    'location' => 'Konum',
+    'booking' => 'Rezervasyon',
+    'booking_value' => 'Partner sitesinde',
+    'about' => 'Bu aktivite hakkında',
+    'read_more' => 'Devamını oku',
+    'read_less' => 'Daha az göster',
+    'book_eyebrow' => 'Bilet ve uygunluk',
+    'book_via' => 'Rezervasyon partneri',
+    'cta' => 'Uygunluğu kontrol et',
+    'trust_official' => 'Resmi bilet sağlayıcısı',
+    'trust_instant' => 'Anında onay',
+    'trust_secure' => 'Ödeme, partnerin güvenli sitesinde',
+    'how_title' => 'Nasıl çalışır?',
+    'similar_eyebrow' => 'Aynı şehirde',
+    'similar_title' => 'Bu şehirde başka neler var:',
+    'similar_desc' => 'Aynı şehir için seçilmiş diğer biletler, turlar ve şehir kartları.',
+    'gallery_close' => 'Kapat',
+];

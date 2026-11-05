@@ -1,0 +1,32 @@
+<?php
+
+// İletişim sayfası
+return [
+    'eyebrow' => '联系我们',
+    'title' => '聊聊',
+    'title_highlight' => '你的旅行',
+    'desc' => '关于城市的问题、指南的想法或合作意向？写信给我们，每条消息都由真人阅读。',
+    'reply_title' => '快速回复',
+    'reply_text' => '我们通常在一个工作日内回复。',
+    'email_title' => '电子邮件',
+    'social_title' => '关注我们',
+    'form_title' => '给我们留言',
+    'form_text' => '选择一个主题，让消息送到合适的人手中。',
+    'topic' => '主题',
+    'topic_general' => '一般问题',
+    'topic_booking' => '预订 / 门票',
+    'topic_partner' => '合作',
+    'topic_bug' => '报告问题',
+    'booking_note' => '我们不直接销售门票：预订和付款都在合作方完成。如需修改、退款或未收到门票，联系合作方客服最快（链接在确认邮件中）。',
+    'name' => '你的名字',
+    'email' => '你的邮箱',
+    'message' => '留言',
+    'message_placeholder' => '我们能帮你什么？',
+    'send' => '发送留言',
+    'sending' => '发送中…',
+    'privacy' => '我们只会用你的邮箱回复你。',
+    'success_title' => '留言已发送！',
+    'success_text' => '感谢来信，我们会尽快回复。',
+    'send_another' => '再发一条留言',
+    'error' => '出了点问题，请稍后再试。',
+];

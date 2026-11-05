@@ -1,9 +1,13 @@
 <?php
 
-return array (
-  'badge' => 'Soziale Präsenz',
-  'title' => 'Folgen Sie der Reise',
-  'text' => 'Hinter jedem Reiseführer stehen Recherche, Reflexion und echte Entdeckungen. Folgen Sie TripSpoiler für ruhige Einblicke, kuratierte Momente und durchdachte Reise-Inspirationen.',
-  'instagram' => 'Instagram',
-  'tiktok' => 'TikTok',
-);
+return [
+
+    'eyebrow' => 'Folge uns',
+    'title' => 'Reisetipps direkt',
+    'title_highlight' => 'in deinen Feed.',
+    'text' => 'Kurze Videos und schnelle Tipps aus unseren Städten – bevor du reist.',
+    'instagram_cta' => 'Reels, Fotos und Stadttipps',
+    'tiktok_cta' => 'Kurze Videos von unterwegs',
+    'follow' => 'Folgen',
+
+];

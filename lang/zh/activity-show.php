@@ -1,0 +1,30 @@
+<?php
+
+// Aktivite detay sayfası
+return [
+    'breadcrumb' => '导航路径',
+    'home' => '首页',
+    'photos' => ':count 张照片',
+    'all_photos' => '查看全部照片',
+    'type' => '类型',
+    'duration' => '时长',
+    'audio' => '语音导览',
+    'audio_yes' => '包含',
+    'location' => '地点',
+    'booking' => '预订',
+    'booking_value' => '在合作方网站',
+    'about' => '关于此活动',
+    'read_more' => '阅读更多',
+    'read_less' => '收起',
+    'book_eyebrow' => '门票与可订情况',
+    'book_via' => '预订渠道',
+    'cta' => '查看可订情况',
+    'trust_official' => '官方票务供应商',
+    'trust_instant' => '即时确认',
+    'trust_secure' => '在合作方网站安全支付',
+    'how_title' => '如何预订',
+    'similar_eyebrow' => '同一城市',
+    'similar_title' => '更多推荐:',
+    'similar_desc' => '同一城市的其他门票、游览和城市卡。',
+    'gallery_close' => '关闭',
+];

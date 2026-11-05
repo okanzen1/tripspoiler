@@ -12,17 +12,23 @@ class Faq extends Component
         public ?string $source = null,
         public ?int $sourceId = null,
         public ?string $bgColor = null,
+        public ?string $page = null,
+        public ?int $cityId = null,
     ) {}
 
     public function render(): View|string
     {
         $locale = app()->getLocale();
-        $bgColor = $this->bgColor ?? 'bg-[#FFF8F6]';
+        $bgColor = $this->bgColor ?? 'bg-white';
 
         $faqs = FaqModel::query()
-            ->where('status', true)
-            ->when($this->source, fn($q) => $q->where('source', $this->source))
-            ->when($this->sourceId, fn($q) => $q->where('source_id', $this->sourceId))
+            ->where('active', true)
+            ->when($this->source === 'activity', fn($q) => $q->where('activity_id', $this->sourceId))
+            // Sayfa bölümü: o sayfaya yazılan sorular + seçili şehre yazılan sorular (panelde "Nerede görünecek")
+            ->when($this->source === 'page', fn($q) => $q->where(fn($w) => $w->where('page_key', $this->page)
+                ->when($this->cityId, fn($w) => $w->orWhere('city_id', $this->cityId))))
+            ->when($this->source === 'blog', fn($q) => $q->where('blog_id', $this->sourceId))
+            ->when(!in_array($this->source, ['activity', 'blog', 'page']), fn($q) => $q->general())
             ->orderBy('sort_order')
             ->get();
 

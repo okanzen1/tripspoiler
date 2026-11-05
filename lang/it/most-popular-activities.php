@@ -1,13 +1,21 @@
 <?php
 
-return array (
-  'title_prefix' => 'Le attività più visitate',
-  'title_highlight' => 'su TripSpoiler',
-  'desc' => 'Un rapido sguardo alle attività che i viaggiatori continuano a praticare.',
-  'cover_title' => 'Esplora tutte le attività',
-  'cover_cta' => 'Vedi tutte le attività →',
-  'category_pass' => 'Pass per la città',
-  'category_product' => 'Esperienza',
-  'category_package' => 'Pacchetto',
-  'cta' => 'Visualizza i dettagli →',
-);
+return [
+
+    'eyebrow' => 'Popolari ora',
+    'title_prefix' => 'Le esperienze che i viaggiatori',
+    'title_highlight' => 'scelgono di più.',
+    'desc' => 'Biglietti, tour e city pass selezionati, con informazioni oneste prima di prenotare.',
+    'cover_title' => 'Tutte le attività',
+    'cover_text' => 'Tutti i biglietti, tour e city pass in un unico posto.',
+    'cover_cta' => 'Vedi tutto',
+    'category_pass' => 'City pass',
+    'category_product' => 'Esperienza',
+    'category_package' => 'Pacchetto',
+    'cta' => 'Dettagli',
+    'see_all' => 'Vedi tutto',
+    'audio' => 'Audioguida',
+    'prev' => 'Precedente',
+    'next' => 'Successivo',
+
+];

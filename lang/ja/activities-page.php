@@ -1,0 +1,36 @@
+<?php
+
+return [
+
+    'meta_title' => 'アクティビティ · TripSpoiler',
+    'meta_description' => 'チケット、ツアー、シティパス、音声ガイドを厳選して予約前に解説。',
+    'eyebrow' => 'アクティビティ',
+    'title' => '',
+    'title_city' => ':cityでできること',
+    'desc' => '厳選したチケット、ツアー、シティパス。内容を確認して、信頼できるパートナーから直接予約できます。',
+    'stat_total' => 'アクティビティ',
+    'stat_passes' => 'シティパス',
+    'stat_audio' => '音声ガイド付き',
+    'stat_languages' => '言語',
+    'choose_city' => '都市を選ぶ',
+    'all' => 'すべて',
+    'pass' => 'シティパス',
+    'product' => '体験',
+    'package' => 'パッケージ',
+    'search' => 'アクティビティを検索…',
+    'details' => '詳細',
+    'audio' => '音声ガイド',
+    'results' => ':count件',
+    'no_results' => '該当なし',
+    'no_results_hint' => '短い言葉や別のフィルターで試してください。',
+    'empty_title' => 'まだアクティビティはありません',
+    'empty_text' => 'この都市のアクティビティを追加中です。',
+    'how_title' => 'ご利用の流れ',
+    'how_1' => 'アクティビティを選んで内容を確認',
+    'how_2' => '「:button」を押してパートナーサイトへ',
+    'how_3' => 'パートナーで支払い、チケットを受け取る',
+    'city' => '都市',
+
+    'cities_count' => ':count 都市',
+    'activity_count' => ':count 件のアクティビティ',
+];

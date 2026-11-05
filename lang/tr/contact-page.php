@@ -1,0 +1,32 @@
+<?php
+
+// İletişim sayfası
+return [
+    'eyebrow' => 'İletişim',
+    'title' => 'Seyahatin hakkında',
+    'title_highlight' => 'konuşalım',
+    'desc' => 'Bir şehirle ilgili sorun, bir rehber fikrin ya da iş birliği teklifin mi var? Bize yaz; her mesajı ekibimizden biri okuyor.',
+    'reply_title' => 'Hızlı yanıt',
+    'reply_text' => 'Genellikle bir iş günü içinde dönüyoruz.',
+    'email_title' => 'E-posta',
+    'social_title' => 'Bizi takip et',
+    'form_title' => 'Bize mesaj gönder',
+    'form_text' => 'Mesajının doğru kişiye ulaşması için bir konu seç.',
+    'topic' => 'Konu',
+    'topic_general' => 'Genel soru',
+    'topic_booking' => 'Rezervasyon / bilet',
+    'topic_partner' => 'İş birliği',
+    'topic_bug' => 'Sorun bildir',
+    'booking_note' => 'Bilet satışını biz yapmıyoruz; rezervasyonun ve ödemen partnerimiz üzerinden gerçekleşiyor. Sipariş değişikliği, iade ya da ulaşmayan bilet için en hızlı yardımı partnerin destek ekibinden alabilirsin (bağlantısı onay e-postanda yer alıyor).',
+    'name' => 'Adın',
+    'email' => 'E-postan',
+    'message' => 'Mesaj',
+    'message_placeholder' => 'Nasıl yardımcı olabiliriz?',
+    'send' => 'Mesajı gönder',
+    'sending' => 'Gönderiliyor…',
+    'privacy' => 'E-posta adresini yalnızca sana yanıt vermek için kullanırız.',
+    'success_title' => 'Mesajın gönderildi!',
+    'success_text' => 'Yazdığın için teşekkürler. En kısa sürede sana dönüş yapacağız.',
+    'send_another' => 'Yeni mesaj gönder',
+    'error' => 'Bir sorun oldu. Lütfen biraz sonra tekrar dene.',
+];

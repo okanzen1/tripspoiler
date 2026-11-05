@@ -1,19 +1,25 @@
 <?php
 
-return array (
-  'eyebrow' => '트립스포일러란?',
-  'title_line1' => '더 깊이 여행하세요.',
-  'title_line2' => '그 이상도 그 이하도 아닙니다.',
-  'p1' => '트립스포일러는 도착하기 전에 도시에 대해 미리 알고 싶어하는 여행자를 위해 만들어졌습니다.',
-  'p2' => '사려 깊은 가이드, 박물관 인사이트, 의미 있는 경험을 통해 여행지를 명확하게 볼 수 있도록 도와드립니다. 압도적인 목록 대신 진정으로 기억에 남는 도시를 만드는 요소에 초점을 맞춥니다.',
-  'explore_cities' => '도시 탐색',
-  'discover_activities' => '활동 찾기',
-  'cities' => '도시',
-  'cities_desc' => '호기심 많은 여행자를 위한 엄선된 도시 가이드.',
-  'museums' => '박물관',
-  'museums_desc' => '맥락과 의미가 있는 박물관을 발견하세요.',
-  'experiences' => '경험',
-  'experiences_desc' => '시간을 투자할 만한 가치가 있는 엄선된 활동.',
-  'stories' => '스토리',
-  'stories_desc' => '사려 깊은 여행자를 위한 사려 깊은 읽을거리.',
-);
+return [
+
+    'eyebrow' => 'TripSpoiler란',
+    'title' => '떠나기 전에',
+    'title_highlight' => '도시를 알아두세요.',
+    'desc' => 'TripSpoiler는 도착하기 전에 그곳을 이해하고 싶은 여행자를 위한 곳입니다.',
+    'p2' => '명확한 가이드, 솔직한 비교, 꼭 가볼 곳의 티켓. 끝없는 목록 대신 그 도시를 가볼 만하게 만드는 것만.',
+    'explore_cities' => '도시 둘러보기',
+    'discover_activities' => '액티비티 보기',
+    'cities' => '도시',
+    'cities_desc' => '무엇을 어떻게 볼지 알려주는 도시 가이드.',
+    'experiences' => '체험',
+    'experiences_desc' => '시간을 들일 가치가 있는 투어·티켓·오디오 가이드.',
+    'passes' => '시티 패스',
+    'passes_desc' => '패스를 비교해 이득인 것을 고르세요.',
+    'stories' => '가이드',
+    'stories_desc' => '떠나기 전에 읽을 실용적인 글.',
+    'count_cities' => '도시 :count곳',
+    'count_experiences' => '체험 :count개',
+    'count_passes' => '패스 :count종',
+    'count_stories' => '가이드 :count편',
+
+];

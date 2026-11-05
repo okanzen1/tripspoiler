@@ -1,0 +1,27 @@
+<?php
+
+// Yorumlar sayfası
+return [
+    'meta_title' => '旅行者评价 | TripSpoiler',
+    'meta_description' => '使用 TripSpoiler 规划行程的旅行者的真实评价：评分、体验和建议。',
+    'eyebrow' => '评价',
+    'title' => '旅行者',
+    'title_highlight' => '怎么说',
+    'desc' => '使用 TripSpoiler 规划行程的人的真实体验。每条评价发布前都会经过审核。',
+    'write' => '写评价',
+    'score_title' => '平均评分',
+    'based_on' => ':count 条评价',
+    'all' => '全部',
+    'stars' => ':n 星',
+    'recent' => '最新评价',
+    'empty_title' => '暂无评价',
+    'empty_text' => '成为第一个分享旅行体验的人。',
+    'verified' => '已审核评价',
+    'about_activity' => '关于',
+    'general' => '通用',
+    'read_more' => '阅读更多',
+    'read_less' => '收起',
+    'load_more' => '查看更多评价',
+    'share_title' => '和我们一起规划过旅行吗？',
+    'share_text' => '告诉其他旅行者你的体验吧，只需一分钟。',
+];

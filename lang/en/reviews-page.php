@@ -1,0 +1,27 @@
+<?php
+
+// Yorumlar sayfası
+return [
+    'meta_title' => 'Traveller reviews | TripSpoiler',
+    'meta_description' => 'Honest reviews from travellers who planned their trip with TripSpoiler: ratings, experiences and tips.',
+    'eyebrow' => 'Reviews',
+    'title' => 'What travellers',
+    'title_highlight' => 'say about us',
+    'desc' => 'Real experiences from people who planned their trip with TripSpoiler. Every review is checked before it appears.',
+    'write' => 'Write a review',
+    'score_title' => 'Average rating',
+    'based_on' => ':count reviews',
+    'all' => 'All',
+    'stars' => ':n stars',
+    'recent' => 'Latest reviews',
+    'empty_title' => 'No reviews yet',
+    'empty_text' => 'Be the first to share how your trip went.',
+    'verified' => 'Checked review',
+    'about_activity' => 'About',
+    'general' => 'General',
+    'read_more' => 'Read more',
+    'read_less' => 'Show less',
+    'load_more' => 'Show more reviews',
+    'share_title' => 'Planned a trip with us?',
+    'share_text' => 'Tell other travellers how it went; it takes a minute.',
+];

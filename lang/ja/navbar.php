@@ -6,4 +6,5 @@ return array (
   'cities' => '都市',
   'blog' => 'ブログ',
   'language' => '言語',
+  'cta' => 'アクティビティを探す',
 );
