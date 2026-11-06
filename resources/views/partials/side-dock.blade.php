@@ -39,7 +39,7 @@
         @foreach ($dock as [$label, $url, $match, $icon])
             @php $active = request()->routeIs($match); @endphp
             <a href="{{ $url }}" aria-label="{{ $label }}" @if ($active) aria-current="page" @click="{{ $toTop }}" @endif
-                class="group relative grid size-12 place-items-center rounded-full bg-[#FBF8F4] text-slate-700 ring-1 ring-slate-200/70 shadow-[0_10px_26px_-12px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-x-1 hover:text-[#C62E2E] rtl:hover:translate-x-1">
+                class="group relative grid size-12 place-items-center rounded-full bg-white text-slate-700 ring-1 ring-slate-200/80 shadow-[0_10px_26px_-12px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-x-1 hover:text-[#C62E2E] rtl:hover:translate-x-1">
                 <svg class="size-[22px] transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
                 @if ($active)
                     <span class="absolute -right-3.5 top-1/2 size-2 -translate-y-1/2 rounded-full bg-[#C62E2E] rtl:-left-3.5 rtl:right-auto"></span>

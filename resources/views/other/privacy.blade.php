@@ -39,7 +39,7 @@
 @section('content')
     {{-- ÜST --}}
     <section class="relative overflow-hidden bg-gradient-to-b from-slate-100 to-white">
-        <div class="pointer-events-none absolute -left-24 top-10 size-80 rounded-full bg-emerald-200/40 blur-3xl" aria-hidden="true"></div>
+        <div class="pointer-events-none absolute -left-40 -top-24 size-[34rem] rounded-full bg-sky-500/[0.07] blur-[130px]" aria-hidden="true"></div>
         <div class="relative mx-auto max-w-7xl px-4 pb-12 pt-6 md:pb-16 md:pt-8">
             <x-breadcrumbs :items="[
                 ['label' => __('activity-show.home'), 'url' => route('home')],
@@ -48,7 +48,7 @@
 
             <div class="mt-10 grid items-center gap-10 lg:mt-14 lg:grid-cols-12">
                 <div class="lg:col-span-7">
-                    <span class="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-emerald-800">
+                    <span class="inline-flex items-center gap-2 rounded-full bg-sky-100 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-sky-700">
                         {!! \App\Support\FeatureIcons::svg('shield', 'size-3.5') !!}{{ $hero['eyebrow'] }}
                     </span>
                     <h1 class="mt-5 text-[40px] font-extrabold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-6xl">{{ $hero['title'] }}</h1>
@@ -63,7 +63,7 @@
                         <ul class="mt-4 space-y-3">
                             @foreach (['s1', 's2', 's3', 's4'] as $point)
                                 <li class="flex items-start gap-3 text-[15px] font-semibold text-slate-800">
-                                    <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-emerald-500 text-white">
+                                    <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-slate-900 text-white">
                                         <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
                                     </span>
                                     {{ __('privacy-page.' . $point) }}
@@ -79,14 +79,67 @@
     {{-- BELGE --}}
     <section class="bg-white pb-16 md:pb-24">
         <div class="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-12">
-            {{-- içindekiler --}}
-            <nav class="hidden lg:col-span-3 lg:block" aria-label="{{ __('privacy-page.toc') }}">
+            {{-- içindekiler: tıklanan ve kaydırılan bölüm kırmızı çizgiyle seçili kalır --}}
+            <nav class="hidden lg:col-span-3 lg:block" aria-label="{{ __('privacy-page.toc') }}"
+                x-data="{
+                    active: @js($sections->first()[0]),
+                    keys: @js($sections->pluck(0)->all()),
+                    lock: false,
+                    tick: false,
+                    lockTimer: null,
+                    onScroll: null,
+                    init() {
+                        const hash = location.hash.slice(1);
+                        if (hash && this.keys.includes(hash)) this.active = hash;
+                        this.onScroll = () => {
+                            if (this.lock || this.tick) return;
+                            this.tick = true;
+                            requestAnimationFrame(() => { this.tick = false; this.spy(); });
+                        };
+                        this.spy();
+                        window.addEventListener('scroll', this.onScroll, { passive: true });
+                        window.addEventListener('resize', this.onScroll, { passive: true });
+                    },
+                    destroy() {
+                        window.removeEventListener('scroll', this.onScroll);
+                        window.removeEventListener('resize', this.onScroll);
+                        clearTimeout(this.lockTimer);
+                    },
+                    spy() {
+                        const offset = 120;
+                        let current = this.keys[0];
+                        for (const key of this.keys) {
+                            const el = document.getElementById(key);
+                            if (el && el.getBoundingClientRect().top <= offset) current = key;
+                        }
+                        // sayfa sonunda son bölüm seçili kalsın
+                        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+                            current = this.keys[this.keys.length - 1];
+                        }
+                        this.active = current;
+                    },
+                    go(key, event) {
+                        event.preventDefault();
+                        const el = document.getElementById(key);
+                        if (!el) return;
+                        // aktif durum hemen değişsin; yumuşak kaydırma sürerken scrollspy devreye girmesin
+                        this.active = key;
+                        this.lock = true;
+                        el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+                        history.replaceState(null, '', '#' + key);
+                        clearTimeout(this.lockTimer);
+                        this.lockTimer = setTimeout(() => { this.lock = false; this.spy(); }, 800);
+                    },
+                }">
                 <div class="sticky top-8">
                     <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">{{ __('privacy-page.toc') }}</p>
                     <ol class="mt-4 space-y-1 border-l border-slate-200">
                         @foreach ($sections as [$key, $icon, $title])
                             <li>
-                                <a href="#{{ $key }}" class="-ml-px block border-l-2 border-transparent py-1.5 pl-4 text-sm font-medium text-slate-500 transition hover:border-[#C62E2E] hover:text-slate-900">
+                                <a href="#{{ $key }}" @click="go('{{ $key }}', $event)"
+                                    :aria-current="active === '{{ $key }}' ? 'true' : null"
+                                    :class="active === '{{ $key }}' ? 'border-[#C62E2E] text-[#C62E2E]' : 'border-transparent text-slate-500 hover:border-[#C62E2E] hover:text-[#C62E2E]'"
+                                    class="-ml-px block border-l-2 py-1.5 pl-4 text-sm font-medium transition">
                                     {{ $title }}
                                 </a>
                             </li>
