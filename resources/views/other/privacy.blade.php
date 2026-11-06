@@ -13,12 +13,20 @@
     $hero = \App\Support\PageHero::texts('privacy', [
         'eyebrow' => __('privacy-page.eyebrow'), 'title' => __('privacy-page.title'), 'description' => __('privacy-page.desc'),
     ]);
-    $sections = collect([
-        ['who', 'users'], ['collect', 'book'], ['use', 'check'], ['cookies', 'info'],
-        ['partners', 'ticket'], ['storage', 'shield'], ['rights', 'heart'], ['changes', 'clock'],
-    ])->map(fn ($s) => [$s[0], $s[1], ...array_values(\App\Models\SectionText::texts('privacy_' . $s[0], $locale, [
-        'title' => __('privacy-page.' . $s[0] . '_t'), 'description' => __('privacy-page.' . $s[0] . '_d'),
-    ]))]);
+    // Bölümler panelden (Sayfalar › Gizlilik › Bölümler): sıra ve aç/kapa oradan gelir. Kısa anahtar → ikon.
+    $icons = [
+        'who' => 'users', 'collect' => 'book', 'use' => 'check', 'cookies' => 'info',
+        'partners' => 'ticket', 'storage' => 'shield', 'rights' => 'heart', 'changes' => 'clock',
+    ];
+    $sections = collect(\App\Support\PageSections::content('privacy'))
+        ->filter(fn ($key) => str_starts_with($key, 'privacy_'))
+        ->map(function ($key) use ($icons, $locale) {
+            $short = substr($key, 8);
+
+            return [$short, $icons[$short] ?? 'info', ...array_values(\App\Models\SectionText::texts($key, $locale, [
+                'title' => __('privacy-page.' . $short . '_t'), 'description' => __('privacy-page.' . $short . '_d'),
+            ]))];
+        })->values();
     // "- " satırları liste, diğerleri paragraf
     $blocks = function (string $text) {
         $lines = preg_split('/\n/', str_replace('\n', "\n", trim($text)));
@@ -80,6 +88,7 @@
     <section class="bg-white pb-16 md:pb-24">
         <div class="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-12">
             {{-- içindekiler: tıklanan ve kaydırılan bölüm kırmızı çizgiyle seçili kalır --}}
+            @if ($sections->isNotEmpty())
             <nav class="hidden lg:col-span-3 lg:block" aria-label="{{ __('privacy-page.toc') }}"
                 x-data="{
                     active: @js($sections->first()[0]),
@@ -147,6 +156,7 @@
                     </ol>
                 </div>
             </nav>
+            @endif
 
             {{-- bölümler --}}
             <div class="min-w-0 space-y-4 lg:col-span-9">

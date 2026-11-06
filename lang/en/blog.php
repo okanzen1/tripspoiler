@@ -8,6 +8,8 @@ return [
     'blog' => 'Blog',
 
     'explore_experience' => 'Explore this experience →',
+  'book_tickets' => 'See tickets',
+  'see_experiences' => 'See experiences',
 
     'editors_pick' => 'Editor’s Pick',
     'editors_picks' => 'Editor’s Picks',
@@ -22,4 +24,10 @@ return [
 
     'read_story' => 'Read story →',
 
+  'toc' => 'On this page',
+  'share' => 'Share',
+  'copy_link' => 'Copy link',
+  'copied' => 'Link copied',
+  'related_city' => 'More guides from :city',
+  'related_all' => 'More guides',
 ];

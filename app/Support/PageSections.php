@@ -77,7 +77,10 @@ class PageSections
      * @return list<string>
      */
     /** Sayfaya özel içerik bölümleri (panelle aynı; görünümü resources/views/sections/{anahtar}.blade.php) */
-    public const EXTRA = ['about' => ['about_story', 'about_how', 'about_values', 'about_cta']];
+    public const EXTRA = [
+        'about' => ['about_story', 'about_how', 'about_values', 'about_cta'],
+        'privacy' => ['privacy_who', 'privacy_collect', 'privacy_use', 'privacy_cookies', 'privacy_partners', 'privacy_storage', 'privacy_rights', 'privacy_changes'],
+    ];
 
     public static function guideKeys(string $page): array
     {

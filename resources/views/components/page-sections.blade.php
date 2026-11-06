@@ -19,6 +19,10 @@
 @endphp
 
 @foreach (\App\Support\PageSections::content($page) as $section)
+    @if (str_starts_with($section, 'privacy_'))
+        {{-- Gizlilik bölümleri sayfanın kendi düzeninde (içindekiler + numaralandırma) basılır; burada tekrar edilmez. --}}
+        @continue
+    @endif
     @if (view()->exists('sections.' . $section))
         {{-- sayfaya özel bölüm (ör. Hakkımızda: hikâye, nasıl çalışır…) --}}
         @include('sections.' . $section)

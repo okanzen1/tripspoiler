@@ -64,47 +64,21 @@ class BlogController extends Controller
         $blog = Blog::published()
             ->where('slug', $slug)
             ->with([
+                'city.country',
                 'activities' => fn ($q) => $q->visible()->with(['city.country', 'cover']),
             ])
             ->firstOrFail();
 
-        /* ---------------- HERO TITLE ---------------- */
+        // Yazının altında gösterilecek diğer rehberler: önce aynı şehirdekiler, sonra diğerleri
+        $related = Blog::published()
+            ->where('id', '!=', $blog->id)
+            ->with('city')
+            ->orderByRaw('CASE WHEN city_id = ? THEN 0 ELSE 1 END', [$blog->city_id])
+            ->latest('published_at')
+            ->latest('id')
+            ->take(3)
+            ->get();
 
-        $rawTitle = trim($blog->title ?? '');
-        $words = preg_split('/\s+/', $rawTitle, -1, PREG_SPLIT_NO_EMPTY);
-        $count = count($words);
-
-        $first = '';
-        $second = '';
-        $break = false;
-
-        if ($count === 1) {
-            $first = $words[0];
-        } elseif ($count === 2) {
-            $first = $words[0];
-            $second = $words[1];
-        } elseif ($count === 3) {
-            $first = $words[0] . ' ' . $words[1];
-            $second = $words[2];
-            $break = true;
-        } else {
-            $first = implode(' ', array_slice($words, 0, 3));
-            $second = implode(' ', array_slice($words, 3));
-            $break = true;
-        }
-
-        /* ---------------- HERO DATA ---------------- */
-
-        $hero = [
-            'title' => [
-                'first'  => $first,
-                'second' => $second,
-                'break'  => $break,
-            ],
-            'themes'  => array_filter((array) ($blog->getTranslation('tags', $locale) ?: [])),
-            'excerpt' => $blog->excerpt ?? '',
-        ];
-
-        return view('blog.show', compact('blog', 'locale', 'hero'));
+        return view('blog.show', compact('blog', 'locale', 'related'));
     }
 }

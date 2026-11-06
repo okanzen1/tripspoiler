@@ -19,7 +19,13 @@ class CityController extends Controller
 
         // Seçili şehrin rehberi yoksa rehberi olan ilk şehir; ama kullanıcının seçimi (aktivitelerdeki şehir) değişmez
         if (!$city) {
-            $city = (clone $withGuide)->orderByDesc('population')->first() ?? City::visible()->orderByDesc('population')->firstOrFail();
+            $city = (clone $withGuide)->orderByDesc('population')->first()
+                ?? City::visible()->orderByDesc('population')->first();
+
+            if (!$city) {
+                // Veritabanında henüz şehir yok (sıfır kurulum): ana sayfaya yönlendir
+                return redirect()->route('home');
+            }
 
             return redirect()->route('cities.show', ['slug' => $city->slug])->with('keep_selected_city', true);
         }
