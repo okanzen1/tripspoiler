@@ -130,16 +130,22 @@
                         {{-- Tüm kayıtlar aynı hücrede üst üste; sadece seçili olan görünür (geçişte binişme olmaz) --}}
                         <div class="grid px-2 pt-3.5 pb-1.5">
                             @foreach ($featured as $activity)
+                                @php $featuredUrl = $activity->affiliate_url ?: route('activities.show', $activity->slug); @endphp
                                 <div :class="i === {{ $loop->index }} ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'"
                                     :aria-hidden="i !== {{ $loop->index }}"
+                                    :inert="i !== {{ $loop->index }}"
                                     @class(['[grid-area:1/1] transition duration-500 ease-out',
-                                            'opacity-0 translate-y-2 pointer-events-none' => !$loop->first])>
+                                            'opacity-0 translate-y-2' => !$loop->first])>
                                     <p class="text-xs font-medium text-white/65">
                                         {{ $activity->city?->name }}@if ($activity->audio_guide) · {{ __('home-benefits.phone_audio') }}@endif
                                     </p>
-                                    <p class="mt-1 min-h-[2.75rem] text-[15px] font-bold leading-snug text-white line-clamp-2">{{ $activity->name }}</p>
-                                    <a href="{{ $activity->affiliate_url ?: route('activities.show', $activity->slug) }}" target="_blank" rel="noopener noreferrer"
-                                        @if (!$loop->first) tabindex="-1" @endif :tabindex="i === {{ $loop->index }} ? 0 : -1"
+                                    <a href="{{ $featuredUrl }}" target="_blank" rel="noopener noreferrer"
+                                        :tabindex="i === {{ $loop->index }} ? 0 : -1"
+                                        class="mt-1 block min-h-[2.75rem] text-[15px] font-bold leading-snug text-white line-clamp-2 transition hover:underline">
+                                        {{ $activity->name }}
+                                    </a>
+                                    <a href="{{ $featuredUrl }}" target="_blank" rel="noopener noreferrer"
+                                        :tabindex="i === {{ $loop->index }} ? 0 : -1"
                                         class="group mt-2.5 inline-flex items-center gap-1.5 text-sm font-semibold text-white">
                                         <span class="border-b border-white/40 pb-0.5 transition group-hover:border-white">{{ rtrim(__('most-popular-activities.cta'), ' →') }}</span>
                                         <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">→</span>
