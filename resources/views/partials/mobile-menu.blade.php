@@ -36,11 +36,14 @@
             x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
             x-transition:leave="transition duration-200 ease-in"
             x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
-            class="absolute inset-y-0 right-0 isolate flex w-[86%] max-w-sm flex-col overflow-y-auto bg-slate-950 text-white shadow-[-20px_0_60px_-20px_rgba(2,6,23,0.6)]">
+            class="absolute inset-y-0 right-0 isolate w-[86%] max-w-sm overflow-hidden bg-slate-950 text-white shadow-[-20px_0_60px_-20px_rgba(2,6,23,0.6)]">
 
             {{-- ZEMİN: hero resmi + koyulaştırma --}}
-            <img src="{{ $menuBackground }}" alt="" aria-hidden="true" class="pointer-events-none fixed inset-y-0 right-0 -z-20 h-full w-[86%] max-w-sm object-cover object-[30%_center]">
-            <div class="pointer-events-none fixed inset-y-0 right-0 -z-10 w-[86%] max-w-sm bg-gradient-to-b from-slate-950/80 via-slate-950/75 to-slate-950/95"></div>
+            {{-- absolute + kaydırma içteki div'de: "fixed" kullanılırsa geçişteki transform bitince resim çekmeceye değil ekrana göre boyutlanıp sola doğru genişliyordu --}}
+            <img src="{{ $menuBackground }}" alt="" aria-hidden="true" class="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover object-[30%_center]">
+            <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-slate-950/80 via-slate-950/75 to-slate-950/95"></div>
+
+            <div class="flex h-full flex-col overflow-y-auto overscroll-contain">
 
             {{-- ÜST --}}
             <div class="flex items-center justify-between px-5 pt-5 pb-4">
@@ -103,6 +106,7 @@
                     <svg class="size-5" fill="currentColor" viewBox="0 0 24 24"><path d="M21 8.3a6.6 6.6 0 01-3.8-1.2v7.1a6.4 6.4 0 11-6.4-6.4c.4 0 .8 0 1.2.1v3.3a3.1 3.1 0 10 2.2 3v-12h3.2a6.6 6.6 0 003.6 3.1z" /></svg>
                 </a>
                 <span class="ml-auto text-xs text-white/50">© {{ date('Y') }} TripSpoiler</span>
+            </div>
             </div>
         </aside>
     </div>
