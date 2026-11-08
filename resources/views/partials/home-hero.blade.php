@@ -23,8 +23,9 @@
         @endif
         <img src="{{ $banner['src'] }}" @if ($banner['srcset']) srcset="{{ $banner['srcset'] }}" sizes="100vw" @endif
             alt="{{ __('home-hero.banner_alt') }}" fetchpriority="high" decoding="async"
-            style="object-position: {{ $banner['focus'] }}% center"
-            @class(['hero-zoom w-full h-full object-cover', 'max-md:![object-position:50%_center]' => $banner['mobile']])>
+            {{-- Kadraj: masaüstü --fd, telefon (dik ekran, <768px) --fm; panelde ayrı ayrı ayarlanır --}}
+            style="--fd: {{ $banner['focus'] }}%; --fm: {{ $banner['focus_mobile'] }}%"
+            class="hero-zoom w-full h-full object-cover [object-position:var(--fd)_center] max-md:[object-position:var(--fm)_center]">
     </picture>
     <div class="absolute inset-0 -z-10 bg-gradient-to-r rtl:bg-gradient-to-l {{ $overlay }}"></div>
     <div class="absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b from-slate-950/70 to-transparent"></div>
@@ -46,16 +47,25 @@
 
                 {{-- HEADLINE --}}
                 <h1 style="--d: 90ms" class="hero-reveal mt-5 lg:mt-[clamp(8px,1.8vh,24px)] text-[44px] leading-[0.98] sm:text-6xl lg:text-[clamp(42px,6.8vh,80px)] font-extrabold tracking-[-0.035em] drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
-                    <span class="block">{{ $texts['title_1'] }}</span>
-                    <span class="block">{{ $texts['title_2'] }}</span>
-                    <span class="block">
-                        {{ $texts['title_3'] }}
-                        <span class="text-[#E0393E]">{{ $texts['title_highlight'] }}</span>
-                    </span>
+                    @foreach (\App\Models\HeroText::titleLines($texts) as $line)
+                        <span class="block">
+                            {{ $line }}
+                            @if ($loop->last && filled($texts['title_highlight']))
+                                <span class="text-[#E0393E]">{{ $texts['title_highlight'] }}</span>
+                            @endif
+                        </span>
+                    @endforeach
                 </h1>
 
+                {{-- ALT BAŞLIK --}}
+                @if (filled($texts['subtitle']))
+                    <p style="--d: 135ms" class="hero-reveal mt-5 lg:mt-[clamp(8px,2vh,22px)] text-xl md:text-2xl xl:text-[28px] font-bold tracking-[-0.01em] text-white">
+                        {{ $texts['subtitle'] }}
+                    </p>
+                @endif
+
                 {{-- SUBTEXT --}}
-                <p style="--d: 180ms" class="hero-reveal mt-6 lg:mt-[clamp(10px,2.4vh,28px)] max-w-2xl text-base md:text-lg xl:text-xl leading-relaxed text-white/85">
+                <p style="--d: 180ms" class="hero-reveal {{ filled($texts['subtitle']) ? 'mt-3 lg:mt-[clamp(6px,1.4vh,16px)]' : 'mt-6 lg:mt-[clamp(10px,2.4vh,28px)]' }} max-w-2xl text-base md:text-lg xl:text-xl leading-relaxed text-white/85">
                     {{ $texts['description'] }}
                 </p>
 
