@@ -2,6 +2,9 @@
 
 @section('title', $metaTitle)
 @section('meta_description', Str::limit(strip_tags($metaDescription), 155))
+@if ($activity->images->first()?->url())
+    @section('og_image', $activity->images->first()->url())
+@endif
 
 {{--
     Aktivite detayı: sayfa yolu, galeri (masaüstünde mozaik, telefonda kaydırmalı), bilgi kartları, açıklama ve
@@ -9,7 +12,8 @@
     Sayfalar › Aktivite detayı › Bölümler (yorumlar, sorular, aynı şehirdeki benzerler…).
 --}}
 @push('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.css" />
+    {{-- galeri CSS'i yalnızca fotoğraf açılınca gerekir: sayfa çizimini bekletmesin --}}
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.css" onload="this.onload=null;this.rel='stylesheet'" />
     {{-- telefonda alttaki sabit rezervasyon çubuğu sayfanın sonunu örtmesin --}}
     <style>@media (max-width: 1023px) { body { padding-bottom: 5.5rem; } }</style>
 @endpush
@@ -47,25 +51,31 @@
         default => ['col-span-2 row-span-2', '', '', '', ''],
     };
 
+    // TouristAttraction: aktivite (fiyat bilgisi partnerde olduğu için Offer/Product verilmez; uydurma fiyat
+    // Google'da "yanıltıcı yapısal veri" sayılır). Şehir ve ülke containedInPlace ile bağlanır.
+    $pageUrl = \App\Support\Schema::canonical();
     $activitySchema = [
         '@context' => 'https://schema.org',
-        '@graph' => [
-            [
-                '@type' => 'TouristAttraction',
-                '@id' => url()->current() . '#attraction',
-                'name' => $name,
-                'description' => Str::limit($plainDescription, 300),
-                'image' => $imageUrls ?: [asset('images/all-activities-cover.webp')],
-                'url' => url()->current(),
-                'touristType' => 'Tourists',
-                'isAccessibleForFree' => false,
-                'availableLanguage' => $locale,
-                'containedInPlace' => ['@type' => 'City', 'name' => $city->name],
-                'address' => ['@type' => 'PostalAddress', 'addressLocality' => $city->name, 'addressCountry' => $city->country?->name],
-                'isPartOf' => ['@id' => config('app.url') . '#website'],
-            ],
-        ],
+        '@type' => 'TouristAttraction',
+        '@id' => $pageUrl . '#attraction',
+        'name' => $name,
+        'description' => Str::limit($plainDescription, 300) ?: null,
+        'image' => $imageUrls ?: [asset('images/all-activities-cover.webp')],
+        'url' => $pageUrl,
+        'isAccessibleForFree' => false,
+        'containedInPlace' => array_filter([
+            '@type' => 'City',
+            'name' => $city->name,
+            'url' => route('cities.show', $city->slug),
+            'containedInPlace' => $city->country ? ['@type' => 'Country', 'name' => $city->country->name] : null,
+        ]),
+        'address' => array_filter(['@type' => 'PostalAddress', 'addressLocality' => $city->name, 'addressCountry' => $city->country?->code ?: $city->country?->name]),
+        'geo' => $city->latitude && $city->longitude
+            ? ['@type' => 'GeoCoordinates', 'latitude' => (float) $city->latitude, 'longitude' => (float) $city->longitude]
+            : null,
+        'subjectOf' => ['@type' => 'WebPage', '@id' => $pageUrl, 'isPartOf' => ['@id' => \App\Support\Schema::websiteId()], 'publisher' => \App\Support\Schema::organizationRef()],
     ];
+    $activitySchema = array_filter($activitySchema, fn ($value) => $value !== null);
 @endphp
 
 @section('content')
@@ -271,7 +281,7 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.umd.js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (!window.Fancybox) return;
@@ -284,5 +294,5 @@
             });
         });
     </script>
-    <script type="application/ld+json">{!! json_encode($activitySchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+    @jsonld($activitySchema)
 @endpush

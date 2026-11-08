@@ -2,6 +2,9 @@
 
 @section('title', $metaTitle)
 @section('meta_description', $metaDescription)
+@if ($banner)
+    @section('og_image', $banner)
+@endif
 
 {{--
     Şehir sayfası: fotoğraflı banner (rehberin genel girişi, şehir seçimi, rakamlar), yapışkan rehber menüsü ve
@@ -224,5 +227,5 @@
             history.replaceState(null, '', '#' + target.id);
         });
     </script>
-    <script type="application/ld+json">{!! json_encode($citySchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+    @jsonld($citySchema)
 @endpush

@@ -69,7 +69,5 @@
 
 {{-- JSON-LD FAQ Schema --}}
 @if (isset($faqSchema))
-    <script type="application/ld+json">
-        {!! json_encode($faqSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
-    </script>
+    @jsonld($faqSchema)
 @endif

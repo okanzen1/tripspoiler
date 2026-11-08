@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+# Arama sonuçları (JSON) ve analitik uçları dizine girmesin
+Disallow: /*/search
+Disallow: /t/
 
 Sitemap: https://tripspoiler.com/sitemap.xml

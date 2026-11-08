@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Announcement;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Yapısal veri (schema.org JSON-LD). JSON_HEX_TAG: veride "</script>" geçse bile (ör. yorum yapan kişinin adı)
+        // script etiketi kapanmaz, XSS olmaz; JSON yine geçerlidir (< ve > \u003C / \u003E olarak yazılır).
+        Blade::directive('jsonld', fn (string $expression) => '<script type="application/ld+json"><?php echo json_encode(' . $expression
+            . ', JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_INVALID_UTF8_SUBSTITUTE); ?></script>');
+
         // Üstteki kayan duyuru şeridi: yayındaki duyurular, panelde verilen sırayla
         View::composer('partials.announcement-bar', function ($view) {
             $view->with('announcements', !\App\Support\SiteSections::enabled('announcements') || !\App\Support\PageSections::fixedEnabled('announcements') ? collect() : Announcement::active()

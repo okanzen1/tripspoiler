@@ -1,7 +1,15 @@
 @extends('layouts.app')
 
 @section('title', $blog->getTranslation('meta_title', $locale) ?: $blog->title)
-@section('meta_description', $blog->getTranslation('meta_description', $locale) ?: $blog->excerpt)
+@section('meta_description', Str::limit(trim(strip_tags((string) ($blog->getTranslation('meta_description', $locale) ?: $blog->excerpt))), 160))
+@section('og_type', 'article')
+@if ($blog->coverUrl())
+    @section('og_image', $blog->coverUrl())
+@endif
+@push('meta')
+    <meta property="article:published_time" content="{{ ($blog->published_at ?? $blog->created_at)->toIso8601String() }}" />
+    <meta property="article:modified_time" content="{{ $blog->updated_at?->toIso8601String() }}" />
+@endpush
 
 @push('styles')
     <style>
@@ -31,39 +39,36 @@
     $singleActivity = $activityCount === 1 ? $blog->activities->first() : null;
     $blogIndexUrl = route('blog.index', $blog->city_id ? ['city_id' => $blog->city_id] : []);
 
-    $articleSchema = [
+    // BlogPosting: Google makale yapısal verisi. Yazar/yayıncı layout'taki Organization'a @id ile bağlanır.
+    $pageUrl = \App\Support\Schema::canonical();
+    $headline = trim(strip_tags((string) $blog->getTranslation('title', $locale)));
+    $schemaDescription = trim(strip_tags((string) ($blog->getTranslation('meta_description', $locale) ?: $blog->excerpt)));
+    $articleSchema = array_filter([
         '@context' => 'https://schema.org',
         '@type' => 'BlogPosting',
-        '@id' => url()->current() . '#article',
-        'headline' => $blog->getTranslation('title', $locale),
-        'description' => $blog->getTranslation('meta_description', $locale),
-        'image' => [
-            '@type' => 'ImageObject',
-            'url' => $coverImage ?: asset('android-chrome-512x512.png'),
-        ],
+        '@id' => $pageUrl . '#article',
+        // Google başlığı 110 karakterde keser
+        'headline' => Str::limit($headline, 110, '…'),
+        'name' => $headline,
+        'description' => $schemaDescription ?: null,
+        'image' => $coverImage ? [$coverImage] : [\App\Support\Schema::logoUrl()],
         'author' => [
             '@type' => 'Organization',
+            '@id' => \App\Support\Schema::organizationId(),
             'name' => 'TripSpoiler',
-            'url' => 'https://tripspoiler.com',
+            'url' => \App\Support\Schema::home(),
         ],
-        'publisher' => [
-            '@type' => 'Organization',
-            'name' => 'TripSpoiler',
-            'url' => 'https://tripspoiler.com',
-            'logo' => [
-                '@type' => 'ImageObject',
-                'url' => asset('android-chrome-512x512.png'),
-            ],
-        ],
-        'datePublished' => $blog->created_at->toIso8601String(),
-        'dateModified' => $blog->updated_at->toIso8601String(),
+        'publisher' => \App\Support\Schema::organizationRef(),
+        'datePublished' => $publishedAt->toIso8601String(),
+        'dateModified' => ($blog->updated_at && $blog->updated_at->gt($publishedAt) ? $blog->updated_at : $publishedAt)->toIso8601String(),
         'inLanguage' => $locale,
-        'url' => url()->current(),
-        'mainEntityOfPage' => [
-            '@type' => 'WebPage',
-            '@id' => url()->current(),
-        ],
-    ];
+        'url' => $pageUrl,
+        'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => $pageUrl, 'isPartOf' => ['@id' => \App\Support\Schema::websiteId()]],
+        'keywords' => array_values(array_filter((array) $blog->tags)) ? implode(', ', array_filter((array) $blog->tags)) : null,
+        'wordCount' => str_word_count(strip_tags((string) $blog->content)) ?: null,
+        'contentLocation' => $blog->city ? ['@type' => 'City', 'name' => $blog->city->name] : null,
+        'about' => $blog->city ? ['@type' => 'TouristDestination', 'name' => $blog->city->name] : null,
+    ], fn ($value) => $value !== null);
 @endphp
 
 @section('content')
@@ -79,7 +84,7 @@
     <section class="relative bg-white">
         <div class="relative h-[280px] overflow-hidden bg-[#0F1420] text-white sm:h-[340px] lg:h-[390px] xl:h-[410px]">
             @if ($coverImage)
-                <img src="{{ $coverImage }}" alt="{{ $blog->title }}" fetchpriority="high" decoding="async"
+                <img src="{{ $coverImage }}" alt="{{ $blog->title }}" fetchpriority="high"
                     class="absolute inset-0 h-full w-full object-cover object-center">
             @else
                 <div class="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:72px_72px]" aria-hidden="true"></div>
@@ -613,7 +618,5 @@
         });
     </script>
 
-    <script type="application/ld+json">
-        {!! json_encode($articleSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
-    </script>
+    @jsonld($articleSchema)
 @endpush

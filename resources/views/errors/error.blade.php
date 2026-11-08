@@ -22,6 +22,7 @@
 @endphp
 
 @section('title', $status === 404 ? __('error.title') : $status . ' – TripSpoiler')
+@section('robots', 'noindex, follow')
 @if ($status === 404)
     @section('meta_description', __('error.meta_description'))
 @endif

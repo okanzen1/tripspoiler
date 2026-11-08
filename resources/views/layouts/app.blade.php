@@ -11,29 +11,60 @@
 
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') . '?v=3' }}">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <link rel="manifest" href="{{ asset('site.webmanifest') . '?v=3' }}">
+    @php
+        // @section('title', …) kısa formu içeriği zaten e() ile kaçırır: aşağıda {!! !!} ile basılır (çift kaçış olmasın)
+        $currentLocale = app()->getLocale();
+        $locales = LaravelLocalization::getSupportedLocales();
+        $canonical = \App\Support\Schema::canonical();
+        $pageTitle = trim($__env->yieldContent('title', 'TripSpoiler'));
+        $pageDescription = trim($__env->yieldContent('meta_description', 'Curated city experiences, museum guides and travel insights from around the world.'));
+        $ogImage = trim($__env->yieldContent('og_image')) ?: asset('images/hero-banner.webp');
+        $ogType = trim($__env->yieldContent('og_type')) ?: 'website';
+    @endphp
 
-
-    <title>@yield('title', 'TripSpoiler')</title>
-    <meta name="description" content="@yield('meta_description', 'Travel guides and museum tips')" />
+    <title>{!! $pageTitle !!}</title>
+    <meta name="description" content="{!! $pageDescription !!}" />
+    <meta name="robots" content="@yield('robots', 'index, follow, max-image-preview:large, max-snippet:-1')" />
+    <meta name="theme-color" content="#C62E2E" />
     <meta name="p:domain_verify" content="8b263291d9f5e7d042415fd68edaf422" />
     <meta name="yandex-verification" content="a7cedc75b9464208" />
 
-    {{-- Canonical --}}
-   <link rel="canonical" href="{{ LaravelLocalization::getLocalizedURL(app()->getLocale(), null, [], true) }}" />
+    {{-- Canonical (izleme parametreleri olmadan) --}}
+    <link rel="canonical" href="{{ $canonical }}" />
 
     {{-- Hreflang --}}
-    @foreach (LaravelLocalization::getSupportedLocales() as $locale => $properties)
-        <link rel="alternate" hreflang="{{ $locale }}"
-            href="{{ LaravelLocalization::getLocalizedURL($locale, null, [], true) }}">
+    @foreach ($locales as $locale => $properties)
+        <link rel="alternate" hreflang="{{ $locale }}" href="{{ \App\Support\Schema::canonical($locale) }}">
     @endforeach
+    <link rel="alternate" hreflang="x-default" href="{{ \App\Support\Schema::canonical('en') }}">
 
-    {{-- x-default --}}
-    <link rel="alternate" hreflang="x-default" href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}">
+    {{-- Open Graph / Twitter: paylaşımda başlık, açıklama ve görsel --}}
+    <meta property="og:site_name" content="TripSpoiler" />
+    <meta property="og:type" content="{{ $ogType }}" />
+    <meta property="og:title" content="{!! $pageTitle !!}" />
+    <meta property="og:description" content="{!! $pageDescription !!}" />
+    <meta property="og:url" content="{{ $canonical }}" />
+    <meta property="og:image" content="{!! $ogImage !!}" />
+    <meta property="og:locale" content="{{ $locales[$currentLocale]['regional'] ?? $currentLocale }}" />
+    @foreach ($locales as $locale => $properties)
+        @continue($locale === $currentLocale)
+        <meta property="og:locale:alternate" content="{{ $properties['regional'] ?? $locale }}" />
+    @endforeach
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{!! $pageTitle !!}" />
+    <meta name="twitter:description" content="{!! $pageDescription !!}" />
+    <meta name="twitter:image" content="{!! $ogImage !!}" />
+    @stack('meta')
+
+    {{-- Bağlantıları önceden aç: font ve CDN --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    {{-- Font CSS'i sayfa çizimini bekletmez (display=swap ile önce sistem fontu, font gelince değişir) --}}
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+    <link rel="manifest" href="{{ asset('site.webmanifest') . '?v=3' }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
@@ -44,41 +75,48 @@
             '@graph' => [
                 [
                     '@type' => 'Organization',
-                    '@id' => config('app.url') . '#organization',
+                    '@id' => \App\Support\Schema::organizationId(),
                     'name' => 'TripSpoiler',
-                    'url' => config('app.url'),
+                    'url' => \App\Support\Schema::home(),
                     'logo' => [
                         '@type' => 'ImageObject',
-                        'url' => asset('android-chrome-512x512.png'),
+                        '@id' => \App\Support\Schema::home() . '#logo',
+                        'url' => \App\Support\Schema::logoUrl(),
+                        'width' => 512,
+                        'height' => 512,
                     ],
-                    'description' =>
-                        'Curated city experiences, museum guides and travel insights from around the world.',
+                    'image' => ['@id' => \App\Support\Schema::home() . '#logo'],
+                    'description' => 'Curated city experiences, museum guides and travel insights from around the world.',
                     'foundingDate' => '2024',
+                    'email' => 'info@tripspoiler.com',
+                    'contactPoint' => [
+                        '@type' => 'ContactPoint',
+                        'contactType' => 'customer support',
+                        'email' => 'info@tripspoiler.com',
+                        'url' => route('contact'),
+                        'availableLanguage' => array_values(array_map(fn ($p) => $p['name'], $locales)),
+                    ],
                     'sameAs' => [
                         'https://www.instagram.com/tripspoilerofficial/',
                         'https://www.tiktok.com/@tripspoilerofficial',
                         'https://www.pinterest.com/tripspoiler/',
                     ],
                 ],
-
                 [
                     '@type' => 'WebSite',
-                    '@id' => config('app.url') . '#website',
-                    'url' => config('app.url'),
+                    '@id' => \App\Support\Schema::websiteId(),
+                    'url' => \App\Support\Schema::home(),
                     'name' => 'TripSpoiler',
-                    'publisher' => [
-                        '@id' => config('app.url') . '#organization',
-                    ],
-                    'inLanguage' => app()->getLocale(),
+                    'publisher' => \App\Support\Schema::organizationRef(),
+                    'inLanguage' => array_keys($locales),
                 ],
             ],
         ];
     @endphp
 
-    <script type="application/ld+json">
-        {!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    @jsonld($schema)
+    {{-- Sürüm sabit: "3.x.x" her yeni sürümü habersiz çeker (bozulma / tedarik zinciri riski) --}}
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" defer></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VKGSGTFYD1"></script>
     <script>

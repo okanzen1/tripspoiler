@@ -14,9 +14,13 @@ class ReviewController extends Controller
 {
     public function go(Request $request)
     {
+        // Yorum formuna geri taşınır; sadece kısa bir anahtar ve sayı (bilinmeyen değer sessizce atılır, buton bozulmasın)
+        $source = $request->input('source');
+        $sourceId = filter_var($request->input('source_id'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+
         session([
-            'review_source' => $request->source,
-            'review_source_id' => $request->source_id
+            'review_source' => is_string($source) && preg_match('/^[a-z_-]{1,50}$/', $source) ? $source : null,
+            'review_source_id' => $sourceId ?: null,
         ]);
 
         return redirect()->route('reviews.index');
@@ -51,86 +55,41 @@ class ReviewController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Review Schema
+        | Yapısal veri
         |--------------------------------------------------------------------------
+        | Yorumlar sitenin kendisi hakkında: Google, bir kuruluşun kendi sitesinde kendisi için gösterdiği
+        | yorumları (self-serving) yıldız olarak göstermez ve Organization'a aggregateRating eklemeyi kural dışı sayar.
+        | Bu yüzden sayfa, yorumları listeleyen bir CollectionPage olarak işaretlenir; Organization layout'tan @id ile bağlanır.
         */
 
+        $pageUrl = \App\Support\Schema::canonical();
         $reviewSchema = [
             '@context' => 'https://schema.org',
-            '@type' => 'Organization',
-            '@id' => config('app.url') . '#organization',
-            'name' => 'TripSpoiler',
-            'url' => config('app.url'),
-            'aggregateRating' => [
-                '@type' => 'AggregateRating',
-                'ratingValue' => $average,
-                'reviewCount' => $totalReviews,
-                'bestRating' => '5',
-                'worstRating' => '1',
+            '@type' => 'CollectionPage',
+            '@id' => $pageUrl . '#webpage',
+            'url' => $pageUrl,
+            'name' => __('reviews-page.meta_title'),
+            'description' => __('reviews-page.meta_description'),
+            'inLanguage' => app()->getLocale(),
+            'isPartOf' => ['@id' => \App\Support\Schema::websiteId()],
+            'about' => \App\Support\Schema::organizationRef(),
+            'mainEntity' => [
+                '@type' => 'ItemList',
+                'numberOfItems' => $reviews->count(),
+                'itemListElement' => $reviews->values()->map(fn ($review, $i) => [
+                    '@type' => 'ListItem',
+                    'position' => ($reviews->firstItem() ?? 1) + $i,
+                    'name' => \Illuminate\Support\Str::limit($review->comment, 110),
+                ])->all(),
             ],
-            'review' => [],
         ];
-
-        foreach ($reviews as $review) {
-            $reviewSchema['review'][] = [
-                '@type' => 'Review',
-                'author' => [
-                    '@type' => 'Person',
-                    'name' => $review->name,
-                ],
-                'datePublished' => $review->created_at->toIso8601String(),
-                'reviewBody' => $review->comment,
-                'reviewRating' => [
-                    '@type' => 'Rating',
-                    'ratingValue' => $review->rating,
-                    'bestRating' => '5',
-                    'worstRating' => '1',
-                ],
-            ];
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | ItemList Schema
-        |--------------------------------------------------------------------------
-        */
-
-        $itemListSchema = [
-            '@context' => 'https://schema.org',
-            '@type' => 'ItemList',
-            '@id' => url()->current() . '#review-list',
-            'itemListElement' => [],
-        ];
-
-        foreach ($reviews as $index => $review) {
-            $itemListSchema['itemListElement'][] = [
-                '@type' => 'ListItem',
-                'position' => $index + 1,
-                'item' => [
-                    '@type' => 'Review',
-                    'author' => [
-                        '@type' => 'Person',
-                        'name' => $review->name,
-                    ],
-                    'reviewBody' => $review->comment,
-                    'reviewRating' => [
-                        '@type' => 'Rating',
-                        'ratingValue' => $review->rating,
-                        'bestRating' => '5',
-                        'worstRating' => '1',
-                    ],
-                    'datePublished' => $review->created_at->toIso8601String(),
-                ],
-            ];
-        }
 
         return view('reviews.index', compact(
             'reviews',
             'source',
             'sourceId',
             'general',
-            'reviewSchema',
-            'itemListSchema'
+            'reviewSchema'
         ));
     }
 
@@ -141,7 +100,7 @@ class ReviewController extends Controller
             'email' => ['required', 'string', 'email:rfc,dns', 'max:190'],
             'rating' => ['required', 'integer', 'between:1,5'],
             'comment' => ['required', 'string', 'min:10', 'max:1000'],
-            'source' => ['required', 'string', 'max:50', Rule::in(['home', 'cities', 'blog', 'activity', 'activity-show', 'blog-show'])],
+            'source' => ['required', 'string', 'max:50', Rule::in(['home', 'cities', 'blog', 'activity', 'activity-show', 'blog-show', 'activities', 'about', 'contact', 'privacy', 'reviews'])],
             'source_id' => ['nullable', 'integer', 'min:1'],
             'website' => ['nullable', 'max:0'],
         ]);

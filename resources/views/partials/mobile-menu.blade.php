@@ -40,7 +40,7 @@
 
             {{-- ZEMİN: hero resmi + koyulaştırma --}}
             {{-- absolute + kaydırma içteki div'de: "fixed" kullanılırsa geçişteki transform bitince resim çekmeceye değil ekrana göre boyutlanıp sola doğru genişliyordu --}}
-            <img src="{{ $menuBackground }}" alt="" aria-hidden="true" class="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover object-[30%_center]">
+            <img src="{{ $menuBackground }}" alt="" aria-hidden="true" loading="lazy" decoding="async" class="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover object-[30%_center]">
             <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-slate-950/80 via-slate-950/75 to-slate-950/95"></div>
 
             <div class="flex h-full flex-col overflow-y-auto overscroll-contain">

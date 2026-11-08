@@ -126,19 +126,28 @@ class CityController extends Controller
         $title = $guide?->title ?: $hero['title'];
         $description = $guide?->description ?: $hero['description'];
 
+        // TouristDestination: şehir ve rehberdeki konular (Google: turistik yer verisi).
+        $pageUrl = \App\Support\Schema::canonical();
         $citySchema = [
             '@context' => 'https://schema.org',
             '@type' => 'TouristDestination',
-            '@id' => url()->current() . '#destination',
+            '@id' => $pageUrl . '#destination',
             'name' => $city->name,
-            'description' => Str::limit(strip_tags($description), 300),
-            'url' => url()->current(),
-            'image' => $banner,
-            'touristType' => 'Tourists',
-            'isPartOf' => ['@id' => config('app.url') . '#website'],
-            'provider' => ['@id' => config('app.url') . '#organization'],
-            'includesAttraction' => $guideNav->map(fn (CityGuideSection $section) => ['@type' => 'TouristAttraction', 'name' => strip_tags($section->title), 'url' => url()->current() . '#' . $section->topic->key])->all(),
+            'description' => Str::limit(trim(strip_tags($description)), 300),
+            'url' => $pageUrl,
+            'image' => $banner ?: null,
+            'containedInPlace' => $city->country ? ['@type' => 'Country', 'name' => $city->country->name] : null,
+            'geo' => $city->latitude && $city->longitude
+                ? ['@type' => 'GeoCoordinates', 'latitude' => (float) $city->latitude, 'longitude' => (float) $city->longitude]
+                : null,
+            'subjectOf' => ['@type' => 'WebPage', '@id' => $pageUrl, 'isPartOf' => ['@id' => \App\Support\Schema::websiteId()], 'publisher' => \App\Support\Schema::organizationRef()],
+            'includesAttraction' => $guideNav->map(fn (CityGuideSection $section) => [
+                '@type' => 'TouristAttraction',
+                'name' => trim(strip_tags($section->title)),
+                'url' => $pageUrl . '#' . $section->topic->key,
+            ])->values()->all() ?: null,
         ];
+        $citySchema = array_filter($citySchema, fn ($value) => $value !== null);
 
         return view('cities.show', [
             'city' => $city,

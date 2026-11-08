@@ -129,7 +129,8 @@ Route::group(
     */
 
         Route::post('/newsletter/subscribe', [NewsletterSubscribeController::class, 'store'])
-            ->name('newsletter.subscribe');
+            ->name('newsletter.subscribe')
+            ->middleware('throttle:5,1');
 
 
         /*
@@ -153,15 +154,16 @@ Route::group(
     | Reviews
     |--------------------------------------------------------------------------
     */
-        Route::post('/reviews/go', [ReviewController::class, 'go'])->name('reviews.go');
+        Route::post('/reviews/go', [ReviewController::class, 'go'])->middleware('throttle:30,1')->name('reviews.go');
         Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
         Route::post('/reviews', [ReviewController::class, 'store'])->middleware('throttle:5,1')->name('reviews.store');
 
 
         Route::post('/set-city', function (Request $request) {
-            session(['selected_city_id' => $request->city_id]);
+            $data = $request->validate(['city_id' => ['required', 'integer', 'min:1']]);
+            session(['selected_city_id' => (int) $data['city_id']]);
             return response()->json(['ok' => true]);
-        });
+        })->middleware('throttle:30,1');
     }
 
 );

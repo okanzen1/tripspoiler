@@ -2,6 +2,9 @@
 
 @section('title', __('activities-page.meta_title'))
 @section('meta_description', __('activities-page.meta_description'))
+@if ($banner)
+    @section('og_image', $banner)
+@endif
 
 {{--
     Aktiviteler: koyu banner (şehir + gerçek sayılar), şehir sekmeleri (sadece aktivitesi olanlar), tür filtresi + arama,
@@ -45,7 +48,7 @@
         <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
             <picture>
                 @if ($bannerMobile)<source media="(max-width: 767px)" srcset="{{ $bannerMobile }}">@endif
-                <img src="{{ $banner }}" alt="" class="absolute inset-0 h-full w-full object-cover {{ $imageOpacity }}" style="object-position: {{ $look['focus'] }}% center">
+                <img src="{{ $banner }}" alt="" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover {{ $imageOpacity }}" style="object-position: {{ $look['focus'] }}% center">
             </picture>
             <div class="absolute inset-0 bg-gradient-to-r {{ $overlayClass }} rtl:bg-gradient-to-l"></div>
             <div class="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-slate-950/85 to-transparent"></div>

@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->append(\App\Http\Middleware\CacheImages::class);
+        $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
         // Analitik bildirimleri tarayıcıdan arka planda gelir (sendBeacon, resources/js/track.js), CSRF anahtarı taşımaz
         $middleware->validateCsrfTokens(except: ['t/view', 't/click']);
         $middleware->alias([
