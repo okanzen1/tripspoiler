@@ -75,7 +75,8 @@
                 <p class="mt-5 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">{{ $hero['description'] }}</p>
 
                 {{-- ŞEHİR SEÇİMİ (her zaman görünür) --}}
-                @if ($city && $cities->count() === 1)
+                {{-- Seçici yalnızca aktivitesi olan şehir varsa: hiç aktivite yokken şehir başlıkta görünür ama "0 şehir" seçici çıkmaz --}}
+                @if ($city && $cities->count() === 1 && $cities->contains('id', $city->id))
                     {{-- tek şehir: seçim yok; geniş cam şerit (bayrak, şehir, aktivite sayısı) --}}
                     <div class="mt-8 flex w-full max-w-xl items-center gap-4 rounded-[22px] bg-gradient-to-r from-white/[0.14] to-white/[0.05] p-2.5 pr-3 ring-1 ring-white/15 backdrop-blur-md">
                         <span class="relative grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] shadow-[0_12px_28px_-10px_rgba(198,46,46,0.9)]">
@@ -93,7 +94,7 @@
                             {{ $stats['total'] }} {{ __('activities-page.stat_total') }}
                         </span>
                     </div>
-                @elseif ($city)
+                @elseif ($city && $cities->count() > 1)
                     @php
                         $flagOf = fn ($c) => $c->country?->code ? implode('', array_map(fn ($ch) => mb_chr(0x1F1E6 + ord($ch) - 65), str_split(strtoupper($c->country->code)))) : '';
                     @endphp
