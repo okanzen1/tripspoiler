@@ -66,32 +66,34 @@
 
     {{-- MODAL (body'ye taşınır; animasyonlu/üst üste binen kutuların içinde kalmasın) --}}
     <template x-teleport="body">
-    <div x-show="open" x-cloak x-transition.opacity.duration.200ms
-        class="fixed inset-0 z-[100] flex flex-col items-center px-3 py-[6vh] md:py-[10vh]"
+    {{-- Telefonda tam ekran: üst/yükseklik klavyenin üstünde kalan görünür alana (visualViewport) göre --vvt/--vvh --}}
+    <div x-show="open" x-cloak x-ref="overlay" x-transition.opacity.duration.200ms
+        class="fixed inset-x-0 top-[var(--vvt,0px)] z-[100] flex h-[var(--vvh,100dvh)] flex-col items-center md:inset-y-0 md:top-0 md:h-auto md:px-3 md:py-[10vh]"
         role="dialog" aria-modal="true" aria-label="{{ __('search-modal.placeholder_input') }}">
 
         {{-- BACKDROP --}}
         <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-md" @click="close()"></div>
 
         {{-- Boşluk: boşken panel ortada; yazınca küçülür ve panel yumuşakça yukarı kayar (flex-grow geçişi) --}}
-        <div aria-hidden="true" class="pointer-events-none shrink-0 transition-[flex-grow] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        <div aria-hidden="true" class="pointer-events-none hidden shrink-0 transition-[flex-grow] md:block duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
             :style="{ flexGrow: expanded() ? 0 : 1 }"></div>
 
         {{-- PANEL --}}
         <div x-show="open"
             x-transition:enter="transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
             x-transition:enter-start="opacity-0 -translate-y-3 scale-[0.98]" x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-            class="relative flex max-h-[84vh] w-full max-w-2xl shrink-0 flex-col overflow-hidden rounded-3xl bg-white shadow-[0_40px_120px_-20px_rgba(2,6,23,0.6)] ring-1 ring-black/5">
+            class="relative flex h-full w-full flex-col overflow-hidden bg-white md:h-auto md:max-h-[84vh] md:max-w-2xl md:shrink-0 md:rounded-3xl md:shadow-[0_40px_120px_-20px_rgba(2,6,23,0.6)] md:ring-1 md:ring-black/5">
 
             {{-- INPUT --}}
-            <div class="flex items-center gap-3 border-b border-slate-100 px-5 md:px-6">
+            <div class="flex shrink-0 items-center gap-3 border-b border-slate-100 px-4 md:px-6">
                 <svg class="h-5 w-5 shrink-0 text-[#C62E2E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
                     <circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path>
                 </svg>
                 <input x-ref="searchInput" x-model="query" @input.debounce.250ms="search" type="search" autocomplete="off" spellcheck="false"
                     @keydown.arrow-down.prevent="move(1)" @keydown.arrow-up.prevent="move(-1)" @keydown.enter.prevent="go()"
                     placeholder="{{ __('search-modal.placeholder_input') }}" inputmode="search"
-                    class="h-16 w-full bg-transparent text-base md:text-lg font-medium text-slate-900 outline-none placeholder:font-normal placeholder:text-slate-400 [&::-webkit-search-cancel-button]:hidden">
+                    enterkeyhint="search"
+                    class="h-14 md:h-16 w-full min-w-0 bg-transparent text-base md:text-lg font-medium text-slate-900 outline-none placeholder:font-normal placeholder:text-slate-400 [&::-webkit-search-cancel-button]:hidden">
                 <button type="button" x-show="query.length" @click="query = ''; results = []; $refs.searchInput.focus()"
                     class="shrink-0 rounded-full p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700" aria-label="{{ __('search-modal.clear') }}">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
@@ -101,7 +103,7 @@
             </div>
 
             {{-- BODY --}}
-            <div class="overflow-y-auto overscroll-contain px-3 py-3 md:px-4" x-ref="list">
+            <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-3 md:flex-initial md:px-4" x-ref="list">
 
                 {{-- LOADING: iskelet satırlar --}}
                 <template x-if="loading && !results.length">
@@ -205,7 +207,7 @@
             </div>
         </div>
 
-        <div aria-hidden="true" class="pointer-events-none grow"></div>
+        <div aria-hidden="true" class="pointer-events-none hidden grow md:block"></div>
     </div>
     </template>
 
@@ -238,13 +240,37 @@
                         blog: '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6M8 11h4"/></svg>',
                     },
 
-                    init() {},
+                    // Telefonda klavye açılınca görünür alan küçülür/kayar: panel tam o alana oturur, arama kutusu hep üstte görünür
+                    init() {
+                        const vv = window.visualViewport
+                        if (!vv) return
+                        const sync = () => {
+                            if (!this.open || !this.$refs.overlay) return
+                            this.$refs.overlay.style.setProperty('--vvh', vv.height + 'px')
+                            this.$refs.overlay.style.setProperty('--vvt', vv.offsetTop + 'px')
+                        }
+                        vv.addEventListener('resize', sync)
+                        vv.addEventListener('scroll', sync)
+                        this.$watch('open', (value) => value && this.$nextTick(sync))
+                    },
 
                     openModal() {
+                        // iOS klavyeyi yalnızca dokunuşun içinde, aynı anda yapılan focus ile açar; gerçek kutu henüz gizli.
+                        // Önce görünmez geçici kutuya odaklan (klavye açılır), panel görününce odağı gerçek kutuya devret.
+                        const proxy = document.createElement('input')
+                        proxy.setAttribute('aria-hidden', 'true')
+                        proxy.setAttribute('tabindex', '-1')
+                        proxy.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px;border:0;padding:0;pointer-events:none'
+                        document.body.appendChild(proxy)
+                        proxy.focus({ preventScroll: true })
+
                         this.open = true
                         document.body.style.overflow = 'hidden'
                         document.documentElement.classList.add('overlay-open')
-                        this.$nextTick(() => setTimeout(() => this.$refs.searchInput.focus(), 120))
+                        this.$nextTick(() => requestAnimationFrame(() => {
+                            this.$refs.searchInput.focus({ preventScroll: true })
+                            proxy.remove()
+                        }))
                     },
 
                     close() {
