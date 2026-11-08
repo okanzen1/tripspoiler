@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'Europe/Istanbul'), // panel ile aynı (analitik saatleri)
 
     /*
     |--------------------------------------------------------------------------
