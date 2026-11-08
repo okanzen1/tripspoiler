@@ -32,6 +32,21 @@ class Review extends Model
         });
     }
 
+    /**
+     * Sitede gösterilen ad, gizlilik için maskeli: adın ilk harfi + sabit sayıda yıldız (uzunluğu belli olmasın),
+     * soyadın baş harfi ("Lukas Schneider" → "L**** S.", "Ahmet" → "A****"). Tam ad yalnızca panelde görünür.
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        $parts = preg_split('/\s+/u', trim((string) $this->name), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        if (!$parts) {
+            return '';
+        }
+        $masked = mb_strtoupper(mb_substr($parts[0], 0, 1)) . '****';
+
+        return count($parts) > 1 ? $masked . ' ' . mb_strtoupper(mb_substr(end($parts), 0, 1)) . '.' : $masked;
+    }
+
     public function activity()
     {
         return $this->belongsTo(Activity::class);

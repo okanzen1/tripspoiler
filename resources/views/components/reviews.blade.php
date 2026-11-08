@@ -86,7 +86,7 @@
                                 <figcaption class="mt-6 flex items-center gap-3 border-t border-slate-100 pt-5">
                                     <span class="grid size-11 shrink-0 place-items-center rounded-full bg-gradient-to-br {{ $palette[$loop->index % count($palette)] }} text-sm font-bold text-white">{{ $initials($review->name) }}</span>
                                     <span class="min-w-0">
-                                        <span class="block truncate font-semibold text-slate-900" dir="auto">{{ $review->name }}</span>
+                                        <span class="block truncate font-semibold text-slate-900" dir="auto">{{ $review->display_name }}</span>
                                         <span class="block text-xs text-slate-500">{{ $review->created_at->translatedFormat('F Y') }}</span>
                                     </span>
                                 </figcaption>

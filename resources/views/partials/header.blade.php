@@ -71,22 +71,24 @@
                     </svg>
                 </label>
 
+                {{-- 12 dil iki sütunda, kaydırmadan hepsi görünür (eskiden kutu ~5 dil gösteriyordu, gerisi gizli kalıyordu) --}}
                 <div
-                    class="absolute right-0 mt-2 w-44 bg-white border border-slate-200 rounded-lg shadow-md
+                    class="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-xl shadow-lg
                             hidden peer-checked:block">
 
-                    <div class="max-h-52 overflow-y-auto py-1">
+                    <div class="grid grid-cols-2 gap-0.5 p-1.5">
 
                         @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                             @php
                                 $url = LaravelLocalization::getLocalizedURL($localeCode, null, [], true);
                             @endphp
 
-                            <a href="{{ $url }}" hreflang="{{ $localeCode }}"
-                                class="block px-4 py-2 text-sm hover:bg-slate-50
-                                {{ app()->getLocale() == $localeCode ? 'text-[#C62E2E]' : '' }}">
+                            <a href="{{ $url }}" hreflang="{{ $localeCode }}" lang="{{ $localeCode }}"
+                                class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm hover:bg-slate-50
+                                {{ app()->getLocale() == $localeCode ? 'bg-red-50 font-semibold text-[#C62E2E]' : 'text-slate-700' }}">
 
-                                {{ $properties['native'] }}
+                                <span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span>
+                                <span class="text-[10px] font-semibold uppercase text-slate-400">{{ $localeCode }}</span>
 
                             </a>
                         @endforeach

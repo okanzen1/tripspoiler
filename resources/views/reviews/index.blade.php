@@ -104,7 +104,7 @@
                             <blockquote class="mt-3 line-clamp-3 text-sm leading-relaxed text-white/85">“{{ $review->comment }}”</blockquote>
                             <figcaption class="mt-4 flex items-center gap-2.5">
                                 <span class="grid size-8 place-items-center rounded-full text-xs font-bold {{ $palette[$review->id % count($palette)] }}">{{ $initials($review->name) }}</span>
-                                <span class="text-sm font-semibold">{{ $review->name }}</span>
+                                <span class="text-sm font-semibold">{{ $review->display_name }}</span>
                             </figcaption>
                         </figure>
                     @endforeach
@@ -183,7 +183,7 @@
                                 <div class="flex items-center gap-3 sm:flex-col sm:items-start">
                                     <span class="grid size-12 shrink-0 place-items-center rounded-2xl text-base font-bold {{ $palette[$review->id % count($palette)] }}">{{ $initials($review->name) }}</span>
                                     <div class="min-w-0">
-                                        <p class="truncate font-bold text-slate-900">{{ $review->name }}</p>
+                                        <p class="truncate font-bold text-slate-900">{{ $review->display_name }}</p>
                                         <p class="text-xs text-slate-400">{{ $review->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}</p>
                                     </div>
                                 </div>
