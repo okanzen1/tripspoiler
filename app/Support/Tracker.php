@@ -18,13 +18,15 @@ class Tracker
 
     public const SESSION_COOKIE = 'ts_sid';
 
-    private const BOTS = '/bot|crawl|spider|slurp|preview|facebookexternalhit|embedly|headless|lighthouse|pagespeed|gtmetrix|pingdom|uptime|monitor|curl|wget|python|httpclient|okhttp|go-http|java\/|axios|node-fetch|scrapy|semrush|ahrefs|mj12|dotbot|petalbot|bytespider|gptbot|claudebot|ccbot/i';
+    private const BOTS = '/bot\b|bot\/|crawl|spider|slurp|preview|facebookexternalhit|facebookcatalog|meta-externalagent|embedly|headless|phantom|puppeteer|playwright|selenium|lighthouse|pagespeed|gtmetrix|pingdom|uptime|monitor|curl|wget|python|httpclient|okhttp|go-http|java\/|axios|node-fetch|scrapy|semrush|ahrefs|mj12|dotbot|petalbot|bytespider|gptbot|chatgpt|oai-searchbot|claudebot|claude-web|anthropic|perplexity|ccbot|amazonbot|applebot|bingpreview|yandex(bot|images)|baiduspider|duckduckbot|sogou|exabot|seznambot|whatsapp|telegrambot|discordbot|slackbot|twitterbot|linkedinbot|pinterest|skypeuripreview|vkshare|qwantify|archive\.org|ia_archiver|feedfetcher|google-inspectiontool|googleother|adsbot|mediapartners|storebot|dataforseo|serpstat|barkrowler|blexbot|megaindex|zoominfo|censys|zgrab|masscan|nmap|nuclei/i';
 
     public static function isBot(Request $request): bool
     {
         $agent = (string) $request->userAgent();
 
-        return $agent === '' || preg_match(self::BOTS, $agent) === 1;
+        return $agent === ''
+            || preg_match(self::BOTS, $agent) === 1
+            || !$request->hasHeader('Accept-Language'); // gerçek tarayıcılar her zaman gönderir
     }
 
     /** Tarayıcının arka planda önceden yüklediği sayfalar sayılmaz */
@@ -53,16 +55,61 @@ class Tracker
         $response->headers->setCookie(Cookie::create(self::SESSION_COOKIE, $session, now()->addMinutes(30), '/', null, $secure, true, false, Cookie::SAMESITE_LAX));
     }
 
-    /** Ortak alanlar: ülke (Cloudflare varsa), cihaz, dil */
+    /** Ziyaretçinin gerçek IP'si (Cloudflare arkasındaysa onun ilettiği) */
+    public static function ip(Request $request): ?string
+    {
+        $cf = (string) $request->header('CF-Connecting-IP');
+        if ($request->hasHeader('CF-Ray') && filter_var($cf, FILTER_VALIDATE_IP)) {
+            return $cf;
+        }
+
+        return $request->ip();
+    }
+
+    /** Ortak alanlar: IP, ülke ve şehir (IP'den; Cloudflare ülkesi varsa o), cihaz, tarayıcı, işletim sistemi, dil */
     public static function context(Request $request, ?string $locale = null): array
     {
-        $country = strtoupper((string) $request->header('CF-IPCountry'));
+        $ip = self::ip($request);
+        $geo = GeoIp::lookup($ip);
+        $cfCountry = strtoupper((string) $request->header('CF-IPCountry'));
+        $agent = (string) $request->userAgent();
 
         return [
-            'country' => preg_match('/^[A-Z]{2}$/', $country) && !in_array($country, ['XX', 'T1'], true) ? $country : null,
-            'device' => self::device((string) $request->userAgent()),
+            'ip' => $ip,
+            'country' => preg_match('/^[A-Z]{2}$/', $cfCountry) && !in_array($cfCountry, ['XX', 'T1'], true) ? $cfCountry : $geo['country'],
+            'city' => $geo['city'],
+            'device' => self::device($agent),
+            'browser' => self::browser($agent),
+            'os' => self::os($agent),
             'locale' => Str::limit($locale ?? app()->getLocale(), 5, ''),
         ];
+    }
+
+    public static function browser(string $agent): ?string
+    {
+        return match (true) {
+            (bool) preg_match('/edg(e|a|ios)?\//i', $agent) => 'Edge',
+            (bool) preg_match('/opr\/|opera/i', $agent) => 'Opera',
+            (bool) preg_match('/samsungbrowser/i', $agent) => 'Samsung Internet',
+            (bool) preg_match('/yabrowser/i', $agent) => 'Yandex',
+            (bool) preg_match('/firefox|fxios/i', $agent) => 'Firefox',
+            (bool) preg_match('/chrome|crios/i', $agent) => 'Chrome',
+            (bool) preg_match('/safari/i', $agent) => 'Safari',
+            default => null,
+        };
+    }
+
+    public static function os(string $agent): ?string
+    {
+        return match (true) {
+            (bool) preg_match('/iphone|ipad|ipod/i', $agent) => 'iOS',
+            (bool) preg_match('/android/i', $agent) => 'Android',
+            (bool) preg_match('/windows/i', $agent) => 'Windows',
+            (bool) preg_match('/mac os x|macintosh/i', $agent) => 'macOS',
+            (bool) preg_match('/cros/i', $agent) => 'ChromeOS',
+            (bool) preg_match('/linux/i', $agent) => 'Linux',
+            default => null,
+        };
     }
 
     public static function device(string $agent): string

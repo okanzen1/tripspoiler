@@ -15,10 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->append(\App\Http\Middleware\CacheImages::class);
-        // Analitik: her gerçek sayfa görüntülemesi (panel > Analitik)
-        $middleware->web(append: [\App\Http\Middleware\TrackVisit::class]);
-        // Tıklama bildirimi tarayıcıdan arka planda gelir (sendBeacon), CSRF anahtarı taşımaz
-        $middleware->validateCsrfTokens(except: ['t/click']);
+        // Analitik bildirimleri tarayıcıdan arka planda gelir (sendBeacon, resources/js/track.js), CSRF anahtarı taşımaz
+        $middleware->validateCsrfTokens(except: ['t/view', 't/click']);
         $middleware->alias([
             'localeSessionRedirect' => LocaleSessionRedirect::class,
             'localizationRedirect' => LaravelLocalizationRedirectFilter::class,

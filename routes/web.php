@@ -22,7 +22,8 @@ use App\Http\Controllers\ReviewController;
 */
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
-// Analitik: partner bağlantısına tıklama (resources/js/track.js)
+// Analitik (resources/js/track.js): sayfa görüntüleme ve partner bağlantısına tıklama
+Route::post('/t/view', [\App\Http\Controllers\TrackViewController::class, 'store'])->middleware('throttle:120,1')->name('track.view');
 Route::post('/t/click', [\App\Http\Controllers\TrackClickController::class, 'store'])->middleware('throttle:60,1')->name('track.click');
 
 
