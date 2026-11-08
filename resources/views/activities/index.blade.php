@@ -26,13 +26,14 @@
         'eyebrow' => __('activities-page.eyebrow'), 'title' => __('activities-page.title'), 'description' => __('activities-page.desc'),
     ], $city?->name);
     $look = \App\Support\PageHero::visual('activities', $bannerFocus ?? null);
-    $overlayClass = ['soft' => 'from-slate-950/70 via-slate-950/40 to-transparent', 'medium' => 'from-slate-950 via-slate-950/80 to-slate-950/30', 'strong' => 'from-slate-950 via-slate-950/90 to-slate-950/60'][$look['overlay']];
-    $imageOpacity = ['soft' => 'opacity-80', 'medium' => 'opacity-60', 'strong' => 'opacity-45'][$look['overlay']];
+    // Karartma yalnızca yazıların olduğu solda; sağ taraf ve resim net kalsın
+    $overlayClass = ['soft' => 'from-slate-950/60 via-slate-950/20 to-transparent', 'medium' => 'from-slate-950/80 via-slate-950/35 to-transparent', 'strong' => 'from-slate-950/90 via-slate-950/55 to-slate-950/10'][$look['overlay']];
+    $imageOpacity = ['soft' => 'opacity-100', 'medium' => 'opacity-95', 'strong' => 'opacity-85'][$look['overlay']];
 @endphp
 
 @section('content')
     {{-- BANNER: fotoğraflı, solda başlık + şehir seçimi, sağda rakamlar --}}
-    <section data-dock-start data-dock-at="0.3" class="relative isolate z-20 bg-slate-950 text-white">
+    <section data-dock-start data-dock-at="0.3" class="relative isolate z-20 flex min-h-[520px] flex-col bg-slate-950 text-white md:min-h-[600px] lg:min-h-[640px]">
         {{-- arka plan kendi içinde kırpılır; şehir menüsü banner'ın dışına taşabilsin --}}
         <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
             <picture>
@@ -40,17 +41,19 @@
                 <img src="{{ $banner }}" alt="" class="absolute inset-0 h-full w-full object-cover {{ $imageOpacity }}" style="object-position: {{ $look['focus'] }}% center">
             </picture>
             <div class="absolute inset-0 bg-gradient-to-r {{ $overlayClass }} rtl:bg-gradient-to-l"></div>
-            <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-slate-950/85 to-transparent"></div>
+            <div class="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-slate-950/40 to-transparent"></div>
         </div>
 
-        <div class="mx-auto max-w-7xl px-4 pt-6 md:pt-8">
+        <div class="mx-auto w-full max-w-7xl px-4 pt-6 md:pt-8">
             <x-breadcrumbs dark :items="[
                 ['label' => __('activity-show.home'), 'url' => route('home')],
                 ['label' => __('activities-page.eyebrow'), 'url' => route('activities.index')],
                 ...($city ? [['label' => $city->name, 'url' => route('activities.index', ['city' => $city->slug])]] : []),
             ]" />
         </div>
-        <div class="mx-auto grid max-w-7xl gap-10 px-4 pb-14 pt-8 md:pb-20 md:pt-10 lg:grid-cols-12 lg:items-end">
+        {{-- içerik alta oturur: resmin üst kısmı açık kalsın --}}
+        <div class="mx-auto mt-auto grid w-full max-w-7xl gap-8 px-4 pb-12 pt-16 md:pb-16 lg:grid-cols-12 lg:items-end">
             <div class="lg:col-span-7">
                 <p class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white/70">
                     <span class="h-px w-6 bg-[#FF6B6E]"></span>{{ $hero['eyebrow'] }}
@@ -143,15 +146,18 @@
                 // 0 olan kutu gösterilmez; tek kalan kutu tam genişlik olur
                 $statCards = array_values(array_filter($statCards, fn ($card) => ($stats[$card[0]] ?? 0) > 0));
             @endphp
-            <dl class="grid grid-cols-2 gap-3 lg:col-span-5">
+            {{-- küçük cam haplar: resmi kapatmasın --}}
+            <dl class="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
                 @foreach ($statCards as [$k, $label, $grad, $glow, $icon])
-                    <div @class(['group relative flex flex-col overflow-hidden rounded-3xl bg-white/[0.08] p-5 ring-1 ring-white/15 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:bg-white/[0.12]', 'col-span-2' => count($statCards) % 2 === 1 && $loop->first])>
-                        <span class="pointer-events-none absolute -right-8 -top-8 size-28 rounded-full {{ $glow }} opacity-25 blur-2xl transition group-hover:opacity-40"></span>
-                        <span class="grid size-11 place-items-center rounded-2xl bg-gradient-to-br {{ $grad }} text-white shadow-[0_10px_24px_-10px_rgba(0,0,0,0.6)]">
-                            <svg class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
+                    <div class="group relative flex min-w-[11rem] items-center gap-4 overflow-hidden rounded-3xl bg-slate-950/40 py-3.5 pl-3.5 pr-7 ring-1 ring-white/20 backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:bg-slate-950/50">
+                        <span class="pointer-events-none absolute -right-6 -top-6 size-20 rounded-full {{ $glow }} opacity-25 blur-2xl transition group-hover:opacity-40"></span>
+                        <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br {{ $grad }} text-white shadow-[0_10px_24px_-10px_rgba(0,0,0,0.7)]">
+                            <svg class="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
                         </span>
-                        <dd class="mt-5 text-4xl font-extrabold tracking-tight md:text-[44px]">{{ $stats[$k] }}</dd>
-                        <dt class="mt-1 text-sm font-semibold text-white/70">{{ __('activities-page.' . $label) }}</dt>
+                        <span class="relative leading-tight">
+                            <dd class="text-3xl font-extrabold tracking-tight md:text-[34px]">{{ $stats[$k] }}</dd>
+                            <dt class="mt-0.5 text-sm font-semibold text-white/75">{{ __('activities-page.' . $label) }}</dt>
+                        </span>
                     </div>
                 @endforeach
             </dl>
