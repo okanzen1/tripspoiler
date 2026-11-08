@@ -65,14 +65,14 @@
                 <p class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white/70">
                     <span class="h-px w-6 bg-[#FF6B6E]"></span>{{ $hero['eyebrow'] }}
                 </p>
-                <h1 class="mt-4 text-4xl font-extrabold leading-[1.02] tracking-[-0.03em] sm:text-5xl lg:text-[64px]">
+                <h1 class="mt-4 text-balance text-4xl font-extrabold leading-[1.08] tracking-[-0.03em] sm:text-5xl lg:text-[64px]">
                     @if ($cityInTitle)
                         {!! $heroTitleHtml !!}
                     @else
-                        {{ $hero['title'] }}@if ($city)<br><span class="text-[#FF6B6E]">{{ $titleCity }}</span>@endif
+                        {{ $hero['title'] }}@if ($city)<span class="mt-1 block text-[#FF6B6E] md:mt-1.5">{{ $titleCity }}</span>@endif
                     @endif
                 </h1>
-                <p class="mt-5 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">{{ $hero['description'] }}</p>
+                <p class="mt-3 max-w-xl text-base leading-relaxed text-white/75 md:mt-4 md:text-lg">{{ $hero['description'] }}</p>
 
                 {{-- ŞEHİR SEÇİMİ (her zaman görünür) --}}
                 {{-- Seçici yalnızca aktivitesi olan şehir varsa: hiç aktivite yokken şehir başlıkta görünür ama "0 şehir" seçici çıkmaz --}}
