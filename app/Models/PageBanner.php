@@ -11,7 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 class PageBanner extends Model
 {
     /**
-     * @return array{desktop: string, mobile: string|null}
+     * focus: şehrin kendi kadrajı (panelde şehir "Düzenle" paneli; şehrin resmi olmasa da genel resmi o şehirde böyle kırpar).
+     * null ise sayfa kadrajı kullanılır (PageHero::visual).
+     *
+     * @return array{desktop: string, mobile: string|null, focus: int|null}
      */
     public static function urls(string $page, ?int $cityId): array
     {
@@ -29,6 +32,10 @@ class PageBanner extends Model
             ? ActivityImage::mediaUrl($desktop, 'md')
             : (($home = Setting::many(['hero_image'])['hero_image']) ? ActivityImage::mediaUrl($home, 'md') : asset('images/hero-banner.webp'));
 
-        return ['desktop' => $desktopUrl, 'mobile' => $mobile ? ActivityImage::mediaUrl($mobile) : null];
+        return [
+            'desktop' => $desktopUrl,
+            'mobile' => $mobile ? ActivityImage::mediaUrl($mobile) : null,
+            'focus' => $own?->focus !== null ? max(0, min(100, (int) $own->focus)) : null,
+        ];
     }
 }

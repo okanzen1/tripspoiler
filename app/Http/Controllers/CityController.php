@@ -115,7 +115,7 @@ class CityController extends Controller
             ->values();
 
         // Banner (panel: Sayfalar › Şehirler › Banner resimleri)
-        ['desktop' => $banner, 'mobile' => $bannerMobile] = \App\Models\PageBanner::urls('cities', $city->id);
+        ['desktop' => $banner, 'mobile' => $bannerMobile, 'focus' => $bannerFocus] = \App\Models\PageBanner::urls('cities', $city->id);
 
         // Hero: şehrin rehber girişi; yoksa panelin varsayılan yazıları (Sayfalar › Şehirler › Hero ayarları), o da yoksa dil dosyası
         $hero = \App\Support\PageHero::texts('cities', [
@@ -147,7 +147,7 @@ class CityController extends Controller
             'bannerMobile' => $bannerMobile,
             'eyebrow' => $hero['eyebrow'],
             'floating' => self::floatingCards($guide, $guideNav),
-            'look' => \App\Support\PageHero::visual('cities'),
+            'look' => \App\Support\PageHero::visual('cities', $bannerFocus),
             'title' => $title,
             'description' => $description,
             'guideSections' => $guideSections,

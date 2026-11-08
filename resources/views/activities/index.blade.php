@@ -25,7 +25,7 @@
     $hero = \App\Support\PageHero::texts('activities', [
         'eyebrow' => __('activities-page.eyebrow'), 'title' => __('activities-page.title'), 'description' => __('activities-page.desc'),
     ], $city?->name);
-    $look = \App\Support\PageHero::visual('activities');
+    $look = \App\Support\PageHero::visual('activities', $bannerFocus ?? null);
     $overlayClass = ['soft' => 'from-slate-950/70 via-slate-950/40 to-transparent', 'medium' => 'from-slate-950 via-slate-950/80 to-slate-950/30', 'strong' => 'from-slate-950 via-slate-950/90 to-slate-950/60'][$look['overlay']];
     $imageOpacity = ['soft' => 'opacity-80', 'medium' => 'opacity-60', 'strong' => 'opacity-45'][$look['overlay']];
 @endphp

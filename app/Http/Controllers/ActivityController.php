@@ -37,6 +37,7 @@ class ActivityController extends Controller
         return view('activities.index', [
             'banner' => $banner['desktop'],
             'bannerMobile' => $banner['mobile'],
+            'bannerFocus' => $banner['focus'],
             'cities' => $cities,
             'city' => $city,
             'activities' => $activities,

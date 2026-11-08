@@ -21,14 +21,17 @@ class PageHero
         );
     }
 
-    /** @return array{focus: int, overlay: string} */
-    public static function visual(string $page): array
+    /**
+     * @param  int|null  $cityFocus  şehrin kendi kadrajı (PageBanner::urls()['focus']); varsa sayfa kadrajının yerine geçer
+     * @return array{focus: int, overlay: string}
+     */
+    public static function visual(string $page, ?int $cityFocus = null): array
     {
         $settings = Setting::many(["banner_{$page}_focus", "banner_{$page}_overlay"]);
         $overlay = $settings["banner_{$page}_overlay"];
 
         return [
-            'focus' => (int) ($settings["banner_{$page}_focus"] ?? 50),
+            'focus' => $cityFocus ?? (int) ($settings["banner_{$page}_focus"] ?? 50),
             'overlay' => in_array($overlay, ['soft', 'medium', 'strong'], true) ? $overlay : 'medium',
         ];
     }
