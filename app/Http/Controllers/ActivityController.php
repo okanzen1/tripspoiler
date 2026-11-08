@@ -23,7 +23,14 @@ class ActivityController extends Controller
             ?? $cities->firstWhere('id', (int) session('selected_city_id'))
             ?? $cities->first();
 
-        if ($city) {
+        // Hiçbir şehirde aktivite yoksa da bir şehir seçili olsun: başlık şehirsiz yarım kalmasın ("Things to do in …"),
+        // sayfa "bu şehirde henüz aktivite yok" der
+        $city ??= City::visible()->with('country')
+            ->when($requested, fn ($q) => $q->where('slug', $requested))
+            ->orderByDesc('population')->first()
+            ?? City::visible()->with('country')->orderByDesc('population')->first();
+
+        if ($city && $cities->contains('id', $city->id)) {
             session(['selected_city_id' => $city->id]);
         }
 

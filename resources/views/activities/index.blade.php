@@ -22,9 +22,16 @@
     };
     $titleCity = trans('activities-page.title_city', ['city' => $city?->name]);
     // Hero yazıları ve görünüm: panel (Sayfalar › Aktiviteler › Hero ayarları)
+    // Başlıkta ":city" varsa şehir tam oraya kırmızı gelir (her dilde doğru yerde: "İstanbul'da yapılacak…");
+    // yoksa başlığın altına eklenir. İşaretle alınıp yerine konur.
+    $cityMark = "\u{E000}";
     $hero = \App\Support\PageHero::texts('activities', [
         'eyebrow' => __('activities-page.eyebrow'), 'title' => __('activities-page.title'), 'description' => __('activities-page.desc'),
-    ], $city?->name);
+    ], $cityMark);
+    $cityInTitle = str_contains($hero['title'], $cityMark);
+    $heroTitleHtml = str_replace(e($cityMark), '<span class="text-[#FF6B6E]">' . e($city?->name) . '</span>', e($hero['title']));
+    $hero['eyebrow'] = str_replace($cityMark, (string) $city?->name, $hero['eyebrow']);
+    $hero['description'] = str_replace($cityMark, (string) $city?->name, $hero['description']);
     $look = \App\Support\PageHero::visual('activities', $bannerFocus ?? null);
     // Karartma yalnızca yazıların olduğu solda; sağ taraf ve resim net kalsın
     $overlayClass = ['soft' => 'from-slate-950/60 via-slate-950/20 to-transparent', 'medium' => 'from-slate-950/80 via-slate-950/35 to-transparent', 'strong' => 'from-slate-950/90 via-slate-950/55 to-slate-950/10'][$look['overlay']];
@@ -59,7 +66,11 @@
                     <span class="h-px w-6 bg-[#FF6B6E]"></span>{{ $hero['eyebrow'] }}
                 </p>
                 <h1 class="mt-4 text-4xl font-extrabold leading-[1.02] tracking-[-0.03em] sm:text-5xl lg:text-[64px]">
-                    {{ $hero['title'] }}<br><span class="text-[#FF6B6E]">{{ $titleCity }}</span>
+                    @if ($cityInTitle)
+                        {!! $heroTitleHtml !!}
+                    @else
+                        {{ $hero['title'] }}@if ($city)<br><span class="text-[#FF6B6E]">{{ $titleCity }}</span>@endif
+                    @endif
                 </h1>
                 <p class="mt-5 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">{{ $hero['description'] }}</p>
 
