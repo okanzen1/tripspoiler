@@ -52,7 +52,7 @@ class TrackClickController extends Controller
             'page_type' => Tracker::pageTypeFromPath($path),
             'target_url' => $url,
             ...Tracker::context($request, in_array($locale, array_keys(config('laravellocalization.supportedLocales', [])), true) ? $locale : null),
-            'created_at' => now(),
+            'created_at' => Tracker::now(),
         ]);
 
         return response()->noContent();

@@ -14,6 +14,17 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Tracker
 {
+    /**
+     * Analitik saatleri her zaman bu saat diliminde yazılır (panel de öyle okur). Sunucunun ya da .env'nin
+     * APP_TIMEZONE ayarı farklı olsa bile "son 5 dakika" ve günlük sayılar kaymasın.
+     */
+    public const TIMEZONE = 'Europe/Istanbul';
+
+    public static function now(): string
+    {
+        return now(self::TIMEZONE)->format('Y-m-d H:i:s');
+    }
+
     public const VISITOR_COOKIE = 'ts_vid';
 
     public const SESSION_COOKIE = 'ts_sid';

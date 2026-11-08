@@ -49,7 +49,7 @@ class TrackViewController extends Controller
             'utm_medium' => $utm('utm_medium'),
             'utm_campaign' => $utm('utm_campaign'),
             ...Tracker::context($request, $locale),
-            'created_at' => now(),
+            'created_at' => Tracker::now(),
         ]);
 
         $response = response()->noContent();
