@@ -3,11 +3,12 @@
     Şehre özel bölümler (popüler, blog, şehirler çağrısı) verilen şehre göre gelir; o şehirde içerik yoksa görünmez.
     SSS: bu sayfaya yazılan sorular + seçili şehre yazılan sorular; hiç yoksa görünmez.
 --}}
-@props(['page', 'cityId' => null, 'reviewSource' => null, 'main' => null, 'activity' => null, 'guideSections' => null])
+@props(['page', 'cityId' => null, 'reviewSource' => null, 'main' => null, 'activity' => null, 'post' => null, 'guideSections' => null])
 
 @php
     // Aktivite detayında şehir = aktivitenin şehri
-    $cityId = $cityId ?? $activity?->city_id;
+    // Blog yazısında şehir = yazının şehri
+    $cityId = $cityId ?? $activity?->city_id ?? $post?->city_id;
     $colors = ['bg-white', 'bg-slate-50'];
     $i = 0;
     $next = function () use (&$i, $colors) { return $colors[$i++ % 2]; };
@@ -59,14 +60,20 @@
             <x-city-entry-section :city-id="$cityId" />
             @break
         @case('faq')
-            @if ($activity)
+            @if ($post)
+                <x-faq source="blog" :source-id="$post->id" :bg-color="$next()" />
+            @elseif ($activity)
                 <x-faq source="activity" :source-id="$activity->id" :bg-color="$next()" />
             @else
                 <x-faq source="page" :page="$page" :city-id="$cityId" :bg-color="$next()" />
             @endif
             @break
         @case('reviews')
-            <x-reviews :source="$activity ? 'activity' : ($reviewSource ?? $page)" :source-id="$activity?->id" :color="$next()" />
+            @if ($post)
+                <x-reviews :source="'blog-show'" :source-id="$post->id" :sectionHeader="true" :reviewSummary="true" :testimonials="true" :color="$next()" />
+            @else
+                <x-reviews :source="$activity ? 'activity' : ($reviewSource ?? $page)" :source-id="$activity?->id" :color="$next()" />
+            @endif
             @break
         @case('social')
             <x-social-presence-section :color="$next()" />

@@ -17,7 +17,7 @@ class PageSections
     public const CONTENT = ['popular', 'blog', 'city_entry', 'faq', 'reviews', 'social', 'steps', 'intro'];
 
     /** Sayfanın ana içeriği de sıralamaya girer (her zaman açık): sayfa => anahtar "main" */
-    public const MAIN = ['activities', 'activity', 'reviews'];
+    public const MAIN = ['activities', 'activity', 'reviews', 'post'];
 
     /** Yeri sabit, sadece aç/kapa */
     public const FIXED = ['announcements', 'partners'];
@@ -27,6 +27,8 @@ class PageSections
         'activities' => ['reviews', 'social'],
         // Aktivite detayı: bölümler o aktiviteye göre dolar (yorumları, soruları, aynı şehirdeki benzerleri)
         'activity' => ['reviews', 'faq'],
+        // Blog yazısı: bölümler o yazıya ve şehrine göre dolar (kendi soruları, şehrin popülerleri)
+        'post' => ['reviews', 'faq'],
         'blog' => ['popular', 'reviews', 'social'],
         'cities' => ['popular', 'blog', 'reviews'],
         'reviews' => ['social'],
@@ -40,6 +42,7 @@ class PageSections
         'activities.index' => 'activities',
         'activities.show' => 'activity',
         'blog.index' => 'blog',
+        'blog.show' => 'post',
         'cities.show' => 'cities',
         'reviews.index' => 'reviews',
         'about' => 'about',
@@ -107,6 +110,9 @@ class PageSections
         $skip = in_array($page, ['contact', 'about', 'privacy', 'reviews'], true) ? ['popular', 'blog', 'city_entry'] : [];
         if ($page === 'reviews') {
             $skip[] = 'reviews'; // sayfanın kendisi yorum listesi
+        }
+        if ($page === 'post') {
+            $skip[] = 'blog'; // yazının altında zaten "Diğer rehberler" var
         }
 
         return array_values(array_filter($config['order'], fn ($key) => !in_array($key, $skip, true) && ($key === 'main' || (in_array($key, $config['on'], true) && SiteSections::enabled($key)))));
