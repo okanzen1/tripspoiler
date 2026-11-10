@@ -7,7 +7,7 @@
     $texts = \App\Models\SectionText::texts('partners', app()->getLocale(), [
         'eyebrow' => __('partners-strip.eyebrow'), 'title' => __('partners-strip.title'), 'title_highlight' => '',
     ]);
-    $partners = \App\Models\Partner::where('active', true)->where('show_on_site', true)->whereNotNull('logo_path')->orderBy('name')->get();
+    $partners = \App\Models\Partner::where('active', true)->where('show_on_site', true)->whereNotNull('logo_path')->orderBy('sort_order')->orderBy('name')->get();
     // Tek partner olsa da şerit dolsun diye logolar tekrarlanır; iki kopya yan yana sonsuz kayar
     $moving = true;
     $loopItems = $partners->isEmpty() ? $partners : collect(array_fill(0, (int) ceil(10 / $partners->count()), $partners))->flatten(1);
