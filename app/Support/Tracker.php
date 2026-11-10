@@ -31,6 +31,25 @@ class Tracker
 
     private const BOTS = '/bot\b|bot\/|crawl|spider|slurp|preview|facebookexternalhit|facebookcatalog|meta-externalagent|embedly|headless|phantom|puppeteer|playwright|selenium|lighthouse|pagespeed|gtmetrix|pingdom|uptime|monitor|curl|wget|python|httpclient|okhttp|go-http|java\/|axios|node-fetch|scrapy|semrush|ahrefs|mj12|dotbot|petalbot|bytespider|gptbot|chatgpt|oai-searchbot|claudebot|claude-web|anthropic|perplexity|ccbot|amazonbot|applebot|bingpreview|yandex(bot|images)|baiduspider|duckduckbot|sogou|exabot|seznambot|whatsapp|telegrambot|discordbot|slackbot|twitterbot|linkedinbot|pinterest|skypeuripreview|vkshare|qwantify|archive\.org|ia_archiver|feedfetcher|google-inspectiontool|googleother|adsbot|mediapartners|storebot|dataforseo|serpstat|barkrowler|blexbot|megaindex|zoominfo|censys|zgrab|masscan|nmap|nuclei/i';
 
+    /**
+     * Sahte yönlendirme (referrer spam) yapan siteler: bunlardan gelen ziyaretler hiç sayılmaz.
+     * Alt alan adları da engellenir (ör. "x.aocr.org").
+     */
+    public const SPAM_REFERRERS = ['aocr.org'];
+
+    public static function isSpamReferrer(?string $host): bool
+    {
+        $host = preg_replace('/^www\./', '', strtolower((string) $host));
+
+        foreach (self::SPAM_REFERRERS as $spam) {
+            if ($host === $spam || str_ends_with($host, '.' . $spam)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static function isBot(Request $request): bool
     {
         $agent = (string) $request->userAgent();

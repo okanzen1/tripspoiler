@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+{{-- Hata sayfaları analitikte sayılmaz (olmayan adreslere gelen botlar, ör. aocr.org) --}}
+@push('meta')
+    <meta name="ts-notrack" content="1">
+@endpush
+
 @php
     // Handler (production) $code + $message gönderir; 404 view'i de aynı değişkenleri geçer.
     $status = (int) ($code ?? 404);

@@ -24,4 +24,9 @@ return [
     'load_more' => '후기 더 보기',
     'share_title' => '저희와 여행을 계획하셨나요?',
     'share_text' => '다른 여행자에게 어땠는지 알려 주세요. 1분이면 충분해요.',
+    'sort' => '정렬',
+    'sort_newest' => '최신순',
+    'sort_oldest' => '오래된순',
+    'sort_highest' => '평점 높은순',
+    'sort_lowest' => '평점 낮은순',
 ];

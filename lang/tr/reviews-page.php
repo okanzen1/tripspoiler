@@ -24,4 +24,9 @@ return [
     'load_more' => 'Daha fazla yorum göster',
     'share_title' => 'Seyahatini bizimle mi planladın?',
     'share_text' => 'Nasıl geçtiğini diğer gezginlerle paylaş; yalnızca bir dakikanı alır.',
+    'sort' => 'Sırala',
+    'sort_newest' => 'En yeni',
+    'sort_oldest' => 'En eski',
+    'sort_highest' => 'En yüksek puan',
+    'sort_lowest' => 'En düşük puan',
 ];

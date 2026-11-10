@@ -24,4 +24,9 @@ return [
     'load_more' => 'Mostrar mais avaliações',
     'share_title' => 'Planejou uma viagem conosco?',
     'share_text' => 'Conte aos outros viajantes como foi; leva um minuto.',
+    'sort' => 'Ordenar',
+    'sort_newest' => 'Mais recentes',
+    'sort_oldest' => 'Mais antigas',
+    'sort_highest' => 'Melhor avaliadas',
+    'sort_lowest' => 'Pior avaliadas',
 ];

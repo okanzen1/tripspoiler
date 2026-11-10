@@ -14,6 +14,7 @@ function send(endpoint, data) {
 
 function view() {
     if (navigator.webdriver) return;
+    if (document.querySelector('meta[name="ts-notrack"]')) return; // hata sayfası (404 vb.) sayılmaz
     send('/t/view', { url: location.pathname + location.search, ref: document.referrer, wd: navigator.webdriver ? 1 : 0 });
 }
 

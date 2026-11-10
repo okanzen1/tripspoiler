@@ -34,10 +34,15 @@ class ReviewController extends Controller
 
         // yıldız süzgeci (?rating=5) ve dağılım
         $rating = in_array((int) request('rating'), [1, 2, 3, 4, 5], true) ? (int) request('rating') : null;
+        // sıralama (?sort=): en yeni (varsayılan), en eski, en yüksek puan, en düşük puan; eşitlikte en yeni üstte
+        $sort = in_array(request('sort'), ['newest', 'oldest', 'highest', 'lowest'], true) ? request('sort') : 'newest';
         $reviews = Review::approved()
             ->with('activity')
             ->when($rating, fn ($q) => $q->where('rating', $rating))
-            ->latest()
+            ->when($sort === 'highest', fn ($q) => $q->orderByDesc('rating'))
+            ->when($sort === 'lowest', fn ($q) => $q->orderBy('rating'))
+            ->orderBy('created_at', $sort === 'oldest' ? 'asc' : 'desc')
+            ->orderBy('id', $sort === 'oldest' ? 'asc' : 'desc')
             ->paginate(12)
             ->withQueryString();
         $distribution = Review::approved()->selectRaw('rating, count(*) as n')->groupBy('rating')->pluck('n', 'rating');
@@ -51,6 +56,7 @@ class ReviewController extends Controller
             'totalReviews' => $totalReviews,
             'distribution' => collect([5, 4, 3, 2, 1])->mapWithKeys(fn ($r) => [$r => (int) ($distribution[$r] ?? 0)])->all(),
             'rating' => $rating,
+            'sort' => $sort,
         ];
 
         /*

@@ -30,6 +30,7 @@ class Faq extends Component
             ->when($this->source === 'blog', fn($q) => $q->where('blog_id', $this->sourceId))
             ->when(!in_array($this->source, ['activity', 'blog', 'page']), fn($q) => $q->general())
             ->orderBy('sort_order')
+            ->orderBy('id')
             ->get();
 
         if ($faqs->isEmpty()) {

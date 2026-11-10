@@ -152,19 +152,38 @@
                         <span class="mt-0.5 block text-xs font-medium text-slate-500">{{ __('reviews-page.based_on', ['count' => $total]) }}</span>
                     </span>
                 </div>
-                <div class="-mx-3 flex gap-1.5 overflow-x-auto px-3 [scrollbar-width:none] lg:mx-0 lg:flex-1 lg:px-0 [&::-webkit-scrollbar]:hidden">
-                    <a href="{{ route('reviews.index') }}#yorumlar" @class(['inline-flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition', 'bg-[#C62E2E] text-white' => !$general['rating'], 'text-slate-600 hover:bg-slate-50' => $general['rating']])>
+                {{-- puan süzgeci: taşmadan sarılır; sıralama seçimi korunur --}}
+                @php $keepSort = $general['sort'] !== 'newest' ? ['sort' => $general['sort']] : []; @endphp
+                <div class="flex flex-1 flex-wrap items-center gap-1.5 px-1 lg:px-0">
+                    <a href="{{ route('reviews.index', $keepSort) }}#yorumlar" @class(['inline-flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition', 'bg-[#C62E2E] text-white' => !$general['rating'], 'text-slate-600 hover:bg-slate-50' => $general['rating']])>
                         {{ __('reviews-page.all') }} <span class="text-xs opacity-70">{{ $total }}</span>
                     </a>
                     @foreach ($dist as $r => $n)
-                        <a href="{{ $n ? route('reviews.index', ['rating' => $r]) . '#yorumlar' : '#' }}"
-                            @class(['group inline-flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition', 'bg-[#C62E2E] text-white' => $general['rating'] === $r, 'text-slate-600 hover:bg-slate-50' => $general['rating'] !== $r && $n, 'pointer-events-none text-slate-300' => !$n])>
+                        <a href="{{ $n ? route('reviews.index', ['rating' => $r] + $keepSort) . '#yorumlar' : '#' }}"
+                            @class(['inline-flex items-center gap-1.5 rounded-2xl px-3 py-2.5 text-sm font-semibold transition', 'bg-[#C62E2E] text-white' => $general['rating'] === $r, 'text-slate-600 hover:bg-slate-50' => $general['rating'] !== $r && $n, 'pointer-events-none text-slate-300' => !$n])
+                            @if (!$n) aria-disabled="true" @endif>
                             {{ $r }}<svg @class(['size-3.5', 'text-white' => $general['rating'] === $r, 'text-amber-400' => $general['rating'] !== $r && $n, 'text-slate-200' => !$n]) viewBox="0 0 24 24" fill="currentColor">{!! $star !!}</svg>
-                            <span class="hidden h-1.5 w-14 overflow-hidden rounded-full sm:block {{ $general['rating'] === $r ? 'bg-white/30' : 'bg-slate-100' }}"><span class="block h-full rounded-full {{ $general['rating'] === $r ? 'bg-white' : 'bg-amber-400' }}" style="width: {{ $n / $max * 100 }}%"></span></span>
+                            <span class="hidden h-1.5 w-10 overflow-hidden rounded-full 2xl:block {{ $general['rating'] === $r ? 'bg-white/30' : 'bg-slate-100' }}"><span class="block h-full rounded-full {{ $general['rating'] === $r ? 'bg-white' : 'bg-amber-400' }}" style="width: {{ $n / $max * 100 }}%"></span></span>
                             <span class="text-xs opacity-70">{{ $n }}</span>
                         </a>
                     @endforeach
                 </div>
+
+                {{-- sıralama --}}
+                <form method="GET" action="{{ route('reviews.index') }}#yorumlar" class="px-1 lg:border-l lg:border-slate-100 lg:pl-4 lg:pr-1">
+                    @if ($general['rating']) <input type="hidden" name="rating" value="{{ $general['rating'] }}"> @endif
+                    <label class="relative flex items-center gap-2">
+                        <svg class="pointer-events-none absolute left-3.5 size-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"/></svg>
+                        <span class="sr-only">{{ __('reviews-page.sort') }}</span>
+                        <select name="sort" onchange="this.form.submit()"
+                            class="h-11 w-full cursor-pointer appearance-none rounded-2xl bg-slate-50 pl-10 pr-10 text-sm font-semibold text-slate-700 outline-none ring-1 ring-slate-200 transition hover:ring-slate-300 focus:ring-2 focus:ring-[#C62E2E]/40 lg:w-auto">
+                            @foreach (['newest', 'oldest', 'highest', 'lowest'] as $option)
+                                <option value="{{ $option }}" @selected($general['sort'] === $option)>{{ __('reviews-page.sort_' . $option) }}</option>
+                            @endforeach
+                        </select>
+                        <svg class="pointer-events-none absolute right-3.5 size-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                    </label>
+                </form>
             </div>
 
             @if ($reviews->isEmpty())

@@ -24,4 +24,9 @@ return [
     'load_more' => 'もっと見る',
     'share_title' => '私たちと旅を計画しましたか？',
     'share_text' => 'ほかの旅行者に感想を伝えてください。1分で書けます。',
+    'sort' => '並べ替え',
+    'sort_newest' => '新しい順',
+    'sort_oldest' => '古い順',
+    'sort_highest' => '評価の高い順',
+    'sort_lowest' => '評価の低い順',
 ];

@@ -24,4 +24,9 @@ return [
     'load_more' => 'Show more reviews',
     'share_title' => 'Planned a trip with us?',
     'share_text' => 'Tell other travellers how it went; it takes a minute.',
+    'sort' => 'Sort',
+    'sort_newest' => 'Newest',
+    'sort_oldest' => 'Oldest',
+    'sort_highest' => 'Highest rated',
+    'sort_lowest' => 'Lowest rated',
 ];

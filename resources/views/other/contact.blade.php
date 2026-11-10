@@ -11,8 +11,14 @@
     $hero = \App\Support\PageHero::texts('contact', [
         'eyebrow' => __('contact-page.eyebrow'),
         'title' => __('contact-page.title'),
+        'title_highlight' => '',
         'description' => __('contact-page.desc'),
     ]);
+    // Alt satır başlıkla bir cümle: başlık panelden geliyorsa alt satır da panelden (boşsa görünmez),
+    // ikisi de boşsa dil dosyasındaki eşleşen çift ("Let’s talk" + "about your trip")
+    if ($hero['title'] === __('contact-page.title') && blank($hero['title_highlight'])) {
+        $hero['title_highlight'] = __('contact-page.title_highlight');
+    }
     $topics = [
         'general' => ['message', __('contact-page.topic_general')],
         'booking' => ['ticket', __('contact-page.topic_booking')],
@@ -51,7 +57,9 @@
                     </div>
                     <h1 class="mt-8 text-[52px] font-extrabold leading-[0.92] tracking-[-0.05em] sm:text-7xl lg:text-[84px]">
                         {{ $hero['title'] }}
-                        <span class="mt-3 block text-2xl font-medium tracking-[-0.01em] text-white/55 sm:text-3xl">{{ __('contact-page.title_highlight') }}</span>
+                        @if (filled($hero['title_highlight']))
+                            <span class="mt-3 block text-2xl font-medium tracking-[-0.01em] text-white/55 sm:text-3xl">{{ $hero['title_highlight'] }}</span>
+                        @endif
                     </h1>
                     <p class="mt-8 max-w-md border-l border-[#FF6B6E]/60 pl-5 text-[15px] leading-relaxed text-white/65 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-5">{{ $hero['description'] }}</p>
 

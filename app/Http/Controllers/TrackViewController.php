@@ -32,6 +32,9 @@ class TrackViewController extends Controller
 
         $referrer = strtolower((string) parse_url((string) ($data['ref'] ?? ''), PHP_URL_HOST));
         $referrer = preg_replace('/^www\./', '', $referrer);
+        if (Tracker::isSpamReferrer($referrer)) {
+            return response()->noContent();
+        }
         $ownHost = preg_replace('/^www\./', '', strtolower($request->getHost()));
         $utm = fn (string $key) => is_string($query[$key] ?? null) && trim($query[$key]) !== '' ? Str::limit(strtolower(trim($query[$key])), 100, '') : null;
 

@@ -41,6 +41,15 @@
 
         return $out;
     };
+    // "Kısaca" kutusu ve alttaki iletişim kutusu (Sayfa içeriği › Kısaca kutusu / Alttaki iletişim kutusu)
+    $summary = \App\Models\SectionText::texts('privacy_summary', $locale, [
+        'title' => __('privacy-page.summary_title'),
+        'description' => implode("\n", array_map(fn ($p) => __('privacy-page.' . $p), ['s1', 's2', 's3', 's4'])),
+    ]);
+    $summaryPoints = array_values(array_filter(array_map(fn ($line) => trim(preg_replace('/^\s*[-•*]\s*/u', '', $line)), preg_split('/\r?\n/', str_replace('\n', "\n", $summary['description'])))));
+    $contactBox = \App\Models\SectionText::texts('privacy_contact', $locale, [
+        'title' => __('privacy-page.contact_title'), 'description' => __('privacy-page.contact_text'), 'eyebrow' => __('privacy-page.contact_button'),
+    ]);
     $updated = \App\Models\SectionText::where('key', 'like', 'privacy_%')->max('updated_at') ?? '2026-11-05';
 @endphp
 
@@ -67,14 +76,14 @@
                 </div>
                 <div class="lg:col-span-5">
                     <div class="rounded-[28px] bg-white p-6 ring-1 ring-slate-200/80 shadow-[0_24px_60px_-36px_rgba(15,23,42,0.4)] sm:p-7">
-                        <p class="text-sm font-bold uppercase tracking-[0.14em] text-slate-400">{{ __('privacy-page.summary_title') }}</p>
+                        <p class="text-sm font-bold uppercase tracking-[0.14em] text-slate-400">{{ $summary['title'] }}</p>
                         <ul class="mt-4 space-y-3">
-                            @foreach (['s1', 's2', 's3', 's4'] as $point)
+                            @foreach ($summaryPoints as $point)
                                 <li class="flex items-start gap-3 text-[15px] font-semibold text-slate-800">
                                     <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-slate-900 text-white">
                                         <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
                                     </span>
-                                    {{ __('privacy-page.' . $point) }}
+                                    {{ $point }}
                                 </li>
                             @endforeach
                         </ul>
@@ -187,11 +196,11 @@
                 {{-- iletişim --}}
                 <div class="flex flex-col items-start justify-between gap-5 rounded-[24px] bg-slate-900 p-7 text-white sm:flex-row sm:items-center sm:p-8">
                     <div>
-                        <p class="text-xl font-extrabold">{{ __('privacy-page.contact_title') }}</p>
-                        <p class="mt-1 text-white/70">{{ __('privacy-page.contact_text') }}</p>
+                        <p class="text-xl font-extrabold">{{ $contactBox['title'] }}</p>
+                        <p class="mt-1 text-white/70">{{ $contactBox['description'] }}</p>
                     </div>
                     <a href="{{ route('contact') }}" class="inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-full bg-[#C62E2E] px-6 py-3 text-sm font-bold transition hover:bg-[#A82424]">
-                        {{ __('privacy-page.contact_button') }}
+                        {{ $contactBox['eyebrow'] }}
                         <svg class="size-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                     </a>
                 </div>

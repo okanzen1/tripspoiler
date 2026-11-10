@@ -24,4 +24,9 @@ return [
     'load_more' => 'Voir plus d’avis',
     'share_title' => 'Vous avez préparé un voyage avec nous ?',
     'share_text' => 'Racontez-le aux autres voyageurs ; cela prend une minute.',
+    'sort' => 'Trier',
+    'sort_newest' => 'Plus récents',
+    'sort_oldest' => 'Plus anciens',
+    'sort_highest' => 'Mieux notés',
+    'sort_lowest' => 'Moins bien notés',
 ];

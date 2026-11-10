@@ -24,4 +24,9 @@ return [
     'load_more' => 'Mehr Bewertungen',
     'share_title' => 'Reise mit uns geplant?',
     'share_text' => 'Erzähl anderen Reisenden, wie es war – dauert eine Minute.',
+    'sort' => 'Sortieren',
+    'sort_newest' => 'Neueste',
+    'sort_oldest' => 'Älteste',
+    'sort_highest' => 'Beste Bewertung',
+    'sort_lowest' => 'Niedrigste Bewertung',
 ];

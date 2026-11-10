@@ -24,4 +24,9 @@ return [
     'load_more' => '查看更多评价',
     'share_title' => '和我们一起规划过旅行吗？',
     'share_text' => '告诉其他旅行者你的体验吧，只需一分钟。',
+    'sort' => '排序',
+    'sort_newest' => '最新',
+    'sort_oldest' => '最早',
+    'sort_highest' => '评分最高',
+    'sort_lowest' => '评分最低',
 ];
