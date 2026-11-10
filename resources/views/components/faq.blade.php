@@ -1,7 +1,17 @@
 {{--
     SSS: solda başlık ve iletişim kutusu, sağda akordeon (ilk soru açık, bir seferde bir soru).
     Sorular App\View\Components\Faq (panel > SSS); Google için JSON-LD aşağıda.
+    Başlık ve iletişim kutusu panelden (SSS › Bölüm yazıları: section_texts "faq" ve "faq_contact"); boşsa dil dosyası.
 --}}
+@php
+    $locale = app()->getLocale();
+    $head = \App\Models\SectionText::texts('faq', $locale, [
+        'eyebrow' => __('faq.eyebrow'), 'title' => __('faq.title'), 'title_highlight' => __('faq.title_highlight'), 'description' => __('faq.desc'),
+    ]);
+    $box = \App\Models\SectionText::texts('faq_contact', $locale, [
+        'title' => __('faq.contact_title'), 'description' => __('faq.contact_text'), 'eyebrow' => __('faq.contact_cta'),
+    ]);
+@endphp
 <section class="{{ $bgColor }} relative py-16 md:py-24">
     <div class="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-12 lg:gap-14">
 
@@ -9,24 +19,24 @@
         <div class="lg:col-span-4">
             <div class="lg:sticky lg:top-28">
                 <p class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C62E2E]">
-                    <span class="h-px w-6 bg-[#C62E2E]"></span>{{ __('faq.eyebrow') }}
+                    <span class="h-px w-6 bg-[#C62E2E]"></span>{{ $head['eyebrow'] }}
                 </p>
                 <h2 class="mt-3 text-3xl font-extrabold leading-[1.08] tracking-[-0.025em] text-slate-900 sm:text-4xl lg:text-[44px]">
-                    {{ __('faq.title') }} <span class="text-[#C62E2E]">{{ __('faq.title_highlight') }}</span>
+                    {{ $head['title'] }} <span class="text-[#C62E2E]">{{ $head['title_highlight'] }}</span>
                 </h2>
-                <p class="mt-4 text-base leading-relaxed text-slate-600">{{ __('faq.desc') }}</p>
+                <p class="mt-4 text-base leading-relaxed text-slate-600">{{ $head['description'] }}</p>
 
                 <div class="mt-8 flex items-center gap-4 rounded-3xl bg-slate-900 p-5 text-white">
                     <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-white">
                         <img src="{{ asset('images/logo-mark.webp') }}" alt="" class="h-9 w-auto">
                     </span>
                     <span class="min-w-0 flex-1">
-                        <span class="block font-bold">{{ __('faq.contact_title') }}</span>
-                        <span class="block text-sm text-white/70">{{ __('faq.contact_text') }}</span>
+                        <span class="block font-bold">{{ $box['title'] }}</span>
+                        <span class="block text-sm text-white/70">{{ $box['description'] }}</span>
                     </span>
                 </div>
                 <a href="{{ route('contact') }}" class="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#C62E2E] px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#C62E2E]/20 transition hover:bg-[#A82424]">
-                    {{ __('faq.contact_cta') }} <span aria-hidden="true" class="rtl:rotate-180">→</span>
+                    {{ $box['eyebrow'] }} <span aria-hidden="true" class="rtl:rotate-180">→</span>
                 </a>
             </div>
         </div>
