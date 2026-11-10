@@ -64,7 +64,10 @@
 
         {{-- ALT SATIR --}}
         <div class="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-white/45 lg:flex-row lg:items-center lg:justify-between">
-            <p>© {{ date('Y') }} TripSpoiler. {{ __('footer.rights') }}</p>
+            <p>© {{ date('Y') }} TripSpoiler. {{ __('footer.rights') }}
+                <span aria-hidden="true" class="px-1 text-white/20">·</span>
+                <button type="button" onclick="window.dispatchEvent(new Event('cookie-settings'))" class="underline decoration-white/20 underline-offset-2 transition hover:text-white">{{ __('cookies.settings') }}</button>
+            </p>
             {{-- diller: nokta ile ayrılmış, sarılabilir --}}
             <nav aria-label="Language" class="flex flex-wrap items-center gap-x-1 gap-y-2">
                 @foreach (LaravelLocalization::getSupportedLocales() as $code => $properties)

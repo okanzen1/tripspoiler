@@ -117,17 +117,21 @@
     @jsonld($schema)
     {{-- Sürüm sabit: "3.x.x" her yeni sürümü habersiz çeker (bozulma / tedarik zinciri riski) --}}
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" defer></script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VKGSGTFYD1"></script>
+    {{-- Google Analytics: yalnızca ziyaretçi çerezleri kabul ettiyse yüklenir (partials/cookie-consent) --}}
     <script>
         window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'G-VKGSGTFYD1');
+        function gtag() { dataLayer.push(arguments); }
+        window.tsLoadAnalytics = function () {
+            if (window.tsAnalyticsLoaded) return;
+            window.tsAnalyticsLoaded = true;
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VKGSGTFYD1';
+            document.head.appendChild(s);
+            gtag('js', new Date());
+            gtag('config', 'G-VKGSGTFYD1', { anonymize_ip: true });
+        };
+        if (document.cookie.split('; ').indexOf('ts_consent=all') !== -1) window.tsLoadAnalytics();
     </script>
 
 </head>
@@ -147,6 +151,7 @@
     
     @include('partials.partners-strip')
     @include('partials.footer')
+    @include('partials.cookie-consent')
 
     {{-- Dil değişince sayfa aynı yerde kalsın: tıklanan dil bağlantısında kaydırma konumu saklanır, yeni sayfada geri yüklenir --}}
     <script>

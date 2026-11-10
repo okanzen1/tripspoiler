@@ -22,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Gizlilik: ziyaretçi oturumlarına IP / tarayıcı yazılmaz (App\Support\PrivateSessionHandler)
+        \Illuminate\Support\Facades\Session::extend('database', fn ($app) => new \App\Support\PrivateSessionHandler(
+            $app['db']->connection($app['config']['session.connection']), $app['config']['session.table'], $app['config']['session.lifetime'], $app,
+        ));
+
         // Yapısal veri (schema.org JSON-LD). JSON_HEX_TAG: veride "</script>" geçse bile (ör. yorum yapan kişinin adı)
         // script etiketi kapanmaz, XSS olmaz; JSON yine geçerlidir (< ve > \u003C / \u003E olarak yazılır).
         Blade::directive('jsonld', fn (string $expression) => '<script type="application/ld+json"><?php echo json_encode(' . $expression

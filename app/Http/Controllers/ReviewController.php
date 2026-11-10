@@ -117,7 +117,7 @@ class ReviewController extends Controller
         }
 
         $normalizedEmail = mb_strtolower(trim($validated['email']));
-        $emailHash = hash('sha256', $normalizedEmail);
+        $emailHash = (string) \App\Support\Privacy::hash($normalizedEmail);
 
         // Aktivite sayfasından geldiyse o aktiviteye, değilse sitenin geneline yazılır
         $activityId = in_array($validated['source'], ['activity', 'activity-show'], true) && !empty($validated['source_id'])

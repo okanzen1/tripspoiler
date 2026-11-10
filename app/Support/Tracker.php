@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Ziyaretçi takibi için ortak bilgiler (panel > Analitik bunları okur).
- * Kişisel veri tutulmaz: ziyaretçi ve oturum, tarayıcıdaki rastgele kimliklerdir (IP, isim saklanmaz).
+ * Ziyaretçi ve oturum tarayıcıdaki rastgele kimliklerdir; IP veritabanında yalnızca şifreli durur, 6 ay sonra silinir.
  *   ts_vid  ziyaretçi, 1 yıl     ts_sid  oturum, son hareketten 30 dk sonra biter
  */
 class Tracker
@@ -77,9 +77,28 @@ class Tracker
         ];
     }
 
-    /** Kimlikleri cevaba yazar; oturum her sayfada 30 dk uzar */
+    /** Ziyaretçi çerezlere izin verdi mi (partials/cookie-consent: "ts_consent" = all) */
+    public static function consented(Request $request): bool
+    {
+        return $request->cookie('ts_consent') === 'all';
+    }
+
+    /**
+     * Kimlikleri cevaba yazar; oturum her sayfada 30 dk uzar. İzin yoksa çerez yazılmaz, varsa silinir
+     * (ziyaret yine sayılır: her sayfa yeni rastgele kimlik, panel ziyaretçiyi şifreli IP'nin parmak iziyle gruplar).
+     */
     public static function remember(Response $response, string $visitor, string $session): void
     {
+        if (!self::consented(request())) {
+            foreach ([self::VISITOR_COOKIE, self::SESSION_COOKIE] as $name) {
+                if (request()->hasCookie($name)) {
+                    $response->headers->clearCookie($name, '/');
+                }
+            }
+
+            return;
+        }
+
         $secure = request()->isSecure();
         $response->headers->setCookie(Cookie::create(self::VISITOR_COOKIE, $visitor, now()->addYear(), '/', null, $secure, true, false, Cookie::SAMESITE_LAX));
         $response->headers->setCookie(Cookie::create(self::SESSION_COOKIE, $session, now()->addMinutes(30), '/', null, $secure, true, false, Cookie::SAMESITE_LAX));
@@ -96,7 +115,7 @@ class Tracker
         return $request->ip();
     }
 
-    /** Ortak alanlar: IP, ülke ve şehir (IP'den; Cloudflare ülkesi varsa o), cihaz, tarayıcı, işletim sistemi, dil */
+    /** Ortak alanlar: IP (şifreli + parmak izi, App\Support\Privacy; açık IP hiç yazılmaz), ülke ve şehir (IP'den; Cloudflare ülkesi varsa o), cihaz, tarayıcı, işletim sistemi, dil */
     public static function context(Request $request, ?string $locale = null): array
     {
         $ip = self::ip($request);
@@ -105,7 +124,8 @@ class Tracker
         $agent = (string) $request->userAgent();
 
         return [
-            'ip' => $ip,
+            'ip' => $ip ? \Illuminate\Support\Facades\Crypt::encryptString($ip) : null,
+            'ip_hash' => Privacy::hash($ip),
             'country' => preg_match('/^[A-Z]{2}$/', $cfCountry) && !in_array($cfCountry, ['XX', 'T1'], true) ? $cfCountry : $geo['country'],
             'city' => $geo['city'],
             'device' => self::device($agent),

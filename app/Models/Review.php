@@ -20,6 +20,7 @@ class Review extends Model
     ];
 
     protected $casts = [
+        'name' => 'encrypted', // ad ve e-posta şifreli (App\Support\Privacy)
         'email' => 'encrypted',
         'rating' => 'integer',
         'approved' => 'boolean',
@@ -28,7 +29,7 @@ class Review extends Model
     protected static function booted(): void
     {
         static::saving(function (self $review) {
-            $review->email_hash = filled($review->email) ? hash('sha256', mb_strtolower(trim($review->email))) : null;
+            $review->email_hash = \App\Support\Privacy::hash($review->email);
         });
     }
 

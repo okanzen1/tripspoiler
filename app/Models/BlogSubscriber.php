@@ -24,7 +24,7 @@ class BlogSubscriber extends Model
 
     public static function hash(string $email): string
     {
-        return hash('sha256', mb_strtolower(trim($email)));
+        return (string) \App\Support\Privacy::hash($email);
     }
 
     public function scopeActive(Builder $query): void
