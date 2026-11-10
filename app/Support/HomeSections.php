@@ -7,7 +7,8 @@ use App\Models\Setting;
 /**
  * Anasayfa bölümlerinin sırası: panel › Yönetim › Bölümler'de sürükle-bırak (Setting "site_settings_order",
  * panel kart anahtarları: "steps,intro-texts,blog,…"). Hero her zaman en üstte.
- * Panelde satırı olmayan bölümler (popüler aktiviteler, SSS) varsayılan sıradaki komşusunun hemen arkasında kalır.
+ * Panelde kapatılan anasayfa-özel bölümler ("home_popular", "home_faq") burada elenir; diğer bölümlerin aç/kapası
+ * kendi bileşenlerinde (SiteSections).
  * Duyuru şeridi ve partner logoları sayfanın en üstünde / en altında sabittir, bu sıraya girmez.
  */
 class HomeSections
@@ -19,7 +20,11 @@ class HomeSections
     private const CARDS = [
         'features' => 'features', 'steps' => 'steps', 'city-entry-texts' => 'city_entry', 'blog' => 'blog',
         'intro-texts' => 'intro', 'social-texts' => 'social', 'reviews-texts' => 'reviews',
+        'popular' => 'popular', 'faq' => 'faq',
     ];
+
+    /** Sadece anasayfada kapatılabilenler: bölüm => SiteSections anahtarı */
+    private const HOME_ONLY = ['popular' => 'home_popular', 'faq' => 'home_faq'];
 
     /** @return list<string> */
     public static function order(): array
@@ -41,6 +46,6 @@ class HomeSections
             $at === false ? $sorted[] = $fixed : array_splice($sorted, $at + 1, 0, [$fixed]);
         }
 
-        return $sorted;
+        return array_values(array_filter($sorted, fn ($section) => !isset(self::HOME_ONLY[$section]) || SiteSections::enabled(self::HOME_ONLY[$section])));
     }
 }
