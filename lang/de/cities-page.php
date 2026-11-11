@@ -13,6 +13,8 @@ return [
     'stat_blogs' => 'Artikel',
     'see_activities' => 'Aktivitäten in :city ansehen',
     'in_this_guide' => 'In diesem Guide',
+    'read_more' => 'Weiterlesen',
+    'read_less' => 'Weniger anzeigen',
     'min_read' => ':count Min. Lesezeit',
     'coming_soon_title' => 'Der :city Guide ist unterwegs',
     'coming_soon_text' => 'Wir schreiben ihn gerade. Bis dahin findest du hier Tickets, Touren und City Cards für :city.',

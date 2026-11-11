@@ -13,6 +13,8 @@ return [
     'stat_blogs' => '記事',
     'see_activities' => ':cityのアクティビティを見る',
     'in_this_guide' => 'このガイドの内容',
+    'read_more' => '続きを読む',
+    'read_less' => '閉じる',
     'min_read' => '約:count分で読めます',
     'coming_soon_title' => ':cityのガイドは準備中です',
     'coming_soon_text' => '現在執筆中です。それまでの間、:cityのチケットやツアー、シティカードをご覧ください。',

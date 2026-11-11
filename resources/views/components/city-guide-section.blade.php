@@ -7,6 +7,8 @@
 @php
     $topic = $section->topic;
     $cover = $section->imageUrl();
+    // Kısaltılmış yazının altındaki solma efekti, bölüm arka planıyla aynı renkte olmalı.
+    $fade = $color === 'bg-slate-50' ? 'from-slate-50' : 'from-white';
 @endphp
 
 <section id="{{ $topic->key }}" data-guide-section="{{ $topic->key }}" class="{{ $color }} scroll-mt-36 py-14 md:py-20 lg:scroll-mt-24">
@@ -36,7 +38,22 @@
                     <img src="{{ $cover }}" alt="{{ $section->title }}" loading="lazy" decoding="async"
                         class="mb-8 aspect-[16/9] w-full rounded-[28px] object-cover shadow-[0_30px_60px_-35px_rgba(15,23,42,0.5)]">
                 @endif
-                <div class="rich-text">{!! $section->content !!}</div>
+                {{-- Uzun yazılar kısaltılmış gelir; "Devamını oku" ile açılır. --}}
+                <div x-data="{ open: false, long: false }"
+                    x-init="$nextTick(() => { long = $refs.body.scrollHeight > 560 })">
+                    <div x-ref="body" class="relative overflow-hidden"
+                        :class="long && !open ? 'max-h-[420px]' : ''">
+                        <div class="rich-text">{!! $section->bodyHtml() !!}</div>
+                        <div x-show="long && !open" x-cloak
+                            class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t {{ $fade }} to-transparent"></div>
+                    </div>
+                    <button type="button" x-show="long" x-cloak
+                        @click="open = !open; if (!open) $el.closest('section').scrollIntoView({ behavior: 'smooth' })"
+                        class="mt-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-800 shadow-sm transition hover:border-[#C62E2E] hover:text-[#C62E2E]">
+                        <span x-text="open ? @js(__('cities-page.read_less')) : @js(__('cities-page.read_more'))"></span>
+                        <svg class="size-4 transition" :class="open && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

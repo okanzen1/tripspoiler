@@ -13,6 +13,8 @@ return [
     'stat_blogs' => '文章',
     'see_activities' => '查看:city的活动',
     'in_this_guide' => '本指南内容',
+    'read_more' => '阅读更多',
+    'read_less' => '收起',
     'min_read' => '约 :count 分钟阅读',
     'coming_soon_title' => ':city指南即将上线',
     'coming_soon_text' => '我们正在撰写中。在此之前，先看看:city的门票、游览和城市卡吧。',

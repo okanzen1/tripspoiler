@@ -13,6 +13,8 @@ return [
     'stat_blogs' => 'Статьи',
     'see_activities' => 'Активности в :city',
     'in_this_guide' => 'В этом путеводителе',
+    'read_more' => 'Читать далее',
+    'read_less' => 'Свернуть',
     'min_read' => ':count мин чтения',
     'coming_soon_title' => 'Путеводитель по :city скоро появится',
     'coming_soon_text' => 'Мы как раз его пишем. А пока посмотрите билеты, туры и городские карты для :city.',

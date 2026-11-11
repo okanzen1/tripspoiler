@@ -13,6 +13,8 @@ return [
     'stat_blogs' => 'Blog yazısı',
     'see_activities' => ':city aktivitelerini gör',
     'in_this_guide' => 'Bu rehberde',
+    'read_more' => 'Devamını oku',
+    'read_less' => 'Daha az göster',
     'min_read' => ':count dk okuma',
     'coming_soon_title' => ':city rehberi hazırlanıyor',
     'coming_soon_text' => 'Şu anda bu rehberi yazıyoruz. Bu arada :city için biletlere, turlara ve şehir kartlarına göz atabilirsin.',

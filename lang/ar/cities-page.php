@@ -13,6 +13,8 @@ return [
     'stat_blogs' => 'المقالات',
     'see_activities' => 'شاهد الأنشطة في :city',
     'in_this_guide' => 'في هذا الدليل',
+    'read_more' => 'اقرأ المزيد',
+    'read_less' => 'عرض أقل',
     'min_read' => ':count دقائق قراءة',
     'coming_soon_title' => 'دليل :city قيد الإعداد',
     'coming_soon_text' => 'نكتبه الآن. في هذه الأثناء، تصفح التذاكر والجولات وبطاقات المدينة في :city.',

@@ -27,6 +27,23 @@ class CityGuideSection extends Model
         return filled($this->title) && filled(trim(strip_tags((string) $this->content, '<img>')));
     }
 
+    /**
+     * Sitede basılacak yazı: en baştaki başlık (h1–h3) atılır, çünkü bölüm başlığı zaten
+     * solda gösteriliyor; aksi halde iki büyük başlık alt alta çıkıyor.
+     */
+    public function bodyHtml(): string
+    {
+        $html = (string) $this->content;
+        $stripped = preg_replace(
+            '~^\s*(?:<p>(?:\s|&nbsp;|<br\s*/?>)*</p>\s*)*<h[1-3]\b[^>]*>.*?</h[1-3]>~isu',
+            '',
+            $html,
+            1
+        );
+
+        return $stripped ?? $html;
+    }
+
     /** Tahmini okuma süresi (dakika) */
     public function readingMinutes(): int
     {

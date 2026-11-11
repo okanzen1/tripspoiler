@@ -13,6 +13,8 @@ return [
     'stat_blogs' => 'Artículos',
     'see_activities' => 'Ver actividades en :city',
     'in_this_guide' => 'En esta guía',
+    'read_more' => 'Leer más',
+    'read_less' => 'Mostrar menos',
     'min_read' => ':count min de lectura',
     'coming_soon_title' => 'La guía de :city está en camino',
     'coming_soon_text' => 'La estamos escribiendo. Mientras tanto, mira las entradas, tours y tarjetas turísticas de :city.',

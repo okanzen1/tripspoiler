@@ -13,6 +13,8 @@ return [
     'stat_blogs' => 'Articles',
     'see_activities' => 'See activities in :city',
     'in_this_guide' => 'In this guide',
+    'read_more' => 'Read more',
+    'read_less' => 'Show less',
     'min_read' => ':count min read',
     'coming_soon_title' => 'The :city guide is on its way',
     'coming_soon_text' => 'We are writing it right now. In the meantime, browse the tickets, tours and city cards for :city.',
