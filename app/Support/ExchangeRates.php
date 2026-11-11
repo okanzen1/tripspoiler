@@ -101,7 +101,8 @@ class ExchangeRates
     }
 
     /** Şeridin sonundaki genel kurlar (turistin tanıdığı paralar) */
-    private const MAJOR_PAIRS = [['EUR', 'USD'], ['GBP', 'USD'], ['GBP', 'EUR'], ['USD', 'JPY']];
+    /** [taban, karşılık, öne çıkan para, bayrak ülkesi]: "🇪🇺 Euro €1 = $1,12" */
+    private const MAJOR_PAIRS = [['EUR', 'USD', 'EUR', 'EU'], ['GBP', 'USD', 'GBP', 'GB'], ['USD', 'JPY', 'JPY', 'JP'], ['USD', 'CHF', 'CHF', 'CH']];
 
     /**
      * Şerit: turistin anlayacağı dille. Önce sitedeki her ülke (bayrak + ad + "1 € = 56,20 ₺ · 1 $ = 50,24 ₺"),
@@ -144,13 +145,15 @@ class ExchangeRates
             }
         }
 
-        foreach (self::MAJOR_PAIRS as [$base, $quote]) {
+        $names = \ResourceBundle::create($locale, 'ICUDATA-curr')['Currencies'] ?? null;
+        foreach (self::MAJOR_PAIRS as [$base, $quote, $featured, $flagCode]) {
             if (in_array("{$base}/{$quote}", $shown, true) || !isset($rates[$base], $rates[$quote])) {
                 continue;
             }
+            // Kısa para adı: "Euro", "İngiliz sterlini" → dildeki tam ad
             $items[] = [
-                'flag' => null,
-                'country' => null,
+                'flag' => self::flag($flagCode),
+                'country' => ($info = $names?->get($featured)) ? (string) $info[1] : $featured,
                 'parts' => [self::line($rates, $base, $quote)],
                 'change' => self::change($rates, $previous, $base, $quote),
                 'current' => false,
