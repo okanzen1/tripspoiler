@@ -139,6 +139,7 @@
 <body class="bg-white text-slate-900 antialiased min-h-screen flex flex-col">
 
     @include('partials.announcement-bar')
+    @include('partials.rates-bar')
     @include('partials.header')
     @include('partials.side-dock')
 

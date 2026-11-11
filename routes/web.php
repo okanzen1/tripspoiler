@@ -141,6 +141,8 @@ Route::group(
 
         Route::view('/privacy', 'other.privacy')->name('privacy');
 
+        Route::view('/exchange-rates', 'other.rates')->name('rates');
+
         Route::view('/about', 'other.about')->name('about');
 
         Route::view('/contact', 'other.contact')->name('contact');

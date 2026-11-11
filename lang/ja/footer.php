@@ -17,4 +17,5 @@ return [
     'rights' => '無断転載を禁じます。',
     'supported_by' => '協力：',
 
+    'rates' => '為替レート',
 ];

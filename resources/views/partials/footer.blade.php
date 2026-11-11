@@ -11,6 +11,7 @@
             [__('footer.about'), route('about'), 'about'],
             [__('footer.reviews'), route('reviews.index'), 'reviews.*'],
             [__('footer.contact'), route('contact'), 'contact'],
+            [__('footer.rates'), route('rates'), 'rates'],
             [__('footer.privacy'), route('privacy'), 'privacy'],
         ],
     ];
@@ -77,6 +78,12 @@
                 @endforeach
             </nav>
             </div>
+            {{-- Ücretsiz veri kaynaklarının istediği kaynak gösterimi (DB-IP: CC BY 4.0, ExchangeRate-API) --}}
+            <p class="mt-4 text-[11px] text-white/30">
+                <a href="https://db-ip.com" target="_blank" rel="noopener nofollow" class="transition hover:text-white/60">IP Geolocation by DB-IP</a>
+                <span aria-hidden="true" class="px-1 text-white/15">·</span>
+                <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener nofollow" class="transition hover:text-white/60">Rates By Exchange Rate API</a>
+            </p>
         </div>
     </div>
 </footer>

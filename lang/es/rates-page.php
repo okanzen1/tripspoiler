@@ -1,0 +1,33 @@
+<?php
+
+// Döviz kurları sayfası (other/rates)
+return [
+    'meta_title' => 'Tipos de cambio y conversor de divisas | TripSpoiler',
+    'meta_description' => 'Tipos de cambio de hoy para las monedas de las ciudades que visitas, con un conversor sencillo.',
+    'eyebrow' => 'Tipos de cambio',
+    'title' => 'Conversor de divisas para tu viaje',
+    'desc' => 'Compara la moneda de tus destinos con la tuya y planifica tu presupuesto fácilmente.',
+    'amount' => 'Importe',
+    'from' => 'De',
+    'to' => 'A',
+    'swap' => 'Intercambiar monedas',
+    'note_title' => 'Los tipos no son en tiempo real',
+    'note_text' => 'Los tipos se actualizan una vez al día y son solo informativos. Bancos, casas de cambio y emisores de tarjetas aplican sus propios tipos y comisiones.',
+    'table_title' => 'Todos los tipos de cambio',
+    'table_desc' => 'El valor de otras monedas frente a la que elijas. Toca una moneda para abrirla en el conversor.',
+    'base' => 'Base',
+    'search' => 'Buscar moneda',
+    'destinations' => 'Tus destinos',
+    'popular' => 'Populares',
+    'all' => 'Todas las monedas',
+    'show_all' => 'Mostrar todas las monedas (:count)',
+    'no_results' => 'Ninguna moneda coincide con tu búsqueda.',
+    'pick_hint' => 'Consejo: toca una moneda para usarla en el conversor.',
+    'updated' => 'Última actualización',
+    'source' => 'Fuente',
+    'unavailable' => 'No se pudieron cargar los tipos. Inténtalo de nuevo más tarde.',
+    'currency' => 'Moneda',
+    'change' => 'Cambio 24 h',
+    'convert' => 'Convertir',
+    'destination_badge' => 'Destino',
+];

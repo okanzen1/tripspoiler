@@ -17,4 +17,5 @@ return [
     'rights' => '版权所有。',
     'supported_by' => '支持：',
 
+    'rates' => '汇率',
 ];

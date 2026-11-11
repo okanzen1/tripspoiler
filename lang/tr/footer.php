@@ -17,4 +17,5 @@ return [
     'rights' => 'Tüm hakları saklıdır.',
     'supported_by' => 'Destekleyen:',
 
+    'rates' => 'Döviz kurları',
 ];

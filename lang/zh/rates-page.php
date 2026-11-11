@@ -1,0 +1,33 @@
+<?php
+
+// Döviz kurları sayfası (other/rates)
+return [
+    'meta_title' => '汇率与货币换算 | TripSpoiler',
+    'meta_description' => '你要去的城市所用货币的今日汇率，以及简单易用的货币换算器。',
+    'eyebrow' => '汇率',
+    'title' => '旅行货币换算器',
+    'desc' => '将目的地货币与你的货币进行比较，轻松规划预算。',
+    'amount' => '金额',
+    'from' => '从',
+    'to' => '到',
+    'swap' => '交换货币',
+    'note_title' => '汇率并非实时',
+    'note_text' => '汇率每天更新一次，仅供参考。银行、兑换点和发卡机构会使用各自的汇率并收取费用。',
+    'table_title' => '全部汇率',
+    'table_desc' => '其他货币相对于你所选货币的价值。点击某种货币即可在上方换算器中打开。',
+    'base' => '基准',
+    'search' => '搜索货币',
+    'destinations' => '你的目的地',
+    'popular' => '热门',
+    'all' => '全部货币',
+    'show_all' => '显示全部货币（:count）',
+    'no_results' => '没有与搜索匹配的货币。',
+    'pick_hint' => '提示：点击货币即可在换算器中使用。',
+    'updated' => '最后更新',
+    'source' => '来源',
+    'unavailable' => '暂时无法加载汇率，请稍后再试。',
+    'currency' => '货币',
+    'change' => '24小时变化',
+    'convert' => '换算',
+    'destination_badge' => '目的地',
+];

@@ -33,7 +33,7 @@
 
     {{-- Masaüstünde hero ekranı tam doldurur (açıksa üstteki duyuru şeridi düşülür, --bar-h), içerik dikeyde ortalanır --}}
     <div class="max-w-7xl mx-auto px-4 pt-[124px] md:pt-[calc(80px+clamp(8px,3.2vh,64px))] pb-10 md:pb-[clamp(14px,3.5vh,48px)]
-                lg:min-h-[calc(100svh-var(--bar-h,0px))] lg:flex lg:flex-col lg:justify-center">
+                lg:min-h-[calc(100svh-var(--bar-h,0px)-var(--rates-h,0px))] lg:flex lg:flex-col lg:justify-center">
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
 

@@ -17,4 +17,5 @@ return [
     'rights' => 'Tous droits réservés.',
     'supported_by' => 'Avec le soutien de :',
 
+    'rates' => 'Taux de change',
 ];

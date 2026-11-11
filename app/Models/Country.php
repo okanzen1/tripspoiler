@@ -10,6 +10,7 @@ class Country extends Model
         'code',
         'name',
         'slug',
+        'currency',
         'active',
     ];
 

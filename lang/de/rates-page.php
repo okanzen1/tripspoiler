@@ -1,0 +1,33 @@
+<?php
+
+// Döviz kurları sayfası (other/rates)
+return [
+    'meta_title' => 'Wechselkurse & Währungsrechner | TripSpoiler',
+    'meta_description' => 'Aktuelle Wechselkurse für die Währungen deiner Reiseziele – mit einfachem Währungsrechner.',
+    'eyebrow' => 'Wechselkurse',
+    'title' => 'Währungsrechner für deine Reise',
+    'desc' => 'Vergleiche das Geld deiner Reiseziele mit deiner eigenen Währung und plane dein Budget ganz einfach.',
+    'amount' => 'Betrag',
+    'from' => 'Von',
+    'to' => 'Nach',
+    'swap' => 'Währungen tauschen',
+    'note_title' => 'Die Kurse sind nicht in Echtzeit',
+    'note_text' => 'Die Kurse werden einmal täglich aktualisiert und dienen nur zur Information. Banken, Wechselstuben und Kartenanbieter verwenden eigene Kurse und Gebühren.',
+    'table_title' => 'Alle Wechselkurse',
+    'table_desc' => 'Der Wert anderer Währungen im Vergleich zu deiner Auswahl. Tippe auf eine Währung, um sie oben im Rechner zu öffnen.',
+    'base' => 'Basis',
+    'search' => 'Währung suchen',
+    'destinations' => 'Deine Reiseziele',
+    'popular' => 'Beliebt',
+    'all' => 'Alle Währungen',
+    'show_all' => 'Alle Währungen anzeigen (:count)',
+    'no_results' => 'Keine Währung passt zu deiner Suche.',
+    'pick_hint' => 'Tipp: Tippe auf eine Währung, um sie im Rechner zu verwenden.',
+    'updated' => 'Zuletzt aktualisiert',
+    'source' => 'Quelle',
+    'unavailable' => 'Die Kurse konnten gerade nicht geladen werden. Bitte versuche es etwas später erneut.',
+    'currency' => 'Währung',
+    'change' => '24h-Änderung',
+    'convert' => 'Umrechnen',
+    'destination_badge' => 'Reiseziel',
+];

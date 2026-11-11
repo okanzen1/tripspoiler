@@ -58,6 +58,7 @@ class SitemapController extends Controller
         $add(route('about', [], false), 0.5, Url::CHANGE_FREQUENCY_MONTHLY);
         $add(route('contact', [], false), 0.4, Url::CHANGE_FREQUENCY_YEARLY);
         $add(route('privacy', [], false), 0.3, Url::CHANGE_FREQUENCY_YEARLY);
+        $add(route('rates', [], false), 0.4, Url::CHANGE_FREQUENCY_DAILY);
 
         foreach (City::visible()->whereNotNull('slug')->get(['id', 'slug', 'updated_at']) as $city) {
             $add(route('cities.show', ['slug' => $city->slug], false), 0.7, Url::CHANGE_FREQUENCY_MONTHLY, $city->updated_at);

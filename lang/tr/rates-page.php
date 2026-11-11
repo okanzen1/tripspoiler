@@ -1,0 +1,33 @@
+<?php
+
+// Döviz kurları sayfası (other/rates)
+return [
+    'meta_title' => 'Döviz kurları ve para çevirici | TripSpoiler',
+    'meta_description' => 'Seyahat edeceğin şehirlerin para birimleri için güncel döviz kurları ve kolay para çevirici.',
+    'eyebrow' => 'Döviz kurları',
+    'title' => 'Seyahatin için para çevirici',
+    'desc' => 'Gideceğin şehirlerin parasını kendi paranla karşılaştır, bütçeni kolayca planla.',
+    'amount' => 'Tutar',
+    'from' => 'Bu paradan',
+    'to' => 'Bu paraya',
+    'swap' => 'Paraları yer değiştir',
+    'note_title' => 'Kurlar anlık değildir',
+    'note_text' => 'Kurlar günde bir kez güncellenir ve sadece bilgi amaçlıdır. Bankalar, döviz büroları ve kart şirketleri kendi kurlarını ve masraflarını uygular.',
+    'table_title' => 'Tüm döviz kurları',
+    'table_desc' => 'Seçtiğin paraya göre diğer paraların değeri. Bir paraya tıklarsan yukarıdaki çeviricide açılır.',
+    'base' => 'Göre',
+    'search' => 'Para birimi ara',
+    'destinations' => 'Gideceğin yerler',
+    'popular' => 'Popüler',
+    'all' => 'Tüm para birimleri',
+    'show_all' => 'Tüm para birimlerini göster (:count)',
+    'no_results' => 'Aramana uyan para birimi yok.',
+    'pick_hint' => 'İpucu: bir paraya tıkla, çevirici o paraya geçsin.',
+    'updated' => 'Son güncelleme',
+    'source' => 'Kaynak',
+    'unavailable' => 'Kurlar şu anda yüklenemedi. Lütfen biraz sonra tekrar dene.',
+    'currency' => 'Para birimi',
+    'change' => 'Günlük değişim',
+    'convert' => 'Çevir',
+    'destination_badge' => 'Gidilecek yer',
+];

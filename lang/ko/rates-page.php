@@ -1,0 +1,33 @@
+<?php
+
+// Döviz kurları sayfası (other/rates)
+return [
+    'meta_title' => '환율 및 환율 계산기 | TripSpoiler',
+    'meta_description' => '여행할 도시의 통화에 대한 오늘의 환율과 간편한 환율 계산기.',
+    'eyebrow' => '환율',
+    'title' => '여행을 위한 환율 계산기',
+    'desc' => '여행지의 통화를 내 통화와 비교하고 예산을 쉽게 계획하세요.',
+    'amount' => '금액',
+    'from' => '보내는 통화',
+    'to' => '받는 통화',
+    'swap' => '통화 바꾸기',
+    'note_title' => '환율은 실시간이 아닙니다',
+    'note_text' => '환율은 하루에 한 번 업데이트되며 참고용입니다. 은행, 환전소, 카드사는 자체 환율과 수수료를 적용합니다.',
+    'table_title' => '전체 환율',
+    'table_desc' => '선택한 통화 기준 다른 통화의 가치입니다. 통화를 누르면 위 계산기에서 열립니다.',
+    'base' => '기준',
+    'search' => '통화 검색',
+    'destinations' => '나의 여행지',
+    'popular' => '인기',
+    'all' => '모든 통화',
+    'show_all' => '모든 통화 보기 (:count)',
+    'no_results' => '검색과 일치하는 통화가 없습니다.',
+    'pick_hint' => '팁: 통화를 누르면 계산기에서 사용할 수 있어요.',
+    'updated' => '마지막 업데이트',
+    'source' => '출처',
+    'unavailable' => '지금은 환율을 불러올 수 없습니다. 잠시 후 다시 시도해 주세요.',
+    'currency' => '통화',
+    'change' => '24시간 변동',
+    'convert' => '환산',
+    'destination_badge' => '여행지',
+];

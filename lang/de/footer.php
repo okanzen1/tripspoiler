@@ -17,4 +17,5 @@ return [
     'rights' => 'Alle Rechte vorbehalten.',
     'supported_by' => 'Unterstützt von:',
 
+    'rates' => 'Wechselkurse',
 ];

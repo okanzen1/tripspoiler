@@ -17,4 +17,5 @@ return [
     'rights' => '모든 권리 보유.',
     'supported_by' => '후원:',
 
+    'rates' => '환율',
 ];

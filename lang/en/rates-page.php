@@ -1,0 +1,33 @@
+<?php
+
+// Döviz kurları sayfası (other/rates)
+return [
+    'meta_title' => 'Exchange rates & currency converter | TripSpoiler',
+    'meta_description' => 'Today\'s exchange rates for the currencies of the cities you visit, with an easy currency converter.',
+    'eyebrow' => 'Exchange rates',
+    'title' => 'Currency converter for your trip',
+    'desc' => 'Compare the money of the places you visit with your own and plan your budget with ease.',
+    'amount' => 'Amount',
+    'from' => 'From',
+    'to' => 'To',
+    'swap' => 'Swap currencies',
+    'note_title' => 'Rates are not live',
+    'note_text' => 'Rates are updated once a day and are for information only. Banks, exchange offices and card providers apply their own rates and fees.',
+    'table_title' => 'All exchange rates',
+    'table_desc' => 'The value of other currencies against the one you choose. Tap a currency to open it in the converter above.',
+    'base' => 'Base',
+    'search' => 'Search currency',
+    'destinations' => 'Your destinations',
+    'popular' => 'Popular',
+    'all' => 'All currencies',
+    'show_all' => 'Show all currencies (:count)',
+    'no_results' => 'No currency matches your search.',
+    'pick_hint' => 'Tip: tap a currency to use it in the converter.',
+    'updated' => 'Last updated',
+    'source' => 'Source',
+    'unavailable' => 'Rates could not be loaded right now. Please try again a little later.',
+    'currency' => 'Currency',
+    'change' => '24h change',
+    'convert' => 'Convert',
+    'destination_badge' => 'Destination',
+];

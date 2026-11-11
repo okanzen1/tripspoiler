@@ -41,5 +41,20 @@ class AppServiceProvider extends ServiceProvider
                 ->filter(fn (Announcement $announcement) => filled($announcement->text))
                 ->values());
         });
+
+        // Duyuru şeridinin altındaki döviz kurları (şehir sayfasında o şehrin parası en başta)
+        View::composer('partials.rates-bar', function ($view) {
+            $city = $view->getData()['city'] ?? null;
+            try {
+                $rates = \App\Support\SiteSections::enabled('rates')
+                    ? \App\Support\ExchangeRates::strip($city instanceof \App\Models\City ? $city : null)
+                    : null;
+            } catch (\Throwable $e) {
+                // Ör. panelde migrate henüz çalışmadı (countries.currency yok): şerit gizlenir, sayfa bozulmaz
+                report($e);
+                $rates = null;
+            }
+            $view->with('rates', $rates);
+        });
     }
 }

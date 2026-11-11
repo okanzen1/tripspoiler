@@ -1,0 +1,33 @@
+<?php
+
+// Döviz kurları sayfası (other/rates)
+return [
+    'meta_title' => 'Tassi di cambio e convertitore di valuta | TripSpoiler',
+    'meta_description' => 'I tassi di cambio di oggi per le valute delle città che visiti, con un semplice convertitore.',
+    'eyebrow' => 'Tassi di cambio',
+    'title' => 'Convertitore di valuta per il tuo viaggio',
+    'desc' => 'Confronta la valuta delle tue mete con la tua e pianifica il budget con facilità.',
+    'amount' => 'Importo',
+    'from' => 'Da',
+    'to' => 'A',
+    'swap' => 'Inverti valute',
+    'note_title' => 'I tassi non sono in tempo reale',
+    'note_text' => 'I tassi vengono aggiornati una volta al giorno e sono solo indicativi. Banche, uffici di cambio e circuiti delle carte applicano tassi e commissioni propri.',
+    'table_title' => 'Tutti i tassi di cambio',
+    'table_desc' => 'Il valore delle altre valute rispetto a quella scelta. Tocca una valuta per aprirla nel convertitore.',
+    'base' => 'Base',
+    'search' => 'Cerca valuta',
+    'destinations' => 'Le tue mete',
+    'popular' => 'Popolari',
+    'all' => 'Tutte le valute',
+    'show_all' => 'Mostra tutte le valute (:count)',
+    'no_results' => 'Nessuna valuta corrisponde alla ricerca.',
+    'pick_hint' => 'Suggerimento: tocca una valuta per usarla nel convertitore.',
+    'updated' => 'Ultimo aggiornamento',
+    'source' => 'Fonte',
+    'unavailable' => 'Non è stato possibile caricare i tassi. Riprova tra poco.',
+    'currency' => 'Valuta',
+    'change' => 'Variazione 24 h',
+    'convert' => 'Converti',
+    'destination_badge' => 'Destinazione',
+];

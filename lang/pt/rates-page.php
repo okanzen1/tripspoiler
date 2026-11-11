@@ -1,0 +1,33 @@
+<?php
+
+// Döviz kurları sayfası (other/rates)
+return [
+    'meta_title' => 'Taxas de câmbio e conversor de moedas | TripSpoiler',
+    'meta_description' => 'As taxas de câmbio de hoje para as moedas das cidades que visita, com um conversor simples.',
+    'eyebrow' => 'Taxas de câmbio',
+    'title' => 'Conversor de moedas para a sua viagem',
+    'desc' => 'Compare a moeda dos seus destinos com a sua e planeie o orçamento com facilidade.',
+    'amount' => 'Valor',
+    'from' => 'De',
+    'to' => 'Para',
+    'swap' => 'Trocar moedas',
+    'note_title' => 'As taxas não são em tempo real',
+    'note_text' => 'As taxas são atualizadas uma vez por dia e servem apenas como referência. Bancos, casas de câmbio e emissores de cartões aplicam as suas próprias taxas e comissões.',
+    'table_title' => 'Todas as taxas de câmbio',
+    'table_desc' => 'O valor de outras moedas em relação à que escolher. Toque numa moeda para a abrir no conversor.',
+    'base' => 'Base',
+    'search' => 'Pesquisar moeda',
+    'destinations' => 'Os seus destinos',
+    'popular' => 'Populares',
+    'all' => 'Todas as moedas',
+    'show_all' => 'Mostrar todas as moedas (:count)',
+    'no_results' => 'Nenhuma moeda corresponde à pesquisa.',
+    'pick_hint' => 'Dica: toque numa moeda para a usar no conversor.',
+    'updated' => 'Última atualização',
+    'source' => 'Fonte',
+    'unavailable' => 'Não foi possível carregar as taxas. Tente novamente daqui a pouco.',
+    'currency' => 'Moeda',
+    'change' => 'Variação 24 h',
+    'convert' => 'Converter',
+    'destination_badge' => 'Destino',
+];
