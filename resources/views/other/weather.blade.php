@@ -83,7 +83,7 @@
 
                     {{-- anlık hava --}}
                     <div class="lg:col-span-5">
-                        <div class="rounded-[28px] bg-white/10 p-6 ring-1 ring-white/20 backdrop-blur-xl sm:p-7">
+                        <div class="rounded-[28px] bg-white/[0.06] p-6 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] ring-1 ring-white/25 backdrop-blur-[3px] sm:p-7">
                             <div class="flex items-center justify-between gap-4">
                                 <p class="text-sm font-semibold text-white/70">{{ $flag($city->country?->code) }} {{ $city->name }} · {{ $now->format('H:i') }}</p>
                                 <span class="rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white/80">{{ __('weather.now') }}</span>
@@ -95,12 +95,12 @@
                                     <p class="mt-2 text-lg font-bold text-amber-300">{{ __('weather.c_' . $forecast['now']['condition']) }}</p>
                                 </div>
                             </div>
-                            <dl class="mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-2xl bg-white/15 text-sm ring-1 ring-white/15">
+                            <dl class="mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-2xl bg-white/20 text-sm ring-1 ring-white/20">
                                 @foreach ([
                                     ['high', $today['max'] . '°'], ['low', $today['min'] . '°'], ['wind', $forecast['now']['wind'] . ' km/h'],
                                     ['humidity', '%' . $forecast['now']['humidity']], ['sunrise', $sun['sunrise']], ['sunset', $sun['sunset']],
                                 ] as [$label, $value])
-                                    <div class="bg-slate-950/55 px-3.5 py-3">
+                                    <div class="bg-slate-950/25 px-3.5 py-3">
                                         <dt class="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50">{{ __('weather.' . $label) }}</dt>
                                         <dd class="mt-0.5 font-bold tabular-nums">{{ $value ?? '—' }}</dd>
                                     </div>

@@ -93,7 +93,7 @@
 
                     {{-- dijital saat --}}
                     <div class="lg:col-span-6">
-                        <div class="rounded-[32px] bg-white/10 p-6 ring-1 ring-white/20 backdrop-blur-xl sm:p-8">
+                        <div class="rounded-[32px] bg-white/[0.06] p-6 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] ring-1 ring-white/25 backdrop-blur-[3px] sm:p-8">
                             <div class="flex items-center justify-between gap-3">
                                 <span class="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
                                     <span class="relative flex size-2"><span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-60"></span><span class="relative inline-flex size-2 rounded-full bg-emerald-400"></span></span>
@@ -105,7 +105,7 @@
                                 <span class="text-[72px] sm:text-[104px]" x-text="clock(@js($facts['tz']))">{{ $now->format('H:i') }}</span><span class="text-3xl text-amber-300 sm:text-5xl" x-text="':' + clock(@js($facts['tz']), true).slice(-2)">:{{ $now->format('s') }}</span>
                             </p>
                             <p class="mt-3 text-lg font-semibold capitalize text-amber-300" x-text="date(@js($facts['tz']))">{{ $now->locale($locale)->isoFormat('dddd, D MMMM YYYY') }}</p>
-                            <div class="mt-6 flex items-center justify-between gap-4 rounded-2xl bg-slate-950/50 px-5 py-4 ring-1 ring-white/10">
+                            <div class="mt-6 flex items-center justify-between gap-4 rounded-2xl bg-slate-950/25 px-5 py-4 ring-1 ring-white/20">
                                 <div>
                                     <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-white/45">{{ __('time.your_time') }}</p>
                                     <p class="mt-0.5 text-2xl font-extrabold tabular-nums" x-text="clock(mine)"></p>
