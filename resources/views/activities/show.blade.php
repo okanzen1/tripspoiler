@@ -75,6 +75,17 @@
             : null,
         'subjectOf' => ['@type' => 'WebPage', '@id' => $pageUrl, 'isPartOf' => ['@id' => \App\Support\Schema::websiteId()], 'publisher' => \App\Support\Schema::organizationRef()],
     ];
+    // Onaylı yorumlardan puan özeti (yıldız ve yorum sayısı)
+    $ratingStats = $activity->reviews()->reorder()->selectRaw('COUNT(*) as total, AVG(rating) as average')->first();
+    if ($ratingStats && $ratingStats->total > 0) {
+        $activitySchema['aggregateRating'] = [
+            '@type' => 'AggregateRating',
+            'ratingValue' => round((float) $ratingStats->average, 1),
+            'reviewCount' => (int) $ratingStats->total,
+            'bestRating' => 5,
+            'worstRating' => 1,
+        ];
+    }
     $activitySchema = array_filter($activitySchema, fn ($value) => $value !== null);
 @endphp
 

@@ -177,6 +177,28 @@
         </div>
     </div>
 
+    {{-- yapısal veri: kampanya listesi (her kampanya bir Offer: kod, bağlantı, geçerlilik, partner) --}}
+    @jsonld(\App\Support\Schema::webPage('CollectionPage', __('campaigns-page.meta_title'), __('campaigns-page.meta_description'), [
+        'mainEntity' => [
+            '@type' => 'ItemList',
+            'numberOfItems' => $campaigns->count(),
+            'itemListElement' => $campaigns->values()->map(fn ($c, $i) => [
+                '@type' => 'ListItem',
+                'position' => $i + 1,
+                'item' => array_filter([
+                    '@type' => 'Offer',
+                    'name' => $c->title,
+                    'description' => $c->description ?: null,
+                    'url' => $c->link() ?: route('campaigns'),
+                    'category' => $c->badge ?: null,
+                    'validFrom' => $c->starts_at?->toDateString(),
+                    'validThrough' => $c->ends_at?->toDateString(),
+                    'offeredBy' => $c->partner ? array_filter(['@type' => 'Organization', 'name' => $c->partner->name, 'url' => $c->partner->website ?: null]) : \App\Support\Schema::organizationRef(),
+                ]),
+            ])->all(),
+        ],
+    ]))
+
     <x-page-sections page="campaigns" />
 
     {{-- Havai fişek: sayfa açılınca birkaç patlama (sitenin kırmızısı, altın, beyaz); "hareketi azalt" açıksa yok --}}

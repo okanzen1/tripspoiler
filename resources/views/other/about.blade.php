@@ -64,5 +64,8 @@
     </section>
 
     {{-- Bölümler: hikâye, nasıl çalışır, ilkeler, kapanış + diğerleri; sıra ve aç/kapa panelde (Sayfalar › Hakkımızda › Bölümler) --}}
+    {{-- yapısal veri: Hakkımızda sayfası, konusu şirketin kendisi --}}
+    @jsonld(\App\Support\Schema::webPage('AboutPage', __('about.meta_title'), __('about.meta_description'), ['mainEntity' => \App\Support\Schema::organizationRef(), 'about' => \App\Support\Schema::organizationRef()]))
+
     <x-page-sections page="about" />
 @endsection

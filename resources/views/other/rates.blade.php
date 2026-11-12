@@ -294,5 +294,21 @@
         </section>
     @endif
 
+    {{-- yapısal veri: sayfa + ücretsiz döviz çevirici (WebApplication) --}}
+    @jsonld(\App\Support\Schema::webPage('WebPage', __('rates-page.meta_title'), __('rates-page.meta_description'), [
+        'dateModified' => $data ? \Illuminate\Support\Carbon::createFromTimestamp($data['updated'])->toAtomString() : null,
+        'mainEntity' => [
+            '@type' => 'WebApplication',
+            'name' => __('rates-page.title'),
+            'url' => \App\Support\Schema::canonical(),
+            'applicationCategory' => 'FinanceApplication',
+            'operatingSystem' => 'Any',
+            'browserRequirements' => 'Requires JavaScript',
+            'isAccessibleForFree' => true,
+            'offers' => ['@type' => 'Offer', 'price' => 0, 'priceCurrency' => 'USD'],
+            'provider' => \App\Support\Schema::organizationRef(),
+        ],
+    ]))
+
     <x-page-sections page="rates" />
 @endsection

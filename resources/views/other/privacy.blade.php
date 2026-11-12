@@ -208,5 +208,8 @@
         </div>
     </section>
 
+    {{-- yapısal veri: gizlilik politikası --}}
+    @jsonld(\App\Support\Schema::webPage('WebPage', __('privacy-page.meta_title'), __('privacy-page.meta_description'), ['about' => \App\Support\Schema::organizationRef(), 'dateModified' => \Illuminate\Support\Carbon::parse($updated)->toAtomString()]))
+
     <x-page-sections page="privacy" />
 @endsection

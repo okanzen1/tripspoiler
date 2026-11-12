@@ -179,6 +179,12 @@
         </div>
     </section>
 
+    {{-- yapısal veri: aktivite listesi (seçili şehrin aktiviteleri) --}}
+    @jsonld(\App\Support\Schema::webPage('CollectionPage', __('activities-page.meta_title'), __('activities-page.meta_description'), [
+        'about' => $city ? ['@type' => 'City', 'name' => $city->name, 'url' => route('cities.show', ['slug' => $city->slug])] : null,
+        'mainEntity' => $activities->isNotEmpty() ? \App\Support\Schema::itemList($activities->take(50)->map(fn ($a) => [$a->name, route('activities.show', ['slug' => $a->slug])])) : null,
+    ]))
+
     {{-- Bölümler (panelde Sayfalar › Aktiviteler › Bölümler): aktivite listesi de sıralamada; diğerleri üstüne/altına konabilir --}}
     <x-page-sections page="activities" :city-id="$city?->id" review-source="activity">
         <x-slot:main>

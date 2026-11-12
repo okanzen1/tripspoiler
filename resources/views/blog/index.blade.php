@@ -258,6 +258,12 @@
         </div>
     </section>
 
+    {{-- yapısal veri: blog yazıları listesi (seçili şehrin yazıları) --}}
+    @jsonld(\App\Support\Schema::webPage('CollectionPage', __('blog-page.meta_title', ['city' => $city?->name]), __('blog-page.meta_description', ['city' => $city?->name]), [
+        'about' => $city ? ['@type' => 'City', 'name' => $city->name, 'url' => route('cities.show', ['slug' => $city->slug])] : null,
+        'mainEntity' => collect($blogs)->isNotEmpty() ? \App\Support\Schema::itemList(collect($blogs instanceof \Illuminate\Contracts\Pagination\Paginator ? $blogs->items() : $blogs)->take(50)->map(fn ($b) => [$b->title, route('blog.show', ['slug' => $b->slug])])) : null,
+    ]))
+
     {{-- Alt bölümler: panelde Sayfalar › Blog › Bölümler --}}
     <x-page-sections page="blog" :city-id="$cityId" />
 @endsection

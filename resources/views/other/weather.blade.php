@@ -279,5 +279,20 @@
         </p>
     @endif
 
+    {{-- yapısal veri: seçili şehrin hava durumu sayfası; konusu şehir (yer, koordinat, ülke) --}}
+    @if ($city && $forecast)
+        @jsonld(\App\Support\Schema::webPage('WebPage', __('weather.page_city_title', ['city' => $city->name]), $hero['description'], [
+            'dateModified' => \Illuminate\Support\Carbon::createFromTimestamp($forecast['updated'])->toAtomString(),
+            'about' => array_filter([
+                '@type' => 'City',
+                'name' => $city->name,
+                'url' => route('cities.show', ['slug' => $city->slug]),
+                'geo' => ['@type' => 'GeoCoordinates', 'latitude' => (float) $city->latitude, 'longitude' => (float) $city->longitude],
+                'containedInPlace' => $city->country ? ['@type' => 'Country', 'name' => $city->country->name] : null,
+            ]),
+            'primaryImageOfPage' => $banner['desktop'] ?? null,
+        ]))
+    @endif
+
     <x-page-sections page="weather" />
 @endsection

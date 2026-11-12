@@ -194,5 +194,8 @@
         </div>
     </section>
 
+    {{-- yapısal veri: İletişim sayfası (şirketin iletişim bilgileri layout'taki Organization'da) --}}
+    @jsonld(\App\Support\Schema::webPage('ContactPage', __('contact.meta_title'), __('contact.meta_description'), ['mainEntity' => \App\Support\Schema::organizationRef()]))
+
     <x-page-sections page="contact" />
 @endsection

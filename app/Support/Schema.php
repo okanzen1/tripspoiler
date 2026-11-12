@@ -64,4 +64,42 @@ class Schema
 
         return $query ? $base . '?' . http_build_query($query) : $base;
     }
+
+    /**
+     * Sayfanın kendisi (WebPage ve alt türleri: AboutPage, ContactPage, CollectionPage…), siteye ve şirkete bağlı.
+     *
+     * @param  array<string, mixed>  $extra  ek alanlar (about, mainEntity, primaryImageOfPage…)
+     */
+    public static function webPage(string $type, string $name, ?string $description = null, array $extra = []): array
+    {
+        $url = self::canonical();
+
+        return array_filter([
+            '@context' => 'https://schema.org',
+            '@type' => $type,
+            '@id' => $url . '#webpage',
+            'url' => $url,
+            'name' => $name,
+            'description' => $description ? \Illuminate\Support\Str::limit(trim(strip_tags($description)), 300) : null,
+            'inLanguage' => app()->getLocale(),
+            'isPartOf' => ['@id' => self::websiteId()],
+            'publisher' => self::organizationRef(),
+            ...$extra,
+        ], fn ($value) => $value !== null && $value !== []);
+    }
+
+    /**
+     * Sıralı liste (ItemList): [ [ad, adres, ek alanlar?], … ]
+     *
+     * @param  iterable<array{0: string, 1: string, 2?: array}>  $items
+     */
+    public static function itemList(iterable $items): array
+    {
+        $list = [];
+        foreach ($items as $i => [$name, $url]) {
+            $list[] = ['@type' => 'ListItem', 'position' => count($list) + 1, 'name' => $name, 'url' => $url];
+        }
+
+        return ['@type' => 'ItemList', 'numberOfItems' => count($list), 'itemListElement' => $list];
+    }
 }
