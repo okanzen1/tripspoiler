@@ -99,7 +99,7 @@
                                 class="flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm hover:bg-slate-50
                                 {{ app()->getLocale() == $localeCode ? 'bg-red-50 font-semibold text-[#C62E2E]' : 'text-slate-700' }}">
 
-                                <span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span>
+                                <span class="flex min-w-0 items-center gap-2"><span class="size-2.5 shrink-0 rounded-full ring-1 ring-black/10" style="{{ \App\Support\LocaleColors::gradient($localeCode) }}"></span><span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span></span>
                                 <span class="text-[10px] font-semibold uppercase text-slate-400">{{ $localeCode }}</span>
 
                             </a>
@@ -137,7 +137,7 @@
                     @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                         <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" hreflang="{{ $localeCode }}" lang="{{ $localeCode }}"
                             @class(['flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm', 'bg-red-50 font-semibold text-[#C62E2E]' => app()->getLocale() == $localeCode, 'text-slate-700 active:bg-slate-50' => app()->getLocale() != $localeCode])>
-                            <span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span>
+                            <span class="flex min-w-0 items-center gap-2"><span class="size-2.5 shrink-0 rounded-full ring-1 ring-black/10" style="{{ \App\Support\LocaleColors::gradient($localeCode) }}"></span><span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span></span>
                             <span class="text-[10px] font-semibold uppercase text-slate-400">{{ $localeCode }}</span>
                         </a>
                     @endforeach

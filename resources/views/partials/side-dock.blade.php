@@ -73,10 +73,14 @@
 
         {{-- gezgin araçları: biraz küçük --}}
         @foreach ($tools as [$label, $url, $match, $icon])
-            @php $active = request()->routeIs($match); @endphp
+            @php $active = request()->routeIs($match); $colored = $match === 'contact'; @endphp
             <a href="{{ $url }}" aria-label="{{ $label }}" @if ($active) aria-current="page" @click="{{ $toTop }}" @endif
-                @class(['group relative grid size-10 place-items-center rounded-full bg-white ring-1 shadow-[0_10px_26px_-12px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-x-1 hover:text-[#C62E2E] rtl:hover:translate-x-1',
-                    'text-[#C62E2E] ring-[#C62E2E]/40' => $active, 'text-slate-600 ring-slate-200/80' => !$active])>
+                @class(['group relative grid size-10 place-items-center rounded-full ring-1 shadow-[0_10px_26px_-12px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-x-1 rtl:hover:translate-x-1',
+                    // İletişim: renkli (mavi) yuvarlak
+                    'bg-gradient-to-br from-sky-400 to-blue-700 text-white ring-white shadow-[0_12px_26px_-10px_rgba(29,78,216,0.8)]' => $colored,
+                    'ring-offset-2 !ring-2 !ring-[#C62E2E]' => $colored && $active,
+                    'bg-white hover:text-[#C62E2E]' => !$colored,
+                    'text-[#C62E2E] ring-[#C62E2E]/40' => $active && !$colored, 'text-slate-600 ring-slate-200/80' => !$active && !$colored])>
                 <svg class="size-[19px] transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
                 @if ($active)
                     <span class="absolute -right-3.5 top-1/2 size-2 -translate-y-1/2 rounded-full bg-[#C62E2E] rtl:-left-3.5 rtl:right-auto"></span>
@@ -88,8 +92,9 @@
         {{-- Dil: yuvarlağa tıklayınca diller solda açılır (en üste çıkmadan dil değiştirmek için) --}}
         <div x-data="{ lang: false }" @click.outside="lang = false" @keydown.escape.window="lang = false" class="relative">
             <button type="button" @click="lang = !lang" :aria-expanded="lang" aria-label="{{ __('navbar.language') }}"
-                :class="lang ? 'text-[#C62E2E] ring-[#C62E2E]/40' : 'text-slate-600 ring-slate-200/80'"
-                class="group relative grid size-10 place-items-center rounded-full bg-white ring-1 shadow-[0_10px_26px_-12px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-x-1 hover:text-[#C62E2E] rtl:hover:translate-x-1">
+                style="{{ \App\Support\LocaleColors::gradient(app()->getLocale()) }}"
+                :class="lang && 'ring-offset-2 !ring-2 !ring-[#C62E2E]'"
+                class="group relative grid size-10 place-items-center rounded-full text-white ring-1 ring-white shadow-[0_10px_26px_-10px_rgba(15,23,42,0.6)] transition duration-300 hover:-translate-x-1 rtl:hover:translate-x-1 [text-shadow:0_1px_2px_rgba(0,0,0,0.45)]">
                 <span class="flex flex-col items-center leading-none">
                     <svg class="size-[15px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" /></svg>
                     <span class="mt-0.5 text-[9px] font-extrabold uppercase tracking-wide">{{ app()->getLocale() }}</span>
@@ -104,7 +109,7 @@
                     @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                         <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" hreflang="{{ $localeCode }}" lang="{{ $localeCode }}"
                             @class(['flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm', 'bg-red-50 font-semibold text-[#C62E2E]' => app()->getLocale() == $localeCode, 'text-slate-700 hover:bg-slate-50' => app()->getLocale() != $localeCode])>
-                            <span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span>
+                            <span class="flex min-w-0 items-center gap-2"><span class="size-2.5 shrink-0 rounded-full ring-1 ring-black/10" style="{{ \App\Support\LocaleColors::gradient($localeCode) }}"></span><span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span></span>
                             <span class="text-[10px] font-semibold uppercase text-slate-400">{{ $localeCode }}</span>
                         </a>
                     @endforeach
