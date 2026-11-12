@@ -18,11 +18,11 @@
         $locale = app()->getLocale();
         $tz = $forecast['tz'];
         $sun = \App\Support\Weather::sun($city);
-        $tips = \App\Support\Weather::tips($forecast['days']);
         $wet = \App\Support\Weather::isWet($forecast['days']);
         $today = \Illuminate\Support\Carbon::now($tz)->toDateString();
         $days = collect($forecast['days'])->filter(fn ($d) => $d['date'] >= $today)->take(7)->values();
         $todayData = $days->first();
+        $tips = $todayData ? \App\Support\Weather::tips([$todayData]) : []; // "Bugün ne giysem": sadece bugünün havası
         try {
             $suggestions = \App\Models\Activity::visible()->with('cover')->where('city_id', $city->id)
                 ->whereIn('setting', $wet ? ['indoor', 'both'] : ['outdoor', 'both'])
@@ -91,9 +91,6 @@
                                 </div>
                             @endforeach
                         </dl>
-                        @if ($sun['golden'])
-                            <p class="mt-4 text-xs text-white/50">{{ __('weather.golden_hour', ['time' => $sun['golden']]) }}</p>
-                        @endif
                     </div>
 
                     {{-- 7 gün --}}
@@ -120,17 +117,14 @@
                     </div>
                 </div>
 
-                {{-- ne giysem --}}
-                @if ($tips)
-                    <div class="flex flex-col gap-3 border-t border-white/10 px-6 py-5 sm:flex-row sm:items-center sm:gap-6 sm:px-8">
-                        <p class="shrink-0 text-[11px] font-bold uppercase tracking-[0.18em] text-amber-300">{{ __('weather.tips_title') }}</p>
-                        <ul class="flex flex-col gap-1.5 text-sm text-white/80 sm:flex-row sm:flex-wrap sm:gap-x-6">
-                            @foreach ($tips as $tip)
-                                <li class="flex items-start gap-2"><span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-[#FF6B6E]"></span>{{ __('weather.' . $tip) }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                {{-- bugün ne giysem + günün en iyi saatleri (hava durumu sayfasıyla aynı parçalar) --}}
+                <div class="border-t border-white/10 px-6 py-7 sm:px-8">
+                    @if ($tips)
+                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-amber-300">{{ __('weather.wear_title') }}</p>
+                        <x-weather-tips :tips="$tips" grid class="mt-4" />
+                    @endif
+                    <x-weather-best-times :city="$city" :forecast="$forecast" @class(['mt-6' => $tips]) />
+                </div>
             </div>
 
             {{-- bu havada ne yapılır --}}

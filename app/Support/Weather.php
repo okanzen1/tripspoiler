@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Http;
  */
 class Weather
 {
-    private const FORECAST_URL = 'https://api.met.no/weatherapi/locationforecast/2.0/compact';
+    private const FORECAST_URL = 'https://api.met.no/weatherapi/locationforecast/2.0/complete';
 
     /** MET Norway kimlik ister: site adı ve adresi (kişisel e-posta değil) */
     private const USER_AGENT = 'TripSpoiler/1.0 (+https://tripspoiler.com)';
@@ -73,7 +73,7 @@ class Weather
         if ($city->latitude === null || $city->longitude === null) {
             return null;
         }
-        $key = "weather2:{$city->id}";
+        $key = "weather3:{$city->id}";
         $cached = Cache::get($key);
         if ($cached && $cached['fetched'] > time() - self::FORECAST_TTL) {
             return $cached;
@@ -119,6 +119,13 @@ class Weather
             'condition' => self::condition($first['next_1_hours']['summary']['symbol_code'] ?? $first['next_6_hours']['summary']['symbol_code'] ?? null),
             'wind' => (int) round(($first['instant']['details']['wind_speed'] ?? 0) * 3.6),
             'humidity' => (int) round($first['instant']['details']['relative_humidity'] ?? 0),
+            // ayrıntılı tahminden (complete): hissedilen, UV, rüzgâr yönü, basınç, çiy noktası, bulut
+            'feels' => isset($first['instant']['details']['apparent_air_temperature']) ? (int) round($first['instant']['details']['apparent_air_temperature']) : null,
+            'uv' => $first['instant']['details']['ultraviolet_index_clear_sky'] ?? null,
+            'dir' => $first['instant']['details']['wind_from_direction'] ?? null,
+            'pressure' => isset($first['instant']['details']['air_pressure_at_sea_level']) ? (int) round($first['instant']['details']['air_pressure_at_sea_level']) : null,
+            'dew' => isset($first['instant']['details']['dew_point_temperature']) ? (int) round($first['instant']['details']['dew_point_temperature']) : null,
+            'cloud' => isset($first['instant']['details']['cloud_area_fraction']) ? (int) round($first['instant']['details']['cloud_area_fraction']) : null,
         ];
 
         $days = [];
@@ -135,6 +142,7 @@ class Weather
             $day['min'] = min($day['min'], $temp);
             $day['max'] = max($day['max'], $temp);
             $day['wind'] = max($day['wind'], $wind);
+            $day['uv'] = max($day['uv'] ?? 0, $point['data']['instant']['details']['ultraviolet_index_clear_sky'] ?? 0);
             // Saatlik: ilk 36 saat (hava durumu sayfasındaki saatlik şerit)
             if (count($hours) < 36 && isset($point['data']['next_1_hours'])) {
                 $hours[] = [
@@ -143,6 +151,9 @@ class Weather
                     'condition' => self::condition($point['data']['next_1_hours']['summary']['symbol_code'] ?? null),
                     'rain' => round($point['data']['next_1_hours']['details']['precipitation_amount'] ?? 0, 1),
                     'wind' => (int) round($wind * 3.6),
+                    'feels' => isset($point['data']['instant']['details']['apparent_air_temperature']) ? (int) round($point['data']['instant']['details']['apparent_air_temperature']) : null,
+                    'uv' => $point['data']['instant']['details']['ultraviolet_index_clear_sky'] ?? null,
+                    'dir' => $point['data']['instant']['details']['wind_from_direction'] ?? null,
                 ];
             }
             // Yağış: ilk ~2,5 gün saatlik noktalar (next_1_hours), sonrası 6 saatlik noktalar (next_6_hours)
@@ -178,6 +189,7 @@ class Weather
                 'max' => (int) round($day['max']),
                 'rain' => round($day['rain'], 1),
                 'wind' => (int) round($day['wind'] * 3.6),
+                'uv' => round($day['uv'] ?? 0, 1),
                 'condition' => $condition,
             ];
         })->values()->all();
@@ -201,7 +213,7 @@ class Weather
     {
         $cities = collect($cities)->filter(fn (City $c) => $c->latitude !== null && $c->longitude !== null);
         $stale = $cities->filter(function (City $c) {
-            $cached = Cache::get("weather2:{$c->id}");
+            $cached = Cache::get("weather3:{$c->id}");
 
             return !$cached || $cached['fetched'] <= time() - self::FORECAST_TTL;
         });
@@ -215,7 +227,7 @@ class Weather
                     $response = $responses[(string) $city->id] ?? null;
                     if ($response instanceof \Illuminate\Http\Client\Response && $response->successful()
                         && ($parsed = self::parse($response->json(), self::timezone($city)))) {
-                        Cache::forever("weather2:{$city->id}", [...$parsed, 'fetched' => time()]);
+                        Cache::forever("weather3:{$city->id}", [...$parsed, 'fetched' => time()]);
                     }
                 }
             } catch (\Throwable) {
@@ -247,6 +259,201 @@ class Weather
     }
 
     /**
+     * Önümüzdeki saatler gün parçalarına bölünmüş: sabah (06–11), öğleden sonra (12–16), akşam (17–21), gece (22–05).
+     *
+     * @return list<array{part: string, tomorrow: bool, temp: int, condition: string, rain: float, wind: int, from: string, to: string}>
+     */
+    public static function dayParts(array $forecast, int $count = 4): array
+    {
+        $now = Carbon::now($forecast['tz']);
+        $from = $now->copy()->startOfHour()->format('Y-m-d H:i');
+        $groups = [];
+        foreach ($forecast['hours'] ?? [] as $hour) {
+            if ($hour['time'] < $from) {
+                continue;
+            }
+            $h = (int) substr($hour['time'], 11, 2);
+            $date = substr($hour['time'], 0, 10);
+            [$part, $partDate] = match (true) {
+                $h >= 6 && $h < 12 => ['morning', $date],
+                $h >= 12 && $h < 17 => ['afternoon', $date],
+                $h >= 17 && $h < 22 => ['evening', $date],
+                $h >= 22 => ['night', $date],
+                default => ['night', Carbon::parse($date)->subDay()->toDateString()], // gece yarısından sonrası önceki günün gecesi
+            };
+            $groups[$partDate . $part] ??= ['part' => $part, 'date' => $partDate, 'hours' => []];
+            $groups[$partDate . $part]['hours'][] = $hour;
+        }
+
+        return collect($groups)->take($count)->map(function ($group) use ($now) {
+            $hours = collect($group['hours']);
+            $wet = $hours->first(fn ($hour) => $hour['rain'] >= 0.2);
+
+            return [
+                'part' => $group['part'],
+                'tomorrow' => $group['date'] > $now->toDateString(),
+                'temp' => $group['part'] === 'night' ? $hours->min('temp') : $hours->max('temp'),
+                'condition' => $wet['condition'] ?? $hours->get(intdiv($hours->count(), 2))['condition'],
+                'rain' => round($hours->sum('rain'), 1),
+                'wind' => (int) $hours->max('wind'),
+                'from' => substr($hours->first()['time'], 11, 5),
+                'to' => Carbon::parse($hours->last()['time'])->addHour()->format('H:i'),
+            ];
+        })->values()->all();
+    }
+
+    /**
+     * Güneşin günü: doğuş, batış, tepe noktası, altın saatler, mavi saatler, gün uzunluğu (saniye).
+     */
+    public static function sunDay(City $city, ?string $date = null): array
+    {
+        $tz = self::timezone($city);
+        $day = ($date ? Carbon::parse($date, $tz) : Carbon::now($tz))->setTime(12, 0);
+        $info = date_sun_info($day->getTimestamp(), (float) $city->latitude, (float) $city->longitude);
+        $ts = fn ($key) => is_int($info[$key] ?? null) ? $info[$key] : null;
+        $fmt = fn (?int $t) => $t ? Carbon::createFromTimestamp($t, $tz)->format('H:i') : null;
+        [$rise, $set] = [$ts('sunrise'), $ts('sunset')];
+
+        return [
+            'rise' => $rise, 'set' => $set,
+            'sunrise' => $fmt($rise), 'sunset' => $fmt($set), 'noon' => $fmt($ts('transit')),
+            'golden_morning' => $rise ? [$fmt($rise), $fmt($rise + 3600)] : null,
+            'golden_evening' => $set ? [$fmt($set - 3600), $fmt($set)] : null,
+            'blue_morning' => $ts('civil_twilight_begin') && $rise ? [$fmt($ts('civil_twilight_begin')), $fmt($rise)] : null,
+            'blue_evening' => $ts('civil_twilight_end') && $set ? [$fmt($set), $fmt($ts('civil_twilight_end'))] : null,
+            'length' => $rise && $set ? $set - $rise : null,
+        ];
+    }
+
+    /**
+     * Ayın evresi (hesapla; servis gerekmez): evre adı, 0–1 arası döngü, aydınlık yüzdesi, sonraki dolunay.
+     */
+    public static function moon(?Carbon $at = null): array
+    {
+        $at ??= Carbon::now();
+        $synodic = 29.530588853;
+        $age = fmod(($at->getTimestamp() - 947182440) / 86400, $synodic); // bilinen yeni ay: 6 Ocak 2000 18:14 UTC
+        if ($age < 0) {
+            $age += $synodic;
+        }
+        $fraction = $age / $synodic;
+        $phase = match (true) {
+            $age < 1.84 => 'new',
+            $age < 5.53 => 'waxing_crescent',
+            $age < 9.22 => 'first_quarter',
+            $age < 12.91 => 'waxing_gibbous',
+            $age < 16.61 => 'full',
+            $age < 20.30 => 'waning_gibbous',
+            $age < 23.99 => 'last_quarter',
+            $age < 27.68 => 'waning_crescent',
+            default => 'new',
+        };
+
+        return [
+            'phase' => $phase,
+            'fraction' => $fraction,
+            'lit' => (int) round((1 - cos(2 * M_PI * $fraction)) / 2 * 100),
+            'next_full' => $at->copy()->addSeconds((int) round((($fraction < 0.5 ? 0.5 : 1.5) - $fraction) * $synodic * 86400)),
+        ];
+    }
+
+    public static function uvLevel(float $uv): string
+    {
+        return match (true) {
+            $uv < 3 => 'low',
+            $uv < 6 => 'moderate',
+            $uv < 8 => 'high',
+            $uv < 11 => 'very_high',
+            default => 'extreme',
+        };
+    }
+
+    /** Rüzgârın geldiği yön (derece) → 8 yön anahtarı */
+    public static function direction(float $degrees): string
+    {
+        return ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'][(int) round(fmod($degrees + 360, 360) / 45) % 8];
+    }
+
+    public static function windLevel(int $kmh): string
+    {
+        return match (true) {
+            $kmh < 6 => 'calm',
+            $kmh < 20 => 'light',
+            $kmh < 39 => 'moderate',
+            $kmh < 62 => 'strong',
+            default => 'storm',
+        };
+    }
+
+    /**
+     * Günün "en iyi saatleri": fotoğraf (altın saat), spor / yürüyüş, dışarıda kahve, dışarıda akşam yemeği, yağmurun başlayacağı saat.
+     * Bugünkü saat geçtiyse ertesi gün ("tomorrow"). Uygun saat bulunamayan kart çıkmaz.
+     *
+     * @return list<array{kind: string, time: string, tomorrow: bool, temp?: int, condition?: string, sunset?: string, rain?: float}>
+     */
+    public static function bestTimes(City $city, array $forecast): array
+    {
+        $now = Carbon::now($forecast['tz']);
+        $today = $now->toDateString();
+        $from = $now->copy()->startOfHour()->format('Y-m-d H:i');
+        $hours = $forecast['hours'] ?? [];
+        $times = [];
+
+        $sun = self::sun($city);
+        $photoTomorrow = $sun['sunset'] && $now->format('H:i') > $sun['sunset'];
+        if ($photoTomorrow) {
+            $sun = self::sun($city, $now->copy()->addDay()->toDateString());
+        }
+        if ($sun['golden']) {
+            $times[] = ['kind' => 'photo', 'time' => $sun['golden'], 'tomorrow' => $photoTomorrow, 'sunset' => $sun['sunset']];
+        }
+        // spor: sıcaklığı 17°'ye yakın; kahve: 22°'ye yakın, öğleden sonra; akşam yemeği: 18–22 arası
+        foreach (['sport' => [17, 7, 20, 13], 'coffee' => [22, 10, 19, 15], 'dinner' => [21, 18, 22, 20]] as $kind => [$ideal, $start, $end, $mid]) {
+            if ($hour = self::bestOutdoorHour($hours, $from, $ideal, $start, $end, $mid)) {
+                $times[] = ['kind' => $kind, 'time' => substr($hour['time'], 11, 5), 'tomorrow' => substr($hour['time'], 0, 10) !== $today, 'temp' => $hour['temp'], 'condition' => $hour['condition']];
+            }
+        }
+        // yağmur: önümüzdeki saatlerde ilk yağışlı saat (şu an yağıyorsa gösterilmez)
+        $rainy = collect($hours)->filter(fn ($hour) => $hour['time'] >= $from);
+        if (($rainy->first()['rain'] ?? 0) < 0.2 && $start = $rainy->first(fn ($hour) => $hour['rain'] >= 0.2)) {
+            $times[] = ['kind' => 'rain', 'time' => substr($start['time'], 11, 5), 'tomorrow' => substr($start['time'], 0, 10) !== $today,
+                'rain' => round($rainy->filter(fn ($hour) => substr($hour['time'], 0, 10) === substr($start['time'], 0, 10))->sum('rain'), 1)];
+        }
+
+        // en fazla 4 kart: yağmur varsa akşam yemeği çıkar
+        if (count($times) > 4) {
+            $times = array_values(array_filter($times, fn ($item) => $item['kind'] !== 'dinner'));
+        }
+
+        return $times;
+    }
+
+    /**
+     * Dışarıda bir şey yapmak için en rahat saat: gündüz, yağışsız, rüzgârı az, sıcaklığı $ideal'e en yakın.
+     * Bugün uygun saat kalmadıysa ertesi gün. Uygun saat yoksa null.
+     *
+     * @param  list<array{time: string, temp: int, condition: string, rain: float, wind?: int}>  $hours
+     * @return array{time: string, temp: int, condition: string}|null
+     */
+    public static function bestOutdoorHour(array $hours, string $from, int $ideal = 17, int $start = 7, int $end = 20, int $mid = 13): ?array
+    {
+        $good = collect($hours)->filter(function ($hour) use ($from, $start, $end) {
+            $h = (int) substr($hour['time'], 11, 2);
+
+            return $hour['time'] >= $from && $h >= $start && $h <= $end && $hour['rain'] < 0.1
+                && !in_array($hour['condition'], [...self::WET, 'snow', 'sleet'], true);
+        });
+        if ($good->isEmpty()) {
+            return null;
+        }
+        $date = substr($good->first()['time'], 0, 10);
+
+        return $good->filter(fn ($hour) => str_starts_with($hour['time'], $date))
+            ->sortBy(fn ($hour) => abs($hour['temp'] - $ideal) + max(0, ($hour['wind'] ?? 0) - 15) / 5 + abs((int) substr($hour['time'], 11, 2) - $mid) / 10) // eşitlikte gün ortası
+            ->first();
+    }
+
+    /**
      * Önümüzdeki 3 güne göre kısa "ne giyilir" ipuçları (çeviri anahtarları).
      *
      * @param  list<array{min: int, max: int, condition: string}>  $days
@@ -268,6 +475,13 @@ class Weather
             $tips[] = 'tip_umbrella';
         } else {
             $tips[] = 'tip_dry';
+        }
+        // rüzgâr (günün en sert saati, km/s): lodos / poyraz günleri
+        $wind = max(array_map(fn ($day) => $day['wind'] ?? 0, $next));
+        if ($wind >= 50) {
+            $tips[] = 'tip_gale';
+        } elseif ($wind >= 30) {
+            $tips[] = 'tip_windy';
         }
         if ($max >= 28) {
             $tips[] = 'tip_hot';
