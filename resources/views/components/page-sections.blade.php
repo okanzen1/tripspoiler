@@ -80,6 +80,11 @@
                 <x-weather-section :city-id="$cityId" :color="$next()" />
             @endif
             @break
+        @case('time')
+            @if ($cityId)
+                <x-time-section :city-id="$cityId" :color="$next()" />
+            @endif
+            @break
         @case('social')
             <x-social-presence-section :color="$next()" />
             @break

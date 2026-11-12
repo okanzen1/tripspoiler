@@ -19,4 +19,5 @@ return [
 
     'rates' => 'Exchange rates',
     'weather' => 'Weather',
+    'time' => 'Local time',
 ];

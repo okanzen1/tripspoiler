@@ -7,10 +7,13 @@
     ]);
 @endphp
 @php
+    // Kart resimleri panelden (Yönetim › Bölümler › TripSpoiler nedir); yüklenmemişse varsayılan resim
+    $uploaded = \App\Models\Setting::many(['intro_cities_image', 'intro_experiences_image']);
+    $cardImage = fn (string $setting, string $default) => $uploaded[$setting] ? \App\Models\ActivityImage::mediaUrl($uploaded[$setting]) : asset($default);
     $cards = [
-        ['key' => 'cities', 'url' => route('cities.index'), 'img' => 'images/tripspoiler-statement.webp',
+        ['key' => 'cities', 'url' => route('cities.index'), 'img' => $cardImage('intro_cities_image', 'images/tripspoiler-statement.webp'),
          'icon' => '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'],
-        ['key' => 'experiences', 'url' => \App\Support\PageSections::activitiesLink(), 'img' => 'images/all-activities-cover.webp',
+        ['key' => 'experiences', 'url' => \App\Support\PageSections::activitiesLink(), 'img' => $cardImage('intro_experiences_image', 'images/all-activities-cover.webp'),
          'icon' => '<path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1.5a2.5 2.5 0 0 0 0 5V16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1.5a2.5 2.5 0 0 0 0-5z"/>'],
         ['key' => 'passes', 'url' => \App\Support\PageSections::activitiesLink(), 'img' => null,
          'icon' => '<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>'],
@@ -53,7 +56,7 @@
                     'lg:translate-y-6 lg:hover:translate-y-4' => $loop->odd === false,
                 ])>
                     @if ($dark)
-                        <img src="{{ asset($card['img']) }}" alt="" loading="lazy" decoding="async" class="absolute inset-0 -z-10 h-full w-full object-cover opacity-60 transition duration-700 group-hover:scale-105">
+                        <img src="{{ $card['img'] }}" alt="" loading="lazy" decoding="async" class="absolute inset-0 -z-10 h-full w-full object-cover opacity-60 transition duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 -z-10 bg-gradient-to-t from-slate-950 via-slate-950/50 to-slate-950/10"></div>
                     @endif
                     <span @class(['grid size-11 place-items-center rounded-2xl transition duration-500 group-hover:scale-110',

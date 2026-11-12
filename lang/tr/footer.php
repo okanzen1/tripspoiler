@@ -19,4 +19,5 @@ return [
 
     'rates' => 'Döviz kurları',
     'weather' => 'Hava durumu',
+    'time' => 'Yerel saat',
 ];

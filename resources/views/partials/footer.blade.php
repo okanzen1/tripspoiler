@@ -13,6 +13,7 @@
             [__('footer.reviews'), route('reviews.index'), 'reviews.*'],
             [__('footer.contact'), route('contact'), 'contact'],
             [__('footer.weather'), route('weather'), 'weather'],
+            [__('footer.time'), route('time'), 'time'],
             [__('footer.rates'), route('rates'), 'rates'],
             [__('footer.privacy'), route('privacy'), 'privacy'],
         ],

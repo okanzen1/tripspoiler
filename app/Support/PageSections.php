@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 class PageSections
 {
     /** Sırası değiştirilebilen içerik bölümleri */
-    public const CONTENT = ['popular', 'blog', 'city_entry', 'faq', 'weather', 'reviews', 'social', 'steps', 'intro'];
+    public const CONTENT = ['popular', 'blog', 'city_entry', 'faq', 'weather', 'time', 'reviews', 'social', 'steps', 'intro'];
 
     /** Sayfanın ana içeriği de sıralamaya girer (her zaman açık): sayfa => anahtar "main" */
     public const MAIN = ['activities', 'activity', 'reviews', 'post'];
@@ -30,7 +30,7 @@ class PageSections
         // Blog yazısı: bölümler o yazıya ve şehrine göre dolar (kendi soruları, şehrin popülerleri)
         'post' => ['weather', 'reviews', 'faq'],
         'blog' => ['popular', 'weather', 'reviews', 'social'],
-        'cities' => ['popular', 'weather', 'blog', 'reviews'],
+        'cities' => ['popular', 'weather', 'time', 'blog', 'reviews'],
         'reviews' => ['social'],
         'about' => [],
         'contact' => [],
@@ -38,6 +38,7 @@ class PageSections
         'rates' => ['faq'],
         'campaigns' => ['faq', 'reviews'],
         'weather' => ['faq'],
+        'time' => ['faq'],
     ];
 
     /** Route adı → sayfa anahtarı */
@@ -54,6 +55,7 @@ class PageSections
         'rates' => 'rates',
         'campaigns' => 'campaigns',
         'weather' => 'weather',
+        'time' => 'time',
     ];
 
     private static array $cache = [];
@@ -117,7 +119,7 @@ class PageSections
         $config = self::config($page);
 
         // Şehirle ilgisi olmayan sayfalarda şehre bağlı bölümler gösterilmez (panelle aynı kural)
-        $skip = in_array($page, ['contact', 'about', 'privacy', 'reviews', 'rates', 'campaigns', 'weather'], true) ? ['popular', 'blog', 'city_entry', 'weather'] : [];
+        $skip = in_array($page, ['contact', 'about', 'privacy', 'reviews', 'rates', 'campaigns', 'weather', 'time'], true) ? ['popular', 'blog', 'city_entry', 'weather', 'time'] : [];
         if ($page === 'reviews') {
             $skip[] = 'reviews'; // sayfanın kendisi yorum listesi
         }

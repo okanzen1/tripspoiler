@@ -19,4 +19,5 @@ return [
 
     'rates' => 'Taux de change',
     'weather' => 'Météo',
+    'time' => 'Heure locale',
 ];

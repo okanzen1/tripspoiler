@@ -19,4 +19,5 @@ return [
 
     'rates' => '환율',
     'weather' => '날씨',
+    'time' => '현지 시간',
 ];

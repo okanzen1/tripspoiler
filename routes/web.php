@@ -147,6 +147,8 @@ Route::group(
 
         Route::get('/weather', [\App\Http\Controllers\WeatherController::class, 'index'])->name('weather');
 
+        Route::get('/time', [\App\Http\Controllers\TimeController::class, 'index'])->name('time');
+
         Route::view('/about', 'other.about')->name('about');
 
         Route::view('/contact', 'other.contact')->name('contact');

@@ -19,4 +19,5 @@ return [
 
     'rates' => '為替レート',
     'weather' => '天気',
+    'time' => '現地時間',
 ];

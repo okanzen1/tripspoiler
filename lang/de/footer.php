@@ -19,4 +19,5 @@ return [
 
     'rates' => 'Wechselkurse',
     'weather' => 'Wetter',
+    'time' => 'Ortszeit',
 ];

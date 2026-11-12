@@ -19,4 +19,5 @@ return [
 
     'rates' => '汇率',
     'weather' => '天气',
+    'time' => '当地时间',
 ];

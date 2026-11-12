@@ -60,6 +60,7 @@ class SitemapController extends Controller
         $add(route('privacy', [], false), 0.3, Url::CHANGE_FREQUENCY_YEARLY);
         $add(route('rates', [], false), 0.4, Url::CHANGE_FREQUENCY_DAILY);
         $add(route('weather', [], false), 0.5, Url::CHANGE_FREQUENCY_DAILY);
+        $add(route('time', [], false), 0.5, Url::CHANGE_FREQUENCY_MONTHLY);
         if (\App\Models\Campaign::liveCount() > 0) {
             $add(route('campaigns', [], false), 0.6, Url::CHANGE_FREQUENCY_WEEKLY);
         }
