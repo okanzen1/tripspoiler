@@ -203,6 +203,14 @@
                             </li>
                         @endforeach
                     </ul>
+                    {{-- iletişim --}}
+                    @php $hereContact = request()->routeIs('contact'); @endphp
+                    <a href="{{ route('contact') }}" @if ($hereContact) aria-current="page" @endif
+                        @class(['mt-1.5 flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-bold transition',
+                            'bg-[#C62E2E] text-white' => $hereContact, 'bg-slate-900 text-white active:bg-[#C62E2E]' => !$hereContact])>
+                        <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" fill="currentColor" fill-opacity=".14"/><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/></svg>
+                        {{ __('footer.contact') }}
+                    </a>
                 </div>
             </nav>
 
