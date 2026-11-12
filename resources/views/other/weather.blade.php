@@ -30,7 +30,7 @@
         $today = $days->first();
         $hours = collect($forecast['hours'] ?? [])->filter(fn ($h) => $h['time'] >= $now->copy()->startOfHour()->format('Y-m-d H:i'))->take(24)->values();
         $sun = \App\Support\Weather::sun($city);
-        $tips = \App\Support\Weather::tips($forecast['days']);
+        $tips = \App\Support\Weather::tips([$today]); // "Bugün ne giysem": sadece bugünün havasına göre
         $wet = \App\Support\Weather::isWet($forecast['days']);
     }
 @endphp
@@ -112,6 +112,69 @@
             </div>
         </section>
 
+        {{-- BUGÜN NE GİYSEM: bugünün havasına göre öneriler (App\Support\Weather::tips), üstte ve renkli kartlarla --}}
+        @if ($tips)
+            @php
+                $tipLook = [
+                    'tip_snow' => ['from-sky-400 to-indigo-600', 'bg-sky-50', '<path d="M12 2v20M4.9 4.9l14.2 14.2M2 12h20M4.9 19.1 19.1 4.9"/><path d="m9 4 3 3 3-3M9 20l3-3 3 3"/>'],
+                    'tip_dry' => ['from-yellow-400 to-amber-500', 'bg-yellow-50', '<circle cx="6.5" cy="14" r="3.5"/><circle cx="17.5" cy="14" r="3.5"/><path d="M10 14h4M3 13l2-6h2M21 13l-2-6h-2"/>'],
+                    'tip_umbrella' => ['from-sky-500 to-blue-700', 'bg-blue-50', '<path d="M12 3a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9Z"/><path d="M12 12v7a2 2 0 0 0 4 0"/>'],
+                    'tip_hot' => ['from-amber-400 to-orange-600', 'bg-amber-50', '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'],
+                    'tip_cold' => ['from-indigo-400 to-violet-700', 'bg-indigo-50', '<path d="M14 14.8V4.5a2 2 0 0 0-4 0v10.3a4 4 0 1 0 4 0Z"/><path d="M12 10v6"/>'],
+                    'tip_jacket' => ['from-teal-400 to-emerald-700', 'bg-teal-50', '<path d="M8 3 4 6v15h5v-6M16 3l4 3v15h-5v-6M8 3l4 4 4-4M12 7v14"/>'],
+                    'tip_mild' => ['from-emerald-400 to-green-600', 'bg-emerald-50', '<path d="M8 3 3 6l2 4 3-1v12h8V9l3 1 2-4-5-3a4 4 0 0 1-8 0Z"/>'],
+                ];
+            @endphp
+            <section class="bg-white py-10 md:py-14">
+                <div class="mx-auto max-w-7xl px-4">
+                    <div class="relative isolate overflow-hidden rounded-[32px] bg-gradient-to-br from-amber-50 via-white to-sky-50 p-6 ring-1 ring-slate-200/80 shadow-[0_30px_70px_-50px_rgba(15,23,42,0.45)] sm:p-8 lg:p-10">
+                        <div class="pointer-events-none absolute -right-20 -top-24 -z-10 size-72 rounded-full bg-amber-200/40 blur-3xl" aria-hidden="true"></div>
+                        <div class="pointer-events-none absolute -bottom-28 -left-16 -z-10 size-72 rounded-full bg-sky-200/50 blur-3xl" aria-hidden="true"></div>
+
+                        <div class="grid gap-8 lg:grid-cols-12 lg:items-center">
+                            <div class="lg:col-span-4">
+                                <p class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#C62E2E] ring-1 ring-[#C62E2E]/15">
+                                    <span class="size-1.5 rounded-full bg-[#C62E2E]"></span>{{ __('weather.today') }} · {{ $now->copy()->locale($locale)->isoFormat('D MMMM') }}
+                                </p>
+                                <h2 class="mt-4 text-3xl font-extrabold leading-tight tracking-[-0.025em] text-slate-900 sm:text-4xl">{{ __('weather.wear_title') }}</h2>
+                                <p class="mt-2 text-sm text-slate-500">{{ __('weather.wear_note') }}</p>
+                                <div class="mt-5 inline-flex items-center gap-3 rounded-2xl bg-white/80 py-2 pl-2 pr-5 ring-1 ring-slate-200/80">
+                                    <x-weather-icon :condition="$today['condition']" class="size-12" />
+                                    <span>
+                                        <span class="block text-sm font-bold text-slate-900">{{ $city->name }} · {{ __('weather.c_' . $today['condition']) }}</span>
+                                        <span class="block text-sm tabular-nums text-slate-500"><strong class="font-extrabold text-slate-900">{{ $today['max'] }}°</strong>@if ($today['min'] != $today['max']) / {{ $today['min'] }}°@endif</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <ul @class(['grid gap-4 lg:col-span-8', 'sm:grid-cols-2' => count($tips) > 1])>
+                                @foreach ($tips as $tip)
+                                    @php
+                                        [$gradient, $soft, $icon] = $tipLook[$tip] ?? $tipLook['tip_mild'];
+                                        // "Yağmur bekleniyor: şemsiye…" → kalın başlık + açıklama
+                                        $parts = preg_split('/\s*[:：]\s*/u', __('weather.' . $tip), 2);
+                                    @endphp
+                                    <li class="flex h-full gap-4 rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.5)] sm:p-6">
+                                        <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br {{ $gradient }} text-white shadow-lg">
+                                            <svg class="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $icon !!}</svg>
+                                        </span>
+                                        <span class="min-w-0">
+                                            @if (count($parts) === 2)
+                                                <span class="block text-lg font-extrabold leading-snug text-slate-900">{{ $parts[0] }}</span>
+                                                <span class="mt-1 block text-[15px] leading-relaxed text-slate-600">{{ \Illuminate\Support\Str::ucfirst($parts[1]) }}</span>
+                                            @else
+                                                <span class="block text-[15px] font-semibold leading-relaxed text-slate-800">{{ $parts[0] }}</span>
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @endif
+
         {{-- SAATLİK --}}
         @if ($hours->isNotEmpty())
             <section class="border-b border-slate-200 bg-white py-10 md:py-12">
@@ -180,22 +243,12 @@
                     </ul>
                 </div>
 
-                {{-- ne giysem + bu havada ne yapılır --}}
+                {{-- bu havada ne yapılır --}}
                 <div class="mt-6 grid gap-6 lg:grid-cols-12">
-                    @if ($tips)
-                        <div class="rounded-[28px] bg-slate-950 p-6 text-white sm:p-7 {{ $suggestions->isNotEmpty() ? 'lg:col-span-5' : 'lg:col-span-12' }}">
-                            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-amber-300">{{ __('weather.tips_title') }}</p>
-                            <ul class="mt-4 space-y-3">
-                                @foreach ($tips as $tip)
-                                    <li class="flex items-start gap-3 text-[15px] leading-relaxed text-white/85"><span class="mt-2 size-1.5 shrink-0 rounded-full bg-[#FF6B6E]"></span>{{ __('weather.' . $tip) }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     @if ($suggestions->isNotEmpty())
-                        <div class="rounded-[28px] bg-white p-6 ring-1 ring-slate-200/80 sm:p-7 {{ $tips ? 'lg:col-span-7' : 'lg:col-span-12' }}">
+                        <div class="rounded-[28px] bg-white p-6 ring-1 ring-slate-200/80 sm:p-7 lg:col-span-12">
                             <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#C62E2E]">{{ __($wet ? 'weather.suggest_wet' : 'weather.suggest_dry') }}</p>
-                            <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+                            <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                                 @foreach ($suggestions as $activity)
                                     <li>
                                         <a href="{{ route('activities.show', ['slug' => $activity->slug]) }}" class="group flex items-center gap-3 rounded-2xl p-2 transition hover:bg-slate-50">

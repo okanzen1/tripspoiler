@@ -266,6 +266,8 @@ class Weather
             $tips[] = 'tip_snow';
         } elseif (array_intersect($conditions, self::WET)) {
             $tips[] = 'tip_umbrella';
+        } else {
+            $tips[] = 'tip_dry';
         }
         if ($max >= 28) {
             $tips[] = 'tip_hot';
