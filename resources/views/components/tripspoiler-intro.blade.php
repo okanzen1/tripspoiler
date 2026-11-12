@@ -8,7 +8,14 @@
 @endphp
 @php
     // Kart resimleri panelden (Yönetim › Bölümler › TripSpoiler nedir); yüklenmemişse varsayılan resim
-    $uploaded = \App\Models\Setting::many(['intro_cities_image', 'intro_experiences_image']);
+    $uploaded = \App\Models\Setting::many(['intro_cities_image', 'intro_experiences_image', 'intro_overlay']);
+    // Karartma panelden (Yönetim › Bölümler › TripSpoiler nedir › Resimlerin karartması): Az / Orta / Çok
+    $overlay = in_array($uploaded['intro_overlay'], ['soft', 'medium', 'strong'], true) ? $uploaded['intro_overlay'] : 'medium';
+    [$imgOpacity, $shade] = [
+        'soft' => ['opacity-90', 'from-slate-950/85 via-slate-950/25 to-transparent'],
+        'medium' => ['opacity-60', 'from-slate-950 via-slate-950/50 to-slate-950/10'],
+        'strong' => ['opacity-40', 'from-slate-950 via-slate-950/75 to-slate-950/40'],
+    ][$overlay];
     $cardImage = fn (string $setting, string $default) => $uploaded[$setting] ? \App\Models\ActivityImage::mediaUrl($uploaded[$setting]) : asset($default);
     $cards = [
         ['key' => 'cities', 'url' => route('cities.index'), 'img' => $cardImage('intro_cities_image', 'images/tripspoiler-statement.webp'),
@@ -56,8 +63,8 @@
                     'lg:translate-y-6 lg:hover:translate-y-4' => $loop->odd === false,
                 ])>
                     @if ($dark)
-                        <img src="{{ $card['img'] }}" alt="" loading="lazy" decoding="async" class="absolute inset-0 -z-10 h-full w-full object-cover opacity-60 transition duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 -z-10 bg-gradient-to-t from-slate-950 via-slate-950/50 to-slate-950/10"></div>
+                        <img src="{{ $card['img'] }}" alt="" loading="lazy" decoding="async" class="absolute inset-0 -z-10 h-full w-full object-cover {{ $imgOpacity }} transition duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 -z-10 bg-gradient-to-t {{ $shade }}"></div>
                     @endif
                     <span @class(['grid size-11 place-items-center rounded-2xl transition duration-500 group-hover:scale-110',
                                   'bg-white/15 ring-1 ring-white/20 backdrop-blur' => $dark,

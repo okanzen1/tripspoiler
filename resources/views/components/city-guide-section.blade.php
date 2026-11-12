@@ -49,7 +49,7 @@
                     </div>
                     <button type="button" x-show="long" x-cloak
                         @click="open = !open; if (!open) $el.closest('section').scrollIntoView({ behavior: 'smooth' })"
-                        class="mt-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-800 shadow-sm transition hover:border-[#C62E2E] hover:text-[#C62E2E]">
+                        class="mt-6 inline-flex items-center gap-2 rounded-full bg-[#C62E2E] px-5 py-2.5 text-sm font-bold text-white shadow-[0_10px_24px_-10px_rgba(198,46,46,0.8)] transition hover:bg-[#A82424]">
                         <span x-text="open ? @js(__('cities-page.read_less')) : @js(__('cities-page.read_more'))"></span>
                         <svg class="size-4 transition" :class="open && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                     </button>

@@ -25,8 +25,10 @@ class Faq extends Component
             ->where('active', true)
             ->when($this->source === 'activity', fn($q) => $q->where('activity_id', $this->sourceId))
             // Sayfa bölümü: o sayfaya yazılan sorular + seçili şehre yazılan sorular (panelde "Nerede görünecek")
-            ->when($this->source === 'page', fn($q) => $q->where(fn($w) => $w->where('page_key', $this->page)
-                ->when($this->cityId, fn($w) => $w->orWhere('city_id', $this->cityId))))
+            // page_key + city_id birlikte: o sayfa, sadece o şehir seçiliyken; sadece city_id: şehre göre değişen bütün sayfalar
+            ->when($this->source === 'page', fn($q) => $q->where(fn($w) => $w
+                ->where(fn($p) => $p->where('page_key', $this->page)->where(fn($c) => $c->whereNull('city_id')->when($this->cityId, fn($c) => $c->orWhere('city_id', $this->cityId))))
+                ->when($this->cityId, fn($w) => $w->orWhere(fn($c) => $c->whereNull('page_key')->where('city_id', $this->cityId)))))
             ->when($this->source === 'blog', fn($q) => $q->where('blog_id', $this->sourceId))
             ->when(!in_array($this->source, ['activity', 'blog', 'page']), fn($q) => $q->general())
             ->orderBy('sort_order')

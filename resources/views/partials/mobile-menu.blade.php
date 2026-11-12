@@ -18,6 +18,12 @@
          'icon' => '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'],
         ['route' => 'blog.index', 'match' => 'blog.*', 'label' => __('navbar.blog'),
          'icon' => '<path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6M8 11h4"/>'],
+        ['route' => 'weather', 'match' => 'weather', 'label' => __('footer.weather'),
+         'icon' => '<circle cx="9" cy="9" r="3.4"/><path d="M9 2.8v1.4M2.8 9h1.4M4.6 4.6l1 1M13.4 4.6l-1 1"/><path d="M9.5 20h8.6a3.4 3.4 0 0 0 .4-6.8 5 5 0 0 0-9.6-.6A3.7 3.7 0 0 0 9.5 20z"/>'],
+        ['route' => 'time', 'match' => 'time', 'label' => __('footer.time'),
+         'icon' => '<circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.3 2"/>'],
+        ['route' => 'rates', 'match' => 'rates', 'label' => __('footer.rates'),
+         'icon' => '<circle cx="9" cy="9" r="5.5"/><circle cx="15" cy="15" r="5.5"/><path d="M7.6 7.7c.3-.5.8-.8 1.5-.8.9 0 1.5.5 1.5 1.1 0 1.4-3 .8-3 2.2 0 .6.6 1.1 1.5 1.1.7 0 1.2-.3 1.5-.8"/>'],
         ['route' => 'contact', 'match' => 'contact', 'label' => __('footer.contact'),
          'icon' => '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/>'],
     ];
@@ -76,7 +82,7 @@
                 @foreach ($links as $link)
                     @php($active = request()->routeIs($link['match']))
                     <a href="{{ route($link['route']) }}" @click="menu = false"
-                        @class(['flex items-center gap-3.5 rounded-2xl px-3 py-3.5 text-[17px] font-semibold transition',
+                        @class(['flex items-center gap-3.5 rounded-2xl px-3 py-2.5 text-[16px] font-semibold transition',
                                 'bg-white/15 text-white ring-1 ring-white/15 backdrop-blur' => $active, 'text-white/90 hover:bg-white/10' => !$active])>
                         <span @class(['grid size-10 place-items-center rounded-xl', 'bg-[#C62E2E] text-white' => $active, 'bg-white/10 text-white/80' => !$active])>
                             <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">{!! $link['icon'] !!}</svg>

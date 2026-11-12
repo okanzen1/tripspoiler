@@ -123,9 +123,30 @@
         </div>
 
         {{-- MOBILE --}}
+        {{-- dil: tek dokunuşla açılan liste (masaüstündeki gibi) --}}
+        <div x-data="{ lang: false }" @click.outside="lang = false" @keydown.escape.window="lang = false" class="relative ml-auto lg:hidden">
+            <button type="button" @click="lang = !lang" :aria-expanded="lang" aria-label="{{ __('navbar.language') }}"
+                class="flex h-10 items-center gap-1 rounded-full border border-slate-200 px-2.5 text-sm font-semibold text-slate-700 transition group-data-[transparent=true]:border-white/30 group-data-[transparent=true]:text-white">
+                <svg class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" /></svg>
+                {{ strtoupper(app()->getLocale()) }}
+                <svg class="size-3 transition" :class="lang && 'rotate-180'" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+            </button>
+            <div x-show="lang" x-cloak x-transition.opacity.duration.150ms
+                class="absolute right-0 top-full z-50 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl rtl:left-0 rtl:right-auto">
+                <div class="grid grid-cols-2 gap-0.5">
+                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" hreflang="{{ $localeCode }}" lang="{{ $localeCode }}"
+                            @class(['flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm', 'bg-red-50 font-semibold text-[#C62E2E]' => app()->getLocale() == $localeCode, 'text-slate-700 active:bg-slate-50' => app()->getLocale() != $localeCode])>
+                            <span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span>
+                            <span class="text-[10px] font-semibold uppercase text-slate-400">{{ $localeCode }}</span>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
         @if ($campaignCount)
             <a href="{{ route('campaigns') }}" aria-label="{{ __('navbar.campaigns') }}"
-                class="relative ml-auto -mr-3 grid size-10 place-items-center rounded-full bg-gradient-to-b from-amber-300 to-amber-400 text-slate-950 shadow-[0_8px_20px_-8px_rgba(245,158,11,0.9)] lg:hidden">
+                class="relative ml-2 -mr-3 grid size-10 place-items-center rounded-full bg-gradient-to-b from-amber-300 to-amber-400 text-slate-950 shadow-[0_8px_20px_-8px_rgba(245,158,11,0.9)] lg:hidden">
                 <span class="campaign-shine absolute inset-0 overflow-hidden rounded-full" aria-hidden="true"></span>
                 <svg class="campaign-wiggle size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8M2.5 7.5h19v4.5h-19zM12 21V7.5M12 7.5H8a2.5 2.5 0 1 1 0-5c2.5 0 4 5 4 5zM12 7.5h4a2.5 2.5 0 1 0 0-5c-2.5 0-4 5-4 5z"/></svg>
                 <span class="absolute -right-1 -top-1 grid size-[18px] place-items-center rounded-full bg-[#C62E2E] text-[10px] font-extrabold leading-none text-white ring-2 ring-white">{{ $campaignCount }}</span>
