@@ -419,7 +419,7 @@
 
     @if ($activityCount > 0)
         {{-- MOBİL SABİT ÇUBUK --}}
-        <div id="mobileStickyBar" class="fixed inset-x-0 bottom-0 z-50 translate-y-full transition-transform duration-500 lg:hidden">
+        <div id="mobileStickyBar" data-bottom-bar class="fixed inset-x-0 bottom-0 z-50 translate-y-full transition-transform duration-500 lg:hidden">
             <div class="mx-3 mb-3 flex items-center justify-between gap-3 rounded-[20px] bg-white/95 p-3 shadow-[0_18px_50px_-18px_rgba(15,23,42,0.4)] ring-1 ring-slate-200 backdrop-blur">
                 <div class="flex min-w-0 items-center gap-3">
                     @if ($singleActivity?->cover)

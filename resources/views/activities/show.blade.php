@@ -275,7 +275,7 @@
     </x-page-sections>
 
     {{-- TELEFON: alttaki sabit rezervasyon çubuğu --}}
-    <div class="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-[0_-10px_30px_-12px_rgba(15,23,42,0.25)] backdrop-blur lg:hidden">
+    <div data-bottom-bar class="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-[0_-10px_30px_-12px_rgba(15,23,42,0.25)] backdrop-blur lg:hidden">
         <div class="mx-auto flex max-w-xl items-center gap-3">
             <div class="min-w-0 flex-1">
                 <p class="truncate text-sm font-bold text-slate-900">{{ $name }}</p>

@@ -18,8 +18,14 @@
         };
         $sliderId = 'popular-' . \Illuminate\Support\Str::random(6);
         // "Tüm aktiviteler" kartının resmi panelden (Yönetim › Bölümler › Popüler aktiviteler); yoksa varsayılan
-        $allImage = \App\Models\Setting::many(['popular_all_image'])['popular_all_image'];
-        $allImage = $allImage ? \App\Models\ActivityImage::mediaUrl($allImage) : asset('images/all-activities-cover.webp');
+        $allSettings = \App\Models\Setting::many(['popular_all_image', 'popular_overlay']);
+        $allImage = $allSettings['popular_all_image'] ? \App\Models\ActivityImage::mediaUrl($allSettings['popular_all_image']) : asset('images/all-activities-cover.webp');
+        // Karartma panelden (Yönetim › Bölümler › Popüler aktiviteler): Az / Orta / Çok
+        [$allOpacity, $allShade] = [
+            'soft' => ['opacity-80', 'from-slate-950/90 via-slate-950/30 to-transparent'],
+            'medium' => ['opacity-50', 'from-slate-950 via-slate-950/60 to-transparent'],
+            'strong' => ['opacity-30', 'from-slate-950 via-slate-950/80 to-slate-950/40'],
+        ][in_array($allSettings['popular_overlay'], ['soft', 'medium', 'strong'], true) ? $allSettings['popular_overlay'] : 'medium'];
     @endphp
 
     <section class="{{ $color }} relative pt-16 pb-8 md:pt-24 md:pb-14" x-data="{
@@ -75,7 +81,7 @@
                     <a href="{{ route('activities.show', $activity->slug) }}"
                         class="group flex h-full flex-col overflow-hidden rounded-3xl bg-white ring-1 ring-slate-200/80 transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
                                shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_36px_-24px_rgba(15,23,42,0.3)]
-                               hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-28px_rgba(15,23,42,0.45)]">
+                               hover:shadow-[0_28px_60px_-28px_rgba(15,23,42,0.45)]">
 
                         {{-- RESİM --}}
                         <div class="relative aspect-[4/3] overflow-hidden bg-slate-100">
@@ -121,10 +127,10 @@
             {{-- SON KART: tüm aktiviteler --}}
             <li class="w-[82%] shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-3*1.25rem)/4)]">
                 <a href="{{ \App\Support\PageSections::activitiesLink() }}"
-                    class="group relative flex h-full min-h-[22rem] flex-col justify-end overflow-hidden rounded-3xl bg-slate-900 p-6 text-white transition duration-500 hover:-translate-y-1.5">
+                    class="group relative flex h-full min-h-[22rem] flex-col justify-end overflow-hidden rounded-3xl bg-slate-900 p-6 text-white transition duration-500">
                     <img src="{{ $allImage }}" alt="" loading="lazy" decoding="async"
-                        class="absolute inset-0 h-full w-full object-cover opacity-50 transition duration-700 group-hover:scale-105 group-hover:opacity-40">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+                        class="absolute inset-0 h-full w-full object-cover {{ $allOpacity }} transition duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t {{ $allShade }}"></div>
                     <div class="relative">
                         <span class="grid size-12 place-items-center rounded-2xl bg-white/15 ring-1 ring-white/20 backdrop-blur transition duration-500 group-hover:bg-[#C62E2E] group-hover:ring-[#C62E2E]">
                             <svg class="size-6 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>

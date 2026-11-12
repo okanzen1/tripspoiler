@@ -70,11 +70,13 @@
 
 @if (true)
     <div x-data="{
-            show: false, open: false, enough: false, active: 'top', present: [],
+            show: false, open: false, enough: false, active: 'top', present: [], lift: 0,
             init() {
                 // sayfada gerçekten çizilen (boş olmayan) bölümler
                 this.present = [...document.querySelectorAll('[data-nav-section]')].filter((el) => el.offsetHeight > 0).map((el) => el.dataset.navSection);
                 this.enough = this.present.length >= 2;
+                // kayarak gelen alt çubuk yerine oturunca düğmenin yerini yeniden hesapla
+                document.querySelectorAll('[data-bottom-bar]').forEach((bar) => bar.addEventListener('transitionend', () => this.update()));
                 this.update();
             },
             has(key) { return key === 'top' || this.present.includes(key) },
@@ -85,6 +87,12 @@
                     if (el.offsetHeight > 0 && el.getBoundingClientRect().top < window.innerHeight * 0.4) current = el.dataset.navSection;
                 }
                 this.active = current;
+                // altta sabit bir çubuk varsa (ör. aktivitedeki rezervasyon çubuğu) düğme onun üstüne çıkar, üstüne binmez
+                this.lift = 0;
+                for (const bar of document.querySelectorAll('[data-bottom-bar]')) {
+                    const r = bar.getBoundingClientRect();
+                    if (r.height && r.top < window.innerHeight) this.lift = Math.max(this.lift, window.innerHeight - r.top);
+                }
             },
             go(key) {
                 this.open = false;
@@ -106,7 +114,8 @@
         <div x-show="show || open" x-cloak
             x-transition:enter="transition duration-300 ease-out" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition duration-200 ease-in" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0 translate-y-4"
-            class="fixed bottom-5 right-4 z-[56] flex flex-col items-end gap-3 rtl:left-4 rtl:right-auto">
+            :style="`bottom: ${20 + lift}px`"
+            class="fixed bottom-5 right-4 z-[56] flex flex-col items-end gap-3 transition-[bottom] duration-300 rtl:left-4 rtl:right-auto">
 
             {{-- liste --}}
             <nav x-show="open" x-cloak aria-label="{{ __('section-nav.title') }}"
