@@ -101,10 +101,11 @@
                         <li class="group flex flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_-40px_rgba(15,23,42,0.55)] ring-1 ring-slate-200/80 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_30px_70px_-38px_rgba(198,46,46,0.5)] md:flex-row">
                             {{-- BİLGİ --}}
                             <div class="min-w-0 flex-1 p-6 sm:p-8">
-                                <div class="flex items-start justify-between gap-4">
+                                {{-- telefonda logo üstte, etiket altında; masaüstünde yan yana. Logo kutuyu kenarına kadar doldurur --}}
+                                <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                                     @if ($logo)
-                                        <span class="flex h-16 w-40 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white px-3 ring-1 ring-slate-200 sm:h-[72px] sm:w-44">
-                                            <img src="{{ $logo }}" alt="{{ $partner->name }}" loading="lazy" class="h-full w-full object-contain">
+                                        <span class="block h-16 w-44 shrink-0 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 sm:h-[72px] sm:w-48">
+                                            <img src="{{ $logo }}" alt="{{ $partner->name }}" loading="lazy" class="h-full w-full object-cover">
                                         </span>
                                     @elseif ($partner)
                                         <span class="text-sm font-extrabold uppercase tracking-[0.14em] text-slate-500">{{ $partner->name }}</span>
