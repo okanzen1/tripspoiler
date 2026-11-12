@@ -16,4 +16,13 @@ return [
     'intro' => '关于 TripSpoiler',
     'scroll' => '滑动',
     'more' => '更多',
+    'main_activities' => '活动',
+    'main_activity' => '活动',
+    'main_post' => '文章',
+    'main_reviews' => '全部评价',
+    'features' => '特色',
+    'about_story' => '我们的故事',
+    'about_how' => '如何使用',
+    'about_values' => '我们的理念',
+    'about_cta' => '联系我们',
 ];

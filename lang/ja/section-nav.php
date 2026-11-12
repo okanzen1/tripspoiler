@@ -16,4 +16,13 @@ return [
     'intro' => 'TripSpoilerについて',
     'scroll' => 'スクロール',
     'more' => 'もっと見る',
+    'main_activities' => 'アクティビティ',
+    'main_activity' => 'アクティビティ',
+    'main_post' => '記事',
+    'main_reviews' => 'すべてのレビュー',
+    'features' => '特長',
+    'about_story' => '私たちのストーリー',
+    'about_how' => 'ご利用の流れ',
+    'about_values' => '私たちの価値観',
+    'about_cta' => 'お問い合わせ',
 ];

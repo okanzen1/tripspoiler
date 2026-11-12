@@ -7,6 +7,7 @@
     @include('partials.home-hero', $hero)
     {{-- Sıra panelden (Yönetim › Bölümler, sürükle-bırak): App\Support\HomeSections --}}
     @foreach (\App\Support\HomeSections::order() as $section)
+        <div data-nav-section="{{ $section }}" class="scroll-mt-28">
         @switch($section)
             @case('features') @include('partials.home-features', ['features' => $features]) @break
             @case('steps') <x-steps-section /> @break
@@ -18,6 +19,10 @@
             @case('reviews') <x-reviews :source="'home'" :source-id="null" :sectionHeader="true" :reviewSummary="true" :testimonials="true" /> @break
             @case('faq') <x-faq :source="'home'" :source-id="null" /> @break
         @endswitch
+        </div>
     @endforeach
+
+    {{-- telefonda bölüm kılavuzu --}}
+    <x-section-nav page="home" :keys="\App\Support\HomeSections::order()" />
 @endsection
 

@@ -102,3 +102,6 @@
     @endswitch
     </div>
 @endforeach
+
+{{-- telefonda bölüm kılavuzu: bu sayfanın açık bölümleri sırayla (en az iki bölüm varsa görünür) --}}
+<x-section-nav :page="$page" :guide-sections="$guideSections" />

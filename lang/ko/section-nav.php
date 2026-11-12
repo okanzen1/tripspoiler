@@ -16,4 +16,13 @@ return [
     'intro' => 'TripSpoiler 소개',
     'scroll' => '스크롤',
     'more' => '더 보기',
+    'main_activities' => '액티비티',
+    'main_activity' => '액티비티',
+    'main_post' => '글',
+    'main_reviews' => '전체 리뷰',
+    'features' => '특징',
+    'about_story' => '우리 이야기',
+    'about_how' => '이용 방법',
+    'about_values' => '우리의 가치',
+    'about_cta' => '문의하기',
 ];

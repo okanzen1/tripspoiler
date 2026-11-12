@@ -16,4 +16,13 @@ return [
     'intro' => 'عن TripSpoiler',
     'scroll' => 'مرّر',
     'more' => 'المزيد',
+    'main_activities' => 'الأنشطة',
+    'main_activity' => 'النشاط',
+    'main_post' => 'المقال',
+    'main_reviews' => 'كل التقييمات',
+    'features' => 'المزايا',
+    'about_story' => 'قصتنا',
+    'about_how' => 'كيف يعمل',
+    'about_values' => 'قيمنا',
+    'about_cta' => 'تواصل معنا',
 ];

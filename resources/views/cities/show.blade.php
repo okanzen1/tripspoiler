@@ -208,9 +208,6 @@
 
     {{-- Bölümler: rehber alanları + diğerleri, panelde verilen sırayla --}}
     <x-page-sections page="cities" :city-id="$city->id" :guide-sections="$guideSections" />
-
-    {{-- telefonda bölüm kılavuzu: panelde açılan bölümler sırayla --}}
-    <x-section-nav page="cities" :guide-sections="$guideSections" />
 @endsection
 
 @push('scripts')

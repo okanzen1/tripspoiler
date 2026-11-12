@@ -16,4 +16,13 @@ return [
     'intro' => 'О TripSpoiler',
     'scroll' => 'Прокрутите',
     'more' => 'Ещё',
+    'main_activities' => 'Развлечения',
+    'main_activity' => 'Развлечение',
+    'main_post' => 'Статья',
+    'main_reviews' => 'Все отзывы',
+    'features' => 'Преимущества',
+    'about_story' => 'Наша история',
+    'about_how' => 'Как это работает',
+    'about_values' => 'Наши ценности',
+    'about_cta' => 'Связаться',
 ];

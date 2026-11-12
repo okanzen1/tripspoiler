@@ -16,4 +16,13 @@ return [
     'intro' => 'TripSpoiler nedir',
     'scroll' => 'Kaydır',
     'more' => 'Daha fazla',
+    'main_activities' => 'Aktiviteler',
+    'main_activity' => 'Aktivite',
+    'main_post' => 'Yazı',
+    'main_reviews' => 'Yorum listesi',
+    'features' => 'Özellikler',
+    'about_story' => 'Hikâyemiz',
+    'about_how' => 'Nasıl çalışır',
+    'about_values' => 'İlkelerimiz',
+    'about_cta' => 'Bize ulaş',
 ];

@@ -16,4 +16,13 @@ return [
     'intro' => 'À propos',
     'scroll' => 'Faire défiler',
     'more' => 'Plus',
+    'main_activities' => 'Activités',
+    'main_activity' => 'Activité',
+    'main_post' => 'Article',
+    'main_reviews' => 'Tous les avis',
+    'features' => 'Atouts',
+    'about_story' => 'Notre histoire',
+    'about_how' => 'Comment ça marche',
+    'about_values' => 'Nos valeurs',
+    'about_cta' => 'Nous contacter',
 ];

@@ -16,4 +16,13 @@ return [
     'intro' => 'Sobre TripSpoiler',
     'scroll' => 'Desliza',
     'more' => 'Más',
+    'main_activities' => 'Actividades',
+    'main_activity' => 'Actividad',
+    'main_post' => 'Artículo',
+    'main_reviews' => 'Todas las opiniones',
+    'features' => 'Ventajas',
+    'about_story' => 'Nuestra historia',
+    'about_how' => 'Cómo funciona',
+    'about_values' => 'Nuestros valores',
+    'about_cta' => 'Contacto',
 ];
