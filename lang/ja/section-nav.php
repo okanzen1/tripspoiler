@@ -25,4 +25,5 @@ return [
     'about_how' => 'ご利用の流れ',
     'about_values' => '私たちの価値観',
     'about_cta' => 'お問い合わせ',
+    'pages' => 'ページ',
 ];

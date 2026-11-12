@@ -25,4 +25,5 @@ return [
     'about_how' => 'Nasıl çalışır',
     'about_values' => 'İlkelerimiz',
     'about_cta' => 'Bize ulaş',
+    'pages' => 'Sayfalar',
 ];

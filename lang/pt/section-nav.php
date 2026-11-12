@@ -25,4 +25,5 @@ return [
     'about_how' => 'Como funciona',
     'about_values' => 'Os nossos valores',
     'about_cta' => 'Contacte-nos',
+    'pages' => 'Páginas',
 ];

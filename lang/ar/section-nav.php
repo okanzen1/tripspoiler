@@ -25,4 +25,5 @@ return [
     'about_how' => 'كيف يعمل',
     'about_values' => 'قيمنا',
     'about_cta' => 'تواصل معنا',
+    'pages' => 'الصفحات',
 ];

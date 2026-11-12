@@ -25,4 +25,5 @@ return [
     'about_how' => '이용 방법',
     'about_values' => '우리의 가치',
     'about_cta' => '문의하기',
+    'pages' => '페이지',
 ];

@@ -32,6 +32,16 @@
     ];
     $svg = fn (string $paths, string $class) => '<svg class="' . $class . '" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $paths . '</svg>';
 
+    // Sitenin sayfaları (masaüstündeki yan menüyle aynı ikonlar); yayında kampanya varsa Fırsatlar da
+    $gift = '<path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8M2.5 7.5h19v4.5h-19zM12 21V7.5M12 7.5H8a2.5 2.5 0 1 1 0-5c2.5 0 4 5 4 5zM12 7.5h4a2.5 2.5 0 1 0 0-5c-2.5 0-4 5-4 5z"/>';
+    $pages = array_values(array_filter([
+        \App\Models\Campaign::liveCount() ? [__('navbar.campaigns'), route('campaigns'), 'campaigns', $gift, 'deal'] : null,
+        [__('navbar.home'), route('home'), 'home', '<path d="M3.5 10.2 12 3.5l8.5 6.7V19a1.5 1.5 0 0 1-1.5 1.5h-4v-6h-6v6H5A1.5 1.5 0 0 1 3.5 19z" fill="currentColor" fill-opacity=".14"/><path d="M3.5 10.2 12 3.5l8.5 6.7V19a1.5 1.5 0 0 1-1.5 1.5h-4v-6h-6v6H5A1.5 1.5 0 0 1 3.5 19z"/>', null],
+        [__('navbar.cities'), route('cities.index'), 'cities.*', '<path d="M9 4.5 3.5 6.6v13l5.5-2.1 6 2.1 5.5-2.1v-13L15 6.6z" fill="currentColor" fill-opacity=".14"/><path d="M9 4.5 3.5 6.6v13l5.5-2.1 6 2.1 5.5-2.1v-13L15 6.6zM9 4.5v13M15 6.6v13"/>', null],
+        [__('navbar.blog'), route('blog.index'), 'blog.*', '<path d="M12 7c-1.6-1.7-4.3-2.5-8-2.5v13c3.7 0 6.4.8 8 2.5 1.6-1.7 4.3-2.5 8-2.5v-13c-3.7 0-6.4.8-8 2.5z" fill="currentColor" fill-opacity=".14"/><path d="M12 7c-1.6-1.7-4.3-2.5-8-2.5v13c3.7 0 6.4.8 8 2.5 1.6-1.7 4.3-2.5 8-2.5v-13c-3.7 0-6.4.8-8 2.5zM12 7v13"/>', null],
+        [__('navbar.activities'), route('activities.index'), 'activities.*', '<circle cx="12" cy="12" r="9" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z" fill="currentColor" fill-opacity=".35"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z"/>', 'main'],
+    ]));
+
     $items = [['top', __('section-nav.top'), $svg($icons['top'], 'size-[22px]')]];
     foreach ($keys ?? \App\Support\PageSections::content($page) as $key) {
         if ($key === 'main') {
@@ -52,7 +62,7 @@
     }
 @endphp
 
-@if (count($items) > 2)
+@if (true)
     <div x-data="{
             show: false, open: false, enough: false, active: 'top', present: [],
             init() {
@@ -87,7 +97,7 @@
         {{-- arka plan (liste açıkken) --}}
         <div x-show="open" x-cloak x-transition.opacity.duration.200ms @click="open = false" class="fixed inset-0 z-[55] bg-slate-950/30 backdrop-blur-[2px]"></div>
 
-        <div x-show="enough && (show || open)" x-cloak
+        <div x-show="show || open" x-cloak
             x-transition:enter="transition duration-300 ease-out" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition duration-200 ease-in" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0 translate-y-4"
             class="fixed bottom-5 right-4 z-[56] flex flex-col items-end gap-3 rtl:left-4 rtl:right-auto">
@@ -106,15 +116,16 @@
                 x-effect="if (open) $nextTick(() => { const l = $refs.list, a = l.querySelector('[data-current]'); if (a) l.scrollTop = a.offsetTop - l.clientHeight / 2 + a.offsetHeight / 2; edges() })"
                 x-transition:enter="transition duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]" x-transition:enter-start="opacity-0 scale-95 translate-y-2" x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                 x-transition:leave="transition duration-150 ease-in" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0 scale-95"
-                class="relative flex max-h-[70vh] w-[17rem] origin-bottom-right flex-col overflow-hidden rounded-[26px] bg-white shadow-[0_30px_70px_-20px_rgba(2,6,23,0.55)] ring-1 ring-slate-200 rtl:origin-bottom-left">
+                class="relative flex max-h-[74vh] w-[18.5rem] origin-bottom-right flex-col overflow-hidden rounded-[26px] bg-white shadow-[0_30px_70px_-20px_rgba(2,6,23,0.55)] ring-1 ring-slate-200 rtl:origin-bottom-left">
                 <p class="flex shrink-0 items-center justify-between px-5 pb-2 pt-4 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
                     {{ __('section-nav.title') }}
                     <span x-show="!atTop || !atEnd" class="inline-flex items-center gap-1 normal-case tracking-normal text-slate-400">
                         <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>{{ __('section-nav.scroll') }}
                     </span>
                 </p>
+                <div class="relative flex min-h-0 flex-1 flex-col">
                 {{-- üstte/altta solma: kaydırılacak yer olduğunu gösterir --}}
-                <div x-show="!atTop" x-transition.opacity class="pointer-events-none absolute inset-x-0 top-10 z-10 h-8 bg-gradient-to-b from-white to-transparent"></div>
+                <div x-show="!atTop" x-transition.opacity class="pointer-events-none absolute inset-x-0 top-0 z-10 h-8 bg-gradient-to-b from-white to-transparent"></div>
                 <ul x-ref="list" @scroll="edges()" class="relative min-h-0 flex-1 overflow-y-auto overscroll-contain pb-2 pl-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" :class="scrollable ? 'pr-5' : 'pr-2'">
                     {{-- bölümleri birleştiren ince çizgi (yan menüdeki gibi) --}}
                     <span aria-hidden="true" class="absolute bottom-6 left-[29px] top-6 w-px bg-[#C62E2E]/25 rtl:left-auto rtl:right-[29px]"></span>
@@ -131,11 +142,34 @@
                     @endforeach
                 </ul>
                 {{-- sağda her zaman görünen kaydırma çubuğu (telefonlar kendi çubuğunu gizler) --}}
-                <div x-show="scrollable" class="pointer-events-none absolute bottom-2 right-1.5 top-11 w-1.5 rounded-full bg-slate-100" aria-hidden="true">
+                <div x-show="scrollable" class="pointer-events-none absolute bottom-2 right-1.5 top-2 w-1.5 rounded-full bg-slate-100" aria-hidden="true">
                     <span class="absolute inset-x-0 rounded-full bg-[#C62E2E]/70" :style="`height:${thumbH}px; transform:translateY(${thumbY}px)`"></span>
                 </div>
                 {{-- altta hafif solma: devamı olduğunu gösterir --}}
                 <div x-show="!atEnd" x-transition.opacity class="pointer-events-none absolute bottom-0 left-0 right-4 z-10 h-10 bg-gradient-to-t from-white to-transparent"></div>
+                </div>
+                {{-- sitenin sayfaları --}}
+                <div class="shrink-0 border-t border-slate-100 bg-slate-50/70 px-3 pb-3 pt-2.5">
+                    <p class="px-1 pb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">{{ __('section-nav.pages') }}</p>
+                    <ul class="grid gap-0.5" style="grid-template-columns: repeat({{ count($pages) }}, minmax(0, 1fr))">
+                        @foreach ($pages as [$label, $url, $match, $icon, $style])
+                            @php $here = request()->routeIs($match); @endphp
+                            <li>
+                                <a href="{{ $url }}" @if ($here) aria-current="page" @endif class="flex flex-col items-center gap-1 rounded-xl py-1 text-center">
+                                    <span @class(['grid size-11 place-items-center rounded-full transition',
+                                        'bg-gradient-to-b from-amber-300 to-amber-400 text-slate-950 shadow-[0_8px_18px_-8px_rgba(245,158,11,0.9)]' => $style === 'deal',
+                                        'bg-[#C62E2E] text-white shadow-[0_8px_18px_-8px_rgba(198,46,46,0.8)]' => $style === 'main',
+                                        'bg-white text-[#C62E2E] ring-2 ring-[#C62E2E]' => $here && $style === null,
+                                        'bg-white text-slate-700 ring-1 ring-slate-200' => !$here && $style === null,
+                                        'ring-2 ring-offset-2 ring-[#C62E2E]' => $here && $style !== null])>
+                                        <svg class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $icon !!}</svg>
+                                    </span>
+                                    <span @class(['w-full truncate text-[9.5px] font-bold tracking-tight', 'text-[#C62E2E]' => $here, 'text-slate-600' => !$here])>{{ $label }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             </nav>
 
             {{-- düğme: okunan bölümün ikonu --}}

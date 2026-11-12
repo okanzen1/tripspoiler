@@ -25,4 +25,5 @@ return [
     'about_how' => '如何使用',
     'about_values' => '我们的理念',
     'about_cta' => '联系我们',
+    'pages' => '页面',
 ];
