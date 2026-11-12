@@ -62,7 +62,10 @@
         @foreach ($dock as [$label, $url, $match, $icon])
             @php $active = request()->routeIs($match); @endphp
             <a href="{{ $url }}" aria-label="{{ $label }}" @if ($active) aria-current="page" @click="{{ $toTop }}" @endif
-                class="group relative grid size-12 place-items-center rounded-full bg-white text-slate-700 ring-1 ring-slate-200/80 shadow-[0_10px_26px_-12px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-x-1 hover:text-[#C62E2E] rtl:hover:translate-x-1">
+                @class(['group relative grid size-12 place-items-center rounded-full transition duration-300 hover:-translate-x-1 rtl:hover:translate-x-1',
+                    // renkli ikon, beyaz zemin; seçili sayfada yuvarlak o renkle dolar (App\Support\NavColors)
+                    \App\Support\NavColors::active($match) . ' ring-2 ring-white' => $active,
+                    'bg-white ring-1 ring-slate-200/80 shadow-[0_10px_26px_-12px_rgba(15,23,42,0.35)] ' . \App\Support\NavColors::icon($match) => !$active])>
                 <svg class="size-[22px] transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
                 @if ($active)
                     <span class="absolute -right-3.5 top-1/2 size-2 -translate-y-1/2 rounded-full bg-[#C62E2E] rtl:-left-3.5 rtl:right-auto"></span>
@@ -79,8 +82,8 @@
                     // İletişim: renkli (mavi) yuvarlak
                     'bg-gradient-to-br from-sky-400 to-blue-700 text-white ring-white shadow-[0_12px_26px_-10px_rgba(29,78,216,0.8)]' => $colored,
                     'ring-offset-2 !ring-2 !ring-[#C62E2E]' => $colored && $active,
-                    'bg-white hover:text-[#C62E2E]' => !$colored,
-                    'text-[#C62E2E] ring-[#C62E2E]/40' => $active && !$colored, 'text-slate-600 ring-slate-200/80' => !$active && !$colored])>
+                    \App\Support\NavColors::active($match) . ' ring-white' => $active && !$colored,
+                    'bg-white ring-slate-200/80 ' . \App\Support\NavColors::icon($match) => !$active && !$colored])>
                 <svg class="size-[19px] transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
                 @if ($active)
                     <span class="absolute -right-3.5 top-1/2 size-2 -translate-y-1/2 rounded-full bg-[#C62E2E] rtl:-left-3.5 rtl:right-auto"></span>

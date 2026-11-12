@@ -174,8 +174,8 @@
                                     <span @class(['grid size-11 place-items-center rounded-full transition',
                                         'bg-gradient-to-b from-amber-300 to-amber-400 text-slate-950 shadow-[0_8px_18px_-8px_rgba(245,158,11,0.9)]' => $style === 'deal',
                                         'bg-[#C62E2E] text-white shadow-[0_8px_18px_-8px_rgba(198,46,46,0.8)]' => $style === 'main',
-                                        'bg-white text-[#C62E2E] ring-2 ring-[#C62E2E]' => $here && $style === null,
-                                        'bg-white text-slate-700 ring-1 ring-slate-200' => !$here && $style === null,
+                                        \App\Support\NavColors::active($match) => $here && $style === null,
+                                        'bg-white ring-1 ring-slate-200 ' . \App\Support\NavColors::icon($match) => !$here && $style === null,
                                         'ring-2 ring-offset-2 ring-[#C62E2E]' => $here && $style !== null])>
                                         <svg class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $icon !!}</svg>
                                     </span>
@@ -193,8 +193,8 @@
                                     <span @class(['grid size-8 shrink-0 place-items-center rounded-full transition',
                                         'bg-gradient-to-b from-amber-300 to-amber-400 text-slate-950 shadow-[0_8px_18px_-8px_rgba(245,158,11,0.9)]' => $style === 'deal',
                                         'bg-[#C62E2E] text-white shadow-[0_8px_18px_-8px_rgba(198,46,46,0.8)]' => $style === 'main',
-                                        'bg-white text-[#C62E2E] ring-2 ring-[#C62E2E]' => $here && $style === null,
-                                        'bg-white text-slate-700 ring-1 ring-slate-200' => !$here && $style === null,
+                                        \App\Support\NavColors::active($match) => $here && $style === null,
+                                        'bg-white ring-1 ring-slate-200 ' . \App\Support\NavColors::icon($match) => !$here && $style === null,
                                         'ring-2 ring-offset-2 ring-[#C62E2E]' => $here && $style !== null])>
                                         <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $icon !!}</svg>
                                     </span>
