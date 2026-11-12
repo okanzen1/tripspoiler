@@ -14,4 +14,5 @@ return [
 
     'cta' => 'Explore activities',
 
+  'campaigns' => 'Deals',
 ];

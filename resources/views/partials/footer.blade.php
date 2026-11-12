@@ -6,6 +6,7 @@
             [__('footer.activities'), route('activities.index'), 'activities.*'],
             [__('footer.cities'), route('cities.index'), 'cities.*'],
             [__('footer.blog'), route('blog.index'), 'blog.*'],
+            ...(\App\Models\Campaign::liveCount() ? [[__('navbar.campaigns'), route('campaigns'), 'campaigns']] : []),
         ],
         __('footer.company') => [
             [__('footer.about'), route('about'), 'about'],

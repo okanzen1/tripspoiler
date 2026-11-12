@@ -36,6 +36,7 @@ class PageSections
         'contact' => [],
         'privacy' => [],
         'rates' => ['faq'],
+        'campaigns' => ['faq', 'reviews'],
     ];
 
     /** Route adı → sayfa anahtarı */
@@ -50,6 +51,7 @@ class PageSections
         'contact' => 'contact',
         'privacy' => 'privacy',
         'rates' => 'rates',
+        'campaigns' => 'campaigns',
     ];
 
     private static array $cache = [];
@@ -109,7 +111,7 @@ class PageSections
         $config = self::config($page);
 
         // Şehirle ilgisi olmayan sayfalarda şehre bağlı bölümler gösterilmez (panelle aynı kural)
-        $skip = in_array($page, ['contact', 'about', 'privacy', 'reviews', 'rates'], true) ? ['popular', 'blog', 'city_entry'] : [];
+        $skip = in_array($page, ['contact', 'about', 'privacy', 'reviews', 'rates', 'campaigns'], true) ? ['popular', 'blog', 'city_entry'] : [];
         if ($page === 'reviews') {
             $skip[] = 'reviews'; // sayfanın kendisi yorum listesi
         }

@@ -57,6 +57,20 @@
                 </button>
             </div>
 
+            {{-- KAMPANYALAR (yayında varsa) --}}
+            @if (\App\Models\Campaign::liveCount())
+                <div class="px-3 pb-2">
+                    <a href="{{ route('campaigns') }}" @click="menu = false"
+                        class="campaign-shine relative flex items-center gap-3.5 overflow-hidden rounded-2xl bg-gradient-to-b from-amber-300 to-amber-400 px-3 py-3.5 text-[17px] font-bold text-slate-950 shadow-lg shadow-amber-900/30">
+                        <span class="grid size-10 place-items-center rounded-xl bg-white/40">
+                            <svg class="campaign-wiggle size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8M2.5 7.5h19v4.5h-19zM12 21V7.5M12 7.5H8a2.5 2.5 0 1 1 0-5c2.5 0 4 5 4 5zM12 7.5h4a2.5 2.5 0 1 0 0-5c-2.5 0-4 5-4 5z"/></svg>
+                        </span>
+                        <span class="flex-1">{{ __('navbar.campaigns') }}</span>
+                        <span class="grid min-w-6 place-items-center rounded-full bg-[#C62E2E] px-1.5 text-xs font-extrabold leading-6 text-white">{{ \App\Models\Campaign::liveCount() }}</span>
+                    </a>
+                </div>
+            @endif
+
             {{-- BAĞLANTILAR --}}
             <nav class="px-3">
                 @foreach ($links as $link)

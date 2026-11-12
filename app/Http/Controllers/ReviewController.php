@@ -106,7 +106,7 @@ class ReviewController extends Controller
             'email' => ['required', 'string', 'email:rfc,dns', 'max:190'],
             'rating' => ['required', 'integer', 'between:1,5'],
             'comment' => ['required', 'string', 'min:10', 'max:1000'],
-            'source' => ['required', 'string', 'max:50', Rule::in(['home', 'cities', 'blog', 'activity', 'activity-show', 'blog-show', 'activities', 'about', 'contact', 'privacy', 'reviews', 'rates'])],
+            'source' => ['required', 'string', 'max:50', Rule::in(['home', 'cities', 'blog', 'activity', 'activity-show', 'blog-show', 'activities', 'about', 'contact', 'privacy', 'reviews', 'rates', 'campaigns'])],
             'source_id' => ['nullable', 'integer', 'min:1'],
             'website' => ['nullable', 'max:0'],
         ]);

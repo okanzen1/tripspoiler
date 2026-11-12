@@ -143,6 +143,8 @@ Route::group(
 
         Route::view('/exchange-rates', 'other.rates')->name('rates');
 
+        Route::get('/campaigns', [\App\Http\Controllers\CampaignController::class, 'index'])->name('campaigns');
+
         Route::view('/about', 'other.about')->name('about');
 
         Route::view('/contact', 'other.contact')->name('contact');

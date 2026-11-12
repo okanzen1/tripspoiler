@@ -7,4 +7,5 @@ return array (
   'blog' => 'ブログ',
   'language' => '言語',
   'cta' => 'アクティビティを探す',
+  'campaigns' => 'キャンペーン',
 );

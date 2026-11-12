@@ -36,6 +36,21 @@
         {{-- butonları birleştiren ince çizgi --}}
         <span aria-hidden="true" class="absolute bottom-8 left-1/2 top-4 -z-10 w-px -translate-x-1/2 bg-[#C62E2E]/35"></span>
 
+        {{-- Kampanyalar: farklı renk (turuncu-pembe), nabız gibi atan halka; yayında kampanya yoksa yok --}}
+        @if (\App\Models\Campaign::liveCount())
+            @php $dealActive = request()->routeIs('campaigns'); @endphp
+            <a href="{{ route('campaigns') }}" aria-label="{{ __('navbar.campaigns') }}" @if ($dealActive) aria-current="page" @click="{{ $toTop }}" @endif
+                class="campaign-shine group relative grid size-12 place-items-center rounded-full bg-gradient-to-b from-amber-300 to-amber-400 text-slate-950 shadow-[0_12px_28px_-10px_rgba(245,158,11,0.9)] ring-2 ring-white transition duration-300 hover:-translate-x-1 hover:scale-105 rtl:hover:translate-x-1">
+                <span class="absolute inset-0 -z-10 animate-ping rounded-full bg-amber-400/40 [animation-duration:2.4s]" aria-hidden="true"></span>
+                <svg class="campaign-wiggle size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8M2.5 7.5h19v4.5h-19zM12 21V7.5M12 7.5H8a2.5 2.5 0 1 1 0-5c2.5 0 4 5 4 5zM12 7.5h4a2.5 2.5 0 1 0 0-5c-2.5 0-4 5-4 5z"/></svg>
+                <span class="absolute -right-1 -top-1 grid size-5 place-items-center rounded-full bg-[#C62E2E] text-[10px] font-extrabold text-white shadow ring-2 ring-white">{{ \App\Models\Campaign::liveCount() }}</span>
+                @if ($dealActive)
+                    <span class="absolute -right-3.5 top-1/2 size-2 -translate-y-1/2 rounded-full bg-[#C62E2E] rtl:-left-3.5 rtl:right-auto"></span>
+                @endif
+                <span class="pointer-events-none absolute right-full mr-3 translate-x-1 whitespace-nowrap rounded-lg bg-slate-900/90 px-2.5 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg transition duration-200 group-hover:translate-x-0 group-hover:opacity-100 rtl:left-full rtl:right-auto rtl:ml-3 rtl:mr-0">{{ __('navbar.campaigns') }}</span>
+            </a>
+        @endif
+
         @foreach ($dock as [$label, $url, $match, $icon])
             @php $active = request()->routeIs($match); @endphp
             <a href="{{ $url }}" aria-label="{{ $label }}" @if ($active) aria-current="page" @click="{{ $toTop }}" @endif

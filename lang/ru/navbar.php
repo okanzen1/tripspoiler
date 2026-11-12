@@ -7,4 +7,5 @@ return array (
   'blog' => 'Блог',
   'language' => 'Язык',
   'cta' => 'Смотреть активности',
+  'campaigns' => 'Акции',
 );

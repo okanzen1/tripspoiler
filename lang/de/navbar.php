@@ -7,4 +7,5 @@ return array (
   'blog' => 'Blog',
   'language' => 'Sprache',
   'cta' => 'Aktivitäten entdecken',
+  'campaigns' => 'Angebote',
 );

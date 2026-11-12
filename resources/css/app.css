@@ -47,6 +47,51 @@
   .announcement-track { animation: none; }
 }
 
+/* Kampanyalar düğmesi: üstünden geçen ışık + hediye ikonunun ara ara sallanması */
+.campaign-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: campaignShine 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes campaignShine {
+  0%, 55% { transform: translateX(-120%); }
+  85%, 100% { transform: translateX(120%); }
+}
+
+.campaign-wiggle {
+  animation: campaignWiggle 3.6s ease-in-out infinite;
+  transform-origin: 50% 60%;
+}
+
+@keyframes campaignWiggle {
+  0%, 70%, 100% { transform: rotate(0); }
+  75% { transform: rotate(-14deg); }
+  80% { transform: rotate(12deg); }
+  85% { transform: rotate(-8deg); }
+  90% { transform: rotate(4deg); }
+}
+
+/* Kampanyalar sayfası: tavşan hafifçe süzülür, yıldızlar parlar */
+.campaign-float { animation: campaignFloat 4s ease-in-out infinite; }
+@keyframes campaignFloat {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+.campaign-twinkle { animation: campaignTwinkle 2.2s ease-in-out infinite; }
+@keyframes campaignTwinkle {
+  0%, 100% { opacity: .25; transform: scale(.8); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .campaign-shine::after, .campaign-wiggle, .campaign-float, .campaign-twinkle { animation: none; }
+}
+
 /* Footer üstündeki partner logoları: iki kopya yan yana kayar; üstüne gelince durur */
 .partners-track {
   animation: announcementScroll var(--partners-duration, 40s) linear infinite;
