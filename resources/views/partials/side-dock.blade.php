@@ -9,6 +9,12 @@
         [__('navbar.cities'), route('cities.index'), 'cities.*', '<path d="M9 4.5 3.5 6.6v13l5.5-2.1 6 2.1 5.5-2.1v-13L15 6.6z" fill="currentColor" fill-opacity=".14"/><path d="M9 4.5 3.5 6.6v13l5.5-2.1 6 2.1 5.5-2.1v-4.2M9 4.5v13M9 4.5l3.2 1.1M15 13.5v6.1"/><path d="M17.5 12.3s-3.2-2.7-3.2-5.3a3.2 3.2 0 0 1 6.4 0c0 2.6-3.2 5.3-3.2 5.3z" fill="currentColor" fill-opacity=".14"/><path d="M17.5 12.3s-3.2-2.7-3.2-5.3a3.2 3.2 0 0 1 6.4 0c0 2.6-3.2 5.3-3.2 5.3z"/><circle cx="17.5" cy="7" r="1"/>'],
         [__('navbar.blog'), route('blog.index'), 'blog.*', '<path d="M12 7c-1.6-1.7-4.3-2.5-8-2.5v13c3.7 0 6.4.8 8 2.5 1.6-1.7 4.3-2.5 8-2.5v-13c-3.7 0-6.4.8-8 2.5z" fill="currentColor" fill-opacity=".14"/><path d="M12 7c-1.6-1.7-4.3-2.5-8-2.5v13c3.7 0 6.4.8 8 2.5 1.6-1.7 4.3-2.5 8-2.5v-13c-3.7 0-6.4.8-8 2.5zM12 7v13M7 8.5h2M7 11.5h2M15 8.5h2M15 11.5h2"/>'],
     ];
+    // Gezgin araçları: hava durumu, yerel saat, döviz kurları (biraz daha küçük yuvarlaklar)
+    $tools = [
+        [__('footer.weather'), route('weather'), 'weather', '<circle cx="9" cy="9" r="3.4" fill="currentColor" fill-opacity=".14"/><circle cx="9" cy="9" r="3.4"/><path d="M9 2.8v1.4M2.8 9h1.4M4.6 4.6l1 1M13.4 4.6l-1 1"/><path d="M9.5 20h8.6a3.4 3.4 0 0 0 .4-6.8 5 5 0 0 0-9.6-.6A3.7 3.7 0 0 0 9.5 20z" fill="currentColor" fill-opacity=".14"/><path d="M9.5 20h8.6a3.4 3.4 0 0 0 .4-6.8 5 5 0 0 0-9.6-.6A3.7 3.7 0 0 0 9.5 20z"/>'],
+        [__('footer.time'), route('time'), 'time', '<circle cx="12" cy="12" r="9" fill="currentColor" fill-opacity=".14"/><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.3 2"/>'],
+        [__('footer.rates'), route('rates'), 'rates', '<circle cx="9" cy="9" r="5.5" fill="currentColor" fill-opacity=".14"/><circle cx="9" cy="9" r="5.5"/><circle cx="15" cy="15" r="5.5"/><path d="M7.6 7.7c.3-.5.8-.8 1.5-.8.9 0 1.5.5 1.5 1.1 0 1.4-3 .8-3 2.2 0 .6.6 1.1 1.5 1.1.7 0 1.2-.3 1.5-.8M9 5.8v.9M9 11.3v.9"/>'],
+    ];
     $activitiesActive = request()->routeIs('activities.*');
     // Bulunduğun sayfanın bağlantısına tıklanınca sayfa yenilenmez, yumuşakça en üste çıkar
     $toTop = "\$event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' })";
@@ -57,6 +63,20 @@
             <a href="{{ $url }}" aria-label="{{ $label }}" @if ($active) aria-current="page" @click="{{ $toTop }}" @endif
                 class="group relative grid size-12 place-items-center rounded-full bg-white text-slate-700 ring-1 ring-slate-200/80 shadow-[0_10px_26px_-12px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-x-1 hover:text-[#C62E2E] rtl:hover:translate-x-1">
                 <svg class="size-[22px] transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
+                @if ($active)
+                    <span class="absolute -right-3.5 top-1/2 size-2 -translate-y-1/2 rounded-full bg-[#C62E2E] rtl:-left-3.5 rtl:right-auto"></span>
+                @endif
+                <span class="pointer-events-none absolute right-full mr-3 translate-x-1 whitespace-nowrap rounded-lg bg-slate-900/90 px-2.5 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg transition duration-200 group-hover:translate-x-0 group-hover:opacity-100 rtl:left-full rtl:right-auto rtl:ml-3 rtl:mr-0">{{ $label }}</span>
+            </a>
+        @endforeach
+
+        {{-- gezgin araçları: biraz küçük --}}
+        @foreach ($tools as [$label, $url, $match, $icon])
+            @php $active = request()->routeIs($match); @endphp
+            <a href="{{ $url }}" aria-label="{{ $label }}" @if ($active) aria-current="page" @click="{{ $toTop }}" @endif
+                @class(['group relative grid size-10 place-items-center rounded-full bg-white ring-1 shadow-[0_10px_26px_-12px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-x-1 hover:text-[#C62E2E] rtl:hover:translate-x-1',
+                    'text-[#C62E2E] ring-[#C62E2E]/40' => $active, 'text-slate-600 ring-slate-200/80' => !$active])>
+                <svg class="size-[19px] transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
                 @if ($active)
                     <span class="absolute -right-3.5 top-1/2 size-2 -translate-y-1/2 rounded-full bg-[#C62E2E] rtl:-left-3.5 rtl:right-auto"></span>
                 @endif

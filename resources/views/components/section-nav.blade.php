@@ -41,6 +41,12 @@
         [__('navbar.blog'), route('blog.index'), 'blog.*', '<path d="M12 7c-1.6-1.7-4.3-2.5-8-2.5v13c3.7 0 6.4.8 8 2.5 1.6-1.7 4.3-2.5 8-2.5v-13c-3.7 0-6.4.8-8 2.5z" fill="currentColor" fill-opacity=".14"/><path d="M12 7c-1.6-1.7-4.3-2.5-8-2.5v13c3.7 0 6.4.8 8 2.5 1.6-1.7 4.3-2.5 8-2.5v-13c-3.7 0-6.4.8-8 2.5zM12 7v13"/>', null],
         [__('navbar.activities'), route('activities.index'), 'activities.*', '<circle cx="12" cy="12" r="9" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z" fill="currentColor" fill-opacity=".35"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z"/>', 'main'],
     ]));
+    // gezgin araçları (ikinci satır)
+    $toolPages = [
+        [__('footer.weather'), route('weather'), 'weather', '<circle cx="9" cy="9" r="3.4" fill="currentColor" fill-opacity=".14"/><circle cx="9" cy="9" r="3.4"/><path d="M9 2.8v1.4M2.8 9h1.4M4.6 4.6l1 1M13.4 4.6l-1 1"/><path d="M9.5 20h8.6a3.4 3.4 0 0 0 .4-6.8 5 5 0 0 0-9.6-.6A3.7 3.7 0 0 0 9.5 20z" fill="currentColor" fill-opacity=".14"/><path d="M9.5 20h8.6a3.4 3.4 0 0 0 .4-6.8 5 5 0 0 0-9.6-.6A3.7 3.7 0 0 0 9.5 20z"/>', null],
+        [__('footer.time'), route('time'), 'time', '<circle cx="12" cy="12" r="9" fill="currentColor" fill-opacity=".14"/><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.3 2"/>', null],
+        [__('footer.rates'), route('rates'), 'rates', '<circle cx="9" cy="9" r="5.5" fill="currentColor" fill-opacity=".14"/><circle cx="9" cy="9" r="5.5"/><circle cx="15" cy="15" r="5.5"/><path d="M7.6 7.7c.3-.5.8-.8 1.5-.8.9 0 1.5.5 1.5 1.1 0 1.4-3 .8-3 2.2 0 .6.6 1.1 1.5 1.1.7 0 1.2-.3 1.5-.8M9 5.8v.9M9 11.3v.9"/>', null],
+    ];
 
     $items = [['top', __('section-nav.top'), $svg($icons['top'], 'size-[22px]')]];
     foreach ($keys ?? \App\Support\PageSections::content($page) as $key) {
@@ -165,6 +171,25 @@
                                         <svg class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $icon !!}</svg>
                                     </span>
                                     <span @class(['w-full truncate text-[9.5px] font-bold tracking-tight', 'text-[#C62E2E]' => $here, 'text-slate-600' => !$here])>{{ $label }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                    {{-- araçlar: hava durumu, yerel saat, döviz --}}
+                    <ul class="mt-2 grid grid-cols-3 gap-1.5 border-t border-slate-200/70 pt-2.5">
+                        @foreach ($toolPages as [$label, $url, $match, $icon, $style])
+                            @php $here = request()->routeIs($match); @endphp
+                            <li>
+                                <a href="{{ $url }}" @if ($here) aria-current="page" @endif class="flex flex-col items-center gap-1 rounded-xl bg-white px-1 py-2 ring-1 ring-slate-200/80">
+                                    <span @class(['grid size-8 shrink-0 place-items-center rounded-full transition',
+                                        'bg-gradient-to-b from-amber-300 to-amber-400 text-slate-950 shadow-[0_8px_18px_-8px_rgba(245,158,11,0.9)]' => $style === 'deal',
+                                        'bg-[#C62E2E] text-white shadow-[0_8px_18px_-8px_rgba(198,46,46,0.8)]' => $style === 'main',
+                                        'bg-white text-[#C62E2E] ring-2 ring-[#C62E2E]' => $here && $style === null,
+                                        'bg-white text-slate-700 ring-1 ring-slate-200' => !$here && $style === null,
+                                        'ring-2 ring-offset-2 ring-[#C62E2E]' => $here && $style !== null])>
+                                        <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $icon !!}</svg>
+                                    </span>
+                                    <span @class(['w-full truncate text-center text-[10.5px] font-bold leading-tight', 'text-[#C62E2E]' => $here, 'text-slate-600' => !$here])>{{ $label }}</span>
                                 </a>
                             </li>
                         @endforeach
