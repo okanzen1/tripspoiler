@@ -86,87 +86,87 @@
             </div>
         </section>
 
-        {{-- KAMPANYALAR: liste --}}
+        {{-- KAMPANYALAR: kupon görünümlü liste (banner'daki yazılarla aynı genişlikte: max-w-7xl) --}}
         <section class="bg-slate-50 py-12 md:py-16">
-            <div class="mx-auto max-w-5xl px-4">
-                <ul class="space-y-5">
+            <div class="mx-auto max-w-7xl px-4">
+                <ul class="space-y-6">
                     @foreach ($campaigns as $campaign)
                         @php
                             $partner = $campaign->partner;
                             $logo = $partner?->logoUrl();
                             $daysLeft = $campaign->ends_at ? (int) now()->startOfDay()->diffInDays($campaign->ends_at->startOfDay(), false) : null;
                             $link = $campaign->link();
+                            $code = $campaign->code ? \Illuminate\Support\Str::upper($campaign->code) : null;
                         @endphp
-                        <li class="group relative overflow-hidden rounded-[28px] bg-white shadow-[0_20px_50px_-36px_rgba(15,23,42,0.45)] ring-1 ring-slate-200/80 transition duration-300 hover:shadow-[0_26px_60px_-34px_rgba(198,46,46,0.45)] hover:ring-[#C62E2E]/25">
-                            <span class="absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b from-[#C62E2E] to-amber-400 rtl:left-auto rtl:right-0" aria-hidden="true"></span>
-                            <div @class(['grid gap-6 p-5 sm:p-7 md:items-center', 'md:grid-cols-[auto_1fr_17rem]' => $logo, 'md:grid-cols-[1fr_17rem]' => !$logo])>
-                                {{-- logo: sadece partnerin logosu yüklüyse --}}
-                                @if ($logo)
-                                    <span class="grid size-20 shrink-0 place-items-center rounded-2xl bg-white p-2.5 shadow-sm ring-1 ring-slate-200">
-                                        <img src="{{ $logo }}" alt="{{ $partner->name }}" loading="lazy" class="max-h-full max-w-full object-contain">
-                                    </span>
+                        <li class="group flex flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_-40px_rgba(15,23,42,0.55)] ring-1 ring-slate-200/80 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_30px_70px_-38px_rgba(198,46,46,0.5)] md:flex-row">
+                            {{-- BİLGİ --}}
+                            <div class="min-w-0 flex-1 p-6 sm:p-8">
+                                <div class="flex items-start justify-between gap-4">
+                                    @if ($logo)
+                                        <span class="flex h-16 w-40 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white px-3 ring-1 ring-slate-200 sm:h-[72px] sm:w-44">
+                                            <img src="{{ $logo }}" alt="{{ $partner->name }}" loading="lazy" class="h-full w-full object-contain">
+                                        </span>
+                                    @elseif ($partner)
+                                        <span class="text-sm font-extrabold uppercase tracking-[0.14em] text-slate-500">{{ $partner->name }}</span>
+                                    @endif
+                                    @if ($campaign->badge)
+                                        <span class="shrink-0 rounded-xl bg-amber-400 px-3.5 py-2 text-sm font-extrabold uppercase leading-none tracking-wide text-slate-950 shadow-[0_8px_20px_-10px_rgba(245,158,11,0.9)]">{{ $campaign->badge }}</span>
+                                    @endif
+                                </div>
+
+                                <h2 class="mt-5 text-2xl font-extrabold leading-tight tracking-[-0.02em] text-slate-900 sm:text-[28px]">{{ $campaign->title }}</h2>
+                                @if ($campaign->description)
+                                    <p class="mt-3 max-w-2xl text-[15px] leading-relaxed text-slate-600">{{ $campaign->description }}</p>
                                 @endif
-
-                                {{-- bilgi --}}
-                                <div class="min-w-0">
-                                    <div class="flex flex-wrap items-center gap-2">
-                                        @if ($partner)
-                                            <span class="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">{{ $partner->name }}</span>
-                                        @endif
-                                        @if ($campaign->badge)
-                                            <span class="rounded-lg bg-amber-400 px-2.5 py-1 text-sm font-extrabold leading-none text-slate-950">{{ $campaign->badge }}</span>
-                                        @endif
-                                    </div>
-                                    <h2 class="mt-1.5 text-xl font-extrabold leading-snug tracking-tight text-slate-900 sm:text-2xl">{{ $campaign->title }}</h2>
-                                    @if ($campaign->description)
-                                        <p class="mt-1.5 text-sm leading-relaxed text-slate-600">{{ $campaign->description }}</p>
-                                    @endif
-                                    @if ($campaign->note)
-                                        <p class="mt-3 flex items-start gap-2 rounded-xl bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900 ring-1 ring-amber-200/70">
-                                            <svg class="mt-0.5 size-4 shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
-                                            {{ $campaign->note }}
-                                        </p>
-                                    @endif
-                                    <p class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold {{ $daysLeft !== null && $daysLeft <= 7 ? 'text-[#C62E2E]' : 'text-slate-500' }}">
-                                        <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
-                                        @if ($daysLeft === null)
-                                            {{ __('campaigns-page.no_end') }}
-                                        @elseif ($daysLeft <= 7)
-                                            {{ $daysLeft === 0 ? __('campaigns-page.last_day') : trans_choice('campaigns-page.days_left', $daysLeft, ['count' => $daysLeft]) }}
-                                        @else
-                                            {{ __('campaigns-page.ends', ['date' => $campaign->ends_at->locale($locale)->isoFormat('D MMMM YYYY')]) }}
-                                        @endif
+                                @if ($campaign->note)
+                                    <p class="mt-4 flex max-w-2xl items-start gap-2.5 rounded-2xl bg-amber-50 px-4 py-3 text-sm font-medium leading-relaxed text-amber-900 ring-1 ring-amber-200/70">
+                                        <svg class="mt-0.5 size-4 shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+                                        {{ $campaign->note }}
                                     </p>
-                                </div>
+                                @endif
+                                <p class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold {{ $daysLeft !== null && $daysLeft <= 7 ? 'text-[#C62E2E]' : 'text-slate-500' }}">
+                                    <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+                                    @if ($daysLeft === null)
+                                        {{ __('campaigns-page.no_end') }}
+                                    @elseif ($daysLeft <= 7)
+                                        {{ $daysLeft === 0 ? __('campaigns-page.last_day') : trans_choice('campaigns-page.days_left', $daysLeft, ['count' => $daysLeft]) }}
+                                    @else
+                                        {{ __('campaigns-page.ends', ['date' => $campaign->ends_at->locale($locale)->isoFormat('D MMMM YYYY')]) }}
+                                    @endif
+                                </p>
+                            </div>
 
-                                {{-- kod + düğme --}}
-                                <div class="space-y-2.5">
-                                    @if ($campaign->code)
-                                        <button type="button" @click="copy(@js($campaign->code))" title="{{ __('campaigns-page.copy') }}"
-                                            class="flex w-full items-stretch overflow-hidden rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 text-left transition hover:border-[#C62E2E] rtl:text-right">
-                                            <span class="min-w-0 flex-1 px-4 py-2.5">
-                                                <span class="block text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">{{ __('campaigns-page.code_label') }}</span>
-                                                <span class="block truncate font-mono text-lg font-extrabold tracking-[0.12em] text-slate-900">{{ $campaign->code }}</span>
-                                            </span>
-                                            <span class="grid shrink-0 place-items-center bg-white px-3.5 text-slate-500 transition group-hover:text-[#C62E2E]">
-                                                <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
-                                            </span>
-                                        </button>
-                                    @endif
-                                    @if ($link)
-                                        <a href="{{ $link }}" @if ($campaign->isExternal()) target="_blank" rel="sponsored noopener" @endif
-                                            @if ($campaign->code) @click="copy(@js($campaign->code))" @endif
-                                            class="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#C62E2E] px-5 py-3.5 text-sm font-bold text-white shadow-[0_12px_26px_-12px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424]">
-                                            {{ $campaign->code ? __('campaigns-page.copy_and_go') : __('campaigns-page.go') }}
-                                            <svg class="size-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                                        </a>
-                                    @endif
-                                </div>
+                            {{-- kupon kesik çizgisi ve iki yandaki oyuklar (telefonda yatay, masaüstünde dikey) --}}
+                            <div class="relative h-0 shrink-0 md:h-auto md:w-0" aria-hidden="true">
+                                <span class="absolute -left-3 -top-3 size-6 rounded-full bg-slate-50 md:-top-3 md:left-[-12px]"></span>
+                                <span class="absolute -right-3 -top-3 size-6 rounded-full bg-slate-50 md:-bottom-3 md:left-[-12px] md:right-auto md:top-auto"></span>
+                            </div>
+
+                            {{-- KOD: koyu kupon ucu --}}
+                            <div class="flex flex-col justify-center gap-3 border-t-2 border-dashed border-slate-300 bg-slate-950 p-6 text-white sm:p-8 md:w-[26rem] md:shrink-0 md:border-l-2 md:border-t-0">
+                                @if ($code)
+                                    <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-white/50">{{ __('campaigns-page.code_label') }}</p>
+                                    <button type="button" @click="copy(@js($code))" title="{{ __('campaigns-page.copy') }}"
+                                        class="group/code flex w-full items-center justify-between gap-3 rounded-2xl border-2 border-dashed border-amber-300/60 bg-white/[0.06] px-5 py-4 text-left transition hover:border-amber-300 hover:bg-white/10 rtl:text-right">
+                                        <span class="min-w-0 break-all text-xl font-black tracking-[0.14em] text-white sm:text-2xl">{{ $code }}</span>
+                                        <span class="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-amber-400 px-3 py-2 text-xs font-extrabold text-slate-950 transition group-hover/code:bg-amber-300">
+                                            <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+                                            {{ __('campaigns-page.copy') }}
+                                        </span>
+                                    </button>
+                                @endif
+                                @if ($link)
+                                    <a href="{{ $link }}" @if ($campaign->isExternal()) target="_blank" rel="sponsored noopener" @endif
+                                        @if ($code) @click="copy(@js($code))" @endif
+                                        class="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#C62E2E] px-5 py-4 text-[15px] font-bold text-white shadow-[0_14px_30px_-12px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424]">
+                                        {{ $code ? __('campaigns-page.copy_and_go') : __('campaigns-page.go') }}
+                                        <svg class="size-4 transition group-hover:translate-x-0.5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                                    </a>
+                                @endif
                             </div>
                         </li>
                     @endforeach
                 </ul>
-
             </div>
         </section>
 
