@@ -14,4 +14,6 @@ return [
     'social' => 'Соцсети',
     'steps' => 'Как это работает',
     'intro' => 'О TripSpoiler',
+    'scroll' => 'Прокрутите',
+    'more' => 'Ещё',
 ];

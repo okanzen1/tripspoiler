@@ -14,4 +14,6 @@ return [
     'social' => 'Social media',
     'steps' => 'How it works',
     'intro' => 'About TripSpoiler',
+    'scroll' => 'Scroll',
+    'more' => 'More',
 ];

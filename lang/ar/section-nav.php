@@ -14,4 +14,6 @@ return [
     'social' => 'وسائل التواصل',
     'steps' => 'كيف يعمل',
     'intro' => 'عن TripSpoiler',
+    'scroll' => 'مرّر',
+    'more' => 'المزيد',
 ];

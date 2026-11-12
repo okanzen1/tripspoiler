@@ -14,4 +14,6 @@ return [
     'social' => '소셜 미디어',
     'steps' => '이용 방법',
     'intro' => 'TripSpoiler 소개',
+    'scroll' => '스크롤',
+    'more' => '더 보기',
 ];

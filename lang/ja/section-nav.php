@@ -14,4 +14,6 @@ return [
     'social' => 'SNS',
     'steps' => 'ご利用の流れ',
     'intro' => 'TripSpoilerについて',
+    'scroll' => 'スクロール',
+    'more' => 'もっと見る',
 ];

@@ -14,4 +14,6 @@ return [
     'social' => 'Social',
     'steps' => 'Come funziona',
     'intro' => 'Chi siamo',
+    'scroll' => 'Scorri',
+    'more' => 'Altro',
 ];

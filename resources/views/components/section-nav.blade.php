@@ -81,15 +81,24 @@
 
             {{-- liste --}}
             <nav x-show="open" x-cloak aria-label="{{ __('section-nav.title') }}"
+                x-data="{ atTop: true, atEnd: false, edges() { const l = this.$refs.list; this.atTop = l.scrollTop < 4; this.atEnd = l.scrollTop + l.clientHeight >= l.scrollHeight - 4 } }"
+                x-effect="if (open) $nextTick(() => { const l = $refs.list, a = l.querySelector('[data-current]'); if (a) l.scrollTop = a.offsetTop - l.clientHeight / 2 + a.offsetHeight / 2; edges() })"
                 x-transition:enter="transition duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]" x-transition:enter-start="opacity-0 scale-95 translate-y-2" x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                 x-transition:leave="transition duration-150 ease-in" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0 scale-95"
-                class="max-h-[70vh] w-[17rem] origin-bottom-right overflow-y-auto rounded-[26px] bg-white p-2 shadow-[0_30px_70px_-20px_rgba(2,6,23,0.55)] ring-1 ring-slate-200 rtl:origin-bottom-left">
-                <p class="px-3 pb-2 pt-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">{{ __('section-nav.title') }}</p>
-                <ul class="relative">
+                class="relative flex max-h-[70vh] w-[17rem] origin-bottom-right flex-col overflow-hidden rounded-[26px] bg-white shadow-[0_30px_70px_-20px_rgba(2,6,23,0.55)] ring-1 ring-slate-200 rtl:origin-bottom-left">
+                <p class="flex shrink-0 items-center justify-between px-5 pb-2 pt-4 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                    {{ __('section-nav.title') }}
+                    <span x-show="!atTop || !atEnd" class="inline-flex items-center gap-1 normal-case tracking-normal text-slate-400">
+                        <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>{{ __('section-nav.scroll') }}
+                    </span>
+                </p>
+                {{-- üstte/altta solma: kaydırılacak yer olduğunu gösterir --}}
+                <div x-show="!atTop" x-transition.opacity class="pointer-events-none absolute inset-x-0 top-10 z-10 h-8 bg-gradient-to-b from-white to-transparent"></div>
+                <ul x-ref="list" @scroll.throttle.50ms="edges()" class="relative min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 pb-2 [scrollbar-width:thin]">
                     {{-- bölümleri birleştiren ince çizgi (yan menüdeki gibi) --}}
                     <span aria-hidden="true" class="absolute bottom-6 left-[29px] top-6 w-px bg-[#C62E2E]/25 rtl:left-auto rtl:right-[29px]"></span>
                     @foreach ($items as [$key, $label, $icon])
-                        <li x-show="has(@js($key))">
+                        <li x-show="has(@js($key))" :data-current="active === @js($key) ? '' : null">
                             <button type="button" @click="go(@js($key))"
                                 :class="active === @js($key) ? 'bg-red-50' : 'hover:bg-slate-50'"
                                 class="relative flex w-full items-center gap-3 rounded-2xl p-1.5 text-left transition rtl:text-right">
@@ -100,6 +109,13 @@
                         </li>
                     @endforeach
                 </ul>
+                {{-- altta: solma + zıplayan ok + "daha fazla" (listenin sonuna gelince kaybolur) --}}
+                <div x-show="!atEnd" x-transition.opacity class="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex h-20 items-end justify-center bg-gradient-to-t from-white via-white/90 to-transparent pb-2">
+                    <span class="inline-flex animate-bounce items-center gap-1 rounded-full bg-slate-900 px-3 py-1.5 text-[11px] font-bold text-white shadow-lg">
+                        {{ __('section-nav.more') }}
+                        <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                    </span>
+                </div>
             </nav>
 
             {{-- düğme: okunan bölümün ikonu --}}

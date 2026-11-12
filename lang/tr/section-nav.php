@@ -14,4 +14,6 @@ return [
     'social' => 'Sosyal medya',
     'steps' => 'Nasıl çalışır',
     'intro' => 'TripSpoiler nedir',
+    'scroll' => 'Kaydır',
+    'more' => 'Daha fazla',
 ];

@@ -14,4 +14,6 @@ return [
     'social' => '社交媒体',
     'steps' => '如何使用',
     'intro' => '关于 TripSpoiler',
+    'scroll' => '滑动',
+    'more' => '更多',
 ];
