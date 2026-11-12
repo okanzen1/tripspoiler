@@ -18,4 +18,5 @@ return [
     'supported_by' => '후원:',
 
     'rates' => '환율',
+    'weather' => '날씨',
 ];

@@ -18,4 +18,5 @@ return [
     'supported_by' => '支持：',
 
     'rates' => '汇率',
+    'weather' => '天气',
 ];

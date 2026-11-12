@@ -145,6 +145,8 @@ Route::group(
 
         Route::get('/campaigns', [\App\Http\Controllers\CampaignController::class, 'index'])->name('campaigns');
 
+        Route::get('/weather', [\App\Http\Controllers\WeatherController::class, 'index'])->name('weather');
+
         Route::view('/about', 'other.about')->name('about');
 
         Route::view('/contact', 'other.contact')->name('contact');

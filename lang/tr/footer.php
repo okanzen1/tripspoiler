@@ -18,4 +18,5 @@ return [
     'supported_by' => 'Destekleyen:',
 
     'rates' => 'Döviz kurları',
+    'weather' => 'Hava durumu',
 ];

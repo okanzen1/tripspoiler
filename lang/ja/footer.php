@@ -18,4 +18,5 @@ return [
     'supported_by' => '協力：',
 
     'rates' => '為替レート',
+    'weather' => '天気',
 ];

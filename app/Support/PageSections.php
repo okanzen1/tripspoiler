@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 class PageSections
 {
     /** Sırası değiştirilebilen içerik bölümleri */
-    public const CONTENT = ['popular', 'blog', 'city_entry', 'faq', 'reviews', 'social', 'steps', 'intro'];
+    public const CONTENT = ['popular', 'blog', 'city_entry', 'faq', 'weather', 'reviews', 'social', 'steps', 'intro'];
 
     /** Sayfanın ana içeriği de sıralamaya girer (her zaman açık): sayfa => anahtar "main" */
     public const MAIN = ['activities', 'activity', 'reviews', 'post'];
@@ -24,19 +24,20 @@ class PageSections
 
     /** Panelde ayar yapılmamışsa açık olan içerik bölümleri (sırasıyla) */
     public const DEFAULTS = [
-        'activities' => ['reviews', 'social'],
+        'activities' => ['weather', 'reviews', 'social'],
         // Aktivite detayı: bölümler o aktiviteye göre dolar (yorumları, soruları, aynı şehirdeki benzerleri)
-        'activity' => ['reviews', 'faq'],
+        'activity' => ['weather', 'reviews', 'faq'],
         // Blog yazısı: bölümler o yazıya ve şehrine göre dolar (kendi soruları, şehrin popülerleri)
-        'post' => ['reviews', 'faq'],
-        'blog' => ['popular', 'reviews', 'social'],
-        'cities' => ['popular', 'blog', 'reviews'],
+        'post' => ['weather', 'reviews', 'faq'],
+        'blog' => ['popular', 'weather', 'reviews', 'social'],
+        'cities' => ['popular', 'weather', 'blog', 'reviews'],
         'reviews' => ['social'],
         'about' => [],
         'contact' => [],
         'privacy' => [],
         'rates' => ['faq'],
         'campaigns' => ['faq', 'reviews'],
+        'weather' => ['faq'],
     ];
 
     /** Route adı → sayfa anahtarı */
@@ -52,6 +53,7 @@ class PageSections
         'privacy' => 'privacy',
         'rates' => 'rates',
         'campaigns' => 'campaigns',
+        'weather' => 'weather',
     ];
 
     private static array $cache = [];
@@ -74,6 +76,10 @@ class PageSections
         $on = is_array($saved['on'] ?? null) ? $saved['on'] : [...$defaults, ...self::FIXED];
         // Kayıtlı sırada hiç olmayan rehber alanı yenidir: açık başlar (panelle aynı kural)
         $on = array_values(array_unique([...$on, ...array_diff($guide, $saved['order'] ?? [])]));
+        // Sonradan eklenen bölüm (kayıtlı sırada yok) bu sayfanın varsayılanındaysa açık başlar (panelle aynı kural)
+        if (is_array($saved['order'] ?? null)) {
+            $on = array_values(array_unique([...$on, ...array_intersect($defaults, array_diff(self::CONTENT, $saved['order']))]));
+        }
 
         return self::$cache[$page] = ['order' => $order, 'on' => array_values($on)];
     }
@@ -111,7 +117,7 @@ class PageSections
         $config = self::config($page);
 
         // Şehirle ilgisi olmayan sayfalarda şehre bağlı bölümler gösterilmez (panelle aynı kural)
-        $skip = in_array($page, ['contact', 'about', 'privacy', 'reviews', 'rates', 'campaigns'], true) ? ['popular', 'blog', 'city_entry'] : [];
+        $skip = in_array($page, ['contact', 'about', 'privacy', 'reviews', 'rates', 'campaigns', 'weather'], true) ? ['popular', 'blog', 'city_entry', 'weather'] : [];
         if ($page === 'reviews') {
             $skip[] = 'reviews'; // sayfanın kendisi yorum listesi
         }

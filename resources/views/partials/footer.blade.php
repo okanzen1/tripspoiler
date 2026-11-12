@@ -12,6 +12,7 @@
             [__('footer.about'), route('about'), 'about'],
             [__('footer.reviews'), route('reviews.index'), 'reviews.*'],
             [__('footer.contact'), route('contact'), 'contact'],
+            [__('footer.weather'), route('weather'), 'weather'],
             [__('footer.rates'), route('rates'), 'rates'],
             [__('footer.privacy'), route('privacy'), 'privacy'],
         ],
@@ -84,6 +85,8 @@
                 <a href="https://db-ip.com" target="_blank" rel="noopener nofollow" class="transition hover:text-white/60">IP Geolocation by DB-IP</a>
                 <span aria-hidden="true" class="px-1 text-white/15">·</span>
                 <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener nofollow" class="transition hover:text-white/60">Rates By Exchange Rate API</a>
+                <span aria-hidden="true" class="px-1 text-white/15">·</span>
+                <a href="https://www.met.no/en" target="_blank" rel="noopener nofollow" class="transition hover:text-white/60">Weather data from MET Norway</a>
             </p>
         </div>
     </div>

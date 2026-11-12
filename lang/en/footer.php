@@ -18,4 +18,5 @@ return [
     'supported_by' => 'Supported by:',
 
     'rates' => 'Exchange rates',
+    'weather' => 'Weather',
 ];

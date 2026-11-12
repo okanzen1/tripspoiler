@@ -75,6 +75,11 @@
                 <x-reviews :source="$activity ? 'activity' : ($reviewSource ?? $page)" :source-id="$activity?->id" :color="$next()" />
             @endif
             @break
+        @case('weather')
+            @if ($cityId)
+                <x-weather-section :city-id="$cityId" :color="$next()" />
+            @endif
+            @break
         @case('social')
             <x-social-presence-section :color="$next()" />
             @break

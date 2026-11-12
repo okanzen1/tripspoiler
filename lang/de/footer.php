@@ -18,4 +18,5 @@ return [
     'supported_by' => 'Unterstützt von:',
 
     'rates' => 'Wechselkurse',
+    'weather' => 'Wetter',
 ];

@@ -18,4 +18,5 @@ return [
     'supported_by' => 'بدعم من:',
 
     'rates' => 'أسعار الصرف',
+    'weather' => 'الطقس',
 ];

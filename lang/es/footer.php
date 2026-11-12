@@ -18,4 +18,5 @@ return [
     'supported_by' => 'Con el apoyo de:',
 
     'rates' => 'Tipos de cambio',
+    'weather' => 'El tiempo',
 ];
