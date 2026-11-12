@@ -18,7 +18,17 @@
         $canonical = \App\Support\Schema::canonical();
         $pageTitle = trim($__env->yieldContent('title', 'TripSpoiler'));
         $pageDescription = trim($__env->yieldContent('meta_description', 'Curated city experiences, museum guides and travel insights from around the world.'));
-        $ogImage = trim($__env->yieldContent('og_image')) ?: asset('images/hero-banner.webp');
+        // Paylaşım resmi (WhatsApp, Facebook…): sayfa vermediyse o sayfanın panelden yüklenen banner'ı,
+        // o da yoksa anasayfa hero resmi (PageBanner::urls zinciri), en son varsayılan resim
+        $ogImage = trim($__env->yieldContent('og_image'));
+        if ($ogImage === '') {
+            try {
+                $ogPage = strtok((string) request()->route()?->getName(), '.') ?: 'home';
+                $ogImage = \App\Models\PageBanner::urls($ogPage, session('selected_city_id'))['desktop'];
+            } catch (\Throwable) {
+                $ogImage = asset('images/hero-banner.webp');
+            }
+        }
         $ogType = trim($__env->yieldContent('og_type')) ?: 'website';
     @endphp
 
