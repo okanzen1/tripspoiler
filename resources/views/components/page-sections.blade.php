@@ -20,19 +20,24 @@
 @endphp
 
 @foreach (\App\Support\PageSections::content($page) as $section)
+    {{-- her bölüm işaretli: telefondaki bölüm kılavuzu (components/section-nav) bunları bulur; boş bölüm görünmez, kılavuza da girmez --}}
+    <div data-nav-section="{{ $section }}" class="scroll-mt-28">
     @if (str_starts_with($section, 'privacy_'))
         {{-- Gizlilik bölümleri sayfanın kendi düzeninde (içindekiler + numaralandırma) basılır; burada tekrar edilmez. --}}
+        </div>
         @continue
     @endif
     @if (view()->exists('sections.' . $section))
         {{-- sayfaya özel bölüm (ör. Hakkımızda: hikâye, nasıl çalışır…) --}}
         @include('sections.' . $section)
+        </div>
         @continue
     @endif
     @if (str_starts_with($section, 'guide:'))
         @if ($guideSections?->has((int) substr($section, 6)))
             <x-city-guide-section :section="$guideSections->get((int) substr($section, 6))" :color="$next()" :number="$guideKeys->search($section) + 1" :total="$guideKeys->count()" />
         @endif
+        </div>
         @continue
     @endif
     @switch($section)
@@ -95,4 +100,5 @@
             <x-tripspoiler-intro />
             @break
     @endswitch
+    </div>
 @endforeach
