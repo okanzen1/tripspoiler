@@ -84,6 +84,33 @@
             </a>
         @endforeach
 
+        {{-- Dil: yuvarlağa tıklayınca diller solda açılır (en üste çıkmadan dil değiştirmek için) --}}
+        <div x-data="{ lang: false }" @click.outside="lang = false" @keydown.escape.window="lang = false" class="relative">
+            <button type="button" @click="lang = !lang" :aria-expanded="lang" aria-label="{{ __('navbar.language') }}"
+                :class="lang ? 'text-[#C62E2E] ring-[#C62E2E]/40' : 'text-slate-600 ring-slate-200/80'"
+                class="group relative grid size-10 place-items-center rounded-full bg-white ring-1 shadow-[0_10px_26px_-12px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-x-1 hover:text-[#C62E2E] rtl:hover:translate-x-1">
+                <span class="flex flex-col items-center leading-none">
+                    <svg class="size-[15px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" /></svg>
+                    <span class="mt-0.5 text-[9px] font-extrabold uppercase tracking-wide">{{ app()->getLocale() }}</span>
+                </span>
+                <span x-show="!lang" class="pointer-events-none absolute right-full mr-3 translate-x-1 whitespace-nowrap rounded-lg bg-slate-900/90 px-2.5 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg transition duration-200 group-hover:translate-x-0 group-hover:opacity-100 rtl:left-full rtl:right-auto rtl:ml-3 rtl:mr-0">{{ __('navbar.language') }}</span>
+            </button>
+            <div x-show="lang" x-cloak
+                x-transition:enter="transition duration-200 ease-out" x-transition:enter-start="opacity-0 translate-x-2" x-transition:enter-end="opacity-100 translate-x-0"
+                x-transition:leave="transition duration-150 ease-in" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                class="absolute right-full top-1/2 mr-4 w-72 -translate-y-1/2 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-2xl rtl:left-full rtl:right-auto rtl:ml-4 rtl:mr-0">
+                <div class="grid grid-cols-2 gap-0.5">
+                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" hreflang="{{ $localeCode }}" lang="{{ $localeCode }}"
+                            @class(['flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm', 'bg-red-50 font-semibold text-[#C62E2E]' => app()->getLocale() == $localeCode, 'text-slate-700 hover:bg-slate-50' => app()->getLocale() != $localeCode])>
+                            <span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span>
+                            <span class="text-[10px] font-semibold uppercase text-slate-400">{{ $localeCode }}</span>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
         {{-- Aktiviteler: büyük, kırmızı, en altta --}}
         <a href="{{ route('activities.index') }}" aria-label="{{ __('navbar.activities') }}" @if ($activitiesActive) aria-current="page" @click="{{ $toTop }}" @endif
             class="group relative mt-1 grid size-16 place-items-center rounded-full bg-[#C62E2E] text-white shadow-[0_16px_36px_-10px_rgba(198,46,46,0.7)] transition duration-300 hover:scale-105 hover:bg-[#A82424]">

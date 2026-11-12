@@ -116,7 +116,7 @@
                 @endif
             </div>
 
-            <h1 class="mt-4 max-w-4xl text-3xl font-extrabold leading-[1.1] tracking-[-0.025em] text-slate-900 sm:text-4xl lg:text-[46px]">{{ $name }}</h1>
+            <h1 class="mt-4 text-3xl font-extrabold leading-[1.1] text-balance tracking-[-0.025em] text-slate-900 sm:text-4xl lg:text-[46px]">{{ $name }}</h1>
 
             <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-600">
                 <a href="{{ route('cities.show', $city->slug) }}" class="inline-flex items-center gap-2 font-semibold text-slate-800 transition hover:text-[#C62E2E]">
@@ -201,10 +201,9 @@
                                 <div class="mt-10" x-data="{ open: false, long: false }" x-init="$nextTick(() => long = $refs.body.scrollHeight > 560)">
                                     <h2 class="text-2xl font-extrabold tracking-tight text-slate-900">{{ __('activity-show.about') }}</h2>
                                     <div class="relative mt-5">
-                                        <div x-ref="body" class="prose prose-slate quill-content max-w-none overflow-hidden transition-[max-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-                                                    prose-headings:font-extrabold prose-headings:tracking-tight prose-a:text-[#C62E2E] prose-li:my-1"
+                                        <div x-ref="body" class="rich-text overflow-hidden transition-[max-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
                                             :style="long && !open ? 'max-height: 520px' : (long ? 'max-height: ' + $refs.body.scrollHeight + 'px' : '')">
-                                            {!! $activity->description !!}
+                                            {!! \App\Support\BulletParagraphs::toList((string) $activity->description) !!}
                                         </div>
                                         <div x-show="long && !open" class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
                                     </div>
