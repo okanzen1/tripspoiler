@@ -64,7 +64,7 @@
                             <span class="h-px w-8 bg-[#FF8A8C]"></span>{{ $hero['eyebrow'] }}
                         </p>
                         <h1 class="mt-4 text-[44px] font-extrabold leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-7xl">
-                            {{ $city->name }}
+                            <span class="text-[#FF5A5F]">{{ $city->name }}</span>
                             <span class="block text-white/55">{{ __('weather.page_city_sub') }}</span>
                         </h1>
                         <p class="mt-5 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">{{ $hero['description'] }}</p>
