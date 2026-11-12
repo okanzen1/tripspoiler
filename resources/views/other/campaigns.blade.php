@@ -48,7 +48,10 @@
                 ]" />
 
                 <div class="mt-8 grid items-center gap-8 lg:mt-10 lg:grid-cols-12">
-                    <div class="lg:col-span-7">
+                    <div class="relative lg:col-span-7">
+                        {{-- telefon/tablet: tavşan büyük, sağ altta (sarı "aktif fırsat" düğmesiyle karşılıklı), yazıların arkasında; masaüstünde sağ sütunda --}}
+                        <img src="{{ asset('images/kosantavsan-campaign.webp') }}" alt="" aria-hidden="true" width="880" height="810"
+                            class="campaign-float pointer-events-none absolute bottom-0 -right-2 -z-10 w-60 max-w-none opacity-60 mix-blend-screen sm:right-0 sm:w-72 lg:hidden">
                         <span class="inline-flex items-center gap-2 rounded-full bg-amber-400/15 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-amber-300 ring-1 ring-amber-300/30">
                             <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">{!! $gift !!}</svg>
                             {{ $hero['eyebrow'] }}
@@ -61,10 +64,10 @@
                         </p>
                     </div>
 
-                    {{-- koşan tavşan (public/kosantavsanlogo.webp): siyah zemini mix-blend-screen ile lacivertte kaybolur --}}
+                    {{-- koşan tavşan (public/images/kosantavsan-campaign.webp = kosantavsanlogo.webp'nin gölgesiz kırpılmışı): siyah zemini mix-blend-screen ile lacivertte kaybolur --}}
                     <div class="relative mx-auto hidden w-full lg:col-span-5 lg:block" aria-hidden="true">
                         <div class="absolute inset-x-10 inset-y-6 rounded-full bg-gradient-to-br from-amber-300/25 via-[#C62E2E]/20 to-transparent blur-3xl"></div>
-                        <img src="{{ asset('kosantavsanlogo.webp') }}" alt="" width="1535" height="1024" class="campaign-float relative w-full max-w-md mix-blend-screen">
+                        <img src="{{ asset('images/kosantavsan-campaign.webp') }}" alt="" width="880" height="810" class="campaign-float relative mx-auto w-full max-w-xs mix-blend-screen">
                         <span class="absolute left-[12%] top-[8%] text-2xl text-amber-300 campaign-twinkle">✦</span>
                         <span class="absolute right-[10%] top-[4%] text-lg text-white/70 campaign-twinkle [animation-delay:.8s]">✦</span>
                         <span class="absolute bottom-[14%] right-[6%] text-xl text-[#FF8A8C] campaign-twinkle [animation-delay:1.4s]">✦</span>

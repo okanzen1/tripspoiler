@@ -125,9 +125,10 @@
         {{-- MOBILE --}}
         @if ($campaignCount)
             <a href="{{ route('campaigns') }}" aria-label="{{ __('navbar.campaigns') }}"
-                class="campaign-shine relative ml-auto -mr-3 grid size-10 place-items-center overflow-hidden rounded-full bg-gradient-to-b from-amber-300 to-amber-400 text-slate-950 shadow-[0_8px_20px_-8px_rgba(245,158,11,0.9)] lg:hidden">
+                class="relative ml-auto -mr-3 grid size-10 place-items-center rounded-full bg-gradient-to-b from-amber-300 to-amber-400 text-slate-950 shadow-[0_8px_20px_-8px_rgba(245,158,11,0.9)] lg:hidden">
+                <span class="campaign-shine absolute inset-0 overflow-hidden rounded-full" aria-hidden="true"></span>
                 <svg class="campaign-wiggle size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8M2.5 7.5h19v4.5h-19zM12 21V7.5M12 7.5H8a2.5 2.5 0 1 1 0-5c2.5 0 4 5 4 5zM12 7.5h4a2.5 2.5 0 1 0 0-5c-2.5 0-4 5-4 5z"/></svg>
-                <span class="absolute -right-0.5 -top-0.5 grid size-4 place-items-center rounded-full bg-[#C62E2E] text-[10px] font-extrabold text-white ring-2 ring-white">{{ $campaignCount }}</span>
+                <span class="absolute -right-1 -top-1 grid size-[18px] place-items-center rounded-full bg-[#C62E2E] text-[10px] font-extrabold leading-none text-white ring-2 ring-white">{{ $campaignCount }}</span>
             </a>
         @endif
         <button type="button" class="lg:hidden -mr-2 p-2 text-slate-800 group-data-[transparent=true]:text-white" aria-label="Menu"
