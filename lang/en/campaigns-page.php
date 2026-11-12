@@ -21,4 +21,6 @@ return [
     'days_left' => '{1} 1 day left|[2,*] :count days left',
     'ends' => 'Ends :date',
     'terms' => 'Terms are set by our partners; codes are only valid on the partner’s own site. TripSpoiler may earn a commission from these links at no extra cost to you.',
+    'step_label' => 'Step :n',
+    'free' => 'Free to use',
 ];

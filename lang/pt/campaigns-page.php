@@ -21,4 +21,6 @@ return [
     'days_left' => '{1} Falta 1 dia|[2,*] Faltam :count dias',
     'ends' => 'Termina a :date',
     'terms' => 'As condições são definidas pelos parceiros; os códigos só são válidos no site do parceiro. A TripSpoiler pode receber uma comissão sem custo extra para si.',
+    'step_label' => 'Passo :n',
+    'free' => 'Uso gratuito',
 ];

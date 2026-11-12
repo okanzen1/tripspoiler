@@ -4,7 +4,7 @@
 @section('meta_description', __('campaigns-page.meta_description'))
 
 {{--
-    Kampanyalar: lacivert üst bölüm (sitenin kırmızısı + altın), sağda tavşan maskot; sayfa açılınca havai fişek.
+    Kampanyalar: lacivert üst bölüm (sitenin kırmızısı + altın), sağda indirim biletleri ve önünde tavşan maskot; altında 3 adım; sayfa açılınca havai fişek.
     Altında kampanyalar liste halinde: partner logosu, etiket, başlık, açıklama, not, süre, kod + Kopyala, Kampanyaya git.
     Kampanyalar panelden (Kampanyalar); üst yazılar Sayfalar › Kampanyalar › Hero alanı.
     Yayında kampanya yoksa bu sayfa anasayfaya yönlenir (CampaignController).
@@ -33,53 +33,104 @@
             },
         }">
 
-        {{-- ÜST: lacivert, kırmızı + altın ışık, sağda tavşan --}}
+        {{-- ÜST: lacivert, kırmızı + altın ışık; sağda iki indirim bileti ve önünde koşan tavşan; altında 3 adım --}}
+        @php
+            $stepIcons = [
+                'step1' => '<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
+                'step2' => '<path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/>',
+                'step3' => '<path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"/><circle cx="10" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/>',
+            ];
+        @endphp
         <section class="relative isolate overflow-hidden bg-slate-950 text-white">
             <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
                 <div class="absolute inset-0 opacity-[0.08] [background-image:radial-gradient(rgba(255,255,255,.9)_1px,transparent_1px)] [background-size:26px_26px]"></div>
-                <div class="absolute -left-40 -top-40 size-[44rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.32),transparent_65%)]"></div>
-                <div class="absolute -bottom-48 right-[10%] size-[42rem] rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_65%)]"></div>
+                <div class="absolute -left-40 -top-40 size-[44rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.38),transparent_65%)]"></div>
+                <div class="absolute -bottom-56 right-[5%] size-[46rem] rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.22),transparent_65%)]"></div>
+                {{-- konfeti --}}
+                <span class="absolute left-[46%] top-[18%] size-2 rotate-45 rounded-sm bg-amber-300/70"></span>
+                <span class="absolute left-[54%] top-[64%] size-1.5 rounded-full bg-[#FF6B6E]/80"></span>
+                <span class="absolute right-[6%] top-[22%] h-1 w-4 rotate-[30deg] rounded-full bg-white/40"></span>
+                <span class="absolute bottom-[30%] left-[40%] h-1 w-3 -rotate-12 rounded-full bg-amber-300/50"></span>
             </div>
 
-            <div class="mx-auto max-w-7xl px-4 pb-14 pt-6 md:pb-16 md:pt-8">
+            <div class="mx-auto max-w-7xl px-4 pb-14 pt-6 md:pb-20 md:pt-8">
                 <x-breadcrumbs dark :items="[
                     ['label' => __('activity-show.home'), 'url' => route('home')],
                     ['label' => __('navbar.campaigns'), 'url' => route('campaigns')],
                 ]" />
 
-                <div class="mt-8 grid items-center gap-8 lg:mt-10 lg:grid-cols-12">
+                <div class="mt-8 grid items-center gap-10 lg:mt-12 lg:grid-cols-12">
                     <div class="relative lg:col-span-7">
-                        {{-- telefon/tablet: tavşan büyük, sağ altta (sarı "aktif fırsat" düğmesiyle karşılıklı), yazıların arkasında; masaüstünde sağ sütunda --}}
+                        {{-- telefon/tablet: tavşan sağ altta, yazıların arkasında; masaüstünde sağ sütunda biletlerle --}}
                         <img src="{{ asset('images/kosantavsan-campaign-alpha.webp') }}" alt="" aria-hidden="true" width="640" height="589" decoding="async"
-                            class="campaign-float pointer-events-none absolute bottom-0 -right-2 -z-10 w-60 max-w-none opacity-60 sm:right-0 sm:w-72 lg:hidden">
+                            class="campaign-float pointer-events-none absolute -bottom-6 -right-4 -z-10 w-44 max-w-none opacity-25 sm:right-0 sm:w-64 sm:opacity-40 lg:hidden">
                         <span class="inline-flex items-center gap-2 rounded-full bg-amber-400/15 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-amber-300 ring-1 ring-amber-300/30">
                             <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">{!! $gift !!}</svg>
                             {{ $hero['eyebrow'] }}
                         </span>
-                        <h1 class="mt-5 text-[40px] font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-6xl">{{ $hero['title'] }}</h1>
-                        <p class="mt-5 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">{{ $hero['description'] }}</p>
-                        <p class="mt-6 inline-flex items-center gap-2 rounded-full bg-amber-400 px-4 py-2 text-sm font-extrabold text-slate-950 shadow-[0_12px_30px_-10px_rgba(251,191,36,0.7)]">
-                            <span class="relative flex size-2"><span class="absolute inline-flex size-full animate-ping rounded-full bg-[#C62E2E] opacity-70"></span><span class="relative inline-flex size-2 rounded-full bg-[#C62E2E]"></span></span>
-                            {{ trans_choice('campaigns-page.count', $campaigns->count(), ['count' => $campaigns->count()]) }}
-                        </p>
+                        <h1 class="mt-5 text-[42px] font-extrabold leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-7xl">{{ $hero['title'] }}</h1>
+                        <p class="mt-6 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">{{ $hero['description'] }}</p>
+                        <div class="mt-8 flex flex-wrap items-center gap-3">
+                            <p class="inline-flex items-center gap-2 rounded-full bg-amber-400 px-4 py-2.5 text-sm font-extrabold text-slate-950 shadow-[0_12px_30px_-10px_rgba(251,191,36,0.7)]">
+                                <span class="relative flex size-2"><span class="absolute inline-flex size-full animate-ping rounded-full bg-[#C62E2E] opacity-70"></span><span class="relative inline-flex size-2 rounded-full bg-[#C62E2E]"></span></span>
+                                {{ trans_choice('campaigns-page.count', $campaigns->count(), ['count' => $campaigns->count()]) }}
+                            </p>
+                            <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 text-sm font-bold text-white ring-1 ring-white/15">
+                                <svg class="size-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+                                {{ __('campaigns-page.free') }}
+                            </p>
+                        </div>
                     </div>
 
-                    {{-- koşan tavşan (public/images/kosantavsan-campaign-alpha.webp: kosantavsanlogo.webp'nin gölgesiz, arka planı şeffaf, küçültülmüş hali) --}}
-                    <div class="relative mx-auto hidden w-full lg:col-span-5 lg:block" aria-hidden="true">
-                        <div class="absolute inset-x-10 inset-y-6 rounded-full bg-[radial-gradient(circle,rgba(252,211,77,0.25),rgba(198,46,46,0.12)_45%,transparent_70%)]"></div>
-                        <img src="{{ asset('images/kosantavsan-campaign-alpha.webp') }}" alt="" width="640" height="589" decoding="async" class="campaign-float relative mx-auto w-full max-w-xs">
-                        <span class="absolute left-[12%] top-[8%] text-2xl text-amber-300 campaign-twinkle">✦</span>
-                        <span class="absolute right-[10%] top-[4%] text-lg text-white/70 campaign-twinkle [animation-delay:.8s]">✦</span>
-                        <span class="absolute bottom-[14%] right-[6%] text-xl text-[#FF8A8C] campaign-twinkle [animation-delay:1.4s]">✦</span>
+                    {{-- biletler + koşan tavşan (public/images/kosantavsan-campaign-alpha.webp, arka planı şeffaf) --}}
+                    <div class="relative mx-auto hidden h-[400px] w-full max-w-md lg:col-span-5 lg:block" aria-hidden="true">
+                        <div class="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.22),transparent_62%)]"></div>
+                        {{-- arkadaki kırmızı bilet --}}
+                        <div class="absolute left-[2%] top-[6%] flex h-40 w-72 rotate-[9deg] overflow-hidden rounded-[24px] bg-gradient-to-br from-[#FF6B6E] to-[#A82424] shadow-[0_30px_60px_-25px_rgba(198,46,46,0.8)]">
+                            <div class="flex flex-1 items-center justify-center text-7xl font-black text-white/25">%</div>
+                            <div class="relative w-16 border-l-2 border-dashed border-white/30">
+                                <span class="absolute -left-3 -top-3 size-6 rounded-full bg-slate-950"></span>
+                                <span class="absolute -bottom-3 -left-3 size-6 rounded-full bg-slate-950"></span>
+                            </div>
+                        </div>
+                        {{-- öndeki altın bilet --}}
+                        <div class="absolute left-[8%] top-[24%] flex h-44 w-80 -rotate-[7deg] overflow-hidden rounded-[26px] bg-gradient-to-br from-amber-200 via-amber-400 to-orange-500 text-slate-950 shadow-[0_35px_70px_-25px_rgba(251,191,36,0.75)]">
+                            <div class="flex flex-1 flex-col justify-center px-6">
+                                <span class="text-[10px] font-extrabold uppercase tracking-[0.22em] text-slate-950/60">{{ __('campaigns-page.code_label') }}</span>
+                                <span class="mt-1 text-6xl font-black leading-none tracking-tighter">%</span>
+                                <span class="mt-3 inline-flex w-max items-center gap-1.5 rounded-lg border-2 border-dashed border-slate-950/30 px-2.5 py-1 font-mono text-sm font-bold tracking-[0.2em]">TRIP•••</span>
+                            </div>
+                            <div class="relative flex w-16 items-center justify-center border-l-2 border-dashed border-slate-950/25">
+                                <span class="absolute -left-3 -top-3 size-6 rounded-full bg-slate-950"></span>
+                                <span class="absolute -bottom-3 -left-3 size-6 rounded-full bg-slate-950"></span>
+                                <svg class="size-7 text-slate-950/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{!! $gift !!}</svg>
+                            </div>
+                        </div>
+                        <img src="{{ asset('images/kosantavsan-campaign-alpha.webp') }}" alt="" width="640" height="589" decoding="async"
+                            class="campaign-float absolute -bottom-2 -right-6 w-64 drop-shadow-[0_25px_30px_rgba(0,0,0,0.45)]">
+                        <span class="campaign-twinkle absolute left-[0%] top-[2%] text-2xl text-amber-300">✦</span>
+                        <span class="campaign-twinkle absolute right-[4%] top-[0%] text-lg text-white/70 [animation-delay:.8s]">✦</span>
+                        <span class="campaign-twinkle absolute bottom-[10%] left-[6%] text-xl text-[#FF8A8C] [animation-delay:1.4s]">✦</span>
                     </div>
                 </div>
 
-                {{-- nasıl kullanılır --}}
-                <ol class="mt-10 grid gap-3 sm:grid-cols-3">
+                {{-- nasıl kullanılır: 3 adım, aralarında ok --}}
+                <ol class="mt-12 grid gap-3 sm:grid-cols-3 sm:gap-5">
                     @foreach (['step1', 'step2', 'step3'] as $step)
-                        <li class="flex items-center gap-3 rounded-2xl bg-white/[0.06] px-4 py-3.5 ring-1 ring-white/10">
-                            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-amber-400 text-sm font-extrabold text-slate-950">{{ $loop->iteration }}</span>
-                            <span class="text-sm font-semibold text-white/90">{{ __('campaigns-page.' . $step) }}</span>
+                        <li class="relative flex items-center gap-4 rounded-2xl bg-white/[0.06] p-4 ring-1 ring-white/10 backdrop-blur-sm sm:p-5">
+                            <span class="relative grid size-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 shadow-[0_10px_24px_-10px_rgba(251,191,36,0.8)]">
+                                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{!! $stepIcons[$step] !!}</svg>
+                                <span class="absolute -right-1.5 -top-1.5 grid size-5 place-items-center rounded-full bg-[#C62E2E] text-[10px] font-extrabold text-white ring-2 ring-slate-950">{{ $loop->iteration }}</span>
+                            </span>
+                            <span class="min-w-0">
+                                <span class="block text-[10px] font-bold uppercase tracking-[0.18em] text-amber-300/80">{{ __('campaigns-page.step_label', ['n' => $loop->iteration]) }}</span>
+                                <span class="mt-0.5 block font-bold text-white">{{ __('campaigns-page.' . $step) }}</span>
+                            </span>
+                            @unless ($loop->last)
+                                <span class="absolute -right-[18px] top-1/2 z-10 hidden size-8 -translate-y-1/2 place-items-center rounded-full bg-slate-900 text-amber-300 ring-1 ring-white/15 sm:grid rtl:-left-[18px] rtl:right-auto rtl:rotate-180" aria-hidden="true">
+                                    <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                                </span>
+                            @endunless
                         </li>
                     @endforeach
                 </ol>
@@ -169,6 +220,11 @@
                         </li>
                     @endforeach
                 </ul>
+                {{-- koşullar + komisyon açıklaması --}}
+                <p class="mx-auto mt-8 flex max-w-3xl items-start justify-center gap-2 text-center text-xs leading-relaxed text-slate-400">
+                    <svg class="mt-0.5 size-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+                    <span>{{ __('campaigns-page.terms') }}</span>
+                </p>
             </div>
         </section>
 

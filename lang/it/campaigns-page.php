@@ -21,4 +21,6 @@ return [
     'days_left' => '{1} Ultimo giorno|[2,*] Ancora :count giorni',
     'ends' => 'Scade il :date',
     'terms' => 'Le condizioni sono stabilite dai partner; i codici valgono solo sul loro sito. TripSpoiler può ricevere una commissione senza costi aggiuntivi per te.',
+    'step_label' => 'Passo :n',
+    'free' => 'Uso gratuito',
 ];

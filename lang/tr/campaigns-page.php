@@ -21,4 +21,6 @@ return [
     'days_left' => '{1} Son 1 gün|[2,*] Son :count gün',
     'ends' => 'Son gün: :date',
     'terms' => 'Kampanya koşullarını partnerler belirler; kodlar yalnızca ilgili partnerin sitesinde geçerlidir. TripSpoiler bu bağlantılardan komisyon alabilir, bu sana ek bir maliyet getirmez.',
+    'step_label' => 'Adım :n',
+    'free' => 'Kullanımı ücretsiz',
 ];

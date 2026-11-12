@@ -21,4 +21,6 @@ return [
     'days_left' => '{1} 仅剩 1 天|[2,*] 仅剩 :count 天',
     'ends' => ':date 截止',
     'terms' => '优惠条件由合作伙伴制定，优惠码仅在其网站有效。TripSpoiler 可能从这些链接获得佣金，不会给你带来额外费用。',
+    'step_label' => '第 :n 步',
+    'free' => '免费使用',
 ];

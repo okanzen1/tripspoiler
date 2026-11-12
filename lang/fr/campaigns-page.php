@@ -21,4 +21,6 @@ return [
     'days_left' => '{1} Plus que 1 jour|[2,*] Plus que :count jours',
     'ends' => 'Se termine le :date',
     'terms' => 'Les conditions sont fixées par nos partenaires ; les codes ne sont valables que sur leur site. TripSpoiler peut percevoir une commission, sans frais supplémentaires pour vous.',
+    'step_label' => 'Étape :n',
+    'free' => 'Gratuit',
 ];

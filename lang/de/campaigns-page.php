@@ -21,4 +21,6 @@ return [
     'days_left' => '{1} Noch 1 Tag|[2,*] Noch :count Tage',
     'ends' => 'Endet am :date',
     'terms' => 'Die Bedingungen legen unsere Partner fest; Codes gelten nur auf der Seite des jeweiligen Partners. TripSpoiler erhält ggf. eine Provision – für dich ohne Mehrkosten.',
+    'step_label' => 'Schritt :n',
+    'free' => 'Kostenlos nutzbar',
 ];
