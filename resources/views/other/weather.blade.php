@@ -15,6 +15,9 @@
         'eyebrow' => __('weather.page_eyebrow'), 'title' => __('weather.page_title'), 'description' => __('weather.page_desc'),
     ]);
     $look = \App\Support\PageHero::visual('weather', $banner['focus'] ?? null);
+    // Karartma panelden (Sayfalar › sayfa › Hero alanı › Görünüm): Az = fotoğraf canlı, sadece yazı tarafı hafif koyu
+    $overlayClass = ['soft' => 'from-slate-950/75 via-slate-950/30 to-transparent', 'medium' => 'from-slate-950/90 via-slate-950/60 to-slate-950/20', 'strong' => 'from-slate-950 via-slate-950/85 to-slate-950/45'][$look['overlay']];
+    $bottomClass = ['soft' => 'from-slate-950/40', 'medium' => 'from-slate-950/65', 'strong' => 'from-slate-950/80'][$look['overlay']];
     $flag = fn ($code) => $code ? implode('', array_map(fn ($c) => mb_chr(0x1F1E6 + ord($c) - 65), str_split(strtoupper($code)))) : '';
     $countryName = fn ($country) => $country ? (\Locale::getDisplayRegion('-' . $country->code, $locale) ?: $country->name) : '';
     $mm = fn ($v) => rtrim(rtrim(number_format($v, 1, ',', ''), '0'), ',');
@@ -45,8 +48,8 @@
                 @if ($banner['mobile'] ?? null)<source media="(max-width: 767px)" srcset="{{ $banner['mobile'] }}">@endif
                 <img src="{{ $banner['desktop'] }}" alt="" fetchpriority="high" class="h-full w-full object-cover" style="object-position: {{ $look['focus'] }}% center">
             </picture>
-            <div class="absolute inset-0 -z-10 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-950/40"></div>
-            <div class="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
+            <div class="absolute inset-0 -z-10 bg-gradient-to-r {{ $overlayClass }} rtl:bg-gradient-to-l"></div>
+            <div class="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t {{ $bottomClass }} to-transparent"></div>
 
             <div class="mx-auto max-w-7xl px-4 pb-14 pt-6 md:pb-20 md:pt-8">
                 <x-breadcrumbs dark :items="[
