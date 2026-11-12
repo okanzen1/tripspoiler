@@ -126,6 +126,9 @@
 .hero-float {
   animation: heroReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) both,
              heroFloat 7s ease-in-out calc(var(--d, 0ms) + 0.9s) infinite;
+  /* Ayrı katmanda çizilsin: yoksa yavaş hareket tam piksellere yuvarlanır, kart tık tık atlar */
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 @keyframes heroZoom {
@@ -139,8 +142,8 @@
 }
 
 @keyframes heroFloat {
-  0%, 100% { transform: none; }
-  50%      { transform: translateY(-10px); }
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -10px, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
