@@ -17,6 +17,9 @@
             default => __('most-popular-activities.category_product'),
         };
         $sliderId = 'popular-' . \Illuminate\Support\Str::random(6);
+        // "Tüm aktiviteler" kartının resmi panelden (Yönetim › Bölümler › Popüler aktiviteler); yoksa varsayılan
+        $allImage = \App\Models\Setting::many(['popular_all_image'])['popular_all_image'];
+        $allImage = $allImage ? \App\Models\ActivityImage::mediaUrl($allImage) : asset('images/all-activities-cover.webp');
     @endphp
 
     <section class="{{ $color }} relative pt-16 pb-8 md:pt-24 md:pb-14" x-data="{
@@ -30,7 +33,7 @@
 
             {{-- BAŞLIK --}}
             <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                <div class="max-w-2xl">
+                <div class="min-w-0 max-w-4xl">
                     <p class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C62E2E]">
                         <span class="h-px w-6 bg-[#C62E2E]"></span>
                         {{ $heading['eyebrow'] ?? __('most-popular-activities.eyebrow') }}
@@ -119,7 +122,7 @@
             <li class="w-[82%] shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-3*1.25rem)/4)]">
                 <a href="{{ \App\Support\PageSections::activitiesLink() }}"
                     class="group relative flex h-full min-h-[22rem] flex-col justify-end overflow-hidden rounded-3xl bg-slate-900 p-6 text-white transition duration-500 hover:-translate-y-1.5">
-                    <img src="{{ asset('images/all-activities-cover.webp') }}" alt="" loading="lazy" decoding="async"
+                    <img src="{{ $allImage }}" alt="" loading="lazy" decoding="async"
                         class="absolute inset-0 h-full w-full object-cover opacity-50 transition duration-700 group-hover:scale-105 group-hover:opacity-40">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
                     <div class="relative">

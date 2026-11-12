@@ -34,7 +34,8 @@ class SitemapController extends Controller
         $sitemap = Sitemap::create();
         $locales = array_keys(LaravelLocalization::getSupportedLocales());
 
-        $add = function (string $path, float $priority, string $frequency, ?DateTimeInterface $modified = null) use ($sitemap, $locales) {
+        // $images: Google Görseller için sayfadaki resimler (mutlak adres)
+        $add = function (string $path, float $priority, string $frequency, ?DateTimeInterface $modified = null, array $images = []) use ($sitemap, $locales) {
             $urls = collect($locales)->mapWithKeys(fn ($locale) => [$locale => LaravelLocalization::getLocalizedURL($locale, $path, [], true)]);
 
             foreach ($urls as $url) {
@@ -46,6 +47,9 @@ class SitemapController extends Controller
                     $tag->addAlternate($alternateUrl, $alternateLocale);
                 }
                 $tag->addAlternate($urls['en'] ?? $urls->first(), 'x-default');
+                foreach (array_filter($images) as $image) {
+                    $tag->addImage(url($image));
+                }
                 $sitemap->add($tag);
             }
         };
@@ -65,16 +69,22 @@ class SitemapController extends Controller
             $add(route('campaigns', [], false), 0.6, Url::CHANGE_FREQUENCY_WEEKLY);
         }
 
-        foreach (City::visible()->whereNotNull('slug')->get(['id', 'slug', 'updated_at']) as $city) {
+        foreach (City::visible()->whereNotNull('slug')->get(['id', 'slug', 'latitude', 'updated_at']) as $city) {
             $add(route('cities.show', ['slug' => $city->slug], false), 0.7, Url::CHANGE_FREQUENCY_MONTHLY, $city->updated_at);
+            // Şehre özel hava durumu ve yerel saat sayfaları (adresteki ?city= ile ayrı sayfa, kendi canonical'ı var)
+            if ($city->latitude !== null) {
+                $add(route('weather', ['city' => $city->slug], false), 0.5, Url::CHANGE_FREQUENCY_DAILY);
+            }
+            $add(route('time', ['city' => $city->slug], false), 0.4, Url::CHANGE_FREQUENCY_MONTHLY);
         }
 
-        foreach (Blog::published()->whereNotNull('slug')->get(['id', 'slug', 'updated_at', 'published_at']) as $post) {
-            $add(route('blog.show', ['slug' => $post->slug], false), 0.6, Url::CHANGE_FREQUENCY_MONTHLY, $post->updated_at ?? $post->published_at);
+        foreach (Blog::published()->whereNotNull('slug')->get() as $post) {
+            $add(route('blog.show', ['slug' => $post->slug], false), 0.6, Url::CHANGE_FREQUENCY_MONTHLY, $post->updated_at ?? $post->published_at, [$post->coverUrl()]);
         }
 
-        foreach (Activity::visible()->whereNotNull('slug')->get(['id', 'slug', 'updated_at']) as $activity) {
-            $add(route('activities.show', ['slug' => $activity->slug], false), 0.7, Url::CHANGE_FREQUENCY_WEEKLY, $activity->updated_at);
+        foreach (Activity::visible()->with('images')->whereNotNull('slug')->get() as $activity) {
+            $add(route('activities.show', ['slug' => $activity->slug], false), 0.7, Url::CHANGE_FREQUENCY_WEEKLY, $activity->updated_at,
+                $activity->images->take(10)->map(fn ($image) => $image->url())->all());
         }
 
         return $sitemap;
