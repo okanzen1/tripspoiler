@@ -121,7 +121,8 @@
         {{-- SAAT FARKI HESAPLAYICI + PLANLAYICI --}}
         <section class="bg-slate-50 py-14 md:py-20"
             x-data="{
-                zones: @js($zones),
+                // 418 saat dilimi: dondurulur (değişmez), her saniyelik yenilemede tekrar işlenmesin
+                zones: Object.freeze(@js($zones).map((z) => Object.freeze(z))),
                 from: '', to: @js($facts['tz']),
                 day: '', time: '',
                 init() {
@@ -179,7 +180,8 @@
                                     </span>
                                     <svg class="size-4 shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
                                 </button>
-                                <div x-show="open" x-cloak x-transition.opacity class="absolute inset-x-0 top-full z-30 mt-2 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200">
+                                <template x-if="open">
+                                <div class="absolute inset-x-0 top-full z-30 mt-2 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200">
                                     <div class="border-b border-slate-100 p-2">
                                         <input x-ref="search" x-model="q" type="search" placeholder="{{ __('time.search_zone') }}" autocomplete="off"
                                             class="block w-full rounded-xl border-0 bg-slate-50 px-3.5 py-2.5 text-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-[#C62E2E]">
@@ -197,6 +199,7 @@
                                         </template>
                                     </ul>
                                 </div>
+                                </template>
                             </div>
                             @if ($side === 'from')
                                 <div class="relative z-10 -my-2 flex justify-center">

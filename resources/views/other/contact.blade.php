@@ -39,7 +39,7 @@
         {{-- mimari ızgara --}}
         <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
             <div class="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:96px_96px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_80%)]"></div>
-            <div class="absolute -left-40 top-1/3 size-[34rem] rounded-full bg-[#C62E2E]/15 blur-[130px]"></div>
+            <div class="absolute -left-40 top-1/3 size-[42rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.18),transparent_65%)]"></div>
         </div>
 
         <div class="mx-auto max-w-7xl px-4 pt-6 md:pt-8">

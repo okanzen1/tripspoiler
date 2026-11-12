@@ -56,7 +56,7 @@
 @section('content')
     {{-- ÜST --}}
     <section class="relative overflow-hidden bg-gradient-to-b from-slate-100 to-white">
-        <div class="pointer-events-none absolute -left-40 -top-24 size-[34rem] rounded-full bg-sky-500/[0.07] blur-[130px]" aria-hidden="true"></div>
+        <div class="pointer-events-none absolute -left-40 -top-24 size-[42rem] rounded-full bg-[radial-gradient(circle,rgba(14,165,233,0.09),transparent_65%)]" aria-hidden="true"></div>
         <div class="relative mx-auto max-w-7xl px-4 pb-12 pt-6 md:pb-16 md:pt-8">
             <x-breadcrumbs :items="[
                 ['label' => __('activity-show.home'), 'url' => route('home')],

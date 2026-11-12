@@ -38,7 +38,7 @@
         {{-- mimari çizim ızgarası --}}
         <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
             <div class="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:96px_96px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_80%)]"></div>
-            <div class="absolute bottom-0 right-[12%] h-[70%] w-[46rem] rounded-t-full bg-[#C62E2E]/10 blur-[100px]"></div>
+            <div class="absolute bottom-0 right-[12%] h-[70%] w-[46rem] rounded-t-full bg-[radial-gradient(ellipse_at_bottom,rgba(198,46,46,0.14),transparent_65%)]"></div>
         </div>
 
         <div class="mx-auto max-w-7xl px-4 pb-0 pt-6 md:pt-8">

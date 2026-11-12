@@ -25,7 +25,7 @@
 @endphp
 
 <footer class="relative overflow-hidden bg-slate-950 text-white/70">
-    <div aria-hidden="true" class="pointer-events-none absolute -left-24 -top-24 size-80 rounded-full bg-[#C62E2E]/20 blur-3xl"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -left-24 -top-24 size-[28rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.22),transparent_65%)]"></div>
 
     <div class="relative mx-auto max-w-7xl px-4 pb-8 pt-14 md:pt-16">
         <div class="grid gap-10 md:grid-cols-12">

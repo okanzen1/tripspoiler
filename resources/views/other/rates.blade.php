@@ -86,8 +86,8 @@
         <section class="relative isolate overflow-hidden bg-slate-950 text-white">
             <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
                 <div class="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(rgba(255,255,255,.6)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.6)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_top,#000_20%,transparent_70%)]"></div>
-                <div class="absolute -right-32 -top-40 size-[40rem] rounded-full bg-[#C62E2E]/25 blur-[140px]"></div>
-                <div class="absolute -bottom-40 -left-32 size-[32rem] rounded-full bg-sky-500/10 blur-[140px]"></div>
+                <div class="absolute -right-32 -top-40 size-[40rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.33),transparent_65%)]"></div>
+                <div class="absolute -bottom-40 -left-32 size-[32rem] rounded-full bg-[radial-gradient(circle,rgba(14,165,233,0.13),transparent_65%)]"></div>
             </div>
 
             <div class="mx-auto max-w-7xl px-4 pb-14 pt-6 md:pb-20 md:pt-8">

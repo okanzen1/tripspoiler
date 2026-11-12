@@ -37,8 +37,8 @@
         <section class="relative isolate overflow-hidden bg-slate-950 text-white">
             <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
                 <div class="absolute inset-0 opacity-[0.08] [background-image:radial-gradient(rgba(255,255,255,.9)_1px,transparent_1px)] [background-size:26px_26px]"></div>
-                <div class="absolute -left-40 -top-40 size-[36rem] rounded-full bg-[#C62E2E]/35 blur-[140px]"></div>
-                <div class="absolute -bottom-48 right-[10%] size-[34rem] rounded-full bg-amber-400/20 blur-[140px]"></div>
+                <div class="absolute -left-40 -top-40 size-[44rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.32),transparent_65%)]"></div>
+                <div class="absolute -bottom-48 right-[10%] size-[42rem] rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_65%)]"></div>
             </div>
 
             <div class="mx-auto max-w-7xl px-4 pb-14 pt-6 md:pb-16 md:pt-8">
@@ -50,8 +50,8 @@
                 <div class="mt-8 grid items-center gap-8 lg:mt-10 lg:grid-cols-12">
                     <div class="relative lg:col-span-7">
                         {{-- telefon/tablet: tavşan büyük, sağ altta (sarı "aktif fırsat" düğmesiyle karşılıklı), yazıların arkasında; masaüstünde sağ sütunda --}}
-                        <img src="{{ asset('images/kosantavsan-campaign.webp') }}" alt="" aria-hidden="true" width="880" height="810"
-                            class="campaign-float pointer-events-none absolute bottom-0 -right-2 -z-10 w-60 max-w-none opacity-60 mix-blend-screen sm:right-0 sm:w-72 lg:hidden">
+                        <img src="{{ asset('images/kosantavsan-campaign-alpha.webp') }}" alt="" aria-hidden="true" width="640" height="589" decoding="async"
+                            class="campaign-float pointer-events-none absolute bottom-0 -right-2 -z-10 w-60 max-w-none opacity-60 sm:right-0 sm:w-72 lg:hidden">
                         <span class="inline-flex items-center gap-2 rounded-full bg-amber-400/15 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-amber-300 ring-1 ring-amber-300/30">
                             <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">{!! $gift !!}</svg>
                             {{ $hero['eyebrow'] }}
@@ -64,10 +64,10 @@
                         </p>
                     </div>
 
-                    {{-- koşan tavşan (public/images/kosantavsan-campaign.webp = kosantavsanlogo.webp'nin gölgesiz kırpılmışı): siyah zemini mix-blend-screen ile lacivertte kaybolur --}}
+                    {{-- koşan tavşan (public/images/kosantavsan-campaign-alpha.webp: kosantavsanlogo.webp'nin gölgesiz, arka planı şeffaf, küçültülmüş hali) --}}
                     <div class="relative mx-auto hidden w-full lg:col-span-5 lg:block" aria-hidden="true">
-                        <div class="absolute inset-x-10 inset-y-6 rounded-full bg-gradient-to-br from-amber-300/25 via-[#C62E2E]/20 to-transparent blur-3xl"></div>
-                        <img src="{{ asset('images/kosantavsan-campaign.webp') }}" alt="" width="880" height="810" class="campaign-float relative mx-auto w-full max-w-xs mix-blend-screen">
+                        <div class="absolute inset-x-10 inset-y-6 rounded-full bg-[radial-gradient(circle,rgba(252,211,77,0.25),rgba(198,46,46,0.12)_45%,transparent_70%)]"></div>
+                        <img src="{{ asset('images/kosantavsan-campaign-alpha.webp') }}" alt="" width="640" height="589" decoding="async" class="campaign-float relative mx-auto w-full max-w-xs">
                         <span class="absolute left-[12%] top-[8%] text-2xl text-amber-300 campaign-twinkle">✦</span>
                         <span class="absolute right-[10%] top-[4%] text-lg text-white/70 campaign-twinkle [animation-delay:.8s]">✦</span>
                         <span class="absolute bottom-[14%] right-[6%] text-xl text-[#FF8A8C] campaign-twinkle [animation-delay:1.4s]">✦</span>
@@ -208,16 +208,17 @@
     <script>
         (() => {
             const canvas = document.getElementById('campaign-fireworks');
-            if (!canvas || matchMedia('(prefers-reduced-motion: reduce)').matches) { canvas?.remove(); return; }
+            if (!canvas || matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData) { canvas?.remove(); return; }
+            const small = innerWidth < 768;
             const ctx = canvas.getContext('2d');
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const dpr = small ? 1 : Math.min(window.devicePixelRatio || 1, 2);
             const size = () => { canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
             size(); addEventListener('resize', size);
             const colors = ['#C62E2E', '#FF6B6E', '#FBBF24', '#FDE68A', '#FFFFFF', '#F59E0B'];
             const sparks = [];
             const burst = (x, y) => {
                 const color = colors[Math.floor(Math.random() * colors.length)];
-                const count = 70 + Math.floor(Math.random() * 30);
+                const count = small ? 34 + Math.floor(Math.random() * 12) : 70 + Math.floor(Math.random() * 30);
                 for (let i = 0; i < count; i++) {
                     const angle = (Math.PI * 2 * i) / count + Math.random() * 0.2;
                     const speed = 2.2 + Math.random() * 4.2;
@@ -225,9 +226,15 @@
                         color: Math.random() < 0.25 ? colors[Math.floor(Math.random() * colors.length)] : color, r: 1.6 + Math.random() * 1.8 });
                 }
             };
-            const shots = [[0.25, 0.28, 0], [0.72, 0.22, 350], [0.5, 0.36, 700], [0.15, 0.45, 1050], [0.85, 0.42, 1300], [0.4, 0.2, 1650], [0.62, 0.48, 1950]];
-            shots.forEach(([x, y, delay]) => setTimeout(() => burst(innerWidth * x, innerHeight * y), delay + 250));
-            const started = performance.now();
+            const shots = small
+                ? [[0.3, 0.25, 0], [0.7, 0.32, 400], [0.5, 0.2, 800]]
+                : [[0.25, 0.28, 0], [0.72, 0.22, 350], [0.5, 0.36, 700], [0.15, 0.45, 1050], [0.85, 0.42, 1300], [0.4, 0.2, 1650], [0.62, 0.48, 1950]];
+            // sayfa (resimler) yüklendikten sonra başlar: açılışı yavaşlatmasın
+            const start = () => {
+                shots.forEach(([x, y, delay]) => setTimeout(() => burst(innerWidth * x, innerHeight * y), delay + 150));
+                requestAnimationFrame(frame);
+            };
+            let started = performance.now();
             const frame = (now) => {
                 ctx.clearRect(0, 0, innerWidth, innerHeight);
                 for (let i = sparks.length - 1; i >= 0; i--) {
@@ -241,7 +248,8 @@
                 if (sparks.length || now - started < 2600) requestAnimationFrame(frame);
                 else { removeEventListener('resize', size); canvas.remove(); }
             };
-            requestAnimationFrame(frame);
+            const go = () => { started = performance.now(); start(); };
+            document.readyState === 'complete' ? go() : addEventListener('load', go, { once: true });
         })();
     </script>
 @endsection

@@ -57,8 +57,8 @@
             <div class="relative isolate mt-8 overflow-hidden rounded-[32px] bg-slate-950 text-white shadow-[0_40px_80px_-40px_rgba(15,23,42,0.8)]">
                 <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
                     <div class="absolute inset-0 opacity-[0.06] [background-image:radial-gradient(rgba(255,255,255,.9)_1px,transparent_1px)] [background-size:24px_24px]"></div>
-                    <div class="absolute -left-32 -top-32 size-[28rem] rounded-full bg-[#C62E2E]/30 blur-[120px]"></div>
-                    <div class="absolute -bottom-40 right-0 size-[26rem] rounded-full bg-amber-400/15 blur-[120px]"></div>
+                    <div class="absolute -left-32 -top-32 size-[28rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.39),transparent_65%)]"></div>
+                    <div class="absolute -bottom-40 right-0 size-[26rem] rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.20),transparent_65%)]"></div>
                 </div>
 
                 <div class="grid lg:grid-cols-12">
