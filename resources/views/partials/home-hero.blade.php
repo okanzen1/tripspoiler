@@ -140,7 +140,7 @@
                         {{-- Tüm kayıtlar aynı hücrede üst üste; sadece seçili olan görünür (geçişte binişme olmaz) --}}
                         <div class="grid px-2 pt-3.5 pb-1.5">
                             @foreach ($featured as $activity)
-                                @php $featuredUrl = $activity->affiliate_url ?: route('activities.show', $activity->slug); @endphp
+                                @php $featuredUrl = route('activities.show', $activity->slug); @endphp
                                 <div :class="i === {{ $loop->index }} ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'"
                                     :aria-hidden="i !== {{ $loop->index }}"
                                     :inert="i !== {{ $loop->index }}"
@@ -149,12 +149,12 @@
                                     <p class="text-xs font-medium text-white/65">
                                         {{ $activity->city?->name }}@if ($activity->audio_guide) · {{ __('home-benefits.phone_audio') }}@endif
                                     </p>
-                                    <a href="{{ $featuredUrl }}" target="_blank" rel="noopener noreferrer"
+                                    <a href="{{ $featuredUrl }}"
                                         :tabindex="i === {{ $loop->index }} ? 0 : -1"
                                         class="mt-1 block min-h-[2.75rem] text-[15px] font-bold leading-snug text-white line-clamp-2 transition hover:underline">
                                         {{ $activity->name }}
                                     </a>
-                                    <a href="{{ $featuredUrl }}" target="_blank" rel="noopener noreferrer"
+                                    <a href="{{ $featuredUrl }}"
                                         :tabindex="i === {{ $loop->index }} ? 0 : -1"
                                         class="group mt-2.5 inline-flex items-center gap-1.5 text-sm font-semibold text-white">
                                         <span class="border-b border-white/40 pb-0.5 transition group-hover:border-white">{{ rtrim(__('most-popular-activities.cta'), ' →') }}</span>
@@ -184,7 +184,7 @@
                 </div>
                 <div class="-mx-4 mt-3 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     @foreach ($featured as $activity)
-                        <a href="{{ $activity->affiliate_url ?: route('activities.show', $activity->slug) }}" target="_blank" rel="noopener noreferrer"
+                        <a href="{{ route('activities.show', $activity->slug) }}"
                             class="group w-[64%] sm:w-[38%] shrink-0 snap-start overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/15 backdrop-blur-md transition active:scale-[0.98]">
                             <span class="block aspect-[3/2] overflow-hidden bg-slate-800">
                                 <img src="{{ $activity->cover->url('sm') }}" alt="{{ $activity->name }}" loading="lazy" decoding="async"
