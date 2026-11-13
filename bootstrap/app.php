@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Analitik bildirimleri tarayıcıdan arka planda gelir (sendBeacon, resources/js/track.js), CSRF anahtarı taşımaz
         $middleware->validateCsrfTokens(except: ['t/view', 't/click']);
         // Çerez onayı tarayıcıda (JavaScript) yazılır; şifresiz okunur (partials/cookie-consent)
-        $middleware->encryptCookies(except: ['ts_consent']);
+        $middleware->encryptCookies(except: ['ts_consent', 'ts_staff']); // ts_staff: panel yazar, ekip analitikte sayılmaz
         $middleware->alias([
             'localeSessionRedirect' => LocaleSessionRedirect::class,
             'localizationRedirect' => LaravelLocalizationRedirectFilter::class,

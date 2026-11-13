@@ -50,11 +50,23 @@ class Tracker
         return false;
     }
 
+    /** Ekip: panele giriş yapılan tarayıcı (ts_staff çerezi) ya da panelde "sayılmayan IP'ler" listesindekiler (site sahibi, ekip) analitiğe yazılmaz (Setting analytics_ignore_ips) */
+    public static function isIgnoredIp(Request $request): bool
+    {
+        if ($request->cookie('ts_staff') === '1') {
+            return true; // panele giriş yapmış ekip tarayıcısı (panel yazar)
+        }
+        $list = (string) (\App\Models\Setting::many(['analytics_ignore_ips'])['analytics_ignore_ips'] ?? '');
+
+        return $list !== '' && in_array($request->ip(), array_map('trim', explode(',', $list)), true);
+    }
+
     public static function isBot(Request $request): bool
     {
         $agent = (string) $request->userAgent();
 
-        return $agent === ''
+        return self::isIgnoredIp($request)
+            || $agent === ''
             || preg_match(self::BOTS, $agent) === 1
             || !$request->hasHeader('Accept-Language'); // gerçek tarayıcılar her zaman gönderir
     }
