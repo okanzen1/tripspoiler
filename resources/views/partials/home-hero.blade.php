@@ -316,14 +316,18 @@
 
         {{-- sosyal medya (App\Support\Socials): cam kutu, markaların kendi renkleri --}}
         <div class="lg:col-span-5">
-            <div class="flex items-center justify-between gap-4 rounded-2xl bg-white/10 p-3 pl-5 ring-1 ring-white/15 backdrop-blur-md lg:ml-auto lg:max-w-[clamp(280px,44vh,420px)]">
+            <div class="social-sweep relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl bg-white/10 p-3 pl-5 ring-1 ring-white/15 backdrop-blur-md lg:ml-auto lg:max-w-[clamp(280px,44vh,420px)]">
                 <p class="min-w-0 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">{{ __('footer.follow') }}</p>
                 <div class="flex shrink-0 items-center gap-2.5">
                     @foreach (\App\Support\Socials::all() as [$name, $url, $handle, $icon, $tone])
-                        <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}" title="{{ $name }}"
-                            class="grid size-11 place-items-center rounded-xl text-white ring-1 ring-white/20 transition duration-300 hover:-translate-y-0.5 hover:scale-105 {{ $tone }}">
-                            <svg class="size-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">{!! $icon !!}</svg>
-                        </a>
+                        {{-- ikonlar sırayla zıplar (--d), arkalarında halka atar --}}
+                        <span class="relative" style="--d: {{ $loop->index * 0.45 }}s">
+                            <span class="social-ring absolute inset-0 rounded-xl ring-2 ring-white/60" aria-hidden="true"></span>
+                            <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}" title="{{ $name }}"
+                                class="social-bob relative grid size-11 place-items-center rounded-xl text-white ring-1 ring-white/20 transition duration-300 hover:scale-110 hover:[animation:none] {{ $tone }}">
+                                <svg class="size-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">{!! $icon !!}</svg>
+                            </a>
+                        </span>
                     @endforeach
                 </div>
             </div>
