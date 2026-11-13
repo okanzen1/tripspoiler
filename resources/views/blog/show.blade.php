@@ -254,9 +254,19 @@
 
             <div id="articleBody">
                 @if ($parts['intro'] !== '')
-                    <section class="bg-white pb-4 pt-12 md:pt-16">
-                        <div class="mx-auto grid max-w-7xl px-4 lg:grid-cols-12 lg:gap-14">
-                            <div class="rich-text quill-content text-[17px] lg:col-span-8 lg:col-start-5">{!! $parts['intro'] !!}</div>
+                    <section class="bg-white py-12 md:py-16">
+                        <div class="mx-auto grid max-w-7xl gap-6 px-4 lg:grid-cols-12 lg:gap-14">
+                            {{-- giriş: solda bölümlerle aynı düzende başlık (sol taraf boş kalmasın) --}}
+                            <header class="lg:col-span-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-slate-900 text-white shadow-[0_12px_26px_-12px_rgba(15,23,42,0.6)]">{!! \App\Support\FeatureIcons::svg('book', 'size-6') !!}</span>
+                                    <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">{{ __('blog.intro') }}</p>
+                                </div>
+                                @if ($parts['intro_title'])
+                                    <h2 class="mt-5 text-[26px] font-extrabold leading-[1.15] tracking-[-0.025em] text-slate-900 sm:text-[32px]">{{ $parts['intro_title'] }}</h2>
+                                @endif
+                            </header>
+                            <div class="rich-text quill-content text-[17px] lg:col-span-8">{!! $parts['intro'] !!}</div>
                         </div>
                     </section>
                 @endif

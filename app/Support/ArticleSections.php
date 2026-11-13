@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
  * Blog yazısını ana başlıklarından (h2) bölümlere ayırır: şehir rehberindeki gibi her başlık ayrı bölüm,
  * üstte yapışkan sekmeler, telefonda bölüm kılavuzu. İlk h2'den önceki kısım giriş olur.
  *
- * @return array{intro: string, sections: list<array{id: string, title: string, html: string, minutes: int}>}
+ * @return array{intro: string, intro_title: ?string, sections: list<array{id: string, title: string, html: string, minutes: int}>}
  */
 class ArticleSections
 {
@@ -53,6 +53,14 @@ class ArticleSections
             $section['minutes'] = max(1, (int) round(str_word_count(strip_tags($section['html'])) / 200));
         }
 
-        return ['intro' => trim(strip_tags($intro)) === '' && !str_contains($intro, '<img') ? '' : $intro, 'sections' => $sections];
+        // girişin başındaki başlık (h1/h3/h4) solda girişin başlığı olur, yazıdan çıkarılır
+        $introTitle = null;
+        if (preg_match('/^\s*<(h[1346])[^>]*>(.*?)<\/\1>/is', $intro, $m) && trim(strip_tags($m[2])) !== '') {
+            $introTitle = trim(html_entity_decode(strip_tags($m[2]), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+            $intro = substr($intro, strlen($m[0]));
+        }
+        $hasIntro = trim(strip_tags($intro)) !== '' || str_contains($intro, '<img');
+
+        return ['intro' => $hasIntro ? $intro : '', 'intro_title' => $hasIntro ? $introTitle : null, 'sections' => $sections];
     }
 }

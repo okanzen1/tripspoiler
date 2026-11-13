@@ -25,4 +25,5 @@ return array (
   'buy_tickets' => '티켓 구매',
   'toc_more' => '모두 보기 (:count)',
   'toc_less' => '접기',
+  'intro' => '소개',
 );

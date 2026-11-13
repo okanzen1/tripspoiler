@@ -25,4 +25,5 @@ return array (
   'buy_tickets' => '购买门票',
   'toc_more' => '显示全部 (:count)',
   'toc_less' => '收起',
+  'intro' => '引言',
 );

@@ -25,4 +25,5 @@ return array (
   'buy_tickets' => 'チケットを買う',
   'toc_more' => 'すべて表示 (:count)',
   'toc_less' => '閉じる',
+  'intro' => 'はじめに',
 );

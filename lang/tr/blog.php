@@ -25,4 +25,5 @@ return array (
   'buy_tickets' => 'Bilet al',
   'toc_more' => 'Tümünü göster (:count)',
   'toc_less' => 'Daha az göster',
+  'intro' => 'Giriş',
 );

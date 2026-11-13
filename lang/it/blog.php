@@ -25,4 +25,5 @@ return array (
   'buy_tickets' => 'Acquista i biglietti',
   'toc_more' => 'Mostra tutto (:count)',
   'toc_less' => 'Mostra meno',
+  'intro' => 'Introduzione',
 );

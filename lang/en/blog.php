@@ -34,4 +34,5 @@ return [
   'buy_tickets' => 'Buy tickets',
   'toc_more' => 'Show all (:count)',
   'toc_less' => 'Show less',
+  'intro' => 'Introduction',
 ];
