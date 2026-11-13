@@ -86,6 +86,9 @@
                         <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
                     </a>
                 </div>
+                <div class="mt-6 text-center">
+                    <x-social-follow />
+                </div>
             </div>
 
             {{-- yüzen cam yorum kartları --}}

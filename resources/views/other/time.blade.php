@@ -80,6 +80,7 @@
                             <span class="block text-white/55">{{ __('time.page_city_sub') }}</span>
                         </h1>
                         <p class="mt-5 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">{{ $hero['description'] }}</p>
+                        <x-social-follow class="mt-6" />
                         @if ($cities->count() > 1)
                             <div class="mt-8 w-full max-w-md">
                                 @include('partials.city-picker', [

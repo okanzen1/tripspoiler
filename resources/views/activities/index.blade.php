@@ -76,6 +76,7 @@
                     @endif
                 </h1>
                 <p class="mt-3 max-w-xl text-base leading-relaxed text-white/75 md:mt-4 md:text-lg">{{ $hero['description'] }}</p>
+                <x-social-follow class="mt-6" />
 
                 {{-- ŞEHİR SEÇİMİ (her zaman görünür) --}}
                 {{-- Seçici yalnızca aktivitesi olan şehir varsa: hiç aktivite yokken şehir başlıkta görünür ama "0 şehir" seçici çıkmaz --}}

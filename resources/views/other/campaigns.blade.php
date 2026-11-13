@@ -80,6 +80,7 @@
                                 {{ __('campaigns-page.free') }}
                             </p>
                         </div>
+                        <x-social-follow class="mt-5" />
                     </div>
 
                     {{-- biletler + koşan tavşan (public/images/kosantavsan-campaign-alpha.webp, arka planı şeffaf) --}}

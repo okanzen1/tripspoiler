@@ -65,6 +65,7 @@
                         <span class="mt-3 block text-2xl font-medium tracking-[-0.01em] text-white/55 sm:text-3xl">{{ $city ? $hero['title'] : '' }}</span>
                     </h1>
                     <p class="mt-8 max-w-md border-l border-[#FF6B6E]/60 pl-5 text-[15px] leading-relaxed text-white/65 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-5">{{ $hero['description'] }}</p>
+                    <x-social-follow class="mt-6" />
 
                     @if ($city && ($cities->count() > 1 || $hasActivities || $hasGuide))
                         {{-- şehir sayfasıyla aynı blok: seçici tam genişlik, altında eşit iki düğme --}}

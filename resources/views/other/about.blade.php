@@ -47,6 +47,7 @@
                         {{ $hero['title'] }} <span class="text-[#FF8A8C]">{{ __('about-page.title_sub') }}</span>
                     </h1>
                     <p class="mt-5 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">{{ $hero['description'] }}</p>
+                    <x-social-follow class="mt-6" />
                 </div>
 
                 @if ($stats)

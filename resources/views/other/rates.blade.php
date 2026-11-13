@@ -112,6 +112,7 @@
                         </p>
                         <h1 class="mt-4 text-[40px] font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-6xl">{{ $hero['title'] }}</h1>
                         <p class="mt-5 max-w-xl text-base leading-relaxed text-white/65 md:text-lg">{{ $hero['description'] }}</p>
+                        <x-social-follow class="mt-6" />
 
                         {{-- ana kurlar --}}
                         <dl class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">

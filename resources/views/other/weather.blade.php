@@ -73,6 +73,7 @@
                             <span class="block text-white/55">{{ __('weather.page_city_sub') }}</span>
                         </h1>
                         <p class="mt-5 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">{{ $hero['description'] }}</p>
+                        <x-social-follow class="mt-6" />
 
                         {{-- şehir seçimi: sitenin ortak şehir seçicisi (seçim diğer sayfalarla ortak) --}}
                         @if ($cities->count() > 1)
