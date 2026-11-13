@@ -62,7 +62,7 @@
 
             <div class="mx-auto mt-12 max-w-3xl text-center md:mt-16">
                 {{-- puan rozeti --}}
-                <a href="#yorumlar" data-smooth class="inline-flex items-center gap-3 rounded-full bg-white/10 py-1.5 pl-1.5 pr-4 ring-1 ring-white/20 backdrop-blur-md transition hover:bg-white/15">
+                <a href="#yorumlar" data-smooth class="inline-flex items-center gap-3 rounded-full py-1.5 pl-1.5 pr-4 ring-1 ring-white/20 transition hover:ring-white/40">
                     <span class="rounded-full bg-amber-400 px-2.5 py-1 text-sm font-extrabold text-slate-900">{{ number_format($avg, 1) }}</span>
                     <span class="flex gap-0.5">
                         @for ($i = 1; $i <= 5; $i++)
@@ -81,7 +81,7 @@
                         <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
                         {{ __('reviews-page.write') }}
                     </button>
-                    <a href="#yorumlar" data-smooth class="inline-flex min-h-[52px] items-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-bold ring-1 ring-white/25 backdrop-blur-md transition hover:bg-white hover:text-slate-900">
+                    <a href="#yorumlar" data-smooth class="inline-flex min-h-[52px] items-center gap-2 rounded-full px-6 py-3 text-sm font-bold ring-1 ring-white/25 transition hover:ring-white/50">
                         {{ __('reviews-page.recent') }}
                         <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
                     </a>
@@ -98,7 +98,7 @@
                 <div x-ref="strip" @scroll.throttle.80ms="i = Math.round($el.scrollLeft / ($el.firstElementChild.offsetWidth + 12))"
                     class="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden">
                     @foreach ($featuredReviews as $review)
-                        <figure @class(['w-[82%] shrink-0 snap-center rounded-3xl bg-white/10 p-5 ring-1 ring-white/15 backdrop-blur-xl md:w-auto', 'md:translate-y-4' => $loop->index === 1])>
+                        <figure @class(['w-[82%] shrink-0 snap-center rounded-3xl p-5 ring-1 ring-white/15 md:w-auto', 'md:translate-y-4' => $loop->index === 1])>
                             <div class="flex gap-0.5">
                                 @for ($i = 1; $i <= 5; $i++)
                                     <svg @class(['size-3.5', 'text-amber-400' => $i <= $review->rating, 'text-white/25' => $i > $review->rating]) viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">{!! $star !!}</svg>

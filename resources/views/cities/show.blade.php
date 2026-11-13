@@ -46,7 +46,7 @@
                     <h1 class="mt-4">
                         <span class="block text-[60px] font-extrabold leading-[0.9] tracking-[-0.05em] text-white sm:text-[84px] lg:text-[104px]">{{ $city->name }}</span>
                         @if ($city->country)
-                            <span class="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/85 ring-1 ring-white/15 backdrop-blur">
+                            <span class="mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold text-white/85 ring-1 ring-white/15">
                                 <span class="text-base leading-none" aria-hidden="true">{{ $flag($city->country->code) }}</span>{{ $city->country->name }}
                             </span>
                         @endif
@@ -59,8 +59,8 @@
                     @if ($cities->count() > 1)
                         <div x-data="{ open: false }" x-effect="picker = open" @click.outside="open = false" @keydown.escape.window="open = false" class="relative w-full">
                             <button type="button" @click="open = !open" :aria-expanded="open"
-                                :class="open ? 'bg-white/[0.16] ring-white/40' : 'ring-white/15 hover:ring-white/30'"
-                                class="flex w-full items-center gap-3 rounded-2xl bg-white/[0.08] px-4 py-3 text-left text-white ring-1 backdrop-blur-md transition">
+                                :class="open ? 'ring-white/40' : 'ring-white/15 hover:ring-white/30'"
+                                class="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-white ring-1 transition">
                                 <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-white/10 text-xl leading-none ring-1 ring-white/15" aria-hidden="true">{{ $flag($city->country?->code) ?: '📍' }}</span>
                                 <span class="min-w-0 flex-1">
                                     <span class="block text-[10px] font-bold uppercase tracking-[0.16em] text-white/50">{{ __('cities-page.choose_city') }}</span>
@@ -105,7 +105,7 @@
                         @endif
                         @if ($guideNav->isNotEmpty())
                             <a href="#{{ $guideNav->first()->topic->key }}"
-                                @class(['group inline-flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-white/10 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/20 backdrop-blur-md transition hover:bg-white hover:text-slate-900', 'sm:col-span-2 lg:col-span-1 xl:col-span-2' => !$city->activities_count])>
+                                @class(['group inline-flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-3 text-sm font-bold text-white ring-1 ring-white/20 transition hover:ring-white/50', 'sm:col-span-2 lg:col-span-1 xl:col-span-2' => !$city->activities_count])>
                                 {{ __('cities-page.start_guide') }}
                                 <svg class="size-4 transition group-hover:translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
                             </a>

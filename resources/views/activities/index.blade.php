@@ -82,7 +82,7 @@
                 {{-- Seçici yalnızca aktivitesi olan şehir varsa: hiç aktivite yokken şehir başlıkta görünür ama "0 şehir" seçici çıkmaz --}}
                 @if ($city && $cities->count() === 1 && $cities->contains('id', $city->id))
                     {{-- tek şehir: seçim yok; geniş cam şerit (bayrak, şehir, aktivite sayısı) --}}
-                    <div class="mt-8 flex w-full max-w-xl items-center gap-4 rounded-[22px] bg-gradient-to-r from-white/[0.14] to-white/[0.05] p-2.5 pr-3 ring-1 ring-white/15 backdrop-blur-md">
+                    <div class="mt-8 flex w-full max-w-xl items-center gap-4 rounded-[22px] p-2.5 pr-3 ring-1 ring-white/15">
                         <span class="relative grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] shadow-[0_12px_28px_-10px_rgba(198,46,46,0.9)]">
                             <svg class="size-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a7.5 7.5 0 0 0-7.5 7.5c0 5.6 6.4 11.3 6.7 11.55a1.2 1.2 0 0 0 1.6 0c.3-.25 6.7-5.95 6.7-11.55A7.5 7.5 0 0 0 12 2.25Z" opacity=".35"/><circle cx="12" cy="9.75" r="3.25"/></svg>
                         </span>
@@ -104,8 +104,8 @@
                     @endphp
                     <div x-data="{ open: false }" @click.outside="open = false" @keydown.escape.window="open = false" class="relative mt-8 w-full max-w-xl">
                         <button type="button" @click="open = !open" :aria-expanded="open"
-                            :class="open ? 'ring-white/35 bg-white/[0.16]' : 'ring-white/15 hover:ring-white/30'"
-                            class="flex w-full items-center gap-4 rounded-[22px] bg-gradient-to-r from-white/[0.14] to-white/[0.05] p-2.5 pr-3 text-left ring-1 backdrop-blur-md transition">
+                            :class="open ? 'ring-white/35' : 'ring-white/15 hover:ring-white/30'"
+                            class="flex w-full items-center gap-4 rounded-[22px] p-2.5 pr-3 text-left ring-1 transition">
                             <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] shadow-[0_12px_28px_-10px_rgba(198,46,46,0.9)]">
                                 <svg class="size-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a7.5 7.5 0 0 0-7.5 7.5c0 5.6 6.4 11.3 6.7 11.55a1.2 1.2 0 0 0 1.6 0c.3-.25 6.7-5.95 6.7-11.55A7.5 7.5 0 0 0 12 2.25Z" opacity=".35"/><circle cx="12" cy="9.75" r="3.25"/></svg>
                             </span>
@@ -165,7 +165,7 @@
             {{-- küçük cam haplar: resmi kapatmasın --}}
             <dl class="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
                 @foreach ($statCards as [$k, $label, $grad, $glow, $icon])
-                    <div class="group relative flex min-w-[11rem] items-center gap-4 overflow-hidden rounded-3xl bg-slate-950/40 py-3.5 pl-3.5 pr-7 ring-1 ring-white/20 backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:bg-slate-950/50">
+                    <div class="group relative flex min-w-[11rem] items-center gap-4 overflow-hidden rounded-3xl py-3.5 pl-3.5 pr-7 ring-1 ring-white/20 transition duration-300 hover:-translate-y-0.5 hover:ring-white/35">
                         <span class="pointer-events-none absolute -right-6 -top-6 size-20 rounded-full {{ $glow }} opacity-25 blur-2xl transition group-hover:opacity-40"></span>
                         <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br {{ $grad }} text-white shadow-[0_10px_24px_-10px_rgba(0,0,0,0.7)]">
                             <svg class="size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>

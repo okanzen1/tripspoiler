@@ -90,8 +90,7 @@
                         }" x-init="start()" @mouseenter="stop()" @mouseleave="start()"
                         @touchstart.passive="touchX = $event.touches[0].clientX; stop()" @touchend="swipe($event.changedTouches[0].clientX)"
                         style="--d: 420ms"
-                        class="hero-reveal hero-float relative w-full lg:ml-auto lg:max-w-[clamp(280px,44vh,420px)] rounded-[28px] border border-white/20 bg-white/10 p-3
-                               backdrop-blur-xl shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)]">
+                        class="hero-reveal hero-float relative w-full lg:ml-auto lg:max-w-[clamp(280px,44vh,420px)] rounded-[28px] border border-white/20 p-3">
 
                         {{-- Kapaklar 3:2; oranı farklı olan kesilmez, kenarları aynı görselin bulanık hâliyle dolar --}}
                         <div class="group/slides relative aspect-[3/2] overflow-hidden rounded-[20px] bg-slate-800">
@@ -185,7 +184,7 @@
                 <div class="-mx-4 mt-3 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     @foreach ($featured as $activity)
                         <a href="{{ route('activities.show', $activity->slug) }}"
-                            class="group w-[64%] sm:w-[38%] shrink-0 snap-start overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/15 backdrop-blur-md transition active:scale-[0.98]">
+                            class="group w-[64%] sm:w-[38%] shrink-0 snap-start overflow-hidden rounded-2xl ring-1 ring-white/15 transition active:scale-[0.98]">
                             <span class="block aspect-[3/2] overflow-hidden bg-slate-800">
                                 <img src="{{ $activity->cover->url('sm') }}" alt="{{ $activity->name }}" loading="lazy" decoding="async"
                                     class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
@@ -322,7 +321,7 @@
 
         {{-- sosyal medya (App\Support\Socials): cam kutu, markaların kendi renkleri --}}
         <div class="lg:col-span-5">
-            <div class="social-sweep relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl bg-white/10 p-3 pl-5 ring-1 ring-white/15 backdrop-blur-md lg:ml-auto lg:max-w-[clamp(280px,44vh,420px)]">
+            <div class="social-sweep relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl p-3 pl-5 ring-1 ring-white/15 lg:ml-auto lg:max-w-[clamp(280px,44vh,420px)]">
                 <p class="min-w-0 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">{{ __('footer.follow') }}</p>
                 <div class="flex shrink-0 items-center gap-2.5">
                     @foreach (\App\Support\Socials::all() as [$name, $url, $handle, $icon, $tone])
