@@ -144,9 +144,30 @@
                             <p class="mt-4 max-w-3xl text-[15px] leading-relaxed text-slate-500 md:text-[17px]">{{ $blog->excerpt }}</p>
                         @endif
 
+                        <div class="mt-6 flex flex-wrap items-center gap-2">
+                        <button type="button" data-copy-link aria-label="{{ __('blog.copy_link') }}" title="{{ __('blog.copy_link') }}"
+                            class="grid size-10 place-items-center rounded-full bg-[#C62E2E] text-white transition hover:bg-[#A82424]">
+                            <svg class="size-[17px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.3-2.3a4 4 0 0 0-5.7-5.7l-1.3 1.3"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.3 2.3a4 4 0 0 0 5.7 5.7l1.3-1.3"/></svg>
+                        </button>
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($blog->title) }}" target="_blank" rel="noopener noreferrer" aria-label="X" title="X"
+                            class="grid size-10 place-items-center rounded-full bg-[#0F1420] text-white transition hover:bg-black">
+                            <svg class="size-[14px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.3l-4.9-6.4L6.2 22H3l7.3-8.3L3 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L8.3 3.9H6.5L17.8 20Z"/></svg>
+                        </a>
+                        <a href="https://wa.me/?text={{ urlencode($blog->title . ' ' . url()->current()) }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"
+                            class="grid size-10 place-items-center rounded-full bg-[#25D366] text-white transition hover:bg-[#1DA851]">
+                            <svg class="size-[17px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.7-6.1c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1.1-.2.2-.3.2-.6.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.3-.4c.1-.2 0-.4 0-.5 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.7 4.2 3.7 1.6.7 2.3.7 3.1.6.5-.1 1.6-.7 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3Z"/></svg>
+                        </a>
+                        <span class="mx-1 h-6 w-px bg-slate-200" aria-hidden="true"></span>
+                        @foreach (\App\Support\Socials::all() as [$name, $url, $handle, $icon, $tone])
+                            <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}" title="{{ __('footer.follow') }} · {{ $name }}"
+                                class="grid size-10 place-items-center rounded-full text-white transition hover:scale-110 {{ $tone }}">
+                                <svg class="size-[17px]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">{!! $icon !!}</svg>
+                            </a>
+                        @endforeach
+                        </div>
                     </div>
 
-                    {{-- sağ (çizgiyle ayrılmış): editörün seçimi (zeminsiz) + paylaş / sosyal medya --}}
+                    {{-- sağ (çizgiyle ayrılmış): editörün seçimi (zeminsiz), büyük resimli --}}
                     <aside class="flex flex-col gap-6 border-t border-slate-100 pt-6 lg:col-span-4 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0 rtl:lg:border-l-0 rtl:lg:border-r rtl:lg:pl-0 rtl:lg:pr-8">
                         @if ($previewActivity)
                             <div>
@@ -154,27 +175,27 @@
                                     <svg class="size-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6l-5.4 2.9 1.2-6-4.5-4.2 6.1-.7Z"/></svg>
                                     {{ $singleActivity ? __('blog.editors_pick') : __('blog.editors_picks') }}
                                 </p>
-                                <a href="{{ $singleActivity ? $activityUrl($previewActivity) : '#activitiesSection' }}" class="group mt-3 flex items-center gap-3">
-                                    <span class="relative block size-16 shrink-0 overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200">
+                                <a href="{{ $singleActivity ? $activityUrl($previewActivity) : '#activitiesSection' }}" class="group mt-3 block">
+                                    <span class="relative block aspect-[16/10] w-full overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200">
                                         @if ($previewActivity->cover)
                                             <img src="{{ $previewActivity->cover->url('sm') }}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
                                         @endif
                                         @if ($activityCount > 1)
-                                            <span class="absolute inset-x-0 bottom-0 bg-slate-900/80 py-0.5 text-center text-[10px] font-bold text-white">+{{ $activityCount - 1 }}</span>
+                                            <span class="absolute bottom-2 right-2 rounded-full bg-slate-900/85 px-2 py-0.5 text-[11px] font-bold text-white">+{{ $activityCount - 1 }}</span>
                                         @endif
                                     </span>
-                                    <span class="line-clamp-3 min-w-0 text-[15px] font-bold leading-snug text-slate-900 transition group-hover:text-[#C62E2E]">
+                                    <span class="mt-3 line-clamp-2 block text-base font-extrabold leading-snug text-slate-900 transition group-hover:text-[#C62E2E]">
                                         {{ $singleActivity ? $previewActivity->name : $activityCount . ' ' . __('blog.experiences') }}
                                     </span>
                                 </a>
-                                <div class="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-1">
+                                <div class="mt-4 grid grid-cols-2 gap-2">
                                     <a href="{{ $singleActivity ? $activityUrl($singleActivity) : '#activitiesSection' }}"
-                                        class="flex h-11 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#C62E2E] px-4 text-[13px] font-bold text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424]">
+                                        class="flex h-10 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#C62E2E] px-3 text-[13px] font-bold text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424]">
                                         {{ $singleActivity ? __('blog.see_details') : __('blog.see_experiences') }} {!! $arrowIcon !!}
                                     </a>
                                     @if ($singleActivity?->affiliate_url)
                                         <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener"
-                                            class="flex h-11 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-amber-300 to-amber-500 px-4 text-[13px] font-extrabold text-slate-950 shadow-[0_10px_24px_-12px_rgba(245,158,11,0.9)] transition hover:from-amber-200 hover:to-amber-400">
+                                            class="flex h-10 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-amber-300 to-amber-500 px-3 text-[13px] font-extrabold text-slate-950 shadow-[0_10px_24px_-12px_rgba(245,158,11,0.9)] transition hover:from-amber-200 hover:to-amber-400">
                                             {{ __('blog.buy_tickets') }} {!! $extIcon !!}
                                         </a>
                                     @endif
@@ -182,27 +203,6 @@
                             </div>
                         @endif
 
-                        <div class="flex flex-wrap items-center gap-1.5">
-                        <button type="button" data-copy-link aria-label="{{ __('blog.copy_link') }}" title="{{ __('blog.copy_link') }}"
-                            class="grid size-9 place-items-center rounded-full bg-[#C62E2E] text-white transition hover:bg-[#A82424]">
-                            <svg class="size-[17px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.3-2.3a4 4 0 0 0-5.7-5.7l-1.3 1.3"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.3 2.3a4 4 0 0 0 5.7 5.7l1.3-1.3"/></svg>
-                        </button>
-                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($blog->title) }}" target="_blank" rel="noopener noreferrer" aria-label="X" title="X"
-                            class="grid size-9 place-items-center rounded-full bg-[#0F1420] text-white transition hover:bg-black">
-                            <svg class="size-[14px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.3l-4.9-6.4L6.2 22H3l7.3-8.3L3 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L8.3 3.9H6.5L17.8 20Z"/></svg>
-                        </a>
-                        <a href="https://wa.me/?text={{ urlencode($blog->title . ' ' . url()->current()) }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"
-                            class="grid size-9 place-items-center rounded-full bg-[#25D366] text-white transition hover:bg-[#1DA851]">
-                            <svg class="size-[17px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.7-6.1c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1.1-.2.2-.3.2-.6.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.3-.4c.1-.2 0-.4 0-.5 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.7 4.2 3.7 1.6.7 2.3.7 3.1.6.5-.1 1.6-.7 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3Z"/></svg>
-                        </a>
-                        <span class="mx-0.5 h-6 w-px bg-slate-200" aria-hidden="true"></span>
-                        @foreach (\App\Support\Socials::all() as [$name, $url, $handle, $icon, $tone])
-                            <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}" title="{{ __('footer.follow') }} · {{ $name }}"
-                                class="grid size-9 place-items-center rounded-full text-white transition hover:scale-110 {{ $tone }}">
-                                <svg class="size-[17px]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">{!! $icon !!}</svg>
-                            </a>
-                        @endforeach
-                        </div>
                     </aside>
                 </div>
             </div>
@@ -255,8 +255,8 @@
             <div id="articleBody">
                 @if ($parts['intro'] !== '')
                     <section class="bg-white pb-4 pt-12 md:pt-16">
-                        <div class="mx-auto grid max-w-7xl px-4 lg:grid-cols-12 lg:gap-14">
-                            <div class="rich-text quill-content text-[17px] lg:col-span-8 lg:col-start-5">{!! $parts['intro'] !!}</div>
+                        <div class="mx-auto max-w-3xl px-4">
+                            <div class="rich-text quill-content text-[17px]">{!! $parts['intro'] !!}</div>
                         </div>
                     </section>
                 @endif
@@ -264,17 +264,15 @@
                 @foreach ($parts['sections'] as $part)
                     @php $tone = $loop->odd ? 'bg-white' : 'bg-slate-50'; @endphp
                     <section id="{{ $part['id'] }}" data-post-section data-nav-section="post-{{ $loop->iteration }}" class="{{ $tone }} scroll-mt-36 py-12 md:py-16 lg:scroll-mt-24">
-                        <div class="mx-auto grid max-w-7xl gap-6 px-4 lg:grid-cols-12 lg:gap-14">
-                            <header class="lg:col-span-4">
-                                <div class="lg:sticky lg:top-28">
-                                    <div class="flex items-center gap-3">
-                                        <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] text-lg font-extrabold tabular-nums text-white shadow-[0_12px_26px_-12px_rgba(198,46,46,0.8)]">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                        <p class="text-xs font-semibold text-slate-400">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }} / {{ str_pad($loop->count, 2, '0', STR_PAD_LEFT) }} · {{ __('blog-page.min_read', ['count' => $part['minutes']]) }}</p>
-                                    </div>
-                                    <h2 class="mt-5 text-[26px] font-extrabold leading-[1.15] tracking-[-0.025em] text-slate-900 sm:text-[32px]">{{ $part['title'] }}</h2>
+                        <div class="mx-auto max-w-3xl px-4">
+                            <header class="flex items-start gap-4">
+                                <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] text-lg font-extrabold tabular-nums text-white shadow-[0_12px_26px_-12px_rgba(198,46,46,0.8)]">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                <div class="min-w-0">
+                                    <p class="text-xs font-semibold text-slate-400">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }} / {{ str_pad($loop->count, 2, '0', STR_PAD_LEFT) }} · {{ __('blog-page.min_read', ['count' => $part['minutes']]) }}</p>
+                                    <h2 class="mt-1 text-[24px] font-extrabold leading-[1.2] tracking-[-0.02em] text-slate-900 sm:text-[30px]">{{ $part['title'] }}</h2>
                                 </div>
                             </header>
-                            <div class="min-w-0 lg:col-span-8" x-data="{ open: false, long: false }" x-init="$nextTick(() => { long = $refs.body.scrollHeight > 640 })">
+                            <div class="mt-6 min-w-0" x-data="{ open: false, long: false }" x-init="$nextTick(() => { long = $refs.body.scrollHeight > 640 })">
                                 <div x-ref="body" class="relative overflow-hidden" :class="long && !open ? 'max-h-[480px]' : ''">
                                     <div class="rich-text quill-content">{!! $part['html'] !!}</div>
                                     <div x-show="long && !open" x-cloak class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t {{ $loop->odd ? 'from-white' : 'from-slate-50' }} to-transparent"></div>

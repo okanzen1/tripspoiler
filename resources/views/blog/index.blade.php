@@ -183,29 +183,43 @@
                     </p>
                 </div>
 
-                {{-- araç çubuğu: üstte arama (tam genişlik), altta etiketler alt alta sarar (kaymaz) --}}
-                <div class="relative mt-6 flex flex-col gap-1 overflow-hidden rounded-[22px] bg-white p-2 shadow-[0_18px_44px_-28px_rgba(15,23,42,0.35)] ring-1 ring-slate-200/80">
-                    <label class="relative flex min-w-0 flex-1 items-center gap-3 rounded-2xl px-3 py-1.5 transition focus-within:bg-slate-50">
-                        <span class="grid size-9 shrink-0 place-items-center rounded-xl bg-slate-900 text-white">
-                            <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m19.5 19.5-4.2-4.2"/></svg>
-                        </span>
-                        <input type="search" x-model="query" @input.debounce.250ms="apply(() => q = query, 300)" placeholder="{{ __('blog-page.search') }}"
-                            class="min-w-0 flex-1 bg-transparent py-2 text-[15px] font-medium text-slate-900 outline-none placeholder:font-normal placeholder:text-slate-400 [&::-webkit-search-cancel-button]:hidden">
-                        <button type="button" x-show="query" x-cloak @click="query = ''; apply(() => q = '', 300)" aria-label="✕" class="grid size-8 shrink-0 place-items-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-700">
-                            <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-                        </button>
-                    </label>
+                {{-- araç çubuğu: üstte "Konular" + arama, altta sayılarıyla konu çipleri (sarar, kaymaz) --}}
+                @php $tagCounts = $blogs->flatMap(fn ($b) => array_filter((array) $b->tags))->countBy(); @endphp
+                <div class="relative mt-6 overflow-hidden rounded-[26px] bg-white p-4 shadow-[0_24px_60px_-36px_rgba(15,23,42,0.4)] ring-1 ring-slate-200/80 sm:p-5">
+                    <div class="pointer-events-none absolute -right-16 -top-20 size-56 rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.08),transparent_65%)]" aria-hidden="true"></div>
+                    <div class="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        @if ($tags->isNotEmpty())
+                            <p class="flex items-center gap-2.5 text-sm font-extrabold text-slate-900">
+                                <span class="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] text-white shadow-[0_10px_22px_-10px_rgba(198,46,46,0.8)]">
+                                    <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></svg>
+                                </span>
+                                {{ __('blog-page.topics') }}
+                            </p>
+                        @endif
+                        <label class="relative flex w-full items-center gap-2.5 rounded-full bg-slate-100/80 px-4 ring-1 ring-transparent transition focus-within:bg-white focus-within:ring-2 focus-within:ring-[#C62E2E]/30 md:max-w-sm">
+                            <svg class="size-[18px] shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m19.5 19.5-4.2-4.2"/></svg>
+                            <input type="search" x-model="query" @input.debounce.250ms="apply(() => q = query, 300)" placeholder="{{ __('blog-page.search') }}"
+                                class="h-11 min-w-0 flex-1 bg-transparent text-[15px] font-medium text-slate-900 outline-none placeholder:font-normal placeholder:text-slate-400 [&::-webkit-search-cancel-button]:hidden">
+                            <button type="button" x-show="query" x-cloak @click="query = ''; apply(() => q = '', 300)" aria-label="✕" class="grid size-7 shrink-0 place-items-center rounded-full text-slate-400 hover:bg-slate-200 hover:text-slate-700">
+                                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                            </button>
+                        </label>
+                    </div>
                     @if ($tags->isNotEmpty())
-                        <div class="flex flex-wrap gap-1.5 border-t border-slate-100 px-1 pb-1 pt-2.5">
+                        <div class="relative mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
                             <button type="button" @click="pick('', $el)"
-                                :class="tab === '' ? 'bg-[#C62E2E] text-white ring-[#C62E2E] shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' : 'bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 hover:ring-slate-300'"
-                                class="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 transition">
-                                {!! \App\Support\FeatureIcons::svg('book', 'size-[18px]') !!}{{ __('blog-page.all') }}
+                                :class="tab === '' ? 'bg-slate-900 text-white ring-slate-900' : 'bg-white text-slate-700 ring-slate-200 hover:ring-slate-400'"
+                                class="inline-flex items-center gap-2 rounded-full py-1.5 pl-3.5 pr-1.5 text-sm font-bold ring-1 transition">
+                                {{ __('blog-page.all') }}
+                                <span :class="tab === '' ? 'bg-white/15 text-white' : 'bg-slate-100 text-slate-500'" class="rounded-full px-2 py-0.5 text-[11px] font-bold tabular-nums">{{ $blogs->count() }}</span>
                             </button>
                             @foreach ($tags as $tagName)
                                 <button type="button" @click="pick(tab === @js($tagName) ? '' : @js($tagName), $el)"
-                                    :class="tab === @js($tagName) ? 'bg-[#C62E2E] text-white ring-[#C62E2E] shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' : 'bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 hover:ring-slate-300'"
-                                    class="inline-flex shrink-0 items-center rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 transition">{{ $tagName }}</button>
+                                    :class="tab === @js($tagName) ? 'bg-[#C62E2E] text-white ring-[#C62E2E] shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' : 'bg-slate-50 text-slate-700 ring-slate-200/80 hover:bg-white hover:ring-[#C62E2E]/40 hover:text-[#C62E2E]'"
+                                    class="group inline-flex items-center gap-1.5 rounded-full py-1.5 pl-3 pr-1.5 text-sm font-semibold ring-1 transition">
+                                    <span :class="tab === @js($tagName) ? 'text-white/70' : 'text-[#C62E2E]/60'" class="font-bold">#</span>{{ $tagName }}
+                                    <span :class="tab === @js($tagName) ? 'bg-white/20 text-white' : 'bg-white text-slate-500 ring-1 ring-slate-200'" class="rounded-full px-2 py-0.5 text-[11px] font-bold tabular-nums">{{ $tagCounts[$tagName] ?? 0 }}</span>
+                                </button>
                             @endforeach
                         </div>
                     @endif
