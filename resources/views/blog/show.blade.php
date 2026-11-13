@@ -267,6 +267,7 @@
                         <div class="mx-auto grid max-w-7xl gap-6 px-4 lg:grid-cols-12 lg:gap-14">
                             {{-- giriş: solda bölümlerle aynı düzende başlık (sol taraf boş kalmasın) --}}
                             <header class="lg:col-span-4">
+                                <div class="lg:sticky lg:top-28">
                                 <div class="flex items-center gap-3">
                                     <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-slate-900 text-white shadow-[0_12px_26px_-12px_rgba(15,23,42,0.6)]">{!! \App\Support\FeatureIcons::svg('book', 'size-6') !!}</span>
                                     <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">{{ __('blog.intro') }}</p>
@@ -274,6 +275,7 @@
                                 @if ($parts['intro_title'])
                                     <h2 class="mt-5 text-[26px] font-extrabold leading-[1.15] tracking-[-0.025em] text-slate-900 sm:text-[32px]">{{ $parts['intro_title'] }}</h2>
                                 @endif
+                                </div>
                             </header>
                             <div class="rich-text quill-content text-[17px] lg:col-span-8">{!! $parts['intro'] !!}</div>
                         </div>
@@ -284,13 +286,15 @@
                     @php $tone = $loop->odd ? 'bg-white' : 'bg-slate-50'; @endphp
                     <section id="{{ $part['id'] }}" data-post-section data-nav-section="post-{{ $loop->iteration }}" class="{{ $tone }} scroll-mt-36 py-12 md:py-16 lg:scroll-mt-24">
                         <div class="mx-auto grid max-w-7xl gap-6 px-4 lg:grid-cols-12 lg:gap-14">
-                            {{-- başlık solda, yazının başıyla aynı hizada (yapışkan değil) --}}
+                            {{-- başlık solda; şehir rehberindeki gibi aşağı inerken yanında kalır (yapışkan) --}}
                             <header class="lg:col-span-4">
+                                <div class="lg:sticky lg:top-28">
                                 <div class="flex items-center gap-3">
                                     <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] text-lg font-extrabold tabular-nums text-white shadow-[0_12px_26px_-12px_rgba(198,46,46,0.8)]">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                                     <p class="text-xs font-semibold text-slate-400">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }} / {{ str_pad($loop->count, 2, '0', STR_PAD_LEFT) }} · {{ __('blog-page.min_read', ['count' => $part['minutes']]) }}</p>
                                 </div>
                                 <h2 class="mt-5 text-[26px] font-extrabold leading-[1.15] tracking-[-0.025em] text-slate-900 sm:text-[32px]">{{ $part['title'] }}</h2>
+                                </div>
                             </header>
                             <div class="min-w-0 lg:col-span-8" x-data="{ open: false, long: false }" x-init="$nextTick(() => { long = $refs.body.scrollHeight > 640 })">
                                 <div x-ref="body" class="relative overflow-hidden" :class="long && !open ? 'max-h-[480px]' : ''">
