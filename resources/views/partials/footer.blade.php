@@ -18,10 +18,7 @@
             [__('footer.privacy'), route('privacy'), 'privacy'],
         ],
     ];
-    $socials = [
-        ['Instagram', 'https://instagram.com/tripspoilerofficial', '<path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2a3 3 0 013 3v10a3 3 0 01-3 3H7a3 3 0 01-3-3V7a3 3 0 013-3h10z"/><path d="M12 7.5A4.5 4.5 0 1016.5 12 4.51 4.51 0 0012 7.5zm0 7.2A2.7 2.7 0 1114.7 12 2.7 2.7 0 0112 14.7z"/><circle cx="17.5" cy="6.5" r="1"/>'],
-        ['TikTok', 'https://tiktok.com/@tripspoilerofficial', '<path d="M21 8.3a6.6 6.6 0 01-3.8-1.2v7.1a6.4 6.4 0 11-6.4-6.4c.4 0 .8 0 1.2.1v3.3a3.1 3.1 0 102.2 3v-12h3.2a6.6 6.6 0 003.6 3.1z"/>'],
-    ];
+    $socials = \App\Support\Socials::all();
 @endphp
 
 <footer class="relative overflow-hidden bg-slate-950 text-white/70">
@@ -40,7 +37,7 @@
 
                 <p class="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-white/45">{{ __('footer.follow') }}</p>
                 <div class="mt-3 flex gap-2.5">
-                    @foreach ($socials as [$name, $url, $icon])
+                    @foreach ($socials as [$name, $url, , $icon])
                         <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}"
                             class="grid size-10 place-items-center rounded-full bg-white/5 text-white/80 ring-1 ring-white/10 transition hover:bg-[#C62E2E] hover:text-white hover:ring-[#C62E2E]">
                             <svg class="size-[18px]" fill="currentColor" viewBox="0 0 24 24">{!! $icon !!}</svg>

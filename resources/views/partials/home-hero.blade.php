@@ -290,8 +290,9 @@
             </div>
         @endif
 
-        {{-- STATS --}}
-        <dl style="--d: 560ms" class="hero-reveal mt-8 lg:mt-[clamp(10px,2.6vh,40px)] grid grid-cols-4 gap-x-2 divide-x divide-white/20 md:divide-white/25">
+        {{-- ALT SATIR: solda rakamlar (yazıların genişliğinde), sağda popüler kartının altında sosyal medya --}}
+        <div style="--d: 560ms" class="hero-reveal mt-8 grid items-center gap-6 lg:mt-[clamp(10px,2.6vh,40px)] lg:grid-cols-12 lg:gap-10">
+        <dl class="grid grid-cols-4 gap-x-2 divide-x divide-white/20 md:divide-white/25 lg:col-span-7">
             @foreach ([
                 ['value' => $stats['experiences'], 'label' => __('home-hero.stat_experiences'),
                  'icon' => '<path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1.5a2.5 2.5 0 0 0 0 5V16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1.5a2.5 2.5 0 0 0 0-5z"/><path d="M14 6v12" stroke-dasharray="2 2"/>'],
@@ -302,8 +303,8 @@
                 ['value' => $stats['languages'], 'label' => __('home-hero.stat_languages'),
                  'icon' => '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>'],
             ] as $stat)
-                <div class="flex flex-col items-center gap-1 px-1 text-center md:flex-row md:gap-3.5 md:px-8 md:text-left md:first:pl-0">
-                    <svg class="hidden md:block w-8 h-8 shrink-0 text-[#E0393E]" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                <div class="flex flex-col items-center gap-1 px-1 text-center md:flex-row md:gap-3 md:px-5 md:text-left md:first:pl-0 xl:px-6">
+                    <svg class="hidden md:block w-7 h-7 shrink-0 text-[#E0393E]" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">{!! $stat['icon'] !!}</svg>
                     <div class="flex flex-col-reverse">
                         <dt class="text-[11px] leading-tight md:text-sm font-medium text-white/80">{{ $stat['label'] }}</dt>
@@ -312,6 +313,22 @@
                 </div>
             @endforeach
         </dl>
+
+        {{-- sosyal medya (App\Support\Socials): cam kutu, markaların kendi renkleri --}}
+        <div class="lg:col-span-5">
+            <div class="flex items-center justify-between gap-4 rounded-2xl bg-white/10 p-3 pl-5 ring-1 ring-white/15 backdrop-blur-md lg:ml-auto lg:max-w-[clamp(280px,44vh,420px)]">
+                <p class="min-w-0 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">{{ __('footer.follow') }}</p>
+                <div class="flex shrink-0 items-center gap-2.5">
+                    @foreach (\App\Support\Socials::all() as [$name, $url, $handle, $icon, $tone])
+                        <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}" title="{{ $name }}"
+                            class="grid size-11 place-items-center rounded-xl text-white ring-1 ring-white/20 transition duration-300 hover:-translate-y-0.5 hover:scale-105 {{ $tone }}">
+                            <svg class="size-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">{!! $icon !!}</svg>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        </div>
 
     </div>
 </section>
