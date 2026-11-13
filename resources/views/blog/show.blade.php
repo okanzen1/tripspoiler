@@ -19,7 +19,7 @@
             }
         }
 
-        #articleBody :is(h2, h3) {
+        #articleBody :is(h2, h3), [data-post-section] {
             scroll-margin-top: 96px;
         }
 
@@ -35,6 +35,10 @@
 @php
     $coverImage = $blog->coverUrl();
     $publishedAt = $blog->published_at ?? $blog->created_at;
+    // Yazı ana başlıklarından bölümlere ayrılır (App\Support\ArticleSections); telefondaki bölüm kılavuzunda da görünür
+    $parts = \App\Support\ArticleSections::split($blog->content);
+    $navExtra = collect($parts['sections'])->map(fn ($part, $i) => ['post-' . ($i + 1), $part['title'],
+        '<span class="grid size-[22px] place-items-center rounded-md bg-current/10 text-[11px] font-extrabold tabular-nums">' . ($i + 1) . '</span>'])->all();
     $activityCount = $blog->activities->count();
     $singleActivity = $activityCount === 1 ? $blog->activities->first() : null;
     // Öneri kartları: "Detayları gör" bizim aktivite sayfasına, "Bilet al" doğrudan partnere (iki düğme)
@@ -90,216 +94,178 @@
         <div id="readingProgress" class="h-full origin-left scale-x-0 bg-[#C62E2E] rtl:origin-right"></div>
     </div>
 
-    {{-- BANNER: sinematik kapak + üzerine binen editoryal künye --}}
+    {{-- KAPAK: başlık, özet, paylaş ve sosyal medya resmin üstünde (kutusuz); masaüstünde sağda editörün seçimi --}}
     @php
         $previewActivity = $singleActivity ?? $blog->activities->first();
     @endphp
-    <section class="relative bg-white">
-        <div class="relative h-[280px] overflow-hidden bg-[#0F1420] text-white sm:h-[340px] lg:h-[390px] xl:h-[410px]">
-            @if ($coverImage)
-                <img src="{{ $coverImage }}" alt="{{ $blog->title }}" fetchpriority="high"
-                    class="absolute inset-0 h-full w-full object-cover object-center">
-            @else
-                <div class="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:72px_72px]" aria-hidden="true"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-[140px] font-extrabold leading-none tracking-[-0.06em] text-white/10">
-                        {{ mb_substr($blog->city?->name ?? $blog->title, 0, 1) }}
-                    </span>
-                </div>
-            @endif
+    <section class="relative isolate overflow-hidden bg-[#0F1420] text-white">
+        @if ($coverImage)
+            <img src="{{ $coverImage }}" alt="{{ $blog->title }}" fetchpriority="high" class="absolute inset-0 -z-20 h-full w-full object-cover object-center">
+        @else
+            <div class="absolute inset-0 -z-20 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:72px_72px]" aria-hidden="true"></div>
+        @endif
+        <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-[#0F1420] via-[#0F1420]/70 to-[#0F1420]/30" aria-hidden="true"></div>
+        <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-[#0F1420]/80 via-[#0F1420]/30 to-transparent rtl:bg-gradient-to-l" aria-hidden="true"></div>
 
-            <div class="pointer-events-none absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#0F1420]/85 via-[#0F1420]/35 to-transparent" aria-hidden="true"></div>
-            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0F1420]/60 to-transparent" aria-hidden="true"></div>
+        <div class="mx-auto max-w-7xl px-4 pb-10 pt-6 md:pb-14 md:pt-8">
+            <x-breadcrumbs dark :items="[
+                ['label' => __('activity-show.home'), 'url' => route('home')],
+                ['label' => __('blog-page.blog'), 'url' => route('blog.index')],
+                ...($blog->city ? [['label' => $blog->city->name, 'url' => route('blog.index', ['city_id' => $blog->city_id])]] : []),
+                ['label' => $blog->title, 'url' => url()->current()],
+            ]" />
 
-            <div class="relative mx-auto flex h-full max-w-7xl flex-col px-4 pt-6 md:pt-8">
-                <x-breadcrumbs dark :items="[
-                    ['label' => __('activity-show.home'), 'url' => route('home')],
-                    ['label' => __('blog-page.blog'), 'url' => route('blog.index')],
-                    ...($blog->city ? [['label' => $blog->city->name, 'url' => route('blog.index', ['city_id' => $blog->city_id])]] : []),
-                    ['label' => $blog->title, 'url' => url()->current()],
-                ]" />
-            </div>
-        </div>
+            <div class="mt-24 grid items-end gap-10 sm:mt-32 lg:mt-40 lg:grid-cols-12">
+                <div class="lg:col-span-8">
+                    <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">
+                        <span class="inline-flex items-center gap-2 text-[#FF8A8C]"><span class="h-px w-8 bg-[#FF8A8C]"></span>{{ $blog->city?->name ?? __('blog-page.blog') }}</span>
+                        <span class="text-white/30">·</span>
+                        <span>{{ $publishedAt->locale($locale)->isoFormat('D MMMM YYYY') }}</span>
+                        <span class="text-white/30">·</span>
+                        <span>{{ __('blog-page.min_read', ['count' => $blog->readingMinutes()]) }}</span>
+                    </p>
+                    <h1 class="mt-4 text-[34px] font-extrabold leading-[1.05] tracking-[-0.04em] text-balance drop-shadow-[0_2px_16px_rgba(0,0,0,0.35)] sm:text-5xl lg:text-[56px]">{{ $blog->title }}</h1>
+                    @if ($blog->excerpt)
+                        <p class="mt-5 max-w-2xl text-base leading-relaxed text-white/80 md:text-lg">{{ $blog->excerpt }}</p>
+                    @endif
 
-        <div class="relative z-10 mx-auto -mt-14 max-w-5xl px-4 pb-8 sm:-mt-16 md:-mt-20 md:pb-10">
-            <div class="rounded-[24px] bg-white p-6 text-slate-900 ring-1 ring-slate-900/5 shadow-[0_40px_90px_-45px_rgba(15,23,42,0.5)] sm:rounded-[28px] sm:p-8 md:rounded-[32px] md:p-10">
-                <div class="grid gap-7 lg:grid-cols-12 lg:gap-10">
-                    {{-- sol: başlık ve özet --}}
-                    <div class="lg:col-span-8">
-                        <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
-                            <span class="inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
-                                <span class="h-px w-8 shrink-0 bg-[#C62E2E]"></span>
-                                {{ $blog->city?->name ?? __('blog-page.blog') }}
-                            </span>
-                            <span class="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
-                                {{ $publishedAt->locale($locale)->isoFormat('D MMMM YYYY') }}
-                            </span>
-                        </div>
-
-                        <h1 class="mt-4 text-[32px] font-extrabold leading-[1.07] tracking-[-0.04em] text-balance text-slate-900 sm:text-[40px] lg:text-[44px] xl:text-[48px]">
-                            {{ $blog->title }}
-                        </h1>
-
-                        @if ($blog->excerpt)
-                            <p class="mt-4 line-clamp-3 text-[15px] leading-relaxed text-slate-500 md:text-[17px]">{{ $blog->excerpt }}</p>
-                        @endif
-                    </div>
-
-                    {{-- sağ: aktivite yönlendirmesi + paylaşım --}}
-                    <aside class="flex flex-col gap-6 border-t border-slate-100 pt-6 lg:col-span-4 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
-                        @if ($previewActivity)
-                            {{-- öneri kartı: üst kısım bizim aktivite sayfasına; tek aktivitede altta "Detaylar" + "Bilet al" --}}
-                            <div class="relative isolate overflow-hidden rounded-2xl bg-[#0F1420] p-4 text-white ring-1 ring-white/10">
-                                <div class="pointer-events-none absolute -right-10 -top-12 -z-10 size-40 rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.45),transparent_65%)]" aria-hidden="true"></div>
-                                <a href="{{ $singleActivity ? $activityUrl($previewActivity) : '#activitiesSection' }}" class="group block">
-                                    <span class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-300">
-                                        <svg class="size-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6l-5.4 2.9 1.2-6-4.5-4.2 6.1-.7Z"/></svg>
-                                        {{ $singleActivity ? __('blog.editors_pick') : __('blog.editors_picks') }}
-                                    </span>
-                                    <span class="mt-3 block overflow-hidden rounded-xl ring-1 ring-white/10">
-                                        <span class="relative block aspect-[16/9] bg-white/5">
-                                            @if ($previewActivity->cover)
-                                                <img src="{{ $previewActivity->cover->url('sm') }}" alt="" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
-                                            @endif
-                                            @if ($activityCount > 1)
-                                                <span class="absolute bottom-2 right-2 rounded-full bg-[#0F1420]/85 px-2 py-0.5 text-[11px] font-bold">+{{ $activityCount - 1 }}</span>
-                                            @endif
-                                        </span>
-                                    </span>
-                                    <span class="mt-3 line-clamp-3 block text-[15px] font-bold leading-snug transition group-hover:text-[#FF8A8C]">
-                                        {{ $singleActivity ? $previewActivity->name : $activityCount . ' ' . __('blog.experiences') }}
-                                    </span>
-                                </a>
-                                @if ($singleActivity)
-                                    <div class="mt-4 grid gap-2">
-                                        <a href="{{ $activityUrl($singleActivity) }}" class="flex h-[42px] items-center justify-center gap-1.5 whitespace-nowrap rounded-xl bg-[#C62E2E] px-3 text-[13px] font-bold text-white transition hover:bg-[#A82424]">
-                                            {{ __('blog.see_details') }} {!! $arrowIcon !!}
-                                        </a>
-                                        @if ($singleActivity->affiliate_url)
-                                            <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener" class="flex h-[38px] items-center justify-center gap-1.5 whitespace-nowrap rounded-xl bg-white/[0.06] px-3 text-[13px] font-semibold text-white/85 ring-1 ring-white/15 transition hover:bg-white hover:text-[#0F1420]">
-                                                {{ __('blog.buy_tickets') }} {!! $extIcon !!}
-                                            </a>
-                                        @endif
-                                    </div>
-                                @else
-                                    <a href="#activitiesSection" class="mt-4 flex min-h-[40px] items-center justify-center gap-1.5 rounded-xl bg-[#C62E2E] text-[13px] font-bold text-white transition hover:bg-[#A82424]">{{ __('blog.see_experiences') }} {!! $arrowIcon !!}</a>
-                                @endif
-                            </div>
-                        @endif
-
-                        <div class="mt-auto flex flex-col gap-3">
-                            <span class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">
-                                <svg class="size-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
-                                {{ __('blog-page.min_read', ['count' => $blog->readingMinutes()]) }}
-                            </span>
-
-                            <div class="flex items-center gap-2">
+                            {{-- paylaş + bizi takip et --}}
+                            <div class="mt-6 flex flex-wrap items-center gap-2">
                                 <button type="button" data-copy-link aria-label="{{ __('blog.copy_link') }}" title="{{ __('blog.copy_link') }}"
-                                    class="grid size-9 place-items-center rounded-full bg-[#C62E2E] text-white shadow-sm ring-1 ring-[#C62E2E] transition hover:bg-[#A82424] hover:ring-[#A82424]">
-                                    <svg class="size-[15px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.3-2.3a4 4 0 0 0-5.7-5.7l-1.3 1.3"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.3 2.3a4 4 0 0 0 5.7 5.7l1.3-1.3"/></svg>
+                                    class="grid size-10 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/25 backdrop-blur-md transition hover:bg-[#C62E2E] hover:ring-[#C62E2E]">
+                                    <svg class="size-[17px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.3-2.3a4 4 0 0 0-5.7-5.7l-1.3 1.3"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.3 2.3a4 4 0 0 0 5.7 5.7l1.3-1.3"/></svg>
                                 </button>
                                 <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($blog->title) }}" target="_blank" rel="noopener noreferrer" aria-label="X" title="X"
-                                    class="grid size-9 place-items-center rounded-full bg-[#0F1420] text-white shadow-sm ring-1 ring-[#0F1420] transition hover:bg-black hover:ring-black">
-                                    <svg class="size-[12px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.3l-4.9-6.4L6.2 22H3l7.3-8.3L3 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L8.3 3.9H6.5L17.8 20Z"/></svg>
+                                    class="grid size-10 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/25 backdrop-blur-md transition hover:bg-black hover:ring-black">
+                                    <svg class="size-[14px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.3l-4.9-6.4L6.2 22H3l7.3-8.3L3 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L8.3 3.9H6.5L17.8 20Z"/></svg>
                                 </a>
                                 <a href="https://wa.me/?text={{ urlencode($blog->title . ' ' . url()->current()) }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"
-                                    class="grid size-9 place-items-center rounded-full bg-[#25D366] text-white shadow-sm ring-1 ring-[#25D366] transition hover:bg-[#1DA851] hover:ring-[#1DA851]">
-                                    <svg class="size-[15px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.7-6.1c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1.1-.2.2-.3.2-.6.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.3-.4c.1-.2 0-.4 0-.5 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.7 4.2 3.7 1.6.7 2.3.7 3.1.6.5-.1 1.6-.7 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3Z"/></svg>
+                                    class="grid size-10 place-items-center rounded-full bg-[#25D366] text-white ring-1 ring-white/25 transition hover:bg-[#1DA851]">
+                                    <svg class="size-[17px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.7-6.1c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1.1-.2.2-.3.2-.6.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.3-.4c.1-.2 0-.4 0-.5 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.7 4.2 3.7 1.6.7 2.3.7 3.1.6.5-.1 1.6-.7 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3Z"/></svg>
                                 </a>
+                                <span class="mx-1.5 h-6 w-px bg-white/25" aria-hidden="true"></span>
+                                @foreach (\App\Support\Socials::all() as [$name, $url, $handle, $icon, $tone])
+                                    <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}" title="{{ __('footer.follow') }} · {{ $name }}"
+                                        class="grid size-10 place-items-center rounded-full text-white ring-1 ring-white/25 transition hover:scale-110 {{ $tone }}">
+                                        <svg class="size-[17px]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">{!! $icon !!}</svg>
+                                    </a>
+                                @endforeach
                             </div>
-                        </div>
-                    </aside>
                 </div>
+                @if ($previewActivity)
+                    <div class="hidden lg:col-span-4 lg:block">
+                        @include('blog.partials.pick-card')
+                    </div>
+                @endif
             </div>
         </div>
     </section>
 
+    {{-- telefonda editörün seçimi kapağın altında --}}
+    @if ($previewActivity)
+        <div class="bg-white px-4 pt-6 lg:hidden">
+            @include('blog.partials.pick-card')
+        </div>
+    @endif
+
     {{-- Alt bölümler panelden (Sayfalar › Blog yazısı › Bölümler); "main" = makale + yazıdaki deneyimler --}}
-    <x-page-sections page="post" :post="$blog">
+    <x-page-sections page="post" :post="$blog" :nav-extra="$navExtra">
         <x-slot:main>
-            {{-- MAKALE: solda içindekiler + paylaş, sağda içerik --}}
-            <section class="bg-white py-10 md:py-16">
-                <div class="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-12 lg:gap-12">
-                    {{-- yan sütun --}}
-                    <aside class="hidden lg:col-span-3 lg:block">
-                        <div class="space-y-4 lg:sticky lg:top-24">
-                            <div id="tocCard" class="hidden rounded-[22px] bg-slate-50 p-5 ring-1 ring-slate-200/70">
-                                <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">{{ __('blog.toc') }}</p>
-                                <ol id="tocList" class="mt-3 space-y-0.5 border-s border-slate-200"></ol>
-                            </div>
-
-                            <div class="rounded-[22px] bg-white p-5 ring-1 ring-slate-200/70">
-                                <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">{{ __('blog.share') }}</p>
-                                <div class="mt-3 flex items-center gap-2">
-                                    <button type="button" data-copy-link aria-label="{{ __('blog.copy_link') }}" title="{{ __('blog.copy_link') }}"
-                                        class="grid size-10 place-items-center rounded-full bg-[#C62E2E] text-white shadow-sm ring-1 ring-[#C62E2E] transition hover:bg-[#A82424] hover:ring-[#A82424]">
-                                        <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.3-2.3a4 4 0 0 0-5.7-5.7l-1.3 1.3"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.3 2.3a4 4 0 0 0 5.7 5.7l1.3-1.3"/></svg>
-                                    </button>
-                                    <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($blog->title) }}" target="_blank" rel="noopener noreferrer" aria-label="X" title="X"
-                                        class="grid size-10 place-items-center rounded-full bg-[#0F1420] text-white shadow-sm ring-1 ring-[#0F1420] transition hover:bg-black hover:ring-black">
-                                        <svg class="size-[15px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.3l-4.9-6.4L6.2 22H3l7.3-8.3L3 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L8.3 3.9H6.5L17.8 20Z"/></svg>
-                                    </a>
-                                    <a href="https://wa.me/?text={{ urlencode($blog->title . ' ' . url()->current()) }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"
-                                        class="grid size-10 place-items-center rounded-full bg-[#25D366] text-white shadow-sm ring-1 ring-[#25D366] transition hover:bg-[#1DA851] hover:ring-[#1DA851]">
-                                        <svg class="size-[18px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.7-6.1c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1.1-.2.2-.3.2-.6.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.3-.4c.1-.2 0-.4 0-.5 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.7 4.2 3.7 1.6.7 2.3.7 3.1.6.5-.1 1.6-.7 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3Z"/></svg>
-                                    </a>
-                                </div>
-                            </div>
+            {{-- MAKALE: her ana başlık (h2) ayrı bölüm — yapışkan sekmeler, solda başlık, sağda yazı ("Devamını oku") --}}
+            @if ($parts['sections'])
+                <nav aria-label="{{ __('blog.toc') }}" class="sticky top-[69px] z-30 border-b border-slate-200 bg-white/95 backdrop-blur-xl lg:top-0"
+                    x-data="{
+                        active: @js($parts['sections'][0]['id']), atStart: true, atEnd: false,
+                        init() {
+                            const io = new IntersectionObserver((entries) => {
+                                entries.forEach((e) => { if (e.isIntersecting) this.active = e.target.id });
+                            }, { rootMargin: '-35% 0px -60% 0px' });
+                            document.querySelectorAll('[data-post-section]').forEach((el) => io.observe(el));
+                            this.edges();
+                        },
+                        edges() { const t = this.$refs.track; const x = Math.abs(t.scrollLeft); this.atStart = x < 4; this.atEnd = x + t.clientWidth >= t.scrollWidth - 4 },
+                        go(dir) { const t = this.$refs.track; const rtl = getComputedStyle(t).direction === 'rtl'; t.scrollBy({ left: t.clientWidth * 0.6 * dir * (rtl ? -1 : 1), behavior: 'smooth' }) },
+                    }"
+                    x-effect="const chip = $refs['chip-' + active], t = $refs.track; if (chip && t) t.scrollTo({ left: chip.offsetLeft - t.clientWidth / 2 + chip.offsetWidth / 2, behavior: 'smooth' })">
+                    <div class="relative mx-auto max-w-7xl md:px-4">
+                        <div x-ref="track" @scroll.throttle.80ms="edges()" class="flex overflow-x-auto px-2 [scrollbar-width:none] md:px-0 [&::-webkit-scrollbar]:hidden">
+                            @foreach ($parts['sections'] as $part)
+                                <a href="#{{ $part['id'] }}" x-ref="chip-{{ $part['id'] }}" data-post-link
+                                    :class="active === @js($part['id']) ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900'"
+                                    class="group relative inline-flex shrink-0 items-center gap-2 whitespace-nowrap px-3.5 py-4 text-sm font-semibold transition md:px-4">
+                                    <span :class="active === @js($part['id']) ? 'bg-[#C62E2E] text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'" class="grid size-6 place-items-center rounded-full text-[11px] font-extrabold tabular-nums transition">{{ $loop->iteration }}</span>
+                                    <span class="max-w-[15rem] truncate">{{ $part['title'] }}</span>
+                                    <span :class="active === @js($part['id']) ? 'scale-x-100' : 'scale-x-0'" class="absolute inset-x-3 bottom-0 h-[3px] origin-center rounded-t-full bg-[#C62E2E] transition duration-300"></span>
+                                </a>
+                            @endforeach
                         </div>
-                    </aside>
+                        <button type="button" @click="go(-1)" x-show="!atStart" x-transition.opacity aria-label="‹"
+                            class="absolute inset-y-0 left-0 hidden w-20 items-center justify-start bg-gradient-to-r from-white via-white/90 to-transparent pl-4 text-slate-700 md:flex rtl:left-auto rtl:right-0 rtl:rotate-180">
+                            <span class="grid size-8 place-items-center rounded-full bg-white shadow-sm ring-1 ring-slate-200"><svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span>
+                        </button>
+                        <button type="button" @click="go(1)" x-show="!atEnd" x-transition.opacity aria-label="›"
+                            class="absolute inset-y-0 right-0 hidden w-20 items-center justify-end bg-gradient-to-l from-white via-white/90 to-transparent pr-4 text-slate-700 md:flex rtl:left-0 rtl:right-auto rtl:rotate-180">
+                            <span class="grid size-8 place-items-center rounded-full bg-white shadow-sm ring-1 ring-slate-200"><svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+                        </button>
+                    </div>
+                </nav>
+            @endif
 
-                    {{-- yazı --}}
-                    <div class="min-w-0 lg:col-span-9">
-                        <details id="tocMobile" open class="group mb-8 hidden rounded-[20px] bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200/70 lg:hidden">
-                            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500 [&::-webkit-details-marker]:hidden">
-                                {{ __('blog.toc') }}
-                                <svg class="size-4 shrink-0 text-slate-400 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                            </summary>
-                            <ol id="tocListMobile" class="mt-3 space-y-0.5 border-s border-slate-200"></ol>
-                            <button type="button" id="tocMore" hidden data-more="{{ __('blog.toc_more') }}" data-less="{{ __('blog.toc_less') }}"
-                                class="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#C62E2E] ring-1 ring-slate-200 transition hover:ring-[#C62E2E]/40"></button>
-                        </details>
+            <div id="articleBody">
+                @if ($parts['intro'] !== '')
+                    <section class="bg-white pb-4 pt-12 md:pt-16">
+                        <div class="mx-auto grid max-w-7xl px-4 lg:grid-cols-12 lg:gap-14">
+                            <div class="rich-text quill-content text-[17px] lg:col-span-8 lg:col-start-5">{!! $parts['intro'] !!}</div>
+                        </div>
+                    </section>
+                @endif
 
-                        <article id="articleBody" class="rich-text quill-content max-w-[46rem]">
-                            {!! $blog->content !!}
-                        </article>
-
-                        {{-- yazar / yazı sonu --}}
-                        <div class="mt-12 max-w-[46rem] rounded-[24px] bg-slate-50 p-6 ring-1 ring-slate-200/70">
-                            <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                                <div class="flex items-center gap-4">
-                                    <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-white ring-1 ring-slate-200/80">
-                                        <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="210" height="240" class="h-8 w-auto" loading="lazy">
-                                    </span>
-                                    <div class="min-w-0">
-                                        <p class="text-[15px] font-extrabold tracking-tight text-slate-900">Trip<span class="text-[#C62E2E]">Spoiler</span></p>
-                                        <p class="mt-0.5 text-[13px] leading-snug text-slate-500">{{ __('footer.tagline') }}</p>
+                @foreach ($parts['sections'] as $part)
+                    @php $tone = $loop->odd ? 'bg-white' : 'bg-slate-50'; @endphp
+                    <section id="{{ $part['id'] }}" data-post-section data-nav-section="post-{{ $loop->iteration }}" class="{{ $tone }} scroll-mt-36 py-12 md:py-16 lg:scroll-mt-24">
+                        <div class="mx-auto grid max-w-7xl gap-6 px-4 lg:grid-cols-12 lg:gap-14">
+                            <header class="lg:col-span-4">
+                                <div class="lg:sticky lg:top-28">
+                                    <div class="flex items-center gap-3">
+                                        <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] text-lg font-extrabold tabular-nums text-white shadow-[0_12px_26px_-12px_rgba(198,46,46,0.8)]">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                        <p class="text-xs font-semibold text-slate-400">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }} / {{ str_pad($loop->count, 2, '0', STR_PAD_LEFT) }} · {{ __('blog-page.min_read', ['count' => $part['minutes']]) }}</p>
                                     </div>
+                                    <h2 class="mt-5 text-[26px] font-extrabold leading-[1.15] tracking-[-0.025em] text-slate-900 sm:text-[32px]">{{ $part['title'] }}</h2>
                                 </div>
-                                <a href="{{ $blogIndexUrl }}"
-                                    class="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#C62E2E]">
-                                    {{ __('blog-page.latest') }}
-                                    <svg class="size-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                                </a>
-                            </div>
-
-                            {{-- mobilde paylaş --}}
-                            <div class="mt-5 flex items-center gap-2 border-t border-slate-200/70 pt-4 lg:hidden">
-                                <span class="mr-1 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-400">{{ __('blog.share') }}</span>
-                                <button type="button" data-copy-link aria-label="{{ __('blog.copy_link') }}"
-                                    class="grid size-9 place-items-center rounded-full bg-[#C62E2E] text-white shadow-sm ring-1 ring-[#C62E2E] transition hover:bg-[#A82424] hover:ring-[#A82424]">
-                                    <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.3-2.3a4 4 0 0 0-5.7-5.7l-1.3 1.3"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.3 2.3a4 4 0 0 0 5.7 5.7l1.3-1.3"/></svg>
+                            </header>
+                            <div class="min-w-0 lg:col-span-8" x-data="{ open: false, long: false }" x-init="$nextTick(() => { long = $refs.body.scrollHeight > 640 })">
+                                <div x-ref="body" class="relative overflow-hidden" :class="long && !open ? 'max-h-[480px]' : ''">
+                                    <div class="rich-text quill-content">{!! $part['html'] !!}</div>
+                                    <div x-show="long && !open" x-cloak class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t {{ $loop->odd ? 'from-white' : 'from-slate-50' }} to-transparent"></div>
+                                </div>
+                                <button type="button" x-show="long" x-cloak
+                                    @click="open = !open; if (!open) $el.closest('section').scrollIntoView({ behavior: 'smooth' })"
+                                    class="mt-6 inline-flex items-center gap-2 rounded-full bg-[#C62E2E] px-5 py-2.5 text-sm font-bold text-white shadow-[0_10px_24px_-10px_rgba(198,46,46,0.8)] transition hover:bg-[#A82424]">
+                                    <span x-text="open ? @js(__('cities-page.read_less')) : @js(__('cities-page.read_more'))"></span>
+                                    <svg class="size-4 transition" :class="open && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                                 </button>
-                                <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($blog->title) }}" target="_blank" rel="noopener noreferrer" aria-label="X"
-                                    class="grid size-9 place-items-center rounded-full bg-[#0F1420] text-white shadow-sm ring-1 ring-[#0F1420] transition hover:bg-black hover:ring-black">
-                                    <svg class="size-[13px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.3l-4.9-6.4L6.2 22H3l7.3-8.3L3 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L8.3 3.9H6.5L17.8 20Z"/></svg>
-                                </a>
-                                <a href="https://wa.me/?text={{ urlencode($blog->title . ' ' . url()->current()) }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
-                                    class="grid size-9 place-items-center rounded-full bg-[#25D366] text-white shadow-sm ring-1 ring-[#25D366] transition hover:bg-[#1DA851] hover:ring-[#1DA851]">
-                                    <svg class="size-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.7-6.1c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1.1-.2.2-.3.2-.6.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.3-.4c.1-.2 0-.4 0-.5 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.7 4.2 3.7 1.6.7 2.3.7 3.1.6.5-.1 1.6-.7 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3Z"/></svg>
-                                </a>
                             </div>
                         </div>
+                    </section>
+                @endforeach
+            </div>
+
+            {{-- yazı sonu --}}
+            <section class="bg-white py-10 md:py-12">
+                <div class="mx-auto max-w-7xl px-4">
+                    <div class="flex flex-col gap-5 rounded-[24px] bg-slate-50 p-6 ring-1 ring-slate-200/70 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="flex items-center gap-4">
+                            <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-white ring-1 ring-slate-200/80">
+                                <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="210" height="240" class="h-8 w-auto" loading="lazy">
+                            </span>
+                            <div class="min-w-0">
+                                <p class="text-[15px] font-extrabold tracking-tight text-slate-900">Trip<span class="text-[#C62E2E]">Spoiler</span></p>
+                                <p class="mt-0.5 text-[13px] leading-snug text-slate-500">{{ __('footer.tagline') }}</p>
+                            </div>
+                        </div>
+                        <a href="{{ $blogIndexUrl }}" class="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#C62E2E]">
+                            {{ __('blog-page.latest') }} {!! $arrowIcon !!}
+                        </a>
                     </div>
                 </div>
             </section>
@@ -349,7 +315,7 @@
                                     </a>
                                     @if ($singleActivity->affiliate_url)
                                         <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener"
-                                            class="inline-flex min-h-[50px] items-center gap-2 rounded-full px-5 py-3 text-sm font-bold text-white/85 ring-1 ring-white/20 transition hover:bg-white hover:text-[#0F1420]">
+                                            class="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-gradient-to-r from-amber-300 to-amber-500 px-6 py-3 text-[15px] font-extrabold text-slate-950 shadow-[0_14px_30px_-12px_rgba(245,158,11,0.9)] transition hover:from-amber-200 hover:to-amber-400">
                                             {{ __('blog.buy_tickets') }} {!! $extIcon !!}
                                         </a>
                                     @endif
@@ -400,7 +366,7 @@
                                                 {{ __('blog.see_details') }} {!! $arrowIcon !!}
                                             </a>
                                             @if ($activity->affiliate_url)
-                                                <a href="{{ $activity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener" class="inline-flex min-h-[38px] items-center gap-1.5 rounded-full px-3.5 text-[13px] font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-900 hover:text-white hover:ring-slate-900">
+                                                <a href="{{ $activity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener" class="inline-flex min-h-[38px] items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-amber-500 px-3.5 text-[13px] font-extrabold text-slate-950 transition hover:from-amber-200 hover:to-amber-400">
                                                     {{ __('blog.buy_tickets') }} {!! $extIcon !!}
                                                 </a>
                                             @endif
@@ -479,7 +445,7 @@
                 <div class="flex shrink-0 items-center gap-1.5">
                     @if ($singleActivity?->affiliate_url)
                         <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener" aria-label="{{ __('blog.buy_tickets') }}" title="{{ __('blog.buy_tickets') }}"
-                            class="grid size-11 place-items-center rounded-full text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-900 hover:text-white">
+                            class="grid size-11 place-items-center rounded-full bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 transition hover:from-amber-200 hover:to-amber-400">
                             <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5v1a2.5 2.5 0 0 0 0 5v1a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 15.5v-1a2.5 2.5 0 0 0 0-5v-1Z"/><path d="M14 9.5v1.5M14 13v1.5"/></svg>
                         </a>
                     @endif
@@ -513,7 +479,7 @@
                     <div class="flex shrink-0 items-center gap-2">
                         @if ($singleActivity?->affiliate_url)
                             <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener"
-                                class="inline-flex min-h-[44px] items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-900 hover:text-white hover:ring-slate-900">
+                                class="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-gradient-to-r from-amber-300 to-amber-500 px-5 py-2.5 text-sm font-extrabold text-slate-950 transition hover:from-amber-200 hover:to-amber-400">
                                 {{ __('blog.buy_tickets') }} {!! $extIcon !!}
                             </a>
                         @endif

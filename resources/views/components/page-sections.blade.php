@@ -3,7 +3,7 @@
     Şehre özel bölümler (popüler, blog, şehirler çağrısı) verilen şehre göre gelir; o şehirde içerik yoksa görünmez.
     SSS: bu sayfaya yazılan sorular + seçili şehre yazılan sorular; hiç yoksa görünmez.
 --}}
-@props(['page', 'cityId' => null, 'reviewSource' => null, 'main' => null, 'activity' => null, 'post' => null, 'guideSections' => null])
+@props(['page', 'cityId' => null, 'reviewSource' => null, 'main' => null, 'activity' => null, 'post' => null, 'guideSections' => null, 'navExtra' => []])
 
 @php
     // Aktivite detayında şehir = aktivitenin şehri
@@ -104,4 +104,4 @@
 @endforeach
 
 {{-- telefonda bölüm kılavuzu: bu sayfanın açık bölümleri sırayla (en az iki bölüm varsa görünür) --}}
-<x-section-nav :page="$page" :guide-sections="$guideSections" />
+<x-section-nav :page="$page" :guide-sections="$guideSections" :extra="$navExtra" />

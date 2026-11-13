@@ -3,7 +3,7 @@
     Sağ altta yuvarlak düğme (sayfa açılınca hep görünür) okunan bölümün ikonunu gösterir; dokununca liste açılır, bölüme kayar. "Başa dön" banner'a çıkar.
     Bölüm içeriği boşsa (ör. soru yok) sayfada çizilmez, kılavuzda da görünmez. Masaüstünde yok (orada yan menü var).
 --}}
-@props(['page', 'guideSections' => null, 'keys' => null])
+@props(['page', 'guideSections' => null, 'keys' => null, 'extra' => []])
 
 @php
     $icons = [
@@ -51,6 +51,11 @@
     $items = [['top', __('section-nav.top'), $svg($icons['top'], 'size-[22px]')]];
     foreach ($keys ?? \App\Support\PageSections::content($page) as $key) {
         if ($key === 'main') {
+            // sayfanın kendi bölümleri (ör. blog yazısının başlıkları) verildiyse "ana içerik" yerine onlar
+            if ($extra) {
+                array_push($items, ...$extra);
+                continue;
+            }
             $items[] = [$key, __('section-nav.main_' . $page), $svg($icons['main'], 'size-[22px]')];
             continue;
         }
