@@ -255,8 +255,8 @@
             <div id="articleBody">
                 @if ($parts['intro'] !== '')
                     <section class="bg-white pb-4 pt-12 md:pt-16">
-                        <div class="mx-auto max-w-3xl px-4">
-                            <div class="rich-text quill-content text-[17px]">{!! $parts['intro'] !!}</div>
+                        <div class="mx-auto grid max-w-7xl px-4 lg:grid-cols-12 lg:gap-14">
+                            <div class="rich-text quill-content text-[17px] lg:col-span-8 lg:col-start-5">{!! $parts['intro'] !!}</div>
                         </div>
                     </section>
                 @endif
@@ -264,15 +264,16 @@
                 @foreach ($parts['sections'] as $part)
                     @php $tone = $loop->odd ? 'bg-white' : 'bg-slate-50'; @endphp
                     <section id="{{ $part['id'] }}" data-post-section data-nav-section="post-{{ $loop->iteration }}" class="{{ $tone }} scroll-mt-36 py-12 md:py-16 lg:scroll-mt-24">
-                        <div class="mx-auto max-w-3xl px-4">
-                            <header class="flex items-start gap-4">
-                                <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] text-lg font-extrabold tabular-nums text-white shadow-[0_12px_26px_-12px_rgba(198,46,46,0.8)]">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                <div class="min-w-0">
+                        <div class="mx-auto grid max-w-7xl gap-6 px-4 lg:grid-cols-12 lg:gap-14">
+                            {{-- başlık solda, yazının başıyla aynı hizada (yapışkan değil) --}}
+                            <header class="lg:col-span-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] text-lg font-extrabold tabular-nums text-white shadow-[0_12px_26px_-12px_rgba(198,46,46,0.8)]">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                                     <p class="text-xs font-semibold text-slate-400">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }} / {{ str_pad($loop->count, 2, '0', STR_PAD_LEFT) }} · {{ __('blog-page.min_read', ['count' => $part['minutes']]) }}</p>
-                                    <h2 class="mt-1 text-[24px] font-extrabold leading-[1.2] tracking-[-0.02em] text-slate-900 sm:text-[30px]">{{ $part['title'] }}</h2>
                                 </div>
+                                <h2 class="mt-5 text-[26px] font-extrabold leading-[1.15] tracking-[-0.025em] text-slate-900 sm:text-[32px]">{{ $part['title'] }}</h2>
                             </header>
-                            <div class="mt-6 min-w-0" x-data="{ open: false, long: false }" x-init="$nextTick(() => { long = $refs.body.scrollHeight > 640 })">
+                            <div class="min-w-0 lg:col-span-8" x-data="{ open: false, long: false }" x-init="$nextTick(() => { long = $refs.body.scrollHeight > 640 })">
                                 <div x-ref="body" class="relative overflow-hidden" :class="long && !open ? 'max-h-[480px]' : ''">
                                     <div class="rich-text quill-content">{!! $part['html'] !!}</div>
                                     <div x-show="long && !open" x-cloak class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t {{ $loop->odd ? 'from-white' : 'from-slate-50' }} to-transparent"></div>
