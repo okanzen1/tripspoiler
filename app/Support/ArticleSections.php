@@ -13,11 +13,27 @@ use Illuminate\Support\Str;
  */
 class ArticleSections
 {
+    /**
+     * Panelde başlığa çevrilmeden yapıştırılan "## Başlık" / "### Alt başlık" satırları başlık olarak gösterilir,
+     * "**kalın**" kalın yazılır (panel kaydederken de aynısını yapar: HtmlSanitizer::markdownHeadings).
+     */
+    public static function markdownHeadings(string $html): string
+    {
+        $html = preg_replace_callback('#<p>\s*(?:<(?:strong|b)>)?\s*(\#{1,4})\s+(.*?)\s*(?:</(?:strong|b)>)?\s*</p>#is', function ($m) {
+            $level = min(4, max(2, strlen($m[1])));
+            $text = trim(preg_replace('#</?(?:strong|b)>#i', '', $m[2]));
+
+            return $text === '' ? $m[0] : "<h{$level}>{$text}</h{$level}>";
+        }, $html) ?? $html;
+
+        return preg_replace('#\*\*(\S(?:.*?\S)?)\*\*#s', '<strong>$1</strong>', $html) ?? $html;
+    }
+
     public static function split(?string $html): array
     {
-        $html = trim((string) $html);
+        $html = self::markdownHeadings(trim((string) $html));
         if ($html === '' || !preg_match('/<h2[\s>]/i', $html)) {
-            return ['intro' => $html, 'sections' => []];
+            return ['intro' => $html, 'intro_title' => null, 'sections' => []]; // ana başlık (h2) yoksa yazı tek parça
         }
 
         $doc = new DOMDocument();
