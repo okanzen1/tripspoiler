@@ -111,6 +111,7 @@
                             </a>
                         @endif
                     </div>
+                    <x-social-follow class="mt-2" />
                     </div>
                 </div>
 
