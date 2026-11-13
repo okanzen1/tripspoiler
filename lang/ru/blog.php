@@ -21,4 +21,8 @@ return array (
   'copied' => 'Ссылка скопирована',
   'related_city' => 'Другие путеводители по городу :city',
   'related_all' => 'Другие путеводители',
+  'see_details' => 'Подробнее',
+  'buy_tickets' => 'Купить билеты',
+  'toc_more' => 'Показать все (:count)',
+  'toc_less' => 'Свернуть',
 );

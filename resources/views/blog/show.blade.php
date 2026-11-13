@@ -37,6 +37,19 @@
     $publishedAt = $blog->published_at ?? $blog->created_at;
     $activityCount = $blog->activities->count();
     $singleActivity = $activityCount === 1 ? $blog->activities->first() : null;
+    // Öneri kartları: "Detayları gör" bizim aktivite sayfasına, "Bilet al" doğrudan partnere (iki düğme)
+    $activityUrl = fn ($activity) => route('activities.show', ['slug' => $activity->slug]);
+    $activityChips = function ($activity) {
+        $rating = $activity->reviews()->reorder()->selectRaw('COUNT(*) as total, AVG(rating) as average')->first();
+        return array_values(array_filter([
+            $rating?->total ? ['★ ' . number_format((float) $rating->average, 1) . ' (' . $rating->total . ')', true] : null,
+            [match ($activity->type) { 'pass' => __('most-popular-activities.category_pass'), 'package' => __('most-popular-activities.category_package'), default => __('most-popular-activities.category_product') }, false],
+            $activity->duration ? [$activity->duration, false] : null,
+            $activity->audio_guide ? [__('activity-show.audio'), false] : null,
+        ]));
+    };
+    $extIcon = '<svg class="size-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg>';
+    $arrowIcon = '<svg class="size-4 shrink-0 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
     $blogIndexUrl = route('blog.index', $blog->city_id ? ['city_id' => $blog->city_id] : []);
 
     // BlogPosting: Google makale yapısal verisi. Yazar/yayıncı layout'taki Organization'a @id ile bağlanır.
@@ -135,44 +148,43 @@
                     {{-- sağ: aktivite yönlendirmesi + paylaşım --}}
                     <aside class="flex flex-col gap-6 border-t border-slate-100 pt-6 lg:col-span-4 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
                         @if ($previewActivity)
-                            <a href="{{ $singleActivity ? $previewActivity->affiliate_url : '#activitiesSection' }}"
-                                @if ($singleActivity) target="_blank" rel="noopener noreferrer" @endif
-                                class="group block rounded-2xl bg-[#0F1420] p-4 text-white ring-1 ring-white/10 transition hover:bg-[#161D2E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C62E2E]">
-                                <span class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/45">
-                                    <svg class="size-3.5 shrink-0 text-[#C62E2E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5v1a2.5 2.5 0 0 0 0 5v1a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 15.5v-1a2.5 2.5 0 0 0 0-5v-1Z"/><path d="M14 9.5v1.5M14 13v1.5"/></svg>
-                                    {{ $singleActivity ? __('blog.editors_pick') : __('blog.editors_picks') }}
-                                </span>
-
-                                <span class="mt-3 flex items-center gap-3">
-                                    @if ($previewActivity->cover)
-                                        <span class="relative block size-14 shrink-0 overflow-hidden rounded-xl ring-1 ring-white/15">
-                                            <img src="{{ $previewActivity->cover->url('sm') }}" alt="" loading="lazy" decoding="async"
-                                                class="h-full w-full object-cover">
+                            {{-- öneri kartı: üst kısım bizim aktivite sayfasına; tek aktivitede altta "Detaylar" + "Bilet al" --}}
+                            <div class="relative isolate overflow-hidden rounded-2xl bg-[#0F1420] p-4 text-white ring-1 ring-white/10">
+                                <div class="pointer-events-none absolute -right-10 -top-12 -z-10 size-40 rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.45),transparent_65%)]" aria-hidden="true"></div>
+                                <a href="{{ $singleActivity ? $activityUrl($previewActivity) : '#activitiesSection' }}" class="group block">
+                                    <span class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-300">
+                                        <svg class="size-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6l-5.4 2.9 1.2-6-4.5-4.2 6.1-.7Z"/></svg>
+                                        {{ $singleActivity ? __('blog.editors_pick') : __('blog.editors_picks') }}
+                                    </span>
+                                    <span class="mt-3 block overflow-hidden rounded-xl ring-1 ring-white/10">
+                                        <span class="relative block aspect-[16/9] bg-white/5">
+                                            @if ($previewActivity->cover)
+                                                <img src="{{ $previewActivity->cover->url('sm') }}" alt="" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
+                                            @endif
                                             @if ($activityCount > 1)
-                                                <span class="absolute inset-x-0 bottom-0 bg-[#0F1420]/85 py-0.5 text-center text-[10px] font-bold text-white">+{{ $activityCount - 1 }}</span>
+                                                <span class="absolute bottom-2 right-2 rounded-full bg-[#0F1420]/85 px-2 py-0.5 text-[11px] font-bold">+{{ $activityCount - 1 }}</span>
                                             @endif
                                         </span>
-                                    @else
-                                        <span class="grid size-14 shrink-0 place-items-center rounded-xl bg-white/[0.06] text-white/40 ring-1 ring-white/10">
-                                            <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5v1a2.5 2.5 0 0 0 0 5v1a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 15.5v-1a2.5 2.5 0 0 0 0-5v-1Z"/></svg>
-                                        </span>
-                                    @endif
-                                    <span class="min-w-0 flex-1 text-[14px] font-bold leading-snug">
-                                        <span class="line-clamp-3">
-                                            {{ $singleActivity ? $previewActivity->name : $activityCount . ' ' . __('blog.experiences') }}
-                                        </span>
                                     </span>
-                                </span>
-
-                                <span class="mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-3">
-                                    <span class="text-[11px] font-bold uppercase tracking-[0.14em] text-white/85">
-                                        {{ $singleActivity ? __('blog.book_tickets') : __('blog.see_experiences') }}
+                                    <span class="mt-3 line-clamp-3 block text-[15px] font-bold leading-snug transition group-hover:text-[#FF8A8C]">
+                                        {{ $singleActivity ? $previewActivity->name : $activityCount . ' ' . __('blog.experiences') }}
                                     </span>
-                                    <span class="grid size-8 shrink-0 place-items-center rounded-full bg-[#C62E2E] text-white transition group-hover:bg-white group-hover:text-[#0F1420]">
-                                        <svg class="size-3.5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                                    </span>
-                                </span>
-                            </a>
+                                </a>
+                                @if ($singleActivity)
+                                    <div class="mt-4 grid gap-2">
+                                        <a href="{{ $activityUrl($singleActivity) }}" class="flex h-[42px] items-center justify-center gap-1.5 whitespace-nowrap rounded-xl bg-[#C62E2E] px-3 text-[13px] font-bold text-white transition hover:bg-[#A82424]">
+                                            {{ __('blog.see_details') }} {!! $arrowIcon !!}
+                                        </a>
+                                        @if ($singleActivity->affiliate_url)
+                                            <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener" class="flex h-[38px] items-center justify-center gap-1.5 whitespace-nowrap rounded-xl bg-white/[0.06] px-3 text-[13px] font-semibold text-white/85 ring-1 ring-white/15 transition hover:bg-white hover:text-[#0F1420]">
+                                                {{ __('blog.buy_tickets') }} {!! $extIcon !!}
+                                            </a>
+                                        @endif
+                                    </div>
+                                @else
+                                    <a href="#activitiesSection" class="mt-4 flex min-h-[40px] items-center justify-center gap-1.5 rounded-xl bg-[#C62E2E] text-[13px] font-bold text-white transition hover:bg-[#A82424]">{{ __('blog.see_experiences') }} {!! $arrowIcon !!}</a>
+                                @endif
+                            </div>
                         @endif
 
                         <div class="mt-auto flex flex-col gap-3">
@@ -238,12 +250,14 @@
 
                     {{-- yazı --}}
                     <div class="min-w-0 lg:col-span-9">
-                        <details id="tocMobile" class="group mb-8 hidden rounded-[20px] bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200/70 lg:hidden">
+                        <details id="tocMobile" open class="group mb-8 hidden rounded-[20px] bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200/70 lg:hidden">
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500 [&::-webkit-details-marker]:hidden">
                                 {{ __('blog.toc') }}
                                 <svg class="size-4 shrink-0 text-slate-400 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                             </summary>
                             <ol id="tocListMobile" class="mt-3 space-y-0.5 border-s border-slate-200"></ol>
+                            <button type="button" id="tocMore" hidden data-more="{{ __('blog.toc_more') }}" data-less="{{ __('blog.toc_less') }}"
+                                class="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#C62E2E] ring-1 ring-slate-200 transition hover:ring-[#C62E2E]/40"></button>
                         </details>
 
                         <article id="articleBody" class="rich-text quill-content max-w-[46rem]">
@@ -294,30 +308,52 @@
             @if ($singleActivity)
                 <section id="activitiesSection" class="scroll-mt-24 bg-white pb-12 md:pb-16">
                     <div class="mx-auto max-w-7xl px-4">
-                        <div class="group grid overflow-hidden rounded-[28px] bg-slate-900 text-white lg:grid-cols-2">
-                            <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="noopener noreferrer"
-                                class="relative block min-h-[280px] overflow-hidden sm:min-h-[340px] lg:min-h-[420px]">
+                        @php $chips = $activityChips($singleActivity); @endphp
+                        <div class="group relative isolate grid overflow-hidden rounded-[28px] bg-[#0F1420] text-white shadow-[0_40px_80px_-40px_rgba(15,23,42,0.8)] lg:grid-cols-2">
+                            <a href="{{ $activityUrl($singleActivity) }}" class="relative block min-h-[260px] overflow-hidden sm:min-h-[340px] lg:min-h-[420px]">
                                 <img loading="lazy" decoding="async"
                                     src="{{ $singleActivity->cover?->url() ?? asset('images/all-activities-cover.webp') }}"
                                     alt="{{ $singleActivity->name }}"
                                     class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent lg:bg-gradient-to-r"></div>
-                                <span class="absolute left-5 top-5 rounded-full bg-white/95 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-900 backdrop-blur rtl:left-auto rtl:right-5">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0F1420]/80 via-[#0F1420]/10 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-[#0F1420]/60 rtl:lg:bg-gradient-to-l"></div>
+                                <span class="absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-950 shadow-lg rtl:left-auto rtl:right-5">
+                                    <svg class="size-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6l-5.4 2.9 1.2-6-4.5-4.2 6.1-.7Z"/></svg>
                                     {{ __('blog.editors_pick') }}
                                 </span>
                             </a>
 
-                            <div class="flex flex-col justify-center p-7 sm:p-10">
-                                <p class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white/45">
-                                    <svg class="size-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                            <div class="relative flex flex-col justify-center p-7 sm:p-10">
+                                <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+                                    <div class="absolute inset-0 opacity-[0.06] [background-image:radial-gradient(rgba(255,255,255,.9)_1px,transparent_1px)] [background-size:22px_22px]"></div>
+                                    <div class="absolute -right-24 -top-24 size-80 rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.4),transparent_65%)]"></div>
+                                    <div class="absolute -bottom-28 left-10 size-72 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_65%)]"></div>
+                                </div>
+                                <p class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white/50">
+                                    <svg class="size-3.5 shrink-0 text-[#FF6B6E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
                                     {{ $singleActivity->city?->name }}@if ($singleActivity->city?->country?->name)<span class="text-white/25">·</span>{{ $singleActivity->city->country->name }}@endif
                                 </p>
-                                <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-[-0.02em] text-balance sm:text-3xl">{{ $singleActivity->name }}</h2>
-                                <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="noopener noreferrer"
-                                    class="mt-7 inline-flex min-h-[48px] w-max items-center gap-2 rounded-full bg-[#C62E2E] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#A82424]">
-                                    {{ __('blog.explore_experience') }}
-                                    <svg class="size-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                                </a>
+                                <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-[-0.02em] text-balance sm:text-3xl">
+                                    <a href="{{ $activityUrl($singleActivity) }}" class="transition hover:text-[#FF8A8C]">{{ $singleActivity->name }}</a>
+                                </h2>
+                                @if ($chips)
+                                    <ul class="mt-5 flex flex-wrap gap-2">
+                                        @foreach ($chips as [$chip, $star])
+                                            <li @class(['rounded-full px-3 py-1.5 text-xs font-bold ring-1', 'bg-amber-400/15 text-amber-300 ring-amber-300/25' => $star, 'bg-white/[0.07] text-white/80 ring-white/10' => !$star])>{{ $chip }}</li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                                <div class="mt-7 flex flex-wrap items-center gap-3">
+                                    <a href="{{ $activityUrl($singleActivity) }}"
+                                        class="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-[#C62E2E] px-7 py-3 text-[15px] font-bold text-white shadow-[0_14px_30px_-12px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424]">
+                                        {{ __('blog.see_details') }} {!! $arrowIcon !!}
+                                    </a>
+                                    @if ($singleActivity->affiliate_url)
+                                        <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener"
+                                            class="inline-flex min-h-[50px] items-center gap-2 rounded-full px-5 py-3 text-sm font-bold text-white/85 ring-1 ring-white/20 transition hover:bg-white hover:text-[#0F1420]">
+                                            {{ __('blog.buy_tickets') }} {!! $extIcon !!}
+                                        </a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -337,34 +373,40 @@
 
                         <div class="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-5">
                             @foreach ($blog->activities as $activity)
-                                <a href="{{ $activity->affiliate_url }}" target="_blank" rel="noopener noreferrer"
-                                    class="group flex flex-row overflow-hidden rounded-[20px] bg-white ring-1 ring-slate-200/80 shadow-[0_22px_55px_-40px_rgba(15,23,42,0.45)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_30px_70px_-40px_rgba(15,23,42,0.5)] lg:rounded-[26px]">
-                                    <div class="relative w-[32%] shrink-0 self-stretch overflow-hidden bg-slate-100 sm:w-[38%] lg:w-[42%]">
+                                <div class="group flex flex-row overflow-hidden rounded-[20px] bg-white ring-1 ring-slate-200/80 shadow-[0_22px_55px_-40px_rgba(15,23,42,0.45)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_30px_70px_-40px_rgba(15,23,42,0.5)] lg:rounded-[26px]">
+                                    <a href="{{ $activityUrl($activity) }}" class="relative w-[32%] shrink-0 self-stretch overflow-hidden bg-slate-100 sm:w-[38%] lg:w-[42%]">
                                         <img loading="lazy" decoding="async"
                                             src="{{ $activity->cover?->url() ?? asset('images/all-activities-cover.webp') }}"
                                             alt="{{ $activity->name }}"
                                             class="absolute inset-0 h-full w-full object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]">
-                                        <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent" aria-hidden="true"></div>
-                                    </div>
-
+                                    </a>
                                     <div class="flex min-w-0 flex-1 flex-col p-4 sm:p-5 lg:p-6">
                                         <p class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">
                                             <svg class="size-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-                                            {{ $activity->city?->name }}@if ($activity->city?->country?->name)<span class="text-slate-300">·</span>{{ $activity->city->country->name }}@endif
+                                            {{ $activity->city?->name }}
                                         </p>
-
-                                        <h3 class="mt-1.5 line-clamp-6 text-base font-extrabold leading-snug tracking-[-0.01em] text-slate-900 transition group-hover:text-[#C62E2E] lg:mt-2 lg:line-clamp-3 lg:text-lg">
-                                            {{ $activity->name }}
+                                        <h3 class="mt-1.5 line-clamp-3 text-base font-extrabold leading-snug tracking-[-0.01em] text-slate-900 lg:mt-2 lg:text-lg">
+                                            <a href="{{ $activityUrl($activity) }}" class="transition hover:text-[#C62E2E]">{{ $activity->name }}</a>
                                         </h3>
-
-                                        <span class="mt-auto inline-flex items-center gap-2 pt-3 text-[10px] font-bold uppercase tracking-[0.14em] text-[#C62E2E] sm:pt-4 sm:text-[11px] lg:pt-5">
-                                            {{ __('blog.book_tickets') }}
-                                            <span class="grid size-7 shrink-0 place-items-center rounded-full bg-[#C62E2E] text-white transition group-hover:bg-slate-900">
-                                                <svg class="size-3.5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                                            </span>
-                                        </span>
+                                        @if ($chips = array_slice($activityChips($activity), 0, 3))
+                                            <ul class="mt-2.5 flex flex-wrap gap-1.5">
+                                                @foreach ($chips as [$chip, $star])
+                                                    <li @class(['rounded-full px-2 py-0.5 text-[11px] font-bold', 'bg-amber-50 text-amber-700' => $star, 'bg-slate-100 text-slate-600' => !$star])>{{ $chip }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                        <div class="mt-auto flex flex-wrap items-center gap-2 pt-4">
+                                            <a href="{{ $activityUrl($activity) }}" class="inline-flex min-h-[38px] items-center gap-1.5 rounded-full bg-[#C62E2E] px-4 text-[13px] font-bold text-white transition hover:bg-[#A82424]">
+                                                {{ __('blog.see_details') }} {!! $arrowIcon !!}
+                                            </a>
+                                            @if ($activity->affiliate_url)
+                                                <a href="{{ $activity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener" class="inline-flex min-h-[38px] items-center gap-1.5 rounded-full px-3.5 text-[13px] font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-900 hover:text-white hover:ring-slate-900">
+                                                    {{ __('blog.buy_tickets') }} {!! $extIcon !!}
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
-                                </a>
+                                </div>
                             @endforeach
                         </div>
                     </div>
@@ -434,15 +476,19 @@
                         </p>
                     </div>
                 </div>
-                @if ($singleActivity)
-                    <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="noopener noreferrer"
-                @else
-                    <a href="#activitiesSection"
-                @endif
-                    class="inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-full bg-[#C62E2E] px-4 py-2.5 text-xs font-bold text-white transition hover:bg-[#A82424]">
-                        {{ __('blog.view') }}
+                <div class="flex shrink-0 items-center gap-1.5">
+                    @if ($singleActivity?->affiliate_url)
+                        <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener" aria-label="{{ __('blog.buy_tickets') }}" title="{{ __('blog.buy_tickets') }}"
+                            class="grid size-11 place-items-center rounded-full text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-900 hover:text-white">
+                            <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5v1a2.5 2.5 0 0 0 0 5v1a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 15.5v-1a2.5 2.5 0 0 0 0-5v-1Z"/><path d="M14 9.5v1.5M14 13v1.5"/></svg>
+                        </a>
+                    @endif
+                    <a href="{{ $singleActivity ? $activityUrl($singleActivity) : '#activitiesSection' }}"
+                        class="inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-full bg-[#C62E2E] px-4 py-2.5 text-xs font-bold text-white transition hover:bg-[#A82424]">
+                        {{ $singleActivity ? __('blog.see_details') : __('blog.see_experiences') }}
                         <svg class="size-3.5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                     </a>
+                </div>
             </div>
         </div>
 
@@ -464,15 +510,18 @@
                         </div>
                     </div>
 
-                    @if ($singleActivity)
-                        <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="noopener noreferrer"
-                    @else
-                        <a href="#activitiesSection"
-                    @endif
-                        class="inline-flex min-h-[44px] shrink-0 items-center gap-2 rounded-full bg-[#C62E2E] px-6 py-2.5 text-sm font-bold text-white transition hover:bg-[#A82424]">
-                            {{ __('blog.view') }}
-                            <svg class="size-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    <div class="flex shrink-0 items-center gap-2">
+                        @if ($singleActivity?->affiliate_url)
+                            <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener"
+                                class="inline-flex min-h-[44px] items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-900 hover:text-white hover:ring-slate-900">
+                                {{ __('blog.buy_tickets') }} {!! $extIcon !!}
+                            </a>
+                        @endif
+                        <a href="{{ $singleActivity ? $activityUrl($singleActivity) : '#activitiesSection' }}"
+                            class="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#C62E2E] px-6 py-2.5 text-sm font-bold text-white transition hover:bg-[#A82424]">
+                            {{ $singleActivity ? __('blog.see_details') : __('blog.see_experiences') }} {!! $arrowIcon !!}
                         </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -556,6 +605,20 @@
 
                     entries.push({ heading, anchors });
                 });
+
+                // Telefonda uzun liste kısaltılır: ilk 4 başlık + "Tümünü göster (n)"
+                const mobileItems = [...(document.getElementById('tocListMobile')?.children ?? [])];
+                const more = document.getElementById('tocMore');
+                if (more && mobileItems.length > 5) {
+                    let expanded = false;
+                    const render = () => {
+                        mobileItems.forEach((li, i) => li.hidden = !expanded && i >= 4);
+                        more.textContent = expanded ? more.dataset.less : more.dataset.more.replace(':count', mobileItems.length);
+                    };
+                    more.hidden = false;
+                    more.addEventListener('click', () => { expanded = !expanded; render(); });
+                    render();
+                }
 
                 const setActive = (current) => {
                     entries.forEach(({ heading, anchors }) => {

@@ -30,4 +30,8 @@ return [
   'copied' => 'Link copied',
   'related_city' => 'More guides from :city',
   'related_all' => 'More guides',
+  'see_details' => 'See details',
+  'buy_tickets' => 'Buy tickets',
+  'toc_more' => 'Show all (:count)',
+  'toc_less' => 'Show less',
 ];

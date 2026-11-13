@@ -30,7 +30,11 @@
             ->map(fn ($id) => $id !== '' ? $withCover->firstWhere('id', (int) $id) : null);
         $rest = $withCover->reject(fn ($blog) => $chosen->contains(fn ($c) => $c?->is($blog)))->values();
         $j = 0;
-        $arches = $chosen->map(fn ($blog) => $blog ?? $rest->get($j++))->filter()->values(); // [orta, sol, sağ]
+        // aynı yazı panelde birden çok yere seçildiyse bir kez görünür; boşalan yer sıradaki yazıyla dolar
+        $arches = $chosen->map(fn ($blog) => $blog ?? $rest->get($j++))->filter()->unique('id')->values(); // [orta, sol, sağ]
+        while ($arches->count() < 3 && ($next = $rest->first(fn ($b) => !$arches->contains(fn ($a) => $a->is($b))))) {
+            $arches->push($next);
+        }
         $featured = $arches->first() ?? $featured;
         $colonnade = $arches->count() === 3 ? collect([$arches[1], $arches[0], $arches[2]]) : $arches;
     @endphp
@@ -97,7 +101,9 @@
                 {{-- SAĞ: kemerler --}}
                 @if ($colonnade->isNotEmpty())
                     <div class="lg:col-span-7">
-                        <div class="grid grid-cols-3 items-end gap-3 sm:gap-5">
+                        {{-- 1 ya da 2 yazı varsa kemerler ortada, büyük --}}
+                        <div @class(['grid items-end gap-3 sm:gap-5', 'grid-cols-3' => $colonnade->count() === 3,
+                            'mx-auto max-w-lg grid-cols-2' => $colonnade->count() === 2, 'mx-auto max-w-[17rem] grid-cols-1' => $colonnade->count() === 1])>
                             @foreach ($colonnade as $blog)
                                 @php
                                     $main = $blog->is($featured);
@@ -177,23 +183,8 @@
                     </p>
                 </div>
 
-                {{-- araç çubuğu: aktiviteler sayfasındakiyle aynı dil --}}
-                <div class="relative mt-6 flex flex-col gap-2 overflow-hidden rounded-[22px] bg-white p-2 shadow-[0_18px_44px_-28px_rgba(15,23,42,0.35)] ring-1 ring-slate-200/80 lg:flex-row lg:items-center">
-                    @if ($tags->isNotEmpty())
-                        <div class="-mx-2 flex min-w-0 gap-1 overflow-x-auto px-2 [scrollbar-width:none] lg:mx-0 lg:max-w-[62%] lg:px-0 [&::-webkit-scrollbar]:hidden">
-                            <button type="button" @click="pick('', $el)"
-                                :class="tab === '' ? 'bg-[#C62E2E] text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'"
-                                class="inline-flex shrink-0 items-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold transition">
-                                {!! \App\Support\FeatureIcons::svg('book', 'size-[18px]') !!}{{ __('blog-page.all') }}
-                            </button>
-                            @foreach ($tags as $tagName)
-                                <button type="button" @click="pick(tab === @js($tagName) ? '' : @js($tagName), $el)"
-                                    :class="tab === @js($tagName) ? 'bg-[#C62E2E] text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'"
-                                    class="inline-flex shrink-0 items-center rounded-2xl px-4 py-3 text-sm font-semibold transition">{{ $tagName }}</button>
-                            @endforeach
-                        </div>
-                        <span class="hidden h-8 w-px shrink-0 bg-slate-200 lg:block"></span>
-                    @endif
+                {{-- araç çubuğu: üstte arama (tam genişlik), altta etiketler alt alta sarar (kaymaz) --}}
+                <div class="relative mt-6 flex flex-col gap-1 overflow-hidden rounded-[22px] bg-white p-2 shadow-[0_18px_44px_-28px_rgba(15,23,42,0.35)] ring-1 ring-slate-200/80">
                     <label class="relative flex min-w-0 flex-1 items-center gap-3 rounded-2xl px-3 py-1.5 transition focus-within:bg-slate-50">
                         <span class="grid size-9 shrink-0 place-items-center rounded-xl bg-slate-900 text-white">
                             <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m19.5 19.5-4.2-4.2"/></svg>
@@ -204,6 +195,20 @@
                             <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
                         </button>
                     </label>
+                    @if ($tags->isNotEmpty())
+                        <div class="flex flex-wrap gap-1.5 border-t border-slate-100 px-1 pb-1 pt-2.5">
+                            <button type="button" @click="pick('', $el)"
+                                :class="tab === '' ? 'bg-[#C62E2E] text-white ring-[#C62E2E] shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' : 'bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 hover:ring-slate-300'"
+                                class="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 transition">
+                                {!! \App\Support\FeatureIcons::svg('book', 'size-[18px]') !!}{{ __('blog-page.all') }}
+                            </button>
+                            @foreach ($tags as $tagName)
+                                <button type="button" @click="pick(tab === @js($tagName) ? '' : @js($tagName), $el)"
+                                    :class="tab === @js($tagName) ? 'bg-[#C62E2E] text-white ring-[#C62E2E] shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' : 'bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 hover:ring-slate-300'"
+                                    class="inline-flex shrink-0 items-center rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 transition">{{ $tagName }}</button>
+                            @endforeach
+                        </div>
+                    @endif
                     {{-- yükleniyor çizgisi --}}
                     <span x-show="loading" x-cloak class="acts-progress pointer-events-none absolute inset-x-0 bottom-0 h-[3px]"></span>
                 </div>

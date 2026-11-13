@@ -21,4 +21,8 @@ return array (
   'copied' => 'Link kopiert',
   'related_city' => 'Weitere Reiseführer zu :city',
   'related_all' => 'Weitere Reiseführer',
+  'see_details' => 'Details ansehen',
+  'buy_tickets' => 'Tickets kaufen',
+  'toc_more' => 'Alle anzeigen (:count)',
+  'toc_less' => 'Weniger anzeigen',
 );
