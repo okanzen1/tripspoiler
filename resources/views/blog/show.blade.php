@@ -37,8 +37,8 @@
     $publishedAt = $blog->published_at ?? $blog->created_at;
     // Yazı ana başlıklarından bölümlere ayrılır (App\Support\ArticleSections); telefondaki bölüm kılavuzunda da görünür
     $parts = \App\Support\ArticleSections::split($blog->content);
-    $navExtra = collect($parts['sections'])->map(fn ($part, $i) => ['post-' . ($i + 1), $part['title'],
-        '<span class="grid size-[22px] place-items-center rounded-md bg-current/10 text-[11px] font-extrabold tabular-nums">' . ($i + 1) . '</span>'])->all();
+    $navExtra = collect($parts['intro'] !== '' ? [['post-intro', $parts['intro_title'] ?: __('blog.intro'), \App\Support\FeatureIcons::svg('book', 'size-[22px]')]] : [])->merge(collect($parts['sections'])->map(fn ($part, $i) => ['post-' . ($i + 1), $part['title'],
+        '<span class="grid size-[22px] place-items-center rounded-md bg-current/10 text-[11px] font-extrabold tabular-nums">' . ($i + 1) . '</span>']))->all();
     $activityCount = $blog->activities->count();
     $singleActivity = $activityCount === 1 ? $blog->activities->first() : null;
     // Öneri kartları: "Detayları gör" bizim aktivite sayfasına, "Bilet al" doğrudan partnere (iki düğme)
@@ -213,10 +213,10 @@
     <x-page-sections page="post" :post="$blog" :nav-extra="$navExtra">
         <x-slot:main>
             {{-- MAKALE: her ana başlık (h2) ayrı bölüm — yapışkan sekmeler, solda başlık, sağda yazı ("Devamını oku") --}}
-            @if ($parts['sections'])
+            @if ($parts['sections'] || $parts['intro'] !== '')
                 <nav aria-label="{{ __('blog.toc') }}" class="sticky top-[69px] z-30 border-b border-slate-200 bg-white/95 backdrop-blur-xl lg:top-0"
                     x-data="{
-                        active: @js($parts['sections'][0]['id']), atStart: true, atEnd: false,
+                        active: @js($parts['intro'] !== '' ? 'intro' : ($parts['sections'][0]['id'] ?? '')), atStart: true, atEnd: false,
                         init() {
                             const io = new IntersectionObserver((entries) => {
                                 entries.forEach((e) => { if (e.isIntersecting) this.active = e.target.id });
@@ -230,6 +230,15 @@
                     x-effect="const chip = $refs['chip-' + active], t = $refs.track; if (chip && t) t.scrollTo({ left: chip.offsetLeft - t.clientWidth / 2 + chip.offsetWidth / 2, behavior: 'smooth' })">
                     <div class="relative mx-auto max-w-7xl md:px-4">
                         <div x-ref="track" @scroll.throttle.80ms="edges()" class="flex overflow-x-auto px-2 [scrollbar-width:none] md:px-0 [&::-webkit-scrollbar]:hidden">
+                            @if ($parts['intro'] !== '')
+                                <a href="#intro" x-ref="chip-intro" data-post-link
+                                    :class="active === 'intro' ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900'"
+                                    class="group relative inline-flex shrink-0 items-center gap-2 whitespace-nowrap px-3.5 py-4 text-sm font-semibold transition md:px-4">
+                                    <span :class="active === 'intro' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'" class="grid size-6 place-items-center rounded-full transition">{!! \App\Support\FeatureIcons::svg('book', 'size-3.5') !!}</span>
+                                    <span class="max-w-[15rem] truncate">{{ $parts['intro_title'] ?: __('blog.intro') }}</span>
+                                    <span :class="active === 'intro' ? 'scale-x-100' : 'scale-x-0'" class="absolute inset-x-3 bottom-0 h-[3px] origin-center rounded-t-full bg-[#C62E2E] transition duration-300"></span>
+                                </a>
+                            @endif
                             @foreach ($parts['sections'] as $part)
                                 <a href="#{{ $part['id'] }}" x-ref="chip-{{ $part['id'] }}" data-post-link
                                     :class="active === @js($part['id']) ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900'"
@@ -254,7 +263,7 @@
 
             <div id="articleBody">
                 @if ($parts['intro'] !== '')
-                    <section class="bg-white py-12 md:py-16">
+                    <section id="intro" data-post-section data-nav-section="post-intro" class="bg-white scroll-mt-36 py-12 md:py-16 lg:scroll-mt-24">
                         <div class="mx-auto grid max-w-7xl gap-6 px-4 lg:grid-cols-12 lg:gap-14">
                             {{-- giriş: solda bölümlerle aynı düzende başlık (sol taraf boş kalmasın) --}}
                             <header class="lg:col-span-4">
