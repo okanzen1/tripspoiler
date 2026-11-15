@@ -37,9 +37,10 @@
     <div class="max-w-7xl mx-auto px-4 pt-[124px] md:pt-[calc(80px+clamp(8px,3.2vh,64px))] pb-10 md:pb-[clamp(14px,3.5vh,48px)]
                 lg:min-h-[calc(100svh-var(--bar-h,0px)-var(--rates-h,0px))] lg:flex lg:flex-col lg:justify-center">
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        {{-- Masaüstü 2 satır: üstte yazılar + arama | popüler kartı; altta düğmeler | bizi takip et (aynı hizada) --}}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-4 lg:gap-x-10 lg:gap-y-[clamp(12px,3vh,36px)] items-center">
 
-            <div class="lg:col-span-7 xl:col-span-7">
+            <div class="lg:col-span-7 xl:col-span-7 lg:row-start-1">
 
                 {{-- EYEBROW --}}
                 <p style="--d: 0ms" class="hero-reveal flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] text-white/75">
@@ -75,9 +76,11 @@
                 <div style="--d: 270ms" class="hero-reveal mt-8 lg:mt-[clamp(12px,3vh,36px)] lg:max-w-xl">
                     <x-search-modal :hero="true" />
                 </div>
+            </div>
 
-                {{-- HIZLI YÖNLENDİRME: aktiviteler + şehirler (telefonda tam genişlik, iki eşit düğme) --}}
-                <div style="--d: 320ms" class="hero-reveal mt-4 grid grid-cols-2 gap-3 lg:max-w-xl">
+            {{-- HIZLI YÖNLENDİRME: aktiviteler + şehirler (telefonda tam genişlik, iki eşit düğme); masaüstünde alt satırın solu --}}
+            <div class="lg:col-span-7 lg:row-start-2">
+                <div style="--d: 320ms" class="hero-reveal grid grid-cols-2 gap-3 lg:max-w-xl">
                     <a href="{{ route('activities.index') }}"
                         class="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[#C62E2E] px-6 text-sm sm:text-base font-semibold text-white
                                shadow-[0_10px_24px_-10px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424] active:scale-[0.98]">
@@ -98,9 +101,9 @@
                 </div>
             </div>
 
-            {{-- RIGHT: DÖNEN "ŞU AN POPÜLER" KARTI --}}
+            {{-- RIGHT: DÖNEN "ŞU AN POPÜLER" KARTI (üst satır; yalnızca yukarı doğru süzülür, alttaki kutuya binmez) --}}
             @if ($featured->isNotEmpty())
-                <div class="hidden lg:block lg:col-span-5 xl:col-span-5">
+                <div class="hidden lg:block lg:col-span-5 xl:col-span-5 lg:col-start-8 xl:col-start-8 lg:row-start-1">
                     <div x-data="{
                             i: 0,
                             n: {{ $featured->count() }},
@@ -188,6 +191,25 @@
                     </div>
                 </div>
             @endif
+
+            {{-- sosyal medya (App\Support\Socials): cam kutu, markaların kendi renkleri — masaüstünde düğmelerin karşısında (telefonda düğmelerin altında) --}}
+            <div style="--d: 360ms" class="hero-reveal hidden lg:block lg:col-span-5 lg:col-start-8 lg:row-start-2">
+                <div class="social-sweep relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl p-3 pl-5 ring-1 ring-white/15 lg:ml-auto lg:max-w-[clamp(280px,44vh,420px)]">
+                    <p class="min-w-0 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">{{ __('footer.follow') }}</p>
+                    <div class="flex shrink-0 items-center gap-2.5">
+                        @foreach (\App\Support\Socials::all() as [$name, $url, $handle, $icon, $tone])
+                            {{-- ikonlar sırayla zıplar (--d), arkalarında halka atar --}}
+                            <span class="relative" style="--d: {{ $loop->index * 0.45 }}s">
+                                <span class="social-ring absolute inset-0 rounded-xl ring-2 ring-white/60" aria-hidden="true"></span>
+                                <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}" title="{{ $name }}"
+                                    class="social-bob relative grid size-11 place-items-center rounded-xl text-white ring-1 ring-white/20 transition duration-300 hover:scale-110 hover:[animation:none] {{ $tone }}">
+                                    <svg class="size-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">{!! $icon !!}</svg>
+                                </a>
+                            </span>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -312,7 +334,7 @@
             </div>
         @endif
 
-        {{-- ALT SATIR: solda rakamlar (yazıların genişliğinde), sağda popüler kartının altında sosyal medya --}}
+        {{-- ALT SATIR: rakamlar (yazıların genişliğinde); bizi takip et yukarıda, düğmelerin karşısında --}}
         <div style="--d: 560ms" class="hero-reveal mt-8 grid items-center gap-6 lg:mt-[clamp(10px,2.6vh,40px)] lg:grid-cols-12 lg:gap-10">
         <dl class="grid grid-cols-4 gap-x-2 divide-x divide-white/20 md:divide-white/25 lg:col-span-7">
             @foreach ([
@@ -341,25 +363,6 @@
                 </div>
             @endforeach
         </dl>
-
-        {{-- sosyal medya (App\Support\Socials): cam kutu, markaların kendi renkleri — yalnızca masaüstü (telefonda düğmelerin altında) --}}
-        <div class="hidden lg:block lg:col-span-5">
-            <div class="social-sweep relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl p-3 pl-5 ring-1 ring-white/15 lg:ml-auto lg:max-w-[clamp(280px,44vh,420px)]">
-                <p class="min-w-0 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">{{ __('footer.follow') }}</p>
-                <div class="flex shrink-0 items-center gap-2.5">
-                    @foreach (\App\Support\Socials::all() as [$name, $url, $handle, $icon, $tone])
-                        {{-- ikonlar sırayla zıplar (--d), arkalarında halka atar --}}
-                        <span class="relative" style="--d: {{ $loop->index * 0.45 }}s">
-                            <span class="social-ring absolute inset-0 rounded-xl ring-2 ring-white/60" aria-hidden="true"></span>
-                            <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}" title="{{ $name }}"
-                                class="social-bob relative grid size-11 place-items-center rounded-xl text-white ring-1 ring-white/20 transition duration-300 hover:scale-110 hover:[animation:none] {{ $tone }}">
-                                <svg class="size-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">{!! $icon !!}</svg>
-                            </a>
-                        </span>
-                    @endforeach
-                </div>
-            </div>
-        </div>
         </div>
 
     </div>
