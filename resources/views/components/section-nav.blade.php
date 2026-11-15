@@ -1,6 +1,6 @@
 {{--
     Telefon/tablet bölüm kılavuzu: sayfanın bölümleri (panelde Sayfalar › sayfa › Bölümler'de açık olanlar, verilen sırayla).
-    Sağ altta yuvarlak düğme (sayfa açılınca hep görünür) okunan bölümün ikonunu gösterir; dokununca liste açılır, bölüme kayar. "Başa dön" banner'a çıkar.
+    Sağ altta "Bölümler" düğmesi (sayfanın üstündeki banner geçilince görünür) okunan bölümün ikonunu gösterir; dokununca liste açılır, bölüme kayar. "Başa dön" banner'a çıkar.
     Bölüm içeriği boşsa (ör. soru yok) sayfada çizilmez, kılavuzda da görünmez. Masaüstünde yok (orada yan menü var).
 --}}
 @props(['page', 'guideSections' => null, 'keys' => null, 'extra' => []])
@@ -89,9 +89,15 @@
             },
             has(key) { return key === 'top' || this.present.includes(key) },
             update() {
-                // sayfa açılır açılmaz görünür (rehber yazılarında da); anasayfada ise hero geçilince çıkar (hero'daki düğmelerin üstüne binmesin)
-                const hero = {{ $page === 'home' ? 'true' : 'false' }} ? document.querySelector('[data-dock-start]') : null;
-                this.show = !hero || hero.getBoundingClientRect().bottom < window.innerHeight - 110; // düğmenin durduğu alt köşe hero'dan tamamen çıkınca
+                // her sayfada: üstteki banner (hero) görünürken gizli, düğmenin durduğu alt köşe banner'dan tamamen çıkınca görünür.
+                // Banner = [data-dock-start] (anasayfa, aktiviteler, şehir, yorumlar) ya da sayfanın ilk bölümü;
+                // ilk bölüm çok uzunsa (banner değil içerikse) beklemeden görünür
+                let hero = document.querySelector('[data-dock-start]');
+                if (!hero) {
+                    const first = document.querySelector('main section');
+                    hero = first && first.offsetHeight < window.innerHeight * 1.3 ? first : null;
+                }
+                this.show = !hero || hero.getBoundingClientRect().bottom < window.innerHeight - 110;
                 let current = 'top';
                 for (const el of document.querySelectorAll('[data-nav-section]')) {
                     if (el.offsetHeight > 0 && el.getBoundingClientRect().top < window.innerHeight * 0.4) current = el.dataset.navSection;
