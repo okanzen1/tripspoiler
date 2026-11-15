@@ -371,7 +371,7 @@
                                     class="group relative isolate flex h-full min-h-[15rem] flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-[#1f2a4d] to-[#C62E2E] p-4 text-white shadow-[0_18px_40px_-22px_rgba(198,46,46,0.8)] ring-1 ring-white/10 transition duration-500 hover:-translate-y-1.5 sm:min-h-[22rem] sm:rounded-3xl sm:p-6">
                                     @if ($moreImage = $more->imageUrl('sm'))
                                         {{-- panelden yüklenen resim arka planda, üstünde koyu geçiş (yazılar okunsun) --}}
-                                        <img src="{{ $moreImage }}" alt="" loading="lazy" decoding="async" class="absolute inset-0 -z-20 h-full w-full object-cover transition duration-700 group-hover:scale-105">
+                                        <img src="{{ $moreImage }}" alt="" loading="lazy" decoding="async" class="absolute inset-0 -z-20 h-full w-full object-cover transition duration-700 group-hover:scale-105" style="object-position: {{ $more->image_focus ?? 50 }}% center">
                                         <span class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-slate-950/95 via-slate-950/60 to-slate-950/20" aria-hidden="true"></span>
                                     @else
                                         <span class="pointer-events-none absolute -right-12 -top-12 -z-10 size-44 rounded-full bg-white/10 blur-2xl transition duration-500 group-hover:scale-125" aria-hidden="true"></span>
