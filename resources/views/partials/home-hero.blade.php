@@ -6,6 +6,8 @@
     Header bu sayfada görselin üstünde şeffaf durur (partials/header, data-transparent).
 --}}
 @php
+    // Tek kart varsa telefonda/tablette tam genişlik; iki kart varsa yana kayar
+    $cardWidth = ($pass && $guide) ? 'w-[88%] sm:w-[62%]' : 'w-full';
     $passUrl = $pass ? route('activities.show', $pass->slug) : null; // her zaman kendi sitemizdeki sayfa
     $overlay = [
         'soft' => 'from-slate-950/75 via-slate-950/35 to-transparent',
@@ -72,6 +74,27 @@
                 {{-- SEARCH --}}
                 <div style="--d: 270ms" class="hero-reveal mt-8 lg:mt-[clamp(12px,3vh,36px)] lg:max-w-xl">
                     <x-search-modal :hero="true" />
+                </div>
+
+                {{-- HIZLI YÖNLENDİRME: aktiviteler + şehirler (telefonda tam genişlik, iki eşit düğme) --}}
+                <div style="--d: 320ms" class="hero-reveal mt-4 grid grid-cols-2 gap-3 lg:max-w-xl">
+                    <a href="{{ route('activities.index') }}"
+                        class="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[#C62E2E] px-6 text-sm sm:text-base font-semibold text-white
+                               shadow-[0_10px_24px_-10px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424] active:scale-[0.98]">
+                        <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"/></svg>
+                        {{ __('navbar.activities') }}
+                    </a>
+                    <a href="{{ route('cities.index') }}"
+                        class="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white/10 px-6 text-sm sm:text-base font-semibold text-white
+                               ring-1 ring-white/40 backdrop-blur-sm transition hover:bg-white/20 hover:ring-white/70 active:scale-[0.98]">
+                        <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
+                        {{ __('navbar.cities') }}
+                    </a>
+                </div>
+
+                {{-- BİZİ TAKİP ET: yalnızca telefon/tablette, düğmelerin altında --}}
+                <div style="--d: 360ms" class="hero-reveal mt-4 lg:hidden">
+                    <x-social-follow class="w-full justify-between" />
                 </div>
             </div>
 
@@ -206,7 +229,7 @@
 
                 {{-- CITY PASS --}}
                 @if ($pass)
-                    <div class="relative flex w-[88%] sm:w-[62%] shrink-0 snap-center flex-row overflow-hidden rounded-2xl bg-white text-slate-900 lg:w-auto
+                    <div class="relative flex {{ $cardWidth }} shrink-0 snap-center flex-row overflow-hidden rounded-2xl bg-white text-slate-900 lg:w-auto
                                 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.6)] transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
                                 hover:-translate-y-1.5 hover:shadow-[0_36px_80px_-20px_rgba(0,0,0,0.7)]">
 
@@ -246,7 +269,7 @@
 
                 {{-- LATEST GUIDE --}}
                 @if ($guide)
-                    <div class="relative flex w-[88%] sm:w-[62%] shrink-0 snap-center flex-row overflow-hidden rounded-2xl bg-white text-slate-900 lg:w-auto
+                    <div class="relative flex {{ $cardWidth }} shrink-0 snap-center flex-row overflow-hidden rounded-2xl bg-white text-slate-900 lg:w-auto
                                 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.6)] transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
                                 hover:-translate-y-1.5 hover:shadow-[0_36px_80px_-20px_rgba(0,0,0,0.7)]">
 
