@@ -56,7 +56,9 @@ class Tracker
         if ($request->cookie('ts_staff') === '1') {
             return true; // panele giriş yapmış ekip tarayıcısı (panel yazar)
         }
-        $list = (string) (\App\Models\Setting::many(['analytics_ignore_ips'])['analytics_ignore_ips'] ?? '');
+        // panele girenlerin IP'leri (otomatik) + panelde elle yazılan istenmeyen IP'ler (Yönetim › Analitik ayarları)
+        $settings = \App\Models\Setting::many(['analytics_ignore_ips', 'analytics_block_ips']);
+        $list = trim(($settings['analytics_ignore_ips'] ?? '') . ',' . ($settings['analytics_block_ips'] ?? ''), ',');
 
         return $list !== '' && in_array($request->ip(), array_map('trim', explode(',', $list)), true);
     }
