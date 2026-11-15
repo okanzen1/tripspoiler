@@ -66,6 +66,8 @@ return [
     'col_weather' => 'Погода',
     'col_rain' => 'Осадки',
     'choose_city' => 'Выберите город',
+    'site_cities' => 'Наши города',
+    'world_cities' => 'Города мира',
     'all_countries' => 'Все страны',
     'cities_title' => 'Погода в других городах',
     'details' => 'Подробный прогноз',

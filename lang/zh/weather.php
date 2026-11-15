@@ -66,6 +66,8 @@ return [
     'col_weather' => '天气',
     'col_rain' => '降水',
     'choose_city' => '选择城市',
+    'site_cities' => '本站城市',
+    'world_cities' => '世界城市',
     'all_countries' => '所有国家',
     'cities_title' => '其他城市天气',
     'details' => '详细预报',

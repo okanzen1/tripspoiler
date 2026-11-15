@@ -66,6 +66,8 @@ return [
     'col_weather' => 'Hava',
     'col_rain' => 'Yağış',
     'choose_city' => 'Şehir seç',
+    'site_cities' => 'Sitedeki şehirler',
+    'world_cities' => 'Dünya şehirleri',
     'all_countries' => 'Tüm ülkeler',
     'cities_title' => 'Diğer şehirlerde hava',
     'details' => 'Detaylı tahmin',

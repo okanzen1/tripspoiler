@@ -14,10 +14,7 @@ use Illuminate\Support\Facades\Cache;
 class WeatherTickerController extends Controller
 {
     /** Kutuların görünümü değişince artır: sunucudaki ve tarayıcıdaki eski kopyalar kullanılmaz */
-    public const VERSION = 4;
-
-    /** Dünyanın en çok gezilen şehirleri (cities tablosundaki adres adları; sitede kapalı olsalar da konumları kayıtlı) */
-    private const CITIES = ['london', 'paris', 'new-york-city', 'tokyo', 'dubai', 'rome', 'barcelona', 'amsterdam', 'berlin', 'sydney', 'bangkok', 'istanbul'];
+    public const VERSION = 5;
 
     public function index(Request $request)
     {
@@ -28,11 +25,12 @@ class WeatherTickerController extends Controller
         // bu istek dil önekinin dışında çalışır: hava durumu sayfasının adresi ziyaretçinin diliyle (/tr/weather), göreli
         $weatherUrl = '/' . $locale . route('weather', [], false);
         $html = Cache::get($key) ?? (function () use ($key, $weatherUrl) {
-            $cities = City::with('country')->whereIn('slug', self::CITIES)->whereNotNull('latitude')->get()
-                ->sortBy(fn (City $c) => array_search($c->slug, self::CITIES))->values();
+            $cities = \App\Support\WorldCities::cities(); // adları sitenin dilinde
             $forecasts = rescue(fn () => Weather::many($cities), [], false);
             $items = $cities->filter(fn (City $c) => !empty($forecasts[$c->id]['now']))->map(fn (City $c) => [
-                'name' => $c->slug === 'new-york-city' ? 'New York' : $c->name, // kutuya sığsın
+                'name' => $c->name,
+                // her kutu kendi şehrinin hava durumu sayfasına
+                'url' => $weatherUrl . '?city=' . $c->slug,
                 'flag' => $c->country?->code ? implode('', array_map(fn ($ch) => mb_chr(0x1F1E6 + ord($ch) - 65), str_split(strtoupper($c->country->code)))) : '',
                 'temp' => $forecasts[$c->id]['now']['temp'],
                 'condition' => $forecasts[$c->id]['now']['condition'],

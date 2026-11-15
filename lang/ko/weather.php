@@ -66,6 +66,8 @@ return [
     'col_weather' => '날씨',
     'col_rain' => '강수',
     'choose_city' => '도시 선택',
+    'site_cities' => '사이트 도시',
+    'world_cities' => '세계 도시',
     'all_countries' => '모든 국가',
     'cities_title' => '다른 도시 날씨',
     'details' => '자세한 예보',

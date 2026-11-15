@@ -66,6 +66,8 @@ return [
     'col_weather' => '天気',
     'col_rain' => '降水',
     'choose_city' => '都市を選ぶ',
+    'site_cities' => 'サイトの都市',
+    'world_cities' => '世界の都市',
     'all_countries' => 'すべての国',
     'cities_title' => 'ほかの都市の天気',
     'details' => '詳しい予報',

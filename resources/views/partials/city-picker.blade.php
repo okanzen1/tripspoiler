@@ -1,6 +1,7 @@
 {{--
     Koyu banner'larda şehir seçici (cam kutu + açılır liste). Şehir seçimi sayfalar arasında ortaktır (session).
     $cities, $current (City), $url (fn (City) => adres), $meta (fn (City) => alt satır), $label (kutudaki küçük başlık).
+    İsteğe bağlı $group (fn (City) => grup adı): grup değişince listede ara başlık çıkar (ör. hava durumu: sitedeki / dünya şehirleri).
     Banner'da x-data="{ picker: false }" varsa menü açıkken banner üste çıkar (yapışkan çubukların arkasında kalmasın).
 --}}
 @php
@@ -24,7 +25,12 @@
         class="absolute left-0 top-full z-50 mt-2 w-full min-w-[18rem] origin-top overflow-hidden rounded-3xl bg-white text-slate-900 shadow-[0_30px_70px_-20px_rgba(2,6,23,0.6)] ring-1 ring-slate-200 rtl:left-auto rtl:right-0">
         <p class="border-b border-slate-100 px-5 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-400">{{ $label }} · {{ __('cities-page.cities_count', ['count' => $cities->count()]) }}</p>
         <div class="max-h-80 overflow-y-auto p-2">
+            @php $lastGroup = null; @endphp
             @foreach ($cities as $c)
+                @if (isset($group) && ($g = $group($c)) !== $lastGroup)
+                    <p @class(['px-3 pb-1.5 pt-2 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400', 'mt-1 border-t border-slate-100 pt-3' => $lastGroup !== null])>{{ $g }}</p>
+                    @php $lastGroup = $g; @endphp
+                @endif
                 <a href="{{ $url($c) }}"
                     @class(['group flex items-center gap-3.5 rounded-2xl p-2.5 transition', 'bg-slate-50 ring-1 ring-slate-200' => $c->is($current), 'hover:bg-slate-50' => !$c->is($current)])>
                     <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-slate-100 text-2xl leading-none">{{ $flagOf($c) ?: '📍' }}</span>

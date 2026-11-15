@@ -66,6 +66,8 @@ return [
     'col_weather' => 'Weather',
     'col_rain' => 'Rain',
     'choose_city' => 'Choose a city',
+    'site_cities' => 'Our cities',
+    'world_cities' => 'World cities',
     'all_countries' => 'All countries',
     'cities_title' => 'Weather in other cities',
     'details' => 'Detailed forecast',

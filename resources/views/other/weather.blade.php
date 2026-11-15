@@ -94,6 +94,7 @@
                                     'cities' => $cities, 'current' => $city, 'label' => __('weather.choose_city'),
                                     'url' => fn ($c) => route('weather', ['city' => $c->slug]) . '#top',
                                     'meta' => fn ($c) => trim($countryName($c->country) . ' · ' . $forecasts[$c->id]['now']['temp'] . '° ' . __('weather.c_' . $forecasts[$c->id]['now']['condition'])),
+                                    'group' => fn ($c) => in_array($c->id, $siteIds, true) ? __('weather.site_cities') : __('weather.world_cities'),
                                 ])
                             </div>
                         @endif
@@ -624,7 +625,8 @@
             'about' => array_filter([
                 '@type' => 'City',
                 'name' => $city->name,
-                'url' => route('cities.show', ['slug' => $city->slug]),
+                // şehir sayfası yalnızca sitedeki şehirlerde var (dünya şehirlerinde yok)
+                'url' => in_array($city->id, $siteIds, true) ? route('cities.show', ['slug' => $city->slug]) : null,
                 'geo' => ['@type' => 'GeoCoordinates', 'latitude' => (float) $city->latitude, 'longitude' => (float) $city->longitude],
                 'containedInPlace' => $city->country ? ['@type' => 'Country', 'name' => $city->country->name] : null,
             ]),

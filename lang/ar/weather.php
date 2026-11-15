@@ -66,6 +66,8 @@ return [
     'col_weather' => 'الطقس',
     'col_rain' => 'الأمطار',
     'choose_city' => 'اختر مدينة',
+    'site_cities' => 'مدننا',
+    'world_cities' => 'مدن العالم',
     'all_countries' => 'كل الدول',
     'cities_title' => 'الطقس في مدن أخرى',
     'details' => 'توقعات مفصلة',

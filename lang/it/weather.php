@@ -66,6 +66,8 @@ return [
     'col_weather' => 'Tempo',
     'col_rain' => 'Pioggia',
     'choose_city' => 'Scegli una città',
+    'site_cities' => 'Le nostre città',
+    'world_cities' => 'Città del mondo',
     'all_countries' => 'Tutti i paesi',
     'cities_title' => 'Meteo nelle altre città',
     'details' => 'Previsioni dettagliate',
