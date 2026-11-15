@@ -6,7 +6,7 @@
     Header bu sayfada görselin üstünde şeffaf durur (partials/header, data-transparent).
 --}}
 @php
-    $passUrl = $pass ? ($pass->affiliate_url ?: route('activities.show', $pass->slug)) : null;
+    $passUrl = $pass ? route('activities.show', $pass->slug) : null; // her zaman kendi sitemizdeki sayfa
     $overlay = [
         'soft' => 'from-slate-950/75 via-slate-950/35 to-transparent',
         'medium' => 'from-slate-950/90 via-slate-950/60 to-slate-950/10',
@@ -235,7 +235,7 @@
                             <p class="text-xs font-medium text-slate-500">{{ __('home-hero.pass_compare') }}</p>
                             <p class="text-2xl sm:text-3xl font-extrabold tracking-tight">{{ $passCount }}</p>
                             <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">{{ __('home-hero.pass_unit') }}</p>
-                            <a href="{{ $passUrl }}" target="_blank" rel="noopener noreferrer"
+                            <a href="{{ $passUrl }}"
                                 class="mt-3 inline-flex items-center justify-center rounded-xl bg-[#C62E2E] px-2 sm:px-5 py-2.5 text-xs sm:text-sm
                                        font-semibold text-white hover:bg-[#A82424] transition duration-300 hover:shadow-lg active:scale-[0.98]">
                                 {{ __('home-hero.pass_cta') }}
