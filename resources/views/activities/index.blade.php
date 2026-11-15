@@ -293,8 +293,8 @@
                                            shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_36px_-24px_rgba(15,23,42,0.3)] hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-28px_rgba(15,23,42,0.45)]">
                                     <div class="relative aspect-[4/3] overflow-hidden bg-slate-100">
                                         @if ($activity->cover)
-                                            <img src="{{ $activity->cover->url('sm') }}" alt="{{ $activity->name }}" loading="lazy" decoding="async"
-                                                class="h-full w-full object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]">
+                                            <x-cover-fit :src="$activity->cover->url('sm')" :alt="$activity->name" loading="lazy" decoding="async"
+                                                class="h-full w-full transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]" />
                                         @endif
                                     </div>
                                     <div class="flex flex-1 flex-col p-5">

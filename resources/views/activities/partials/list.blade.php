@@ -80,11 +80,8 @@
 
                             {{-- IMAGE --}}
                             @if ($image)
-                                <img loading="lazy" decoding="async" src="{{ $image->url('sm') }}"
-                                    alt="{{ $title }}"
-                                    class="w-full h-full object-cover
-                                            transition duration-700
-                                            group-hover:scale-105">
+                                <x-cover-fit :src="$image->url('sm')" :alt="$title" loading="lazy" decoding="async"
+                                    class="w-full h-full transition duration-700 group-hover:scale-105" />
                             @else
                                 <div class="w-full h-full bg-gradient-to-b from-slate-100 to-slate-200"></div>
                             @endif

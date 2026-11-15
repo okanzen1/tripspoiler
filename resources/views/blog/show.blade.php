@@ -193,7 +193,7 @@
                                     <a href="{{ $activityUrl($singleActivity) }}" class="group mt-3 block">
                                         <span class="relative block aspect-[16/10] w-full overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200">
                                             @if ($singleActivity->cover)
-                                                <img src="{{ $singleActivity->cover->url('sm') }}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                                <x-cover-fit :src="$singleActivity->cover->url('sm')" loading="lazy" decoding="async" class="h-full w-full transition duration-500 group-hover:scale-105" />
                                             @endif
                                         </span>
                                         <span class="mt-3 line-clamp-2 block text-base font-extrabold leading-snug text-slate-900 transition group-hover:text-[#C62E2E]">{{ $singleActivity->name }}</span>
@@ -218,7 +218,7 @@
                                             <a href="{{ $activityUrl($activity) }}" class="group block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-20px_rgba(15,23,42,0.35)] hover:ring-slate-300">
                                                 <span class="relative block aspect-[16/9] w-full overflow-hidden bg-slate-100">
                                                     @if ($activity->cover)
-                                                        <img src="{{ $activity->cover->url('sm') }}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                                        <x-cover-fit :src="$activity->cover->url('sm')" loading="lazy" decoding="async" class="h-full w-full transition duration-500 group-hover:scale-105" />
                                                     @endif
                                                     @if ($activity->city)
                                                         <span class="absolute left-2.5 top-2.5 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-bold text-slate-800 shadow-sm backdrop-blur rtl:left-auto rtl:right-2.5">{{ $activity->city->name }}</span>
@@ -383,10 +383,8 @@
                         @php $chips = $activityChips($singleActivity); @endphp
                         <div class="group relative isolate grid overflow-hidden rounded-[28px] bg-[#0F1420] text-white shadow-[0_40px_80px_-40px_rgba(15,23,42,0.8)] lg:grid-cols-2">
                             <a href="{{ $activityUrl($singleActivity) }}" class="relative block min-h-[260px] overflow-hidden sm:min-h-[340px] lg:min-h-[420px]">
-                                <img loading="lazy" decoding="async"
-                                    src="{{ $singleActivity->cover?->url() ?? asset('images/all-activities-cover.webp') }}"
-                                    alt="{{ $singleActivity->name }}"
-                                    class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
+                                <x-cover-fit :src="$singleActivity->cover?->url() ?? asset('images/all-activities-cover.webp')" :alt="$singleActivity->name" loading="lazy" decoding="async"
+                                    class="absolute inset-0 h-full w-full transition duration-700 group-hover:scale-105" />
                                 <div class="absolute inset-0 bg-gradient-to-t from-[#0F1420]/80 via-[#0F1420]/10 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-[#0F1420]/60 rtl:lg:bg-gradient-to-l"></div>
                                 <span class="absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-950 shadow-lg rtl:left-auto rtl:right-5">
                                     <svg class="size-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6l-5.4 2.9 1.2-6-4.5-4.2 6.1-.7Z"/></svg>
@@ -463,10 +461,8 @@
                                 @foreach ($blog->activities as $activity)
                                     <div class="group flex flex-col overflow-hidden rounded-[22px] bg-white/[0.05] ring-1 ring-white/10 backdrop-blur transition duration-300 hover:-translate-y-1 hover:bg-white/[0.08] hover:ring-white/20">
                                         <a href="{{ $activityUrl($activity) }}" class="relative block aspect-[16/9] overflow-hidden bg-slate-800">
-                                            <img loading="lazy" decoding="async"
-                                                src="{{ $activity->cover?->url() ?? asset('images/all-activities-cover.webp') }}"
-                                                alt="{{ $activity->name }}"
-                                                class="absolute inset-0 h-full w-full object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]">
+                                            <x-cover-fit :src="$activity->cover?->url() ?? asset('images/all-activities-cover.webp')" :alt="$activity->name" loading="lazy" decoding="async"
+                                                class="absolute inset-0 h-full w-full transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]" />
                                             <span class="absolute inset-0 bg-gradient-to-t from-[#0F1420]/70 via-transparent to-transparent"></span>
                                             <span class="absolute left-4 top-4 grid size-9 place-items-center rounded-full bg-white/90 text-sm font-extrabold tabular-nums text-slate-900 shadow-lg rtl:left-auto rtl:right-4">{{ $loop->iteration }}</span>
                                             @if ($activity->city)

@@ -208,9 +208,9 @@
                     @foreach ($featured as $activity)
                         <a href="{{ route('activities.show', $activity->slug) }}"
                             class="group w-[64%] sm:w-[38%] shrink-0 snap-start overflow-hidden rounded-2xl ring-1 ring-white/15 transition active:scale-[0.98]">
-                            <span class="block aspect-[3/2] overflow-hidden bg-slate-800">
-                                <img src="{{ $activity->cover->url('sm') }}" alt="{{ $activity->name }}" loading="lazy" decoding="async"
-                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                            <span class="relative block aspect-[3/2] overflow-hidden bg-slate-800">
+                                <x-cover-fit :src="$activity->cover->url('sm')" :alt="$activity->name" loading="lazy" decoding="async"
+                                    class="h-full w-full transition duration-500 group-hover:scale-105" />
                             </span>
                             <span class="block p-3">
                                 <span class="block text-[11px] font-medium text-white/65">{{ $activity->city?->name }}@if ($activity->audio_guide) · {{ __('home-benefits.phone_audio') }}@endif</span>

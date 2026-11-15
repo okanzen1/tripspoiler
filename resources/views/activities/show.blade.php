@@ -147,10 +147,9 @@
                                 <div x-ref="track" @scroll.throttle.80ms="i = Math.round($el.scrollLeft / $el.clientWidth) + 1"
                                     class="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                                     @foreach ($images as $image)
-                                        <a href="{{ $image->url() }}" data-fancybox="activity-gallery" class="w-full shrink-0 snap-center">
-                                            <img src="{{ $image->url() }}" alt="{{ $name }}" @if ($loop->first) fetchpriority="high" @else loading="lazy" @endif decoding="async"
-                                                @if ($image->width && $image->height) width="{{ $image->width }}" height="{{ $image->height }}" @endif
-                                                class="aspect-[4/3] w-full object-cover">
+                                        <a href="{{ $image->url() }}" data-fancybox="activity-gallery" class="relative block aspect-[4/3] w-full shrink-0 snap-center overflow-hidden bg-slate-900">
+                                            <x-cover-fit :src="$image->url()" :alt="$name" :fetchpriority="$loop->first ? 'high' : null" :loading="$loop->first ? null : 'lazy'" decoding="async"
+                                                class="h-full w-full" />
                                         </a>
                                     @endforeach
                                 </div>
@@ -163,9 +162,9 @@
                         {{-- masaüstü: mozaik --}}
                         <div class="relative hidden h-[460px] grid-cols-4 grid-rows-2 gap-2 overflow-hidden rounded-[28px] md:grid lg:h-[500px]">
                             @foreach ($mosaic as $image)
-                                <a href="{{ $image->url() }}" data-fancybox="activity-gallery-desktop" class="group relative overflow-hidden bg-slate-100 {{ $spans[$loop->index] ?? '' }}">
-                                    <img src="{{ $loop->first ? $image->url() : $image->url('sm') }}" alt="{{ $name }}" @if ($loop->first) fetchpriority="high" @else loading="lazy" @endif decoding="async"
-                                        class="h-full w-full object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]">
+                                <a href="{{ $image->url() }}" data-fancybox="activity-gallery-desktop" class="group relative overflow-hidden bg-slate-900 {{ $spans[$loop->index] ?? '' }}">
+                                    <x-cover-fit :src="$loop->first ? $image->url() : $image->url('sm')" :alt="$name" :fetchpriority="$loop->first ? 'high' : null" :loading="$loop->first ? null : 'lazy'" decoding="async"
+                                        class="h-full w-full transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]" />
                                     <span class="absolute inset-0 bg-slate-950/0 transition group-hover:bg-slate-950/10"></span>
                                 </a>
                             @endforeach

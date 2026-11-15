@@ -86,8 +86,8 @@
                         {{-- RESİM --}}
                         <div class="relative aspect-[4/3] overflow-hidden bg-slate-100">
                             @if ($image)
-                                <img src="{{ $image->url('sm') }}" alt="{{ $activity->name }}" loading="lazy" decoding="async"
-                                    class="h-full w-full object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]">
+                                <x-cover-fit :src="$image->url('sm')" :alt="$activity->name" loading="lazy" decoding="async"
+                                    class="h-full w-full transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]" />
                             @endif
                             <div class="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent"></div>
                             <div class="absolute inset-x-3 top-3 flex flex-wrap items-center gap-1.5">
