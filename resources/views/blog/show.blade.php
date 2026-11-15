@@ -211,27 +211,33 @@
                                         @endif
                                     </div>
                                 @else
-                                    {{-- birden fazla ürün: küçük resimli liste (en fazla 3), her biri kendi sayfasına; altta tümü --}}
-                                    <ul class="mt-3 space-y-2">
-                                        @foreach ($blog->activities->take(3) as $activity)
-                                            <li>
-                                                <a href="{{ $activityUrl($activity) }}" class="group flex items-center gap-3 rounded-2xl p-2 ring-1 ring-slate-200 transition hover:bg-slate-50 hover:ring-slate-300">
-                                                    <span class="block h-14 w-20 shrink-0 overflow-hidden rounded-xl bg-slate-100">
-                                                        @if ($activity->cover)
-                                                            <img src="{{ $activity->cover->url('sm') }}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
-                                                        @endif
+                                    {{-- birden fazla ürün: geniş resimli kartlar (ilk 2), her biri kendi sayfasına; altta tümü --}}
+                                    <div class="mt-3 space-y-4">
+                                        @foreach ($blog->activities->take(2) as $activity)
+                                            @php $chips = array_slice($activityChips($activity), 0, 2); @endphp
+                                            <a href="{{ $activityUrl($activity) }}" class="group block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-20px_rgba(15,23,42,0.35)] hover:ring-slate-300">
+                                                <span class="relative block aspect-[16/9] w-full overflow-hidden bg-slate-100">
+                                                    @if ($activity->cover)
+                                                        <img src="{{ $activity->cover->url('sm') }}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                                    @endif
+                                                    @if ($activity->city)
+                                                        <span class="absolute left-2.5 top-2.5 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-bold text-slate-800 shadow-sm backdrop-blur rtl:left-auto rtl:right-2.5">{{ $activity->city->name }}</span>
+                                                    @endif
+                                                </span>
+                                                <span class="block p-3.5">
+                                                    <span class="line-clamp-2 block text-[15px] font-extrabold leading-snug text-slate-900 transition group-hover:text-[#C62E2E]">{{ $activity->name }}</span>
+                                                    <span class="mt-2 flex items-center justify-between gap-2">
+                                                        <span class="flex min-w-0 flex-wrap gap-1.5">
+                                                            @foreach ($chips as [$chip, $strong])
+                                                                <span @class(['rounded-full px-2 py-0.5 text-[11px] font-semibold', 'bg-amber-100 text-amber-800' => $strong, 'bg-slate-100 text-slate-600' => !$strong])>{{ $chip }}</span>
+                                                            @endforeach
+                                                        </span>
+                                                        <span class="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[#C62E2E]">{{ __('blog.see_details') }} {!! $arrowIcon !!}</span>
                                                     </span>
-                                                    <span class="min-w-0 flex-1">
-                                                        <span class="line-clamp-2 block text-sm font-bold leading-snug text-slate-900 transition group-hover:text-[#C62E2E]">{{ $activity->name }}</span>
-                                                        @if ($activity->city)
-                                                            <span class="mt-0.5 block truncate text-xs text-slate-500">{{ $activity->city->name }}</span>
-                                                        @endif
-                                                    </span>
-                                                    <span class="shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#C62E2E] rtl:group-hover:-translate-x-0.5">{!! $arrowIcon !!}</span>
-                                                </a>
-                                            </li>
+                                                </span>
+                                            </a>
                                         @endforeach
-                                    </ul>
+                                    </div>
                                     <a href="#activitiesSection"
                                         class="mt-4 flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-[#C62E2E] px-4 text-sm font-bold text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424]">
                                         {{ __('blog.see_experiences') }} ({{ $activityCount }}) {!! $arrowIcon !!}
