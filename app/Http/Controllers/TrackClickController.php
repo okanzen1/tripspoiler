@@ -33,7 +33,9 @@ class TrackClickController extends Controller
 
         // 1) Aktivitenin kendi partner linki  2) Partnerin sitesi (alan adı eşleşmesi)
         $activity = Activity::query()->with('partner')->where('affiliate_url', $url)->first();
-        $partner = $activity?->partner?->slug ?? $this->partnerByHost($host);
+        // "Aradığını bulamadın mı?" kartı (partner bağlantısı): partneri ve şehri bağlantıdan
+        $link = $activity ? null : rescue(fn () => \App\Models\PartnerLink::query()->with('partner')->where('url', $url)->first(), null, false);
+        $partner = $activity?->partner?->slug ?? $link?->partner?->slug ?? $this->partnerByHost($host);
         if (!$partner) {
             return response()->noContent();
         }
@@ -47,7 +49,7 @@ class TrackClickController extends Controller
             'session_id' => $session,
             'partner' => Str::limit($partner, 50, ''),
             'activity_id' => $activity?->id,
-            'city_id' => $activity?->city_id,
+            'city_id' => $activity?->city_id ?? $link?->city_id,
             'path' => Str::limit($path, 500, ''),
             'page_type' => Tracker::pageTypeFromPath($path),
             'target_url' => $url,

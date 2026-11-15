@@ -211,11 +211,19 @@
                     });
                 },
                 norm(t) { return String(t).toLocaleLowerCase('tr').replace(/ı/g, 'i').normalize('NFD').replace(/[̀-ͯ]/g, '') },
+                // "Aradığını bulamadın mı?" kartı: sekmesi seçilmişse yalnızca o sekmede; genel kart her sekmede,
+                // ama o sekmeye aynı partnerin özel kartı varsa onun yerine özel kart çıkar
+                extraShown(el) {
+                    const own = el.dataset.extraType || '';
+                    if (own) return own === this.type;
+                    return ![...this.$refs.grid.children].some(o => 'extra' in o.dataset && o.dataset.extraType === this.type && o.dataset.partner === el.dataset.partner);
+                },
                 match(el) {
+                    if ('extra' in el.dataset) return this.extraShown(el);
                     const words = this.norm(this.q).split(/\s+/).filter(Boolean);
                     return (this.type === 'all' || el.dataset.type === this.type) && words.every(w => el.dataset.search.includes(w));
                 },
-                get shown() { return [...this.$refs.grid.children].filter(el => this.match(el)).length },
+                get shown() { return [...this.$refs.grid.children].filter(el => !('extra' in el.dataset) && this.match(el)).length },
             }">
             <div class="mx-auto max-w-7xl px-4">
 
@@ -346,6 +354,55 @@
                                             </span>
                                         </div>
                                     </div>
+                                </a>
+                            </li>
+                        @endforeach
+
+                        {{-- ARADIĞINI BULAMADIN MI?: partnerin şehir sayfasına doğrudan bağlantı (detay sayfası yok; panel: Aktiviteler › Partner bağlantıları) --}}
+                        @foreach ($moreLinks as $more)
+                            @php
+                                $partnerName = $more->partner->name;
+                                $moreText = $more->count_label
+                                    ? __('activities-page.more_text_count', ['city' => $city?->name, 'count' => $more->count_label])
+                                    : __('activities-page.more_text', ['city' => $city?->name]);
+                            @endphp
+                            <li data-extra data-extra-type="{{ $more->type }}" data-partner="{{ $more->partner_id }}" x-show="match($el)" class="h-full">
+                                <a href="{{ $more->url }}" target="_blank" rel="nofollow sponsored noopener"
+                                    class="group relative isolate flex h-full min-h-[15rem] flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-[#1f2a4d] to-[#C62E2E] p-4 text-white shadow-[0_18px_40px_-22px_rgba(198,46,46,0.8)] ring-1 ring-white/10 transition duration-500 hover:-translate-y-1.5 sm:min-h-[22rem] sm:rounded-3xl sm:p-6">
+                                    @if ($moreImage = $more->imageUrl('sm'))
+                                        {{-- panelden yüklenen resim arka planda, üstünde koyu geçiş (yazılar okunsun) --}}
+                                        <img src="{{ $moreImage }}" alt="" loading="lazy" decoding="async" class="absolute inset-0 -z-20 h-full w-full object-cover transition duration-700 group-hover:scale-105">
+                                        <span class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-slate-950/95 via-slate-950/60 to-slate-950/20" aria-hidden="true"></span>
+                                    @else
+                                        <span class="pointer-events-none absolute -right-12 -top-12 -z-10 size-44 rounded-full bg-white/10 blur-2xl transition duration-500 group-hover:scale-125" aria-hidden="true"></span>
+                                        <span class="pointer-events-none absolute -bottom-16 -left-10 -z-10 size-44 rounded-full bg-amber-400/20 blur-3xl" aria-hidden="true"></span>
+                                    @endif
+
+                                    <span class="flex items-start justify-between gap-2">
+                                        {{-- partner logosu (yoksa adı) --}}
+                                        <span class="inline-flex h-9 max-w-[75%] items-center rounded-xl bg-white px-2.5 shadow sm:h-11 sm:px-3">
+                                            @if ($logo = $more->partner->logoUrl())
+                                                <img src="{{ $logo }}" alt="{{ $partnerName }}" loading="lazy" class="h-5 w-auto max-w-full object-contain sm:h-6">
+                                            @else
+                                                <span class="truncate text-xs font-extrabold text-slate-900 sm:text-sm">{{ $partnerName }}</span>
+                                            @endif
+                                        </span>
+                                        <span class="grid size-8 shrink-0 place-items-center rounded-full bg-white/15 transition group-hover:bg-white group-hover:text-slate-900 sm:size-9">
+                                            <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                                        </span>
+                                    </span>
+
+                                    <span class="mt-auto block pt-5">
+                                        <span class="text-[10px] font-bold uppercase tracking-[0.18em] text-amber-300 sm:text-[11px]">{{ __('activities-page.more_eyebrow') }}</span>
+                                        <span class="mt-1.5 block text-base font-extrabold leading-tight sm:text-2xl">{{ __('activities-page.more_title') }}</span>
+                                        <span class="mt-1.5 block text-xs leading-snug text-white/75 sm:text-sm">{{ $moreText }}</span>
+                                    </span>
+
+                                    <span class="mt-4 inline-flex items-center justify-center gap-1.5 rounded-xl bg-white px-3 py-2.5 text-xs font-bold text-slate-900 transition group-hover:bg-amber-300 sm:mt-5 sm:py-3 sm:text-sm">
+                                        <span class="truncate">{{ __('activities-page.more_cta', ['partner' => $partnerName]) }}</span>
+                                        <svg class="size-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg>
+                                    </span>
+                                    <span class="mt-2 hidden text-center text-[11px] text-white/50 sm:block">{{ __('activities-page.more_note') }}</span>
                                 </a>
                             </li>
                         @endforeach

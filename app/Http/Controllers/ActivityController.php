@@ -48,6 +48,8 @@ class ActivityController extends Controller
             'cities' => $cities,
             'city' => $city,
             'activities' => $activities,
+            // listenin sonunda "Aradığını bulamadın mı?" kartları (partnerin şehir sayfasına)
+            'moreLinks' => \App\Models\PartnerLink::forCity($city?->id),
             'stats' => [
                 'total' => $activities->count(),
                 'passes' => $activities->where('type', 'pass')->count(),
