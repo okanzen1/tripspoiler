@@ -22,7 +22,6 @@
         $today = \Illuminate\Support\Carbon::now($tz)->toDateString();
         $days = collect($forecast['days'])->filter(fn ($d) => $d['date'] >= $today)->take(7)->values();
         $todayData = $days->first();
-        $tips = $todayData ? \App\Support\Weather::tips([$todayData]) : []; // "Bugün ne giysem": sadece bugünün havası
         try {
             $suggestions = \App\Models\Activity::visible()->with('cover')->where('city_id', $city->id)
                 ->whereIn('setting', $wet ? ['indoor', 'both'] : ['outdoor', 'both'])
@@ -30,6 +29,7 @@
         } catch (\Throwable) {
             $suggestions = collect(); // panelde migrate henüz çalışmadıysa (setting yok)
         }
+        $mm = fn ($v) => rtrim(rtrim(number_format($v, 1, ',', ''), '0'), ',');
         $dayName = fn (string $date) => $date === $today ? __('weather.today') : \Illuminate\Support\Carbon::parse($date, $tz)->locale($locale)->isoFormat('dddd');
     }
 @endphp
@@ -53,8 +53,8 @@
                 </a>
             </div>
 
-            {{-- PANEL --}}
-            <div class="relative isolate mt-8 overflow-hidden rounded-[32px] bg-slate-950 text-white shadow-[0_40px_80px_-40px_rgba(15,23,42,0.8)]">
+            {{-- PANEL: günler tıklanabilir; seçilen güne göre soldaki kutu, "ne giysem" ve en iyi saatler değişir (Alpine: sel) --}}
+            <div x-data="{ sel: 0 }" class="relative isolate mt-8 overflow-hidden rounded-[32px] bg-slate-950 text-white shadow-[0_40px_80px_-40px_rgba(15,23,42,0.8)]">
                 <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
                     <div class="absolute inset-0 opacity-[0.06] [background-image:radial-gradient(rgba(255,255,255,.9)_1px,transparent_1px)] [background-size:24px_24px]"></div>
                     <div class="absolute -left-32 -top-32 size-[28rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.39),transparent_65%)]"></div>
@@ -62,69 +62,94 @@
                 </div>
 
                 <div class="grid lg:grid-cols-12">
-                    {{-- şu an --}}
+                    {{-- sol: bugün = şu an; başka gün = o günün özeti --}}
                     <div class="border-b border-white/10 p-6 sm:p-8 lg:col-span-5 lg:border-b-0 lg:border-r rtl:lg:border-l rtl:lg:border-r-0">
-                        <p class="text-sm font-medium text-white/55">{{ $city->name }} · {{ __('weather.now') }} {{ \Illuminate\Support\Carbon::now($tz)->format('H:i') }}</p>
-                        <div class="mt-4 flex items-center gap-5">
-                            <x-weather-icon :condition="$forecast['now']['condition']" class="size-24 drop-shadow-[0_10px_30px_rgba(251,191,36,0.25)]" />
-                            <div>
-                                <p class="text-7xl font-extrabold leading-none tracking-tighter tabular-nums">{{ $forecast['now']['temp'] }}°</p>
-                                <p class="mt-2 text-lg font-bold text-amber-300">{{ __('weather.c_' . $forecast['now']['condition']) }}</p>
-                            </div>
-                        </div>
-                        <p class="mt-4 text-sm text-white/60 tabular-nums">
-                            {{ __('weather.high') }} <strong class="font-bold text-white">{{ $todayData['max'] }}°</strong>
-                            <span class="px-1.5 text-white/25">/</span>
-                            {{ __('weather.low') }} <strong class="font-bold text-white">{{ $todayData['min'] }}°</strong>
-                        </p>
-
-                        <dl class="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 text-sm ring-1 ring-white/10">
-                            @foreach ([
-                                ['wind', $forecast['now']['wind'] . ' km/h'],
-                                ['humidity', '%' . $forecast['now']['humidity']],
-                                ['sunrise', $sun['sunrise']],
-                                ['sunset', $sun['sunset']],
-                            ] as [$label, $value])
-                                <div class="bg-slate-950/80 px-4 py-3">
-                                    <dt class="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45">{{ __('weather.' . $label) }}</dt>
-                                    <dd class="mt-0.5 font-bold tabular-nums">{{ $value ?? '—' }}</dd>
+                        @foreach ($days as $i => $day)
+                            @php
+                                $isToday = $i === 0;
+                                $daySun = $isToday ? $sun : \App\Support\Weather::sun($city, $day['date']);
+                                $dateLabel = \Illuminate\Support\Carbon::parse($day['date'], $tz)->locale($locale)->isoFormat('D MMMM');
+                            @endphp
+                            <div x-show="sel === {{ $i }}" @if (!$isToday) x-cloak @endif>
+                                <p class="text-sm font-medium text-white/55">
+                                    {{ $city->name }} ·
+                                    @if ($isToday)
+                                        {{ __('weather.now') }} {{ \Illuminate\Support\Carbon::now($tz)->format('H:i') }}
+                                    @else
+                                        <span class="capitalize">{{ $dayName($day['date']) }}</span>, {{ $dateLabel }}
+                                    @endif
+                                </p>
+                                <div class="mt-4 flex items-center gap-5">
+                                    <x-weather-icon :condition="$isToday ? $forecast['now']['condition'] : $day['condition']" :night="$isToday && ($forecast['now']['night'] ?? false)" class="size-24 drop-shadow-[0_10px_30px_rgba(251,191,36,0.25)]" />
+                                    <div>
+                                        <p class="text-7xl font-extrabold leading-none tracking-tighter tabular-nums">{{ $isToday ? $forecast['now']['temp'] : $day['max'] }}°</p>
+                                        <p class="mt-2 text-lg font-bold text-amber-300">{{ __('weather.c_' . ($isToday ? $forecast['now']['condition'] : $day['condition'])) }}</p>
+                                    </div>
                                 </div>
-                            @endforeach
-                        </dl>
+                                <p class="mt-4 text-sm text-white/60 tabular-nums">
+                                    {{ __('weather.high') }} <strong class="font-bold text-white">{{ $day['max'] }}°</strong>
+                                    <span class="px-1.5 text-white/25">/</span>
+                                    {{ __('weather.low') }} <strong class="font-bold text-white">{{ $day['min'] }}°</strong>
+                                </p>
+
+                                <dl class="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 text-sm ring-1 ring-white/10">
+                                    @foreach (array_filter([
+                                        ['weather.wind', ($isToday ? $forecast['now']['wind'] : ($day['wind'] ?? 0)) . ' km/h'],
+                                        $isToday ? ['weather.humidity', '%' . $forecast['now']['humidity']] : ['weather.rain', $mm($day['rain']) . ' mm'],
+                                        ['weather.sunrise', $daySun['sunrise']],
+                                        ['weather.sunset', $daySun['sunset']],
+                                    ]) as [$label, $value])
+                                        <div class="bg-slate-950/80 px-4 py-3">
+                                            <dt class="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45">{{ __($label) }}</dt>
+                                            <dd class="mt-0.5 font-bold tabular-nums">{{ $value ?? '—' }}</dd>
+                                        </div>
+                                    @endforeach
+                                </dl>
+                            </div>
+                        @endforeach
                     </div>
 
-                    {{-- 7 gün --}}
+                    {{-- sağ: 7 gün (tıklanınca o gün seçilir) --}}
                     <div class="p-3 sm:p-5 lg:col-span-7">
                         <p class="px-3 pb-2 pt-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white/45">{{ __('weather.forecast') }}</p>
-                        <ul class="divide-y divide-white/[0.07]">
-                            @foreach ($days as $day)
-                                <li @class(['grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-4 rounded-2xl px-3 py-2.5 sm:grid-cols-[8rem_minmax(0,1fr)_auto_auto]', 'bg-white/[0.06]' => $loop->first])>
-                                    <span @class(['truncate text-sm font-bold capitalize', 'text-amber-300' => $loop->first, 'text-white/85' => !$loop->first])>{{ $dayName($day['date']) }}</span>
-                                    <span class="hidden min-w-0 items-center gap-2 sm:flex">
-                                        <span class="truncate text-sm text-white/55">{{ __('weather.c_' . $day['condition']) }}</span>
-                                        @if ($day['rain'] >= 0.5)
-                                            <span class="shrink-0 rounded-full bg-white/10 px-2 py-0.5 text-[11px] font-semibold tabular-nums text-white/70">{{ rtrim(rtrim(number_format($day['rain'], 1, ',', ''), '0'), ',') }} mm</span>
-                                        @endif
-                                    </span>
-                                    <x-weather-icon :condition="$day['condition']" class="size-8" />
-                                    <span class="w-20 text-right text-sm tabular-nums rtl:text-left">
-                                        <strong class="font-extrabold text-white">{{ $day['max'] }}°</strong>
-                                        <span class="ml-1.5 text-white/40">{{ $day['min'] }}°</span>
-                                    </span>
+                        <ul class="space-y-1">
+                            @foreach ($days as $i => $day)
+                                <li>
+                                    <button type="button" @click="sel = {{ $i }}" :aria-pressed="sel === {{ $i }}"
+                                        :class="sel === {{ $i }} ? 'bg-white/[0.09] ring-1 ring-amber-300/40' : 'hover:bg-white/[0.05]'"
+                                        class="grid w-full cursor-pointer grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-4 rounded-2xl px-3 py-2.5 text-left transition sm:grid-cols-[8rem_minmax(0,1fr)_auto_auto] rtl:text-right">
+                                        <span :class="sel === {{ $i }} ? 'text-amber-300' : 'text-white/85'" class="truncate text-sm font-bold capitalize">{{ $dayName($day['date']) }}</span>
+                                        <span class="hidden min-w-0 items-center gap-2 sm:flex">
+                                            <span class="truncate text-sm text-white/55">{{ __('weather.c_' . $day['condition']) }}</span>
+                                            @if ($day['rain'] >= 0.5)
+                                                <span class="shrink-0 rounded-full bg-sky-400/15 px-2 py-0.5 text-[11px] font-semibold tabular-nums text-sky-300">{{ $mm($day['rain']) }} mm</span>
+                                            @endif
+                                        </span>
+                                        <x-weather-icon :condition="$day['condition']" class="size-8" />
+                                        <span class="w-20 text-right text-sm tabular-nums rtl:text-left">
+                                            <strong class="font-extrabold text-white">{{ $day['max'] }}°</strong>
+                                            <span class="ml-1.5 text-white/40">{{ $day['min'] }}°</span>
+                                        </span>
+                                    </button>
                                 </li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
 
-                {{-- bugün ne giysem + günün en iyi saatleri (hava durumu sayfasıyla aynı parçalar) --}}
-                <div class="border-t border-white/10 px-6 py-7 sm:px-8">
-                    @if ($tips)
-                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-amber-300">{{ __('weather.wear_title') }}</p>
-                        <x-weather-tips :tips="$tips" grid class="mt-4" />
-                    @endif
-                    <x-weather-best-times :city="$city" :forecast="$forecast" @class(['mt-6' => $tips]) />
-                </div>
+                {{-- seçilen günün "ne giysem"i + en iyi saatleri --}}
+                @foreach ($days as $i => $day)
+                    @php $dayTips = \App\Support\Weather::tips([$day]); @endphp
+                    <div x-show="sel === {{ $i }}" @if ($i) x-cloak @endif class="border-t border-white/10 px-6 py-7 sm:px-8">
+                        @if ($dayTips)
+                            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-amber-300">
+                                {{ $i === 0 ? __('weather.wear_title') : __('weather.wear_title_day', ['day' => $dayName($day['date'])]) }}
+                            </p>
+                            <x-weather-tips :tips="$dayTips" grid class="mt-4" />
+                        @endif
+                        <x-weather-best-times :city="$city" :forecast="$forecast" :date="$i ? $day['date'] : null" @class(['mt-6' => $dayTips]) />
+                    </div>
+                @endforeach
             </div>
 
             {{-- bu havada ne yapılır --}}

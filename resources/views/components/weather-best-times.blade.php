@@ -2,10 +2,11 @@
     Günün en iyi saatleri (App\Support\Weather::bestTimes): fotoğraf, spor / yürüyüş, dışarıda kahve, yağmurun başlayacağı saat.
     dark: şehir sayfasındaki lacivert panel; açık: hava durumu sayfası (tek beyaz şerit, bölmeli).
 --}}
-@props(['city', 'forecast', 'dark' => true])
+@props(['city', 'forecast', 'dark' => true, 'date' => null])
 
 @php
-    $times = \App\Support\Weather::bestTimes($city, $forecast);
+    // date: seçilen gün (boş = bugün, şu andan itibaren)
+    $times = \App\Support\Weather::bestTimes($city, $forecast, $date);
     $look = [
         'photo' => ['from-amber-300 to-amber-500 text-slate-950', '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'],
         'sport' => ['from-[#FF6B6E] to-[#C62E2E] text-white', '<circle cx="12" cy="14" r="7"/><path d="M12 14v-3.5M10 2.5h4M18.5 7.5 20 6"/>'],
@@ -49,7 +50,7 @@
                     <span @class(['text-xs font-bold leading-snug', 'text-white/70' => $dim, 'text-slate-600' => !$dim])>{{ __('weather.best_' . $item['kind']) }}</span>
                 </p>
                 <p class="mt-5 flex items-baseline gap-2">
-                    <span @class(['text-4xl font-extrabold tracking-tight tabular-nums', 'text-white' => $dim, 'text-slate-900' => !$dim])>{{ $item['time'] }}</span>
+                    <span @class(['text-4xl font-extrabold tracking-tight tabular-nums', 'text-white' => $dim, 'text-slate-900' => !$dim])>{{ ($item['now'] ?? false) ? __('weather.now') : $item['time'] }}</span>
                     @if ($item['tomorrow'])
                         <span @class(['rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider', 'bg-white/10 text-amber-300' => $dim, 'bg-white/80 text-slate-500 ring-1 ring-slate-200' => !$dim])>{{ __('weather.tomorrow') }}</span>
                     @endif
@@ -82,7 +83,7 @@
                     @if ($item['tomorrow'])
                         <span class="block text-[10px] font-bold uppercase tracking-wider text-amber-300">{{ __('weather.tomorrow') }}</span>
                     @endif
-                    <span class="block text-2xl font-extrabold tracking-tight text-white tabular-nums">{{ $item['time'] }}</span>
+                    <span class="block text-2xl font-extrabold tracking-tight text-white tabular-nums">{{ ($item['now'] ?? false) ? __('weather.now') : $item['time'] }}</span>
                 </span>
             </div>
         @endforeach

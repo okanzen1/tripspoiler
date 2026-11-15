@@ -1,5 +1,6 @@
-{{-- Hava durumu ikonu (App\Support\Weather::condition): güneş sarı, bulut gri, yağmur mavi, şimşek altın, kar açık mavi --}}
-@props(['condition' => 'clear'])
+{{-- Hava durumu ikonu (App\Support\Weather::condition): güneş sarı, bulut gri, yağmur mavi, şimşek altın, kar açık mavi.
+     night: gece saatleri — açık / az bulutlu / parçalı bulutluda güneş yerine ay --}}
+@props(['condition' => 'clear', 'night' => false])
 
 @php
     $sun = '<circle cx="12" cy="12" r="4.2" fill="#FBBF24" stroke="#F59E0B"/><path stroke="#F59E0B" d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>';
@@ -9,6 +10,10 @@
     $drops = fn ($n) => collect([[8.5, 18], [12, 19.5], [15.5, 18], [10.2, 21.5], [13.8, 21.5]])->take($n)
         ->map(fn ($p) => '<path stroke="#0EA5E9" stroke-width="1.8" d="M' . $p[0] . ' ' . $p[1] . 'l-.9 2"/>')->join('');
     $flakes = '<path stroke="#7DD3FC" d="M9 18.5v3M7.7 20h2.6M15 18.5v3M13.7 20h2.6"/>';
+    if ($night) {
+        $sun = '<path d="M17.5 14.6A7.5 7.5 0 0 1 9.4 4.5a7.5 7.5 0 1 0 8.1 10.1Z" fill="#FDE68A" stroke="#F59E0B"/><path stroke="#FCD34D" stroke-width="1.3" d="M18 4v2M17 5h2M21 9.5v1.4M20.3 10.2h1.4"/>';
+        $smallSun = '<path d="M11.8 10.6A5.2 5.2 0 0 1 6.3 3.7a5.2 5.2 0 1 0 5.5 6.9Z" fill="#FDE68A" stroke="#F59E0B"/>';
+    }
     $icons = [
         'clear' => $sun,
         'fair' => $sun . '<path d="M11 20h7.2a2.6 2.6 0 0 0 .3-5.2 3.9 3.9 0 0 0-7.4.9A2.2 2.2 0 0 0 11 20z" fill="#F1F5F9" stroke="#94A3B8"/>',

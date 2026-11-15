@@ -36,6 +36,18 @@
         $sunDay = \App\Support\Weather::sunDay($city);
         $moon = \App\Support\Weather::moon();
         $current = $forecast['now'];
+        // Gün seçici: her gün için saatlik şerit, gün parçaları, ne giysem (bugün = şu andan itibaren)
+        $fromNow = $now->copy()->startOfHour()->format('Y-m-d H:i');
+        $dayViews = $days->map(fn ($day, $i) => [
+            'day' => $day,
+            'date' => $day['date'],
+            'name' => $i === 0 ? __('weather.today') : \Illuminate\Support\Carbon::parse($day['date'], $tz)->locale($locale)->isoFormat('dddd'),
+            'short' => $i === 0 ? __('weather.today') : \Illuminate\Support\Carbon::parse($day['date'], $tz)->locale($locale)->isoFormat('ddd'),
+            'label' => \Illuminate\Support\Carbon::parse($day['date'], $tz)->locale($locale)->isoFormat('D MMMM'),
+            'hours' => $i === 0 ? $hours : collect($forecast['hours'] ?? [])->filter(fn ($h) => str_starts_with($h['time'], $day['date']))->values(),
+            'parts' => \App\Support\Weather::dayParts($forecast, 4, $i === 0 ? null : $day['date']),
+            'tips' => \App\Support\Weather::tips([$day]),
+        ])->values();
         $duration = fn (int $seconds) => __('weather.duration', ['h' => intdiv($seconds, 3600), 'm' => intdiv($seconds % 3600, 60)]);
     }
 @endphp
@@ -95,7 +107,7 @@
                                 <span class="rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white/80">{{ __('weather.now') }}</span>
                             </div>
                             <div class="mt-4 flex items-center gap-5">
-                                <x-weather-icon :condition="$forecast['now']['condition']" class="size-24 drop-shadow-[0_10px_30px_rgba(251,191,36,0.3)]" />
+                                <x-weather-icon :condition="$forecast['now']['condition']" :night="$forecast['now']['night'] ?? false" class="size-24 drop-shadow-[0_10px_30px_rgba(251,191,36,0.3)]" />
                                 <div>
                                     <p class="text-7xl font-extrabold leading-none tracking-tighter tabular-nums">{{ $forecast['now']['temp'] }}°</p>
                                     <p class="mt-2 text-lg font-bold text-amber-300">{{ __('weather.c_' . $forecast['now']['condition']) }}</p>
@@ -118,79 +130,105 @@
             </div>
         </section>
 
-        {{-- SAATLİK --}}
-        @if ($hours->isNotEmpty())
-            <section class="border-b border-slate-200 bg-white py-10 md:py-12">
-                <div class="mx-auto max-w-7xl px-4">
-                    <h2 class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C62E2E]">{{ __('weather.hourly') }}</h2>
-                    <ul class="mt-5 flex snap-x gap-2.5 overflow-x-auto pb-2 [scrollbar-width:thin]">
-                        @foreach ($hours as $hour)
+        {{-- GÜN SEÇİCİ + SAATLİK + SEÇİLEN GÜN (gün parçaları, ne giysem, en iyi saatler). Alttaki 7 günlük listeden de gün seçilir (Alpine: sel) --}}
+        <div x-data="{ sel: 0, pick(i) { this.sel = i; document.getElementById('day-view').scrollIntoView({ behavior: 'smooth', block: 'start' }) } }" @weather-day.window="pick($event.detail)">
+        <section id="day-view" class="scroll-mt-24 border-b border-slate-200 bg-white py-10 md:py-12">
+            <div class="mx-auto max-w-7xl px-4">
+                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C62E2E]">{{ __('weather.pick_day') }}</p>
+                {{-- 7 gün: telefonda yana kayar --}}
+                <div class="-mx-4 mt-4 flex snap-x gap-2.5 overflow-x-auto px-4 pb-2 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-7 md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden">
+                    @foreach ($dayViews as $i => $view)
+                        <button type="button" @click="sel = {{ $i }}" :aria-pressed="sel === {{ $i }}"
+                            :class="sel === {{ $i }} ? 'bg-slate-950 text-white ring-slate-950 shadow-[0_18px_40px_-20px_rgba(15,23,42,0.8)]' : 'bg-slate-50 text-slate-900 ring-slate-200/80 hover:bg-white hover:ring-[#C62E2E]/40'"
+                            class="flex w-[5.5rem] shrink-0 snap-start cursor-pointer flex-col items-center rounded-2xl px-2 py-3 text-center ring-1 transition md:w-auto">
+                            <span :class="sel === {{ $i }} ? 'text-amber-300' : 'text-slate-900'" class="text-sm font-extrabold capitalize">{{ $view['short'] }}</span>
+                            <span :class="sel === {{ $i }} ? 'text-white/50' : 'text-slate-400'" class="text-[11px] tabular-nums">{{ $view['label'] }}</span>
+                            <x-weather-icon :condition="$view['day']['condition']" class="my-2 size-9" />
+                            <span class="text-sm tabular-nums">
+                                <strong class="font-extrabold">{{ $view['day']['max'] }}°</strong>
+                                <span :class="sel === {{ $i }} ? 'text-white/45' : 'text-slate-400'">{{ $view['day']['min'] }}°</span>
+                            </span>
+                        </button>
+                    @endforeach
+                </div>
+
+                {{-- saatlik (seçilen gün; bugün şu andan itibaren 24 saat) --}}
+                <h2 class="mt-9 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C62E2E]">{{ __('weather.hourly') }}</h2>
+                @foreach ($dayViews as $i => $view)
+                    <ul x-show="sel === {{ $i }}" @if ($i) x-cloak @endif class="mt-5 flex snap-x gap-2.5 overflow-x-auto pb-2 [scrollbar-width:thin]">
+                        @foreach ($view['hours'] as $hour)
+                            @php $live = $i === 0 && $loop->first; @endphp
                             <li @class(['flex w-20 shrink-0 snap-start flex-col items-center rounded-2xl px-2 py-3.5 text-center',
-                                'bg-slate-950 text-white' => $loop->first, 'bg-slate-50 ring-1 ring-slate-200/70' => !$loop->first])>
-                                <span @class(['text-xs font-bold tabular-nums', 'text-amber-300' => $loop->first, 'text-slate-500' => !$loop->first])>{{ $loop->first ? __('weather.now') : substr($hour['time'], 11, 5) }}</span>
-                                <x-weather-icon :condition="$hour['condition']" class="my-2 size-9" />
+                                'bg-slate-950 text-white' => $live, 'bg-slate-900 text-white ring-1 ring-slate-800' => !$live && ($hour['night'] ?? false), 'bg-slate-50 ring-1 ring-slate-200/70' => !$live && !($hour['night'] ?? false)])>
+                                <span @class(['text-xs font-bold tabular-nums', 'text-amber-300' => $live, 'text-white/55' => !$live && ($hour['night'] ?? false), 'text-slate-500' => !$live && !($hour['night'] ?? false)])>{{ $live ? __('weather.now') : substr($hour['time'], 11, 5) }}</span>
+                                <x-weather-icon :condition="$hour['condition']" :night="$hour['night'] ?? false" class="my-2 size-9" />
                                 <span class="text-base font-extrabold tabular-nums">{{ $hour['temp'] }}°</span>
-                                <span @class(['mt-0.5 h-4 text-[10px] font-semibold tabular-nums', 'text-sky-300' => $loop->first, 'text-sky-600' => !$loop->first])>{{ $hour['rain'] >= 0.1 ? $mm($hour['rain']) . ' mm' : '' }}</span>
+                                <span @class(['mt-0.5 h-4 text-[10px] font-semibold tabular-nums', 'text-sky-300' => $live || ($hour['night'] ?? false), 'text-sky-600' => !$live && !($hour['night'] ?? false)])>{{ $hour['rain'] >= 0.1 ? $mm($hour['rain']) . ' mm' : '' }}</span>
                             </li>
                         @endforeach
                     </ul>
-                </div>
-            </section>
-        @endif
+                @endforeach
+            </div>
+        </section>
 
-        {{-- BUGÜN: gün parçaları + ne giysem + günün en iyi saatleri --}}
+        {{-- SEÇİLEN GÜN: gün parçaları + ne giysem + günün en iyi saatleri --}}
         <section class="bg-slate-50 py-14 md:py-20">
             <div class="mx-auto max-w-7xl px-4">
-                <p class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C62E2E]">
-                    <span class="h-px w-6 bg-[#C62E2E]"></span>{{ __('weather.today') }} · {{ $now->copy()->locale($locale)->isoFormat('D MMMM') }}
-                </p>
-                <h2 class="mt-3 text-3xl font-extrabold tracking-[-0.025em] text-slate-900 sm:text-4xl">{{ __('weather.today_title') }}</h2>
+                @foreach ($dayViews as $i => $view)
+                    @php [$parts, $tips] = [$view['parts'], $view['tips']]; @endphp
+                    <div x-show="sel === {{ $i }}" @if ($i) x-cloak @endif>
+                        <p class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C62E2E]">
+                            <span class="h-px w-6 bg-[#C62E2E]"></span><span class="capitalize">{{ $view['name'] }}</span> · {{ $view['label'] }}
+                        </p>
+                        <h2 class="mt-3 text-3xl font-extrabold tracking-[-0.025em] text-slate-900 sm:text-4xl">{{ __('weather.today_title') }}</h2>
 
-                <div class="mt-8 grid gap-6 lg:grid-cols-12">
-                    @if ($parts)
-                        <div @class(['grid grid-cols-2 gap-px overflow-hidden rounded-[28px] bg-slate-200/70 ring-1 ring-slate-200/80 sm:grid-cols-4', 'lg:col-span-7' => $tips, 'lg:col-span-12' => !$tips])>
-                            @foreach ($parts as $part)
-                                @php
-                                    // gün parçasının rengi: sabah altın, öğleden sonra turuncu, akşam kırmızı, gece lacivert
-                                    $night = $part['part'] === 'night';
-                                    $partBg = ['morning' => 'bg-gradient-to-b from-amber-100/80 to-white', 'afternoon' => 'bg-gradient-to-b from-orange-100/70 to-white', 'evening' => 'bg-gradient-to-b from-[#C62E2E]/[0.12] to-white', 'night' => 'bg-gradient-to-b from-slate-900 to-slate-950 text-white'][$part['part']];
-                                @endphp
-                                <div class="flex flex-col items-center px-3 py-6 text-center sm:px-4 {{ $partBg }}">
-                                    <p @class(['text-[11px] font-bold uppercase tracking-[0.14em]', 'text-amber-300' => $night, 'text-[#C62E2E]' => !$night && $loop->first, 'text-slate-500' => !$night && !$loop->first])>
-                                        @if ($part['tomorrow']){{ __('weather.tomorrow') }} · @endif{{ __('weather.part_' . $part['part']) }}
-                                    </p>
-                                    <p @class(['mt-0.5 text-[11px] tabular-nums', 'text-white/45' => $night, 'text-slate-400' => !$night])>{{ $part['from'] }}–{{ $part['to'] }}</p>
-                                    <x-weather-icon :condition="$part['condition']" class="my-4 size-14" />
-                                    <p @class(['text-3xl font-extrabold tracking-tight tabular-nums', 'text-white' => $night, 'text-slate-900' => !$night])>{{ $part['temp'] }}°</p>
-                                    <p @class(['mt-1 text-sm font-medium', 'text-white/60' => $night, 'text-slate-500' => !$night])>{{ __('weather.c_' . $part['condition']) }}</p>
-                                    <p class="mt-4 flex flex-wrap justify-center gap-1.5">
-                                        @if ($part['rain'] >= 0.2)
-                                            <span class="inline-flex items-center gap-1 rounded-full bg-sky-50 px-2.5 py-1 text-[11px] font-bold text-sky-700 tabular-nums">
-                                                <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/></svg>{{ $mm($part['rain']) }} mm
-                                            </span>
-                                        @endif
-                                        <span @class(['inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold tabular-nums', 'bg-white/10 text-white/80' => $night, 'bg-white text-[#C62E2E] ring-1 ring-[#C62E2E]/15' => !$night && $part['wind'] >= 30, 'bg-white text-slate-600 ring-1 ring-slate-200' => !$night && $part['wind'] < 30])>
-                                            <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h7"/></svg>{{ $part['wind'] }} km/h
-                                        </span>
-                                    </p>
+                        <div class="mt-8 grid gap-6 lg:grid-cols-12">
+                            @if ($parts)
+                                <div @class(['grid grid-cols-2 gap-px overflow-hidden rounded-[28px] bg-slate-200/70 ring-1 ring-slate-200/80 sm:grid-cols-4', 'lg:col-span-7' => $tips, 'lg:col-span-12' => !$tips])>
+                                    @foreach ($parts as $part)
+                                        @php
+                                            // gün parçasının rengi: sabah altın, öğleden sonra turuncu, akşam kırmızı, gece lacivert
+                                            $night = $part['part'] === 'night';
+                                            $partBg = ['morning' => 'bg-gradient-to-b from-amber-100/80 to-white', 'afternoon' => 'bg-gradient-to-b from-orange-100/70 to-white', 'evening' => 'bg-gradient-to-b from-[#C62E2E]/[0.12] to-white', 'night' => 'bg-gradient-to-b from-slate-900 to-slate-950 text-white'][$part['part']];
+                                        @endphp
+                                        <div class="flex flex-col items-center px-3 py-6 text-center sm:px-4 {{ $partBg }}">
+                                            <p @class(['text-[11px] font-bold uppercase tracking-[0.14em]', 'text-amber-300' => $night, 'text-[#C62E2E]' => !$night && $loop->first, 'text-slate-500' => !$night && !$loop->first])>
+                                                @if ($part['tomorrow']){{ __('weather.tomorrow') }} · @endif{{ __('weather.part_' . $part['part']) }}
+                                            </p>
+                                            <p @class(['mt-0.5 text-[11px] tabular-nums', 'text-white/45' => $night, 'text-slate-400' => !$night])>{{ $part['from'] }}–{{ $part['to'] }}</p>
+                                            <x-weather-icon :condition="$part['condition']" :night="$part['night'] ?? $night" class="my-4 size-14" />
+                                            <p @class(['text-3xl font-extrabold tracking-tight tabular-nums', 'text-white' => $night, 'text-slate-900' => !$night])>{{ $part['temp'] }}°</p>
+                                            <p @class(['mt-1 text-sm font-medium', 'text-white/60' => $night, 'text-slate-500' => !$night])>{{ __('weather.c_' . $part['condition']) }}</p>
+                                            <p class="mt-4 flex flex-wrap justify-center gap-1.5">
+                                                @if ($part['rain'] >= 0.2)
+                                                    <span class="inline-flex items-center gap-1 rounded-full bg-sky-50 px-2.5 py-1 text-[11px] font-bold text-sky-700 tabular-nums">
+                                                        <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/></svg>{{ $mm($part['rain']) }} mm
+                                                    </span>
+                                                @endif
+                                                <span @class(['inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold tabular-nums', 'bg-white/10 text-white/80' => $night, 'bg-white text-[#C62E2E] ring-1 ring-[#C62E2E]/15' => !$night && $part['wind'] >= 30, 'bg-white text-slate-600 ring-1 ring-slate-200' => !$night && $part['wind'] < 30])>
+                                                    <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h7"/></svg>{{ $part['wind'] }} km/h
+                                                </span>
+                                            </p>
+                                        </div>
+                                    @endforeach
                                 </div>
-                            @endforeach
+                            @endif
+                            @if ($tips)
+                                <div @class(['relative isolate overflow-hidden rounded-[28px] bg-gradient-to-br from-[#C62E2E]/[0.08] via-white to-amber-50 p-6 ring-1 ring-[#C62E2E]/10 sm:p-7', 'lg:col-span-5' => $parts, 'lg:col-span-12' => !$parts])>
+                                    <svg class="pointer-events-none absolute -bottom-8 -right-8 -z-10 size-40 text-[#C62E2E] opacity-[0.06] rtl:-left-8 rtl:right-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 3 6l2 4 3-1v12h8V9l3 1 2-4-5-3a4 4 0 0 1-8 0Z"/></svg>
+                                    <p class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#C62E2E]">
+                                        <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 3 6l2 4 3-1v12h8V9l3 1 2-4-5-3a4 4 0 0 1-8 0Z"/></svg>
+                                        {{ $i === 0 ? __('weather.wear_title') : __('weather.wear_title_day', ['day' => $view['name']]) }}
+                                    </p>
+                                    <x-weather-tips :tips="$tips" :dark="false" class="mt-2" />
+                                </div>
+                            @endif
                         </div>
-                    @endif
-                    @if ($tips)
-                        <div @class(['relative isolate overflow-hidden rounded-[28px] bg-gradient-to-br from-[#C62E2E]/[0.08] via-white to-amber-50 p-6 ring-1 ring-[#C62E2E]/10 sm:p-7', 'lg:col-span-5' => $parts, 'lg:col-span-12' => !$parts])>
-                            <svg class="pointer-events-none absolute -bottom-8 -right-8 -z-10 size-40 text-[#C62E2E] opacity-[0.06] rtl:-left-8 rtl:right-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 3 6l2 4 3-1v12h8V9l3 1 2-4-5-3a4 4 0 0 1-8 0Z"/></svg>
-                            <p class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#C62E2E]">
-                                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 3 6l2 4 3-1v12h8V9l3 1 2-4-5-3a4 4 0 0 1-8 0Z"/></svg>
-                                {{ __('weather.wear_title') }}
-                            </p>
-                            <x-weather-tips :tips="$tips" :dark="false" class="mt-2" />
-                        </div>
-                    @endif
-                </div>
 
-                <h3 class="mt-12 text-xl font-extrabold tracking-tight text-slate-900">{{ __('weather.best_title') }}</h3>
-                <x-weather-best-times :city="$city" :forecast="$forecast" :dark="false" class="mt-4" />
+                        <h3 class="mt-12 text-xl font-extrabold tracking-tight text-slate-900">{{ __('weather.best_title') }}</h3>
+                        <x-weather-best-times :city="$city" :forecast="$forecast" :dark="false" :date="$i ? $view['date'] : null" class="mt-4" />
+                    </div>
+                @endforeach
             </div>
         </section>
 
@@ -346,7 +384,9 @@
                             $left = round(($day['min'] - $weekMin) / $weekSpan * 100);
                             $width = max(6, round(($day['max'] - $day['min']) / $weekSpan * 100));
                         @endphp
-                        <li @class(['relative isolate grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-3 overflow-hidden rounded-3xl px-5 py-4 md:grid-cols-[9rem_minmax(0,1fr)_auto_minmax(0,15rem)] md:gap-6 md:px-6',
+                        <li role="button" tabindex="0" @click="pick({{ $loop->index }})" @keydown.enter="pick({{ $loop->index }})"
+                            :class="sel === {{ $loop->index }} && 'ring-2 ring-[#C62E2E]'"
+                            @class(['relative isolate grid cursor-pointer grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-3 overflow-hidden rounded-3xl px-5 py-4 transition hover:-translate-y-0.5 md:grid-cols-[9rem_minmax(0,1fr)_auto_minmax(0,15rem)] md:gap-6 md:px-6',
                             'bg-slate-950 text-white shadow-[0_24px_50px_-30px_rgba(15,23,42,0.8)]' => $first,
                             'bg-white ring-1 ring-slate-200/80' => !$first])>
                             @if ($first)
@@ -416,6 +456,8 @@
                 </div>
             </div>
         </section>
+
+        </div>{{-- /gün seçici (x-data) --}}
 
         {{-- GÜNEŞ VE AY: güneşin gün içindeki yolu, altın / mavi saatler, ayın evresi (hesaplanır, servis yok) --}}
         @if ($sunDay['rise'] && $sunDay['set'])
