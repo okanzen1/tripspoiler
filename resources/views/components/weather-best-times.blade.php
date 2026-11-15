@@ -60,7 +60,7 @@
         @endforeach
     </div>
 @elseif ($times)
-    <div {{ $attributes->merge(['class' => 'grid grid-cols-1 gap-3 sm:grid-cols-2 ' . [3 => 'xl:grid-cols-3', 4 => 'xl:grid-cols-4'][count($times)] ?? '']) }}>
+    <div {{ $attributes->merge(['class' => 'grid grid-cols-1 gap-3 sm:grid-cols-2 ' . ([3 => 'xl:grid-cols-3', 4 => 'xl:grid-cols-4'][count($times)] ?? '')]) }}>
         @foreach ($times as $item)
             @php
                 [$tile, $icon] = $look[$item['kind']];
