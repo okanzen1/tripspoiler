@@ -14,14 +14,18 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        // Seçicide sadece yayında yazısı olan şehirler
+        // Seçicide sadece yayında yazısı olan şehirler; genel yazı (şehirsiz) varsa her şehirde okunacak yazı vardır
+        $generalCount = Blog::published()->doesntHave('cities')->count();
+        $hasGeneral = $generalCount > 0;
         $cities = City::visible()
             ->with('country')
             ->withCount(['blogs' => fn ($q) => $q->published(), 'activities' => fn ($q) => $q->where('active', true)])
-            ->whereHas('blogs', fn ($q) => $q->published())
+            ->unless($hasGeneral, fn ($q) => $q->whereHas('blogs', fn ($q) => $q->published()))
             ->orderByDesc('blogs_count')
             ->orderByDesc('population')
-            ->get();
+            ->get()
+            // seçicideki yazı sayısı genel yazıları da sayar
+            ->each(fn (City $c) => $c->blogs_count += $generalCount);
 
         $cityId = (int) ($request->get('city_id') ?? session('selected_city_id'));
         $city = $cities->firstWhere('id', $cityId);
@@ -33,10 +37,9 @@ class BlogController extends Controller
             $city = $cities->first();
         }
 
-        $blogs = $city
-            ? Blog::published()->with('city')->where('city_id', $city->id)
-                ->orderByRaw('sort_order = 0 desc')->orderBy('sort_order')->latest('published_at')->latest('id')->get()
-            : collect();
+        // seçili şehrin yazıları + genel yazılar (şehir yoksa yalnızca genel yazılar)
+        $blogs = Blog::published()->with('city')->forCity($city?->id)
+            ->orderByRaw('sort_order = 0 desc')->orderBy('sort_order')->latest('published_at')->latest('id')->get();
 
         // En çok geçen etiketler (filtre çipleri)
         $tags = $blogs->flatMap(fn (Blog $blog) => array_filter((array) $blog->tags))

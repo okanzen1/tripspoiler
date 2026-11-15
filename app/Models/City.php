@@ -32,9 +32,10 @@ class City extends Model
         return $this->hasMany(Activity::class);
     }
 
+    /** Bu şehirde yayınlanan yazılar (blog_city; genel yazılar hariç, onlar Blog::forCity ile eklenir) */
     public function blogs()
     {
-        return $this->hasMany(Blog::class);
+        return $this->belongsToMany(Blog::class, 'blog_city');
     }
 
     /**

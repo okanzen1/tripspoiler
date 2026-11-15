@@ -29,10 +29,10 @@ class MostPopularBlog extends Component
             // Aktivite detayı: o aktiviteye bağlanan yazılar, yoksa şehrin yazıları
             $blogs = (clone $query)->whereHas('activities', fn ($q) => $q->whereKey($this->activityId))->limit(3)->get();
             if ($blogs->isEmpty() && $this->cityId) {
-                $blogs = (clone $query)->where('city_id', $this->cityId)->latest('published_at')->limit(3)->get();
+                $blogs = (clone $query)->forCity((int) $this->cityId)->latest('published_at')->limit(3)->get();
             }
         } elseif ($this->cityId) {
-            $blogs = (clone $query)->where('city_id', $this->cityId)->latest('published_at')->limit(3)->get();
+            $blogs = (clone $query)->forCity((int) $this->cityId)->latest('published_at')->limit(3)->get();
         } else {
             $ids = array_values(array_filter(array_map('intval', explode(',', (string) Setting::many(['home_blog_ids'])['home_blog_ids']))));
             $blogs = $ids

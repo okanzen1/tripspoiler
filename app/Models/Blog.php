@@ -46,6 +46,21 @@ class Blog extends Model
         return $this->belongsTo(City::class);
     }
 
+    /** Yayınlandığı şehirler (blog_city). Hiç şehri yoksa yazı genel: her şehirde görünür. */
+    public function cities()
+    {
+        return $this->belongsToMany(City::class, 'blog_city');
+    }
+
+    /**
+     * Bir şehirde görünen yazılar: o şehre bağlananlar + genel yazılar. Şehir yoksa yalnızca genel yazılar.
+     */
+    public function scopeForCity(Builder $query, ?int $cityId): void
+    {
+        $query->where(fn ($q) => $q->doesntHave('cities')
+            ->when($cityId, fn ($q) => $q->orWhereHas('cities', fn ($c) => $c->whereKey($cityId))));
+    }
+
     public function activities()
     {
         return $this->belongsToMany(Activity::class)->withPivot('sort_order')->orderByPivot('sort_order');
