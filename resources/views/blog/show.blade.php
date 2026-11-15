@@ -41,6 +41,20 @@
         '<span class="grid size-[22px] place-items-center rounded-md bg-current/10 text-[11px] font-extrabold tabular-nums">' . ($i + 1) . '</span>']))->all();
     $activityCount = $blog->activities->count();
     $singleActivity = $activityCount === 1 ? $blog->activities->first() : null;
+    // Birden fazla ürün: sabit çubukta üst üste binen küçük resimler + adlar
+    $pickNames = $blog->activities->pluck('name')->join(' · ');
+    $pickStack = function (string $size) use ($blog, $activityCount) {
+        $html = '<span class="flex shrink-0 -space-x-3 rtl:space-x-reverse">';
+        foreach ($blog->activities->take(3) as $activity) {
+            $html .= $activity->cover
+                ? '<img src="' . e($activity->cover->url('sm')) . '" alt="" loading="lazy" class="' . $size . ' rounded-xl object-cover ring-2 ring-white">'
+                : '<span class="' . $size . ' rounded-xl bg-slate-200 ring-2 ring-white"></span>';
+        }
+        if ($activityCount > 3) {
+            $html .= '<span class="' . $size . ' grid place-items-center rounded-xl bg-slate-900 text-xs font-bold text-white ring-2 ring-white">+' . ($activityCount - 3) . '</span>';
+        }
+        return $html . '</span>';
+    };
     // Öneri kartları: "Detayları gör" bizim aktivite sayfasına, "Bilet al" doğrudan partnere (iki düğme)
     $activityUrl = fn ($activity) => route('activities.show', ['slug' => $activity->slug]);
     $activityChips = function ($activity) {
@@ -175,31 +189,54 @@
                                     <svg class="size-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6l-5.4 2.9 1.2-6-4.5-4.2 6.1-.7Z"/></svg>
                                     {{ $singleActivity ? __('blog.editors_pick') : __('blog.editors_picks') }}
                                 </p>
-                                <a href="{{ $singleActivity ? $activityUrl($previewActivity) : '#activitiesSection' }}" class="group mt-3 block">
-                                    <span class="relative block aspect-[16/10] w-full overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200">
-                                        @if ($previewActivity->cover)
-                                            <img src="{{ $previewActivity->cover->url('sm') }}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
-                                        @endif
-                                        @if ($activityCount > 1)
-                                            <span class="absolute bottom-2 right-2 rounded-full bg-slate-900/85 px-2 py-0.5 text-[11px] font-bold text-white">+{{ $activityCount - 1 }}</span>
-                                        @endif
-                                    </span>
-                                    <span class="mt-3 line-clamp-2 block text-base font-extrabold leading-snug text-slate-900 transition group-hover:text-[#C62E2E]">
-                                        {{ $singleActivity ? $previewActivity->name : $activityCount . ' ' . __('blog.experiences') }}
-                                    </span>
-                                </a>
-                                <div class="mt-4 grid grid-cols-2 gap-2">
-                                    <a href="{{ $singleActivity ? $activityUrl($singleActivity) : '#activitiesSection' }}"
-                                        class="flex h-10 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#C62E2E] px-3 text-[13px] font-bold text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424]">
-                                        {{ $singleActivity ? __('blog.see_details') : __('blog.see_experiences') }} {!! $arrowIcon !!}
+                                @if ($singleActivity)
+                                    <a href="{{ $activityUrl($singleActivity) }}" class="group mt-3 block">
+                                        <span class="relative block aspect-[16/10] w-full overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200">
+                                            @if ($singleActivity->cover)
+                                                <img src="{{ $singleActivity->cover->url('sm') }}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                            @endif
+                                        </span>
+                                        <span class="mt-3 line-clamp-2 block text-base font-extrabold leading-snug text-slate-900 transition group-hover:text-[#C62E2E]">{{ $singleActivity->name }}</span>
                                     </a>
-                                    @if ($singleActivity?->affiliate_url)
-                                        <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener"
-                                            class="flex h-10 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-amber-300 to-amber-500 px-3 text-[13px] font-extrabold text-slate-950 shadow-[0_10px_24px_-12px_rgba(245,158,11,0.9)] transition hover:from-amber-200 hover:to-amber-400">
-                                            {{ __('blog.buy_tickets') }} {!! $extIcon !!}
+                                    <div @class(['mt-4 grid gap-2', 'grid-cols-2' => $singleActivity->affiliate_url])>
+                                        <a href="{{ $activityUrl($singleActivity) }}"
+                                            class="flex h-10 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#C62E2E] px-3 text-[13px] font-bold text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424]">
+                                            {{ __('blog.see_details') }} {!! $arrowIcon !!}
                                         </a>
-                                    @endif
-                                </div>
+                                        @if ($singleActivity->affiliate_url)
+                                            <a href="{{ $singleActivity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener"
+                                                class="flex h-10 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-amber-300 to-amber-500 px-3 text-[13px] font-extrabold text-slate-950 shadow-[0_10px_24px_-12px_rgba(245,158,11,0.9)] transition hover:from-amber-200 hover:to-amber-400">
+                                                {{ __('blog.buy_tickets') }} {!! $extIcon !!}
+                                            </a>
+                                        @endif
+                                    </div>
+                                @else
+                                    {{-- birden fazla ürün: küçük resimli liste (en fazla 3), her biri kendi sayfasına; altta tümü --}}
+                                    <ul class="mt-3 space-y-2">
+                                        @foreach ($blog->activities->take(3) as $activity)
+                                            <li>
+                                                <a href="{{ $activityUrl($activity) }}" class="group flex items-center gap-3 rounded-2xl p-2 ring-1 ring-slate-200 transition hover:bg-slate-50 hover:ring-slate-300">
+                                                    <span class="block h-14 w-20 shrink-0 overflow-hidden rounded-xl bg-slate-100">
+                                                        @if ($activity->cover)
+                                                            <img src="{{ $activity->cover->url('sm') }}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                                        @endif
+                                                    </span>
+                                                    <span class="min-w-0 flex-1">
+                                                        <span class="line-clamp-2 block text-sm font-bold leading-snug text-slate-900 transition group-hover:text-[#C62E2E]">{{ $activity->name }}</span>
+                                                        @if ($activity->city)
+                                                            <span class="mt-0.5 block truncate text-xs text-slate-500">{{ $activity->city->name }}</span>
+                                                        @endif
+                                                    </span>
+                                                    <span class="shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#C62E2E] rtl:group-hover:-translate-x-0.5">{!! $arrowIcon !!}</span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                    <a href="#activitiesSection"
+                                        class="mt-4 flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-[#C62E2E] px-4 text-sm font-bold text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424]">
+                                        {{ __('blog.see_experiences') }} ({{ $activityCount }}) {!! $arrowIcon !!}
+                                    </a>
+                                @endif
                             </div>
                         @endif
 
@@ -495,13 +532,15 @@
                 <div class="flex min-w-0 items-center gap-3">
                     @if ($singleActivity?->cover)
                         <img src="{{ $singleActivity->cover->url('sm') }}" alt="" class="size-11 shrink-0 rounded-xl object-cover">
+                    @elseif (!$singleActivity)
+                        {!! $pickStack('size-10') !!}
                     @endif
                     <div class="min-w-0">
                         <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
                             {{ $singleActivity ? __('blog.editors_pick') : __('blog.editors_picks') }}
                         </p>
                         <p class="truncate text-sm font-bold text-slate-900">
-                            {{ $singleActivity ? $singleActivity->name : $activityCount . ' ' . __('blog.experiences') }}
+                            {{ $singleActivity ? $singleActivity->name : $pickNames }}
                         </p>
                     </div>
                 </div>
@@ -523,11 +562,13 @@
 
         {{-- MASAÜSTÜ SABİT ÇUBUK --}}
         <div id="stickyCtaBar" class="fixed inset-x-0 bottom-0 z-50 hidden translate-y-full transition-transform duration-500 lg:block">
-            <div class="border-t border-slate-200/80 bg-white/90 shadow-[0_-16px_40px_-30px_rgba(15,23,42,0.45)] backdrop-blur">
+            <div class="border-t border-slate-200/80 bg-white/95 shadow-[0_-16px_40px_-30px_rgba(15,23,42,0.45)] backdrop-blur">
                 <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3.5">
                     <div class="flex min-w-0 items-center gap-4">
                         @if ($singleActivity?->cover)
                             <img src="{{ $singleActivity->cover->url('sm') }}" alt="" class="size-12 shrink-0 rounded-xl object-cover" loading="lazy">
+                        @elseif (!$singleActivity)
+                            {!! $pickStack('size-12') !!}
                         @endif
                         <div class="min-w-0">
                             <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
@@ -536,6 +577,9 @@
                             <p class="truncate text-sm font-bold text-slate-900 md:text-[15px]">
                                 {{ $singleActivity ? $singleActivity->name : $activityCount . ' ' . __('blog.experiences') }}
                             </p>
+                            @unless ($singleActivity)
+                                <p class="mt-0.5 truncate text-xs text-slate-500">{{ $pickNames }}</p>
+                            @endunless
                         </div>
                     </div>
 
