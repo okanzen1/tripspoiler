@@ -272,7 +272,7 @@
                     }"
                     x-effect="const chip = $refs['chip-' + active], t = $refs.track; if (chip && t) t.scrollTo({ left: chip.offsetLeft - t.clientWidth / 2 + chip.offsetWidth / 2, behavior: 'smooth' })">
                     <div class="relative mx-auto max-w-7xl md:px-4">
-                        <div x-ref="track" @scroll.throttle.80ms="edges()" class="flex overflow-x-auto px-2 [scrollbar-width:none] md:px-0 [&::-webkit-scrollbar]:hidden">
+                        <div x-ref="track" @scroll.throttle.80ms="edges()" @scroll.debounce.120ms="edges()" @resize.window.debounce.150ms="edges()" class="flex overflow-x-auto px-2 [scrollbar-width:none] md:px-0 [&::-webkit-scrollbar]:hidden">
                             @if ($parts['intro'] !== '')
                                 <a href="#intro" x-ref="chip-intro" data-post-link
                                     :class="active === 'intro' ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900'"
