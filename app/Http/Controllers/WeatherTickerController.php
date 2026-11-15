@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 class WeatherTickerController extends Controller
 {
     /** Kutuların görünümü değişince artır: sunucudaki ve tarayıcıdaki eski kopyalar kullanılmaz */
-    public const VERSION = 5;
+    public const VERSION = 6;
 
     public function index(Request $request)
     {

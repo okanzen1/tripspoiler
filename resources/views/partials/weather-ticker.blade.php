@@ -8,16 +8,16 @@
     role="group" aria-label="{{ __('footer.weather') }}">
     @foreach ([0, 1, 2] as $slot)
         @php $offset = intdiv($n, 3) * $slot; @endphp
-        <span @class(['relative h-8 w-[7.25rem] shrink-0 [perspective:240px]', 'hidden md:block' => $slot > 0, 'border-l border-white/10' => $slot > 0])>
+        <span @class(['relative h-8 w-[5.25rem] shrink-0 [perspective:240px] md:w-[7.25rem]', 'hidden md:block' => $slot > 0, 'border-l border-white/10' => $slot > 0])>
             @foreach ($items as $k => $item)
                 {{-- her şehir kendi hava durumu sayfasına --}}
-                <a href="{{ $item['url'] }}" x-show="(i + {{ $offset }}) % {{ $n }} === {{ $k }}" @if ($k !== $offset % $n) style="display: none" @endif
+                <a href="{{ $item['url'] }}" title="{{ $item['name'] }}" x-show="(i + {{ $offset }}) % {{ $n }} === {{ $k }}" @if ($k !== $offset % $n) style="display: none" @endif
                     x-transition:enter="transition duration-500 ease-out" x-transition:enter-start="opacity-0 [transform:rotateX(-90deg)_translateY(55%)]" x-transition:enter-end="opacity-100 [transform:rotateX(0deg)_translateY(0)]"
                     x-transition:leave="transition duration-500 ease-in" x-transition:leave-start="opacity-100 [transform:rotateX(0deg)_translateY(0)]" x-transition:leave-end="opacity-0 [transform:rotateX(90deg)_translateY(-55%)]"
                     class="absolute inset-0 flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md px-1.5 text-[12.5px] [backface-visibility:hidden] hover:bg-white/10 hover:text-white"
                     style="transition-delay: {{ $slot * 180 }}ms">
                     <span class="text-sm leading-none">{{ $item['flag'] }}</span>
-                    <span class="max-w-[4.2rem] truncate font-medium text-white/75">{{ $item['name'] }}</span>
+                    <span class="hidden max-w-[4.2rem] truncate font-medium text-white/75 md:inline">{{ $item['name'] }}</span>
                     <x-weather-icon :condition="$item['condition']" :night="$item['night']" class="size-[18px]" />
                     <span class="font-bold tabular-nums">{{ $item['temp'] }}°</span>
                 </a>

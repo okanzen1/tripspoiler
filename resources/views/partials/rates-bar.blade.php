@@ -70,15 +70,18 @@
             </div>
 
             {{-- sağda: tüm kurlar + kapat --}}
-            <a href="{{ route('rates') }}" class="relative z-10 flex shrink-0 items-center gap-1 bg-slate-950 pl-3 pr-2 text-[12px] font-bold text-[#FF6B6E] transition hover:text-white">
+            {{-- telefonda yalnızca ok (yer kaplamasın), büyük ekranda "Tüm kurlar →" --}}
+            <a href="{{ route('rates') }}" aria-label="{{ __('rates-bar.all') }}" title="{{ __('rates-bar.all') }}"
+                class="relative z-10 flex shrink-0 items-center gap-1 bg-slate-950 px-2 text-[12px] font-bold text-[#FF6B6E] transition hover:text-white md:pl-3">
                 <span class="hidden md:inline">{{ __('rates-bar.all') }}</span>
-                <span class="md:hidden">{{ __('rates-bar.label') }}</span>
                 <span aria-hidden="true" class="rtl:rotate-180">→</span>
             </a>
             {{-- ExchangeRate-API kullanım şartı: kurların gösterildiği her sayfada kaynak linki --}}
-            <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener nofollow" title="Rates By Exchange Rate API"
-                class="relative z-10 flex shrink-0 items-center bg-slate-950 pl-2 pr-1 text-[11px] text-white/35 transition hover:text-white/70">
-                {{ __('rates-bar.source') }}
+            {{-- telefonda küçük ⓘ simgesi (kaynak bağlantısı şart, ama yer kaplamasın) --}}
+            <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener nofollow" title="{{ __('rates-bar.source') }}: Rates By Exchange Rate API" aria-label="{{ __('rates-bar.source') }}: Exchange Rate API"
+                class="relative z-10 flex shrink-0 items-center bg-slate-950 pl-1 pr-1 text-[11px] text-white/35 transition hover:text-white/70 md:pl-2">
+                <span class="hidden md:inline">{{ __('rates-bar.source') }}</span>
+                <svg class="size-3.5 md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
             </a>
             {{-- dünya hava durumu: silindir gibi dönen kutular (sayfa açıldıktan sonra arka planda yüklenir; gelmezse yer kaplamaz) --}}
             <div class="relative z-10 flex shrink-0 items-stretch border-l border-white/10 bg-slate-950 empty:hidden" dir="ltr"
