@@ -162,11 +162,10 @@
                 // 0 olan kutu gösterilmez; tek kalan kutu tam genişlik olur
                 $statCards = array_values(array_filter($statCards, fn ($card) => ($stats[$card[0]] ?? 0) > 0));
             @endphp
-            {{-- şeffaf kartlar: tabletten itibaren hepsi yan yana, eşit genişlikte (sayfanın tam genişliği);
-                 telefonda iki sütun, tek sayıda kalırsa sonuncusu iki sütunu kaplar --}}
-            <dl @class(['grid grid-cols-2 gap-3 lg:col-span-12 lg:gap-4', [1 => 'sm:grid-cols-1', 2 => 'sm:grid-cols-2', 3 => 'sm:grid-cols-3', 4 => 'sm:grid-cols-4'][count($statCards)] ?? 'sm:grid-cols-4'])>
+            {{-- şeffaf cam kartlar: eşit iki sütun (sağda); tek sayıda kart kalırsa sonuncusu iki sütunu kaplar --}}
+            <dl class="grid grid-cols-2 gap-3 self-end lg:col-span-5">
                 @foreach ($statCards as [$k, $label, $grad, $glow, $icon])
-                    <div @class(['group relative flex min-w-0 items-center gap-3 overflow-hidden rounded-3xl p-3 ring-1 ring-white/20 transition duration-300 hover:-translate-y-0.5 hover:ring-white/35 sm:gap-4 sm:p-3.5', 'col-span-2 sm:col-span-1' => $loop->last && $loop->count % 2 === 1])>
+                    <div @class(['group relative flex min-w-0 items-center gap-3 overflow-hidden rounded-3xl p-3 ring-1 ring-white/20 transition duration-300 hover:-translate-y-0.5 hover:ring-white/35 sm:gap-4 sm:p-3.5', 'col-span-2' => $loop->last && $loop->count % 2 === 1])>
                         <span class="pointer-events-none absolute -right-6 -top-6 size-20 rounded-full {{ $glow }} opacity-25 blur-2xl transition group-hover:opacity-40"></span>
                         <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br {{ $grad }} text-white shadow-[0_10px_24px_-10px_rgba(0,0,0,0.7)] sm:size-14">
                             <svg class="size-6 sm:size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
@@ -269,11 +268,11 @@
                     </p>
 
                     {{-- İSKELET KARTLAR (filtre değişirken) --}}
-                    <ul x-show="loading" x-cloak aria-hidden="true" class="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+                    <ul x-show="loading" x-cloak aria-hidden="true" class="mt-4 grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
                         @for ($i = 0; $i < min(8, max(4, $activities->count())); $i++)
-                            <li class="flex overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200/80 sm:block sm:rounded-3xl">
-                                <div class="acts-skeleton min-h-[7.5rem] w-[36%] shrink-0 sm:aspect-[4/3] sm:min-h-0 sm:w-auto"></div>
-                                <div class="flex-1 space-y-3 p-3.5 sm:p-5">
+                            <li class="overflow-hidden rounded-2xl sm:rounded-3xl sm:bg-white sm:ring-1 sm:ring-slate-200/80">
+                                <div class="acts-skeleton aspect-[4/3] rounded-2xl sm:rounded-none"></div>
+                                <div class="space-y-3 py-3 sm:p-5">
                                     <div class="flex gap-1.5"><div class="acts-skeleton h-5 w-16 rounded-md"></div><div class="acts-skeleton h-5 w-20 rounded-md"></div></div>
                                     <div class="acts-skeleton h-4 w-11/12 rounded"></div>
                                     <div class="acts-skeleton h-4 w-2/3 rounded"></div>
@@ -283,40 +282,62 @@
                         @endfor
                     </ul>
 
-                    {{-- KARTLAR: telefonda yatay ve kısa (solda resim, sağda bilgi; ekranda 4-5 aktivite), büyük ekranda dikey kart --}}
-                    <ul x-ref="grid" x-show="!loading" class="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+                    {{-- KARTLAR: telefonda blog listesi gibi iki sütun (resim + başlık), tablet ve üstünde beyaz kart --}}
+                    <ul x-ref="grid" x-show="!loading" class="mt-4 grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
                         @foreach ($activities as $activity)
                             <li x-show="match($el)" data-type="{{ $activity->type }}"
                                 data-search="{{ \Illuminate\Support\Str::lower(\Illuminate\Support\Str::ascii(implode(' ', array_filter((array) $activity->getTranslations('name'))))) }} {{ mb_strtolower($activity->name) }}"
                                 x-init="$el.dataset.search = norm($el.dataset.search)">
-                                <a href="{{ route('activities.show', $activity->slug) }}"
-                                    class="group flex h-full flex-row overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200/80 transition duration-500 sm:flex-col sm:rounded-3xl ease-[cubic-bezier(0.22,1,0.36,1)]
-                                           shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_36px_-24px_rgba(15,23,42,0.3)] hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-28px_rgba(15,23,42,0.45)]">
-                                    <div class="relative min-h-[7.5rem] w-[36%] shrink-0 self-stretch overflow-hidden bg-slate-100 sm:aspect-[4/3] sm:min-h-0 sm:w-auto">
-                                        @if ($activity->cover)
-                                            <x-cover-fit :src="$activity->cover->url('sm')" :alt="$activity->name" loading="lazy" decoding="async"
-                                                class="absolute inset-0 h-full w-full transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]" />
-                                        @endif
-                                    </div>
-                                    <div class="flex min-w-0 flex-1 flex-col p-3.5 sm:p-5">
-                                        <div class="flex flex-wrap items-center gap-1.5">
-                                            <span @class(['rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide sm:px-2 sm:text-[11px]',
-                                                          'bg-[#C62E2E] text-white' => $activity->type === 'pass', 'bg-slate-900 text-white' => $activity->type !== 'pass'])>{{ $badge($activity->type) }}</span>
+                                <a href="{{ route('activities.show', $activity->slug) }}" class="group block h-full">
+                                    {{-- telefon: blog kartı gibi (resim üstte, rozetler resmin üstünde, altında başlık) --}}
+                                    <div class="sm:hidden">
+                                        <div class="relative aspect-[4/3] overflow-hidden rounded-2xl bg-slate-200 ring-1 ring-slate-900/5">
+                                            @if ($activity->cover)
+                                                <x-cover-fit :src="$activity->cover->url('sm')" :alt="$activity->name" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full" />
+                                            @endif
+                                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-transparent"></div>
+                                            <span @class(['absolute left-2 top-2 max-w-[85%] truncate rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide shadow-sm rtl:left-auto rtl:right-2',
+                                                'bg-[#C62E2E] text-white' => $activity->type === 'pass', 'bg-white/90 text-slate-900 backdrop-blur' => $activity->type !== 'pass'])>{{ $badge($activity->type) }}</span>
                                             @if ($activity->audio_guide)
-                                                <span class="inline-flex items-center gap-1 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-semibold text-amber-800 ring-1 ring-amber-200 sm:px-2 sm:text-[11px]">
-                                                    <svg class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><path d="M4 15a2 2 0 0 1 2-2h1v7H6a2 2 0 0 1-2-2zM20 15a2 2 0 0 0-2-2h-1v7h1a2 2 0 0 0 2-2z"/></svg>
+                                                <span class="absolute bottom-2 left-2 inline-flex items-center gap-1 text-[10px] font-semibold text-white/90 rtl:left-auto rtl:right-2">
+                                                    <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><path d="M4 15a2 2 0 0 1 2-2h1v7H6a2 2 0 0 1-2-2zM20 15a2 2 0 0 0-2-2h-1v7h1a2 2 0 0 0 2-2z"/></svg>
                                                     {{ __('activities-page.audio') }}
                                                 </span>
                                             @endif
-                                            <span class="ml-auto hidden text-xs font-medium text-slate-400 sm:inline rtl:ml-0 rtl:mr-auto">{{ $activity->city?->name }}</span>
                                         </div>
-                                        <h3 class="mt-2 text-[15px] font-bold leading-snug text-slate-900 line-clamp-2 sm:mt-3 sm:text-base">{{ $activity->name }}</h3>
-                                        <span class="mt-auto flex items-center justify-between pt-2.5 text-[13px] font-semibold sm:border-t sm:border-slate-100 sm:pt-4 sm:text-sm">
-                                            <span class="text-[#C62E2E]">{{ __('activities-page.details') }}</span>
-                                            <span class="grid size-7 place-items-center rounded-full bg-slate-100 text-slate-700 transition duration-300 group-hover:bg-[#C62E2E] group-hover:text-white sm:size-8">
-                                                <svg class="size-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                                        <p class="mt-2.5 text-xs font-medium text-slate-400">{{ $activity->city?->name }}</p>
+                                        <h3 class="mt-0.5 line-clamp-3 text-sm font-bold leading-snug text-slate-900">{{ $activity->name }}</h3>
+                                    </div>
+
+                                    {{-- tablet ve üstü: beyaz kart --}}
+                                    <div class="hidden h-full flex-col overflow-hidden rounded-3xl bg-white ring-1 ring-slate-200/80 transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:flex
+                                                shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_36px_-24px_rgba(15,23,42,0.3)] group-hover:-translate-y-1.5 group-hover:shadow-[0_28px_60px_-28px_rgba(15,23,42,0.45)]">
+                                        <div class="relative aspect-[4/3] overflow-hidden bg-slate-100">
+                                            @if ($activity->cover)
+                                                <x-cover-fit :src="$activity->cover->url('sm')" :alt="$activity->name" loading="lazy" decoding="async"
+                                                    class="absolute inset-0 h-full w-full transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]" />
+                                            @endif
+                                        </div>
+                                        <div class="flex flex-1 flex-col p-5">
+                                            <div class="flex flex-wrap items-center gap-1.5">
+                                                <span @class(['rounded-md px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide',
+                                                              'bg-[#C62E2E] text-white' => $activity->type === 'pass', 'bg-slate-900 text-white' => $activity->type !== 'pass'])>{{ $badge($activity->type) }}</span>
+                                                @if ($activity->audio_guide)
+                                                    <span class="inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-800 ring-1 ring-amber-200">
+                                                        <svg class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><path d="M4 15a2 2 0 0 1 2-2h1v7H6a2 2 0 0 1-2-2zM20 15a2 2 0 0 0-2-2h-1v7h1a2 2 0 0 0 2-2z"/></svg>
+                                                        {{ __('activities-page.audio') }}
+                                                    </span>
+                                                @endif
+                                                <span class="ml-auto text-xs font-medium text-slate-400 rtl:ml-0 rtl:mr-auto">{{ $activity->city?->name }}</span>
+                                            </div>
+                                            <h3 class="mt-3 text-base font-bold leading-snug text-slate-900 line-clamp-2">{{ $activity->name }}</h3>
+                                            <span class="mt-auto flex items-center justify-between border-t border-slate-100 pt-4 text-sm font-semibold">
+                                                <span class="text-[#C62E2E]">{{ __('activities-page.details') }}</span>
+                                                <span class="grid size-8 place-items-center rounded-full bg-slate-100 text-slate-700 transition duration-300 group-hover:bg-[#C62E2E] group-hover:text-white">
+                                                    <svg class="size-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                                                </span>
                                             </span>
-                                        </span>
+                                        </div>
                                     </div>
                                 </a>
                             </li>

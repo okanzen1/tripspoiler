@@ -336,7 +336,7 @@
 
         {{-- ALT SATIR: rakamlar, sayfanın tam genişliğinde dört eşit parça (bizi takip et yukarıda, düğmelerin karşısında) --}}
         <div style="--d: 560ms" class="hero-reveal mt-8 grid items-center gap-6 lg:mt-[clamp(10px,2.6vh,40px)] lg:grid-cols-12 lg:gap-10">
-        <dl class="grid grid-cols-4 gap-x-2 divide-x divide-white/20 md:divide-white/25 lg:col-span-12">
+        <dl class="flex items-center justify-between gap-2 lg:col-span-12">
             @foreach ([
                 ['value' => $stats['experiences'], 'num' => $stats['experiences'], 'label' => __('home-hero.stat_experiences'),
                  'icon' => '<path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1.5a2.5 2.5 0 0 0 0 5V16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1.5a2.5 2.5 0 0 0 0-5z"/><path d="M14 6v12" stroke-dasharray="2 2"/>'],
@@ -347,7 +347,11 @@
                 ['value' => $stats['languages'], 'num' => $stats['languages'], 'label' => __('home-hero.stat_languages'),
                  'icon' => '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>'],
             ] as $stat)
-                <div class="flex flex-col items-center gap-1 px-1 text-center md:flex-row md:justify-center md:gap-3 md:px-5 md:text-left xl:px-6">
+                @unless ($loop->first)
+                    {{-- ayırıcı çizgi: iki rakamın tam ortasında --}}
+                    <span class="h-10 w-px shrink-0 bg-white/20 md:bg-white/25" aria-hidden="true"></span>
+                @endunless
+                <div class="flex flex-col items-center gap-1 text-center md:flex-row md:gap-3 md:text-left">
                     {{-- ikonlar soldan sağa dalga gibi sırayla zıplar; rakamlar sayfa açılınca 0'dan sayar --}}
                     <svg style="--d: {{ $loop->index * 0.35 }}s" class="social-bob hidden md:block w-7 h-7 shrink-0 text-[#E0393E]" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">{!! $stat['icon'] !!}</svg>
