@@ -142,8 +142,8 @@
         <div class="relative z-10 mx-auto -mt-14 max-w-5xl px-4 pb-8 sm:-mt-16 md:-mt-20 md:pb-10">
             <div class="rounded-[24px] bg-white p-6 text-slate-900 ring-1 ring-slate-900/5 shadow-[0_40px_90px_-45px_rgba(15,23,42,0.5)] sm:rounded-[28px] sm:p-8 md:rounded-[32px] md:p-10">
                 <div class="grid gap-7 lg:grid-cols-12 lg:gap-10">
-                    {{-- sol: başlık ve özet --}}
-                    <div class="lg:col-span-8">
+                    {{-- sol: başlık ve özet (yazıya ürün bağlanmadıysa sağ sütun yok, tam genişlik) --}}
+                    <div @class(['lg:col-span-8' => $previewActivity, 'lg:col-span-12' => !$previewActivity])>
                         <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
                             <span class="inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
                                 <span class="h-px w-8 shrink-0 bg-[#C62E2E]"></span>
@@ -182,6 +182,7 @@
                     </div>
 
                     {{-- sağ (çizgiyle ayrılmış): editörün seçimi (zeminsiz), büyük resimli --}}
+                    @if ($previewActivity)
                     <aside class="flex flex-col gap-6 border-t border-slate-100 pt-6 lg:col-span-4 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0 rtl:lg:border-l-0 rtl:lg:border-r rtl:lg:pl-0 rtl:lg:pr-8">
                         @if ($previewActivity)
                             <div>
@@ -247,6 +248,7 @@
                         @endif
 
                     </aside>
+                    @endif
                 </div>
             </div>
         </div>
