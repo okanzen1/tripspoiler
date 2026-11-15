@@ -431,55 +431,76 @@
                     </div>
                 </section>
             @elseif ($activityCount > 1)
+                {{-- birden fazla ürün: tek üründeki koyu kutuyla aynı dil (ışık lekeleri, nokta deseni), içinde cam kartlar --}}
                 <section id="activitiesSection" class="scroll-mt-24 bg-white pb-12 md:pb-16">
                     <div class="mx-auto max-w-7xl px-4">
-                        <div>
-                            <p class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">
-                                <span class="h-px w-7 shrink-0 bg-[#C62E2E]"></span>
-                                {{ __('blog.editors_picks') }}
-                            </p>
-                            <h2 class="mt-2 text-2xl font-extrabold tracking-[-0.02em] text-slate-900 md:text-[32px]">
-                                {{ $activityCount }} {{ __('blog.experiences') }}
-                            </h2>
-                        </div>
+                        <div class="relative isolate overflow-hidden rounded-[28px] bg-[#0F1420] p-5 text-white shadow-[0_40px_80px_-40px_rgba(15,23,42,0.8)] sm:p-8 lg:p-10">
+                            <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+                                <div class="absolute inset-0 opacity-[0.06] [background-image:radial-gradient(rgba(255,255,255,.9)_1px,transparent_1px)] [background-size:22px_22px]"></div>
+                                <div class="absolute -right-32 -top-40 size-[30rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.45),transparent_65%)]"></div>
+                                <div class="absolute -bottom-40 -left-24 size-[26rem] rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.2),transparent_65%)]"></div>
+                            </div>
 
-                        <div class="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-5">
-                            @foreach ($blog->activities as $activity)
-                                <div class="group flex flex-row overflow-hidden rounded-[20px] bg-white ring-1 ring-slate-200/80 shadow-[0_22px_55px_-40px_rgba(15,23,42,0.45)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_30px_70px_-40px_rgba(15,23,42,0.5)] lg:rounded-[26px]">
-                                    <a href="{{ $activityUrl($activity) }}" class="relative w-[32%] shrink-0 self-stretch overflow-hidden bg-slate-100 sm:w-[38%] lg:w-[42%]">
-                                        <img loading="lazy" decoding="async"
-                                            src="{{ $activity->cover?->url() ?? asset('images/all-activities-cover.webp') }}"
-                                            alt="{{ $activity->name }}"
-                                            class="absolute inset-0 h-full w-full object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]">
-                                    </a>
-                                    <div class="flex min-w-0 flex-1 flex-col p-4 sm:p-5 lg:p-6">
-                                        <p class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">
-                                            <svg class="size-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-                                            {{ $activity->city?->name }}
-                                        </p>
-                                        <h3 class="mt-1.5 line-clamp-3 text-base font-extrabold leading-snug tracking-[-0.01em] text-slate-900 lg:mt-2 lg:text-lg">
-                                            <a href="{{ $activityUrl($activity) }}" class="transition hover:text-[#C62E2E]">{{ $activity->name }}</a>
-                                        </h3>
-                                        @if ($chips = array_slice($activityChips($activity), 0, 3))
-                                            <ul class="mt-2.5 flex flex-wrap gap-1.5">
-                                                @foreach ($chips as [$chip, $star])
-                                                    <li @class(['rounded-full px-2 py-0.5 text-[11px] font-bold', 'bg-amber-50 text-amber-700' => $star, 'bg-slate-100 text-slate-600' => !$star])>{{ $chip }}</li>
-                                                @endforeach
-                                            </ul>
-                                        @endif
-                                        <div class="mt-auto flex flex-wrap items-center gap-2 pt-4">
-                                            <a href="{{ $activityUrl($activity) }}" class="inline-flex min-h-[38px] items-center gap-1.5 rounded-full bg-[#C62E2E] px-4 text-[13px] font-bold text-white transition hover:bg-[#A82424]">
-                                                {{ __('blog.see_details') }} {!! $arrowIcon !!}
-                                            </a>
-                                            @if ($activity->affiliate_url)
-                                                <a href="{{ $activity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener" class="inline-flex min-h-[38px] items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-amber-500 px-3.5 text-[13px] font-extrabold text-slate-950 transition hover:from-amber-200 hover:to-amber-400">
-                                                    {{ __('blog.buy_tickets') }} {!! $extIcon !!}
-                                                </a>
+                            <div class="flex flex-wrap items-end justify-between gap-4">
+                                <div>
+                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-950 shadow-lg">
+                                        <svg class="size-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6l-5.4 2.9 1.2-6-4.5-4.2 6.1-.7Z"/></svg>
+                                        {{ __('blog.editors_picks') }}
+                                    </span>
+                                    <h2 class="mt-3 text-2xl font-extrabold tracking-[-0.02em] md:text-[34px]">
+                                        {{ $activityCount }} <span class="text-[#FF6B6E]">{{ __('blog.experiences') }}</span>
+                                    </h2>
+                                </div>
+                                @if ($blog->city)
+                                    <p class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white/50">
+                                        <svg class="size-3.5 shrink-0 text-[#FF6B6E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                                        {{ $blog->city->name }}@if ($blog->city->country?->name)<span class="text-white/25">·</span>{{ $blog->city->country->name }}@endif
+                                    </p>
+                                @endif
+                            </div>
+
+                            <div class="mt-6 grid gap-4 sm:mt-8 md:grid-cols-2 lg:gap-6">
+                                @foreach ($blog->activities as $activity)
+                                    <div class="group flex flex-col overflow-hidden rounded-[22px] bg-white/[0.05] ring-1 ring-white/10 backdrop-blur transition duration-300 hover:-translate-y-1 hover:bg-white/[0.08] hover:ring-white/20">
+                                        <a href="{{ $activityUrl($activity) }}" class="relative block aspect-[16/9] overflow-hidden bg-slate-800">
+                                            <img loading="lazy" decoding="async"
+                                                src="{{ $activity->cover?->url() ?? asset('images/all-activities-cover.webp') }}"
+                                                alt="{{ $activity->name }}"
+                                                class="absolute inset-0 h-full w-full object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]">
+                                            <span class="absolute inset-0 bg-gradient-to-t from-[#0F1420]/70 via-transparent to-transparent"></span>
+                                            <span class="absolute left-4 top-4 grid size-9 place-items-center rounded-full bg-white/90 text-sm font-extrabold tabular-nums text-slate-900 shadow-lg rtl:left-auto rtl:right-4">{{ $loop->iteration }}</span>
+                                            @if ($activity->city)
+                                                <span class="absolute bottom-3 left-4 inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white/85 rtl:left-auto rtl:right-4">
+                                                    <svg class="size-3.5 shrink-0 text-[#FF8A8C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                                                    {{ $activity->city->name }}
+                                                </span>
                                             @endif
+                                        </a>
+                                        <div class="flex flex-1 flex-col p-5 lg:p-6">
+                                            <h3 class="line-clamp-2 text-lg font-extrabold leading-snug tracking-[-0.01em] lg:text-xl">
+                                                <a href="{{ $activityUrl($activity) }}" class="transition hover:text-[#FF8A8C]">{{ $activity->name }}</a>
+                                            </h3>
+                                            @if ($chips = array_slice($activityChips($activity), 0, 3))
+                                                <ul class="mt-3 flex flex-wrap gap-2">
+                                                    @foreach ($chips as [$chip, $star])
+                                                        <li @class(['rounded-full px-2.5 py-1 text-[11px] font-bold ring-1', 'bg-amber-400/15 text-amber-300 ring-amber-300/25' => $star, 'bg-white/[0.07] text-white/80 ring-white/10' => !$star])>{{ $chip }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                            <div class="mt-auto flex flex-wrap items-center gap-2.5 pt-5">
+                                                <a href="{{ $activityUrl($activity) }}" class="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-[#C62E2E] px-5 text-sm font-bold text-white shadow-[0_14px_30px_-12px_rgba(198,46,46,0.9)] transition hover:bg-[#A82424]">
+                                                    {{ __('blog.see_details') }} {!! $arrowIcon !!}
+                                                </a>
+                                                @if ($activity->affiliate_url)
+                                                    <a href="{{ $activity->affiliate_url }}" target="_blank" rel="nofollow sponsored noopener" class="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-amber-500 px-5 text-sm font-extrabold text-slate-950 shadow-[0_14px_30px_-12px_rgba(245,158,11,0.9)] transition hover:from-amber-200 hover:to-amber-400">
+                                                        {{ __('blog.buy_tickets') }} {!! $extIcon !!}
+                                                    </a>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </section>
