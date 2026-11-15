@@ -211,7 +211,7 @@
                     });
                 },
                 norm(t) { return String(t).toLocaleLowerCase('tr').replace(/ı/g, 'i').normalize('NFD').replace(/[̀-ͯ]/g, '') },
-                // "Aradığını bulamadın mı?" kartı: sekmesi seçilmişse yalnızca o sekmede; genel kart her sekmede,
+                // Aradığını bulamadın mı kartı: sekmesi seçilmişse yalnızca o sekmede; genel kart her sekmede,
                 // ama o sekmeye aynı partnerin özel kartı varsa onun yerine özel kart çıkar
                 extraShown(el) {
                     const own = el.dataset.extraType || '';
