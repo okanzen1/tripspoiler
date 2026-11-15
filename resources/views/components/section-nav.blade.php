@@ -221,15 +221,18 @@
                 </div>
             </nav>
 
-            {{-- düğme: okunan bölümün ikonu --}}
+            {{-- düğme: yazılı hap ("☰ Bölümler") — menü olduğu ilk bakışta anlaşılsın; solda okunan bölümün ikonu --}}
             <button type="button" @click="open = !open" :aria-expanded="open" aria-label="{{ __('section-nav.title') }}"
-                class="relative grid size-14 place-items-center rounded-full bg-[#C62E2E] text-white shadow-[0_16px_36px_-10px_rgba(198,46,46,0.75)] ring-4 ring-white transition active:scale-95">
-                @foreach ($items as [$key, $label, $icon])
-                    <span x-show="!open && active === @js($key)" class="absolute inset-0 grid place-items-center [&_svg]:size-6">{!! $icon !!}</span>
-                @endforeach
-                <svg x-show="open" x-cloak class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-                <span x-show="!open" class="absolute -left-1 -top-1 grid size-5 place-items-center rounded-full bg-slate-900 text-white ring-2 ring-white rtl:-right-1 rtl:left-auto">
-                    <svg class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                class="relative inline-flex h-14 items-center gap-2.5 rounded-full bg-[#C62E2E] py-2 pl-2 pr-5 text-white shadow-[0_16px_36px_-10px_rgba(198,46,46,0.75)] ring-4 ring-white transition active:scale-95 rtl:pl-5 rtl:pr-2">
+                <span class="relative grid size-10 shrink-0 place-items-center rounded-full bg-white/15">
+                    @foreach ($items as [$key, $label, $icon])
+                        <span x-show="!open && active === @js($key)" class="absolute inset-0 grid place-items-center [&_svg]:size-[22px]">{!! $icon !!}</span>
+                    @endforeach
+                    <svg x-show="open" x-cloak class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </span>
+                <span class="flex items-center gap-1.5 text-sm font-extrabold">
+                    <svg x-show="!open" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                    <span x-text="open ? @js(__('section-nav.close')) : @js(__('section-nav.button'))">{{ __('section-nav.button') }}</span>
                 </span>
             </button>
         </div>

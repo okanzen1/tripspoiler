@@ -3,6 +3,8 @@
 // Telefondaki bölüm kılavuzu (components/section-nav)
 return [
     'title' => 'Bu sayfada',
+    'button' => 'Bölümler',
+    'close' => 'Kapat',
     'top' => 'Başa dön',
     'popular' => 'Popüler aktiviteler',
     'blog' => 'Blog yazıları',

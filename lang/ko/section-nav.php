@@ -3,6 +3,8 @@
 // Telefondaki bölüm kılavuzu (components/section-nav)
 return [
     'title' => '이 페이지',
+    'button' => '섹션',
+    'close' => '닫기',
     'top' => '맨 위로',
     'popular' => '인기 액티비티',
     'blog' => '블로그 글',

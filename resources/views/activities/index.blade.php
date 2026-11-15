@@ -235,14 +235,21 @@
                         ];
                     @endphp
                     <div class="relative flex flex-col gap-2 overflow-hidden rounded-[22px] bg-white p-2 shadow-[0_18px_44px_-28px_rgba(15,23,42,0.35)] ring-1 ring-slate-200/80 lg:flex-row lg:items-center">
-                        <div class="-mx-2 flex shrink-0 gap-1 overflow-x-auto px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:px-0">
-                            @foreach (array_merge(['all' => $activities->count()], $typeCounts->all()) as $t => $n)
+                        {{-- sekmeler: telefonda eşit genişlikte bölmeli kutu (ikon üstte, yazı altta; taşmaz), büyük ekranda yan yana hap --}}
+                        @php $tabs = array_merge(['all' => $activities->count()], $typeCounts->all()); @endphp
+                        <div @class(['grid shrink-0 gap-1 rounded-2xl bg-slate-100/80 p-1 lg:flex lg:bg-transparent lg:p-0',
+                            [1 => 'grid-cols-1', 2 => 'grid-cols-2', 3 => 'grid-cols-3', 4 => 'grid-cols-4'][count($tabs)] ?? 'grid-cols-4'])>
+                            @foreach ($tabs as $t => $n)
                                 <button type="button" @click="pick('{{ $t }}')"
-                                    :class="tab === '{{ $t }}' ? 'bg-[#C62E2E] text-white shadow-[0_10px_24px_-10px_rgba(198,46,46,0.7)]' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'"
-                                    class="inline-flex shrink-0 items-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold transition">
-                                    <svg class="size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{!! $tabIcons[$t] ?? $tabIcons['product'] !!}</svg>
-                                    {{ $t === 'all' ? __('activities-page.all') : $typeLabel($t) }}
-                                    <span :class="tab === '{{ $t }}' ? 'text-white/75' : 'text-slate-400'" class="text-xs font-bold">{{ $n }}</span>
+                                    :class="tab === '{{ $t }}' ? 'bg-[#C62E2E] text-white shadow-[0_10px_24px_-10px_rgba(198,46,46,0.7)]' : 'text-slate-600 hover:bg-white hover:text-slate-900 lg:hover:bg-slate-50'"
+                                    class="flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1.5 py-2.5 text-xs font-semibold transition lg:flex-row lg:gap-2 lg:rounded-2xl lg:px-4 lg:py-3 lg:text-sm">
+                                    <span class="relative">
+                                        <svg class="size-5 lg:size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{!! $tabIcons[$t] ?? $tabIcons['product'] !!}</svg>
+                                        {{-- telefonda sayı ikonun köşesinde --}}
+                                        <span :class="tab === '{{ $t }}' ? 'bg-white text-[#C62E2E]' : 'bg-slate-900 text-white'" class="absolute -right-3 -top-2 grid h-4 min-w-4 place-items-center rounded-full px-1 text-[10px] font-bold leading-none lg:hidden">{{ $n }}</span>
+                                    </span>
+                                    <span class="max-w-full truncate">{{ $t === 'all' ? __('activities-page.all') : $typeLabel($t) }}</span>
+                                    <span :class="tab === '{{ $t }}' ? 'text-white/75' : 'text-slate-400'" class="hidden text-xs font-bold lg:inline">{{ $n }}</span>
                                 </button>
                             @endforeach
                         </div>
