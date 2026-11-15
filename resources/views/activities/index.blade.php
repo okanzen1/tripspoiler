@@ -367,7 +367,7 @@
                                     : __('activities-page.more_text', ['city' => $city?->name]);
                             @endphp
                             <li data-extra data-extra-type="{{ $more->type }}" data-partner="{{ $more->partner_id }}" x-show="match($el)" class="h-full">
-                                <a href="{{ $more->url }}" target="_blank" rel="nofollow sponsored noopener"
+                                <a href="{{ $more->targetUrl() }}" target="_blank" rel="nofollow sponsored noopener"
                                     class="group relative isolate flex h-full min-h-[15rem] flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-[#1f2a4d] to-[#C62E2E] p-4 text-white shadow-[0_18px_40px_-22px_rgba(198,46,46,0.8)] ring-1 ring-white/10 transition duration-500 hover:-translate-y-1.5 sm:min-h-[22rem] sm:rounded-3xl sm:p-6">
                                     @if ($moreImage = $more->imageUrl('sm'))
                                         {{-- panelden yüklenen resim arka planda, üstünde koyu geçiş (yazılar okunsun) --}}
