@@ -86,7 +86,9 @@
             },
             has(key) { return key === 'top' || this.present.includes(key) },
             update() {
-                this.show = true; // sayfa açılır açılmaz görünür (rehber yazılarında da)
+                // sayfa açılır açılmaz görünür (rehber yazılarında da); anasayfada ise hero geçilince çıkar (hero'daki düğmelerin üstüne binmesin)
+                const hero = {{ $page === 'home' ? 'true' : 'false' }} ? document.querySelector('[data-dock-start]') : null;
+                this.show = !hero || hero.getBoundingClientRect().bottom < window.innerHeight - 110; // düğmenin durduğu alt köşe hero'dan tamamen çıkınca
                 let current = 'top';
                 for (const el of document.querySelectorAll('[data-nav-section]')) {
                     if (el.offsetHeight > 0 && el.getBoundingClientRect().top < window.innerHeight * 0.4) current = el.dataset.navSection;

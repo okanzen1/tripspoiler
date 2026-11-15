@@ -342,8 +342,8 @@
             @endforeach
         </dl>
 
-        {{-- sosyal medya (App\Support\Socials): cam kutu, markaların kendi renkleri --}}
-        <div class="lg:col-span-5">
+        {{-- sosyal medya (App\Support\Socials): cam kutu, markaların kendi renkleri — yalnızca masaüstü (telefonda düğmelerin altında) --}}
+        <div class="hidden lg:block lg:col-span-5">
             <div class="social-sweep relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl p-3 pl-5 ring-1 ring-white/15 lg:ml-auto lg:max-w-[clamp(280px,44vh,420px)]">
                 <p class="min-w-0 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">{{ __('footer.follow') }}</p>
                 <div class="flex shrink-0 items-center gap-2.5">
