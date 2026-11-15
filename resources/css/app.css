@@ -31,10 +31,16 @@
   animation: announcementScroll var(--announcement-duration, 40s) linear infinite;
 }
 
-.announcement-bar:hover .announcement-track,
-.announcement-bar:focus-within .announcement-track,
-.rates-bar:hover .announcement-track,
-.rates-bar:focus-within .announcement-track {
+/* Okunabilsin diye durur: fareyle üzerine gelince (dokunmatik ekranda değil, orada "hover" takılı kalır)
+   ve klavyeyle içindeki bir bağlantıya gelince. Tıklamak / dokunmak durdurmaz (yeni sekmede açılan bağlantıda odak takılı kalıyordu). */
+@media (hover: hover) {
+  .announcement-bar:hover .announcement-track,
+  .rates-bar:hover .announcement-track {
+    animation-play-state: paused;
+  }
+}
+.announcement-bar:has(:focus-visible) .announcement-track,
+.rates-bar:has(:focus-visible) .announcement-track {
   animation-play-state: paused;
 }
 
