@@ -162,10 +162,11 @@
                 // 0 olan kutu gösterilmez; tek kalan kutu tam genişlik olur
                 $statCards = array_values(array_filter($statCards, fn ($card) => ($stats[$card[0]] ?? 0) > 0));
             @endphp
-            {{-- cam kartlar: eşit iki sütun; tek sayıda kart kalırsa sonuncusu iki sütunu kaplar --}}
-            <dl class="grid grid-cols-2 gap-3 self-end lg:col-span-5">
+            {{-- şeffaf kartlar: tabletten itibaren hepsi yan yana, eşit genişlikte (sayfanın tam genişliği);
+                 telefonda iki sütun, tek sayıda kalırsa sonuncusu iki sütunu kaplar --}}
+            <dl @class(['grid grid-cols-2 gap-3 lg:col-span-12 lg:gap-4', [1 => 'sm:grid-cols-1', 2 => 'sm:grid-cols-2', 3 => 'sm:grid-cols-3', 4 => 'sm:grid-cols-4'][count($statCards)] ?? 'sm:grid-cols-4'])>
                 @foreach ($statCards as [$k, $label, $grad, $glow, $icon])
-                    <div @class(['group relative flex min-w-0 items-center gap-3 overflow-hidden rounded-3xl bg-white/[0.04] p-3 ring-1 ring-white/20 backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:ring-white/35 sm:gap-4 sm:p-3.5', 'col-span-2' => $loop->last && $loop->count % 2 === 1])>
+                    <div @class(['group relative flex min-w-0 items-center gap-3 overflow-hidden rounded-3xl p-3 ring-1 ring-white/20 transition duration-300 hover:-translate-y-0.5 hover:ring-white/35 sm:gap-4 sm:p-3.5', 'col-span-2 sm:col-span-1' => $loop->last && $loop->count % 2 === 1])>
                         <span class="pointer-events-none absolute -right-6 -top-6 size-20 rounded-full {{ $glow }} opacity-25 blur-2xl transition group-hover:opacity-40"></span>
                         <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br {{ $grad }} text-white shadow-[0_10px_24px_-10px_rgba(0,0,0,0.7)] sm:size-14">
                             <svg class="size-6 sm:size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
