@@ -76,6 +76,9 @@
 @if (true)
     <div x-data="{
             show: false, open: false, enough: false, active: 'top', present: [], lift: 0,
+            // küçültülmüş düğme (yalnızca yuvarlak ikon); seçim tarayıcıda hatırlanır
+            mini: (() => { try { return localStorage.getItem('ts-nav-mini') === '1' } catch { return false } })(),
+            setMini(v) { this.mini = v; this.open = false; try { localStorage.setItem('ts-nav-mini', v ? '1' : '0') } catch {} },
             init() {
                 // sayfada gerçekten çizilen (boş olmayan) bölümler
                 this.present = [...document.querySelectorAll('[data-nav-section]')].filter((el) => el.offsetHeight > 0).map((el) => el.dataset.navSection);
@@ -221,20 +224,33 @@
                 </div>
             </nav>
 
-            {{-- düğme: yazılı hap ("☰ Bölümler") — menü olduğu ilk bakışta anlaşılsın; solda okunan bölümün ikonu --}}
-            <button type="button" @click="open = !open" :aria-expanded="open" aria-label="{{ __('section-nav.title') }}"
-                class="relative inline-flex h-14 items-center gap-2.5 rounded-full bg-[#C62E2E] py-2 pl-2 pr-5 text-white shadow-[0_16px_36px_-10px_rgba(198,46,46,0.75)] ring-4 ring-white transition active:scale-95 rtl:pl-5 rtl:pr-2">
-                <span class="relative grid size-10 shrink-0 place-items-center rounded-full bg-white/15">
-                    @foreach ($items as [$key, $label, $icon])
-                        <span x-show="!open && active === @js($key)" class="absolute inset-0 grid place-items-center [&_svg]:size-[22px]">{!! $icon !!}</span>
-                    @endforeach
-                    <svg x-show="open" x-cloak class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-                </span>
-                <span class="flex items-center gap-1.5 text-sm font-extrabold">
-                    <svg x-show="!open" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-                    <span x-text="open ? @js(__('section-nav.close')) : @js(__('section-nav.button'))">{{ __('section-nav.button') }}</span>
-                </span>
-            </button>
+            {{-- düğme: yazılı hap ("☰ Bölümler", altı çizili, yukarı ok) — menü olduğu ilk bakışta anlaşılsın; solda okunan bölümün ikonu.
+                 Köşedeki "–" ile küçültülür (yalnızca yuvarlak ikon kalır), "+" ile yeniden açılır. --}}
+            <div class="relative">
+                <button type="button" @click="open = !open" :aria-expanded="open" aria-label="{{ __('section-nav.title') }}"
+                    :class="mini && !open ? 'pr-2 rtl:pl-2' : 'pr-4 rtl:pl-4'"
+                    class="group relative inline-flex h-14 items-center gap-2.5 rounded-full bg-[#C62E2E] py-2 pl-2 text-white shadow-[0_16px_36px_-10px_rgba(198,46,46,0.75)] ring-4 ring-white transition-all duration-300 active:scale-95 rtl:pr-2">
+                    <span class="relative grid size-10 shrink-0 place-items-center rounded-full bg-white/15">
+                        @foreach ($items as [$key, $label, $icon])
+                            <span x-show="!open && active === @js($key)" class="absolute inset-0 grid place-items-center [&_svg]:size-[22px]">{!! $icon !!}</span>
+                        @endforeach
+                        <svg x-show="open" x-cloak class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                    </span>
+                    <span x-show="!mini || open" class="flex items-center gap-1.5 text-sm font-extrabold">
+                        <svg x-show="!open" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                        {{-- altı çizili: tıklanabilir olduğu belli olsun --}}
+                        <span class="underline decoration-white/60 decoration-2 underline-offset-4 group-hover:decoration-white" x-text="open ? @js(__('section-nav.close')) : @js(__('section-nav.button'))">{{ __('section-nav.button') }}</span>
+                        {{-- yukarı ok: menü yukarı doğru açılır --}}
+                        <svg x-show="!open" class="size-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg>
+                    </span>
+                </button>
+                {{-- küçült / büyüt --}}
+                <button type="button" x-show="!open" @click.stop="setMini(!mini)" :aria-label="mini ? @js(__('section-nav.button')) : @js(__('section-nav.close'))"
+                    class="absolute -left-2 -top-2 grid size-6 place-items-center rounded-full bg-slate-900 text-white shadow ring-2 ring-white transition hover:bg-slate-700 rtl:-right-2 rtl:left-auto">
+                    <svg x-show="!mini" class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 12h12"/></svg>
+                    <svg x-show="mini" x-cloak class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg>
+                </button>
+            </div>
         </div>
     </div>
 @endif
