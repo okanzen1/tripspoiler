@@ -80,6 +80,9 @@
                 class="relative z-10 flex shrink-0 items-center bg-slate-950 pl-2 pr-1 text-[11px] text-white/35 transition hover:text-white/70">
                 {{ __('rates-bar.source') }}
             </a>
+            {{-- dünya hava durumu: silindir gibi dönen kutular (sayfa açıldıktan sonra arka planda yüklenir; gelmezse yer kaplamaz) --}}
+            <div class="relative z-10 flex shrink-0 items-stretch border-l border-white/10 bg-slate-950 empty:hidden" dir="ltr"
+                x-data x-init="fetch(@js(route('weather.ticker', ['l' => app()->getLocale(), 'v' => \App\Http\Controllers\WeatherTickerController::VERSION], false))).then((r) => r.ok ? r.text() : '').then((html) => { if (html.trim()) $el.innerHTML = html }).catch(() => {})"></div>
             <button type="button" @click="dismiss()" aria-label="{{ __('announcement-bar.close') }}"
                 class="relative z-10 flex w-10 shrink-0 items-center justify-center bg-slate-950 text-white/60 transition hover:text-white">
                 <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>

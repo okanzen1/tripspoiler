@@ -5,9 +5,13 @@
 --}}
 @if ($announcements->isNotEmpty())
     @php
-        $repeat = (int) ceil(6 / $announcements->count());
+        // Bir kopya en geniş ekranı (~2400 px) dolduracak kadar tekrarlanır; kısa duyurularda sağda boşluk kalmasın.
+        // Tahmini genişlik: harf başına ~8 px + her öğede nokta ve boşluk ~70 px
+        $oneRound = max(1, $announcements->sum(fn ($a) => mb_strlen($a->text) * 8 + 70));
+        $repeat = max(1, (int) ceil(2400 / $oneRound));
         $items = collect(array_fill(0, $repeat, $announcements))->flatten(1);
-        $duration = max(25, $items->sum(fn ($a) => mb_strlen($a->text)) * 0.22);
+        // hız sabit kalsın: kopya ne kadar uzunsa süre o kadar uzun (~70 px/sn)
+        $duration = max(25, round($oneRound * $repeat / 70));
         $key = 'ts-announce-' . md5($announcements->map(fn ($a) => $a->id . $a->updated_at)->join('|'));
     @endphp
 
