@@ -143,7 +143,9 @@
                             <div class="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200 focus-within:ring-2 focus-within:ring-[#C62E2E]">
                                 <label for="rate-amount" class="text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">{{ __('rates-page.amount') }}</label>
                                 <div class="mt-1 flex items-center gap-3">
-                                    <input id="rate-amount" type="text" inputmode="decimal" x-model="amount" autocomplete="off"
+                                    {{-- yalnızca rakam ve tek ondalık ayracı (harf/sembol yazılamaz), en fazla 12 karakter --}}
+                                    <input id="rate-amount" type="text" inputmode="decimal" x-model="amount" autocomplete="off" maxlength="12"
+                                        x-on:input="amount = $event.target.value = $event.target.value.replace(/[^0-9.,]/g, '').replace(/([.,].*?)[.,]/g, '$1').slice(0, 12)"
                                         class="min-w-0 flex-1 border-0 bg-transparent p-0 text-3xl font-extrabold tabular-nums tracking-tight focus:ring-0">
                                     <select x-model="from" aria-label="{{ __('rates-page.from') }}"
                                         class="w-28 shrink-0 rounded-xl border-0 bg-white py-2 pl-3 pr-8 text-sm font-bold shadow-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-[#C62E2E] sm:w-32">

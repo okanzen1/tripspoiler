@@ -27,11 +27,12 @@ class NewsletterSubscribeController extends Controller
         $normalizedEmail = mb_strtolower(trim($validated['email']));
         $subscriber = BlogSubscriber::where('email_hash', BlogSubscriber::hash($normalizedEmail))->first();
 
+        // Zaten aboneyse de aynı cevap: kimse bir adresin listede olup olmadığını buradan öğrenemez
         if ($subscriber && !$subscriber->unsubscribed_at) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'This email is already subscribed.',
-            ], 409);
+                'status' => 'success',
+                'message' => 'You’re subscribed! We’ll notify you when a new post is published.',
+            ]);
         }
 
         // Daha önce abonelikten çıktıysa yeniden aktif olur

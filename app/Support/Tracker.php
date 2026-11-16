@@ -118,15 +118,34 @@ class Tracker
         $response->headers->setCookie(Cookie::create(self::SESSION_COOKIE, $session, now()->addMinutes(30), '/', null, $secure, true, false, Cookie::SAMESITE_LAX));
     }
 
-    /** Ziyaretçinin gerçek IP'si (Cloudflare arkasındaysa onun ilettiği) */
+    /** Ziyaretçinin gerçek IP'si (Cloudflare arkasındaysa onun ilettiği; başlık yalnızca Cloudflare / yerel ağdan gelirse geçerli) */
     public static function ip(Request $request): ?string
     {
         $cf = (string) $request->header('CF-Connecting-IP');
-        if ($request->hasHeader('CF-Ray') && filter_var($cf, FILTER_VALIDATE_IP)) {
+        if ($request->hasHeader('CF-Ray') && filter_var($cf, FILTER_VALIDATE_IP) && TrustedProxies::isProxy($request->server('REMOTE_ADDR'))) {
             return $cf;
         }
 
         return $request->ip();
+    }
+
+    /**
+     * Bildirim bizim sayfamızdan mı geldi: başka bir siteden (ya da tarayıcı dışı bir araçtan "cross-site" diye) gelen
+     * sahte görüntüleme / tıklama sayılmaz. Tarayıcı Origin göndermezse (eski tarayıcı) kabul edilir.
+     */
+    public static function sameOrigin(Request $request): bool
+    {
+        if ($request->headers->get('Sec-Fetch-Site') === 'cross-site') {
+            return false;
+        }
+        $origin = (string) $request->headers->get('Origin');
+        if ($origin === '' || $origin === 'null') {
+            return $origin === '';
+        }
+        $host = (string) parse_url($origin, PHP_URL_HOST);
+        $own = (string) parse_url((string) config('app.url'), PHP_URL_HOST);
+
+        return $host === $request->getHost() || ($own !== '' && in_array($host, [$own, 'www.' . $own], true));
     }
 
     /** Ortak alanlar: IP (şifreli + parmak izi, App\Support\Privacy; açık IP hiç yazılmaz), ülke ve şehir (IP'den; Cloudflare ülkesi varsa o), cihaz, tarayıcı, işletim sistemi, dil */

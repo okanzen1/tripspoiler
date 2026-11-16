@@ -21,7 +21,7 @@ class TrackViewController extends Controller
             'ref' => ['nullable', 'string', 'max:1000'],
             'wd' => ['nullable', 'in:0,1'],
         ]);
-        if (Tracker::isBot($request) || ($data['wd'] ?? '0') === '1') {
+        if (Tracker::isBot($request) || ($data['wd'] ?? '0') === '1' || !Tracker::sameOrigin($request)) {
             return response()->noContent();
         }
 

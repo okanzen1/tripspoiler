@@ -98,13 +98,14 @@ class SearchController extends Controller
      */
     private function words(string $query): array
     {
-        $query = str_replace('ı', 'i', mb_strtolower(trim($query)));
+        // Çok uzun / çok kelimeli aramalar veritabanını yormasın: en fazla 100 karakter, 6 kelime
+        $query = str_replace('ı', 'i', mb_strtolower(trim(mb_substr($query, 0, 100))));
         $query = preg_replace('/[^\p{L}\p{N}\s]/u', '', $query);
 
-        return array_values(array_filter(
+        return array_slice(array_values(array_filter(
             preg_split('/\s+/', $query),
             fn ($word) => mb_strlen($word) >= 2
-        ));
+        )), 0, 6);
     }
 
     /**

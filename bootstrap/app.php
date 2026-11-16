@@ -14,6 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Gerçek ziyaretçi IP'si: yalnızca Cloudflare / yerel ağdan gelen X-Forwarded-For'a güvenilir (hız sınırları kişi başına çalışsın)
+        $middleware->trustProxies(at: \App\Support\TrustedProxies::all(), headers: \Illuminate\Http\Request::HEADER_X_FORWARDED_FOR);
         $middleware->prepend(\App\Http\Middleware\CanonicalHost::class);
         $middleware->append(\App\Http\Middleware\CacheImages::class);
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);

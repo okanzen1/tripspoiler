@@ -17,7 +17,7 @@ class TrackClickController extends Controller
 {
     public function store(Request $request)
     {
-        if (Tracker::isBot($request)) {
+        if (Tracker::isBot($request) || !Tracker::sameOrigin($request)) {
             return response()->noContent();
         }
 
