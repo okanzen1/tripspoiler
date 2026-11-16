@@ -37,7 +37,7 @@ class Schema
     /** Sayfanın kanonik adresi: dil ön ekli, izleme parametreleri (utm_*, gclid…) olmadan */
     public static function canonical(?string $locale = null): string
     {
-        $url = \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getLocalizedURL($locale ?? app()->getLocale(), null, [], true);
+        $url = \App\Support\LocalUrl::to($locale ?? app()->getLocale());
 
         return self::stripTracking((string) $url);
     }

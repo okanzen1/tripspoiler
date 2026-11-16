@@ -218,7 +218,7 @@
                                             @endfor
                                         </span>
                                         @if ($review->activity)
-                                            <a href="{{ route('activities.show', $review->activity->slug) }}" class="inline-flex max-w-full items-center gap-1 truncate rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-semibold text-slate-600 transition hover:bg-[#C62E2E] hover:text-white">
+                                            <a href="{{ route('activities.show', $review->activity->localSlug()) }}" class="inline-flex max-w-full items-center gap-1 truncate rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-semibold text-slate-600 transition hover:bg-[#C62E2E] hover:text-white">
                                                 {!! \App\Support\FeatureIcons::svg('ticket', 'size-3') !!}<span class="truncate">{{ $review->activity->name }}</span>
                                             </a>
                                         @endif

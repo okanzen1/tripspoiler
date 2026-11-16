@@ -31,7 +31,7 @@ class SearchModal extends Component
                     'name' => $activity->name,
                     'subtitle' => $activity->city?->name,
                     'image' => $activity->cover?->url('sm'),
-                    'url' => route('activities.show', $activity->slug),
+                    'url' => route('activities.show', $activity->localSlug()),
                 ])->all(),
         ];
     }

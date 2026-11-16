@@ -56,7 +56,7 @@
         return $html . '</span>';
     };
     // Öneri kartları: "Detayları gör" bizim aktivite sayfasına, "Bilet al" doğrudan partnere (iki düğme)
-    $activityUrl = fn ($activity) => route('activities.show', ['slug' => $activity->slug]);
+    $activityUrl = fn ($activity) => route('activities.show', $activity->localSlug());
     $activityChips = function ($activity) {
         $rating = $activity->reviews()->reorder()->selectRaw('COUNT(*) as total, AVG(rating) as average')->first();
         return array_values(array_filter([
@@ -531,7 +531,7 @@
 
                 <div class="mt-7 grid gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($related as $post)
-                        <a href="{{ route('blog.show', $post->slug) }}" class="group block">
+                        <a href="{{ route('blog.show', $post->localSlug()) }}" class="group block">
                             <div class="relative aspect-[4/3] overflow-hidden rounded-[22px] bg-slate-200 ring-1 ring-slate-900/5">
                                 @if ($post->cover_path)
                                     <img src="{{ $post->coverUrl('sm') }}" alt="{{ $post->title }}" loading="lazy" decoding="async"

@@ -109,7 +109,7 @@
                                 @php
                                     $main = $blog->is($featured);
                                 @endphp
-                                <a href="{{ route('blog.show', $blog->slug) }}" class="group block">
+                                <a href="{{ route('blog.show', $blog->localSlug()) }}" class="group block">
                                     <div @class(['relative overflow-hidden rounded-t-full bg-slate-800 ring-1 ring-white/10 transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2',
                                         'aspect-[3/5]' => $main, 'aspect-[3/4]' => !$main])>
                                         <img src="{{ $main ? $blog->coverUrl() : $blog->coverUrl('sm') }}" alt="{{ $blog->title }}" @if ($main) fetchpriority="high" @else loading="lazy" @endif
@@ -231,7 +231,7 @@
                     @foreach ($blogs as $blog)
                         <li x-show="match($el)" data-tags="{{ implode('|', (array) $blog->tags) }}"
                             data-search="{{ $norm($blog->title . ' ' . $blog->excerpt . ' ' . implode(' ', (array) $blog->tags)) }}" x-init="$el.dataset.search = norm($el.dataset.search)">
-                            <a href="{{ route('blog.show', $blog->slug) }}" class="group block">
+                            <a href="{{ route('blog.show', $blog->localSlug()) }}" class="group block">
                                 <div class="relative aspect-[4/3] overflow-hidden rounded-2xl bg-slate-200 sm:rounded-[22px] ring-1 ring-slate-900/5">
                                     @if ($blog->cover_path)
                                         <img src="{{ $blog->coverUrl('sm') }}" alt="{{ $blog->title }}" loading="lazy" decoding="async"
@@ -267,7 +267,7 @@
     {{-- yapısal veri: blog yazıları listesi (seçili şehrin yazıları) --}}
     @jsonld(\App\Support\Schema::webPage('CollectionPage', __('blog-page.meta_title', ['city' => $city?->name]), __('blog-page.meta_description', ['city' => $city?->name]), [
         'about' => $city ? ['@type' => 'City', 'name' => $city->name, 'url' => route('cities.show', ['slug' => $city->slug])] : null,
-        'mainEntity' => collect($blogs)->isNotEmpty() ? \App\Support\Schema::itemList(collect($blogs instanceof \Illuminate\Contracts\Pagination\Paginator ? $blogs->items() : $blogs)->take(50)->map(fn ($b) => [$b->title, route('blog.show', ['slug' => $b->slug])])) : null,
+        'mainEntity' => collect($blogs)->isNotEmpty() ? \App\Support\Schema::itemList(collect($blogs instanceof \Illuminate\Contracts\Pagination\Paginator ? $blogs->items() : $blogs)->take(50)->map(fn ($b) => [$b->title, route('blog.show', $b->localSlug())])) : null,
     ]))
 
     {{-- Alt bölümler: panelde Sayfalar › Blog › Bölümler --}}

@@ -73,7 +73,7 @@
             <nav aria-label="Language" class="flex flex-wrap items-center gap-x-1 gap-y-2">
                 @foreach (LaravelLocalization::getSupportedLocales() as $code => $properties)
                     @unless ($loop->first)<span aria-hidden="true" class="px-1 text-white/20">·</span>@endunless
-                    <a href="{{ LaravelLocalization::getLocalizedURL($code, null, [], true) }}" hreflang="{{ $code }}"
+                    <a href="{{ \App\Support\LocalUrl::to($code) }}" hreflang="{{ $code }}"
                         @class(['rounded-md px-1.5 py-0.5 transition hover:text-white', 'bg-white/10 font-semibold text-white' => app()->getLocale() === $code])>{{ $properties['native'] }}</a>
                 @endforeach
             </nav>

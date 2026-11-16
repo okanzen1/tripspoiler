@@ -64,13 +64,16 @@ class BlogController extends Controller
     {
         $locale = app()->getLocale();
 
-        $blog = Blog::published()
-            ->where('slug', $slug)
-            ->with([
-                'city.country',
-                'activities' => fn ($q) => $q->visible()->with(['city.country', 'cover']),
-            ])
-            ->firstOrFail();
+        $blog = Blog::firstBySlugOrFail(Blog::published()->with([
+            'city.country',
+            'activities' => fn ($q) => $q->visible()->with(['city.country', 'cover']),
+        ]), $slug);
+
+        // Bu dilin adresi başka (ör. /de/blog/english-slug → /de/blog/deutscher-slug): kalıcı yönlendirme
+        if ($blog->localSlug() !== $slug) {
+            return redirect()->to(route('blog.show', $blog->localSlug()) . (request()->getQueryString() ? '?' . request()->getQueryString() : ''), 301);
+        }
+        \App\Support\LocalUrl::current('blog.show', $blog);
 
         // Yazının altında gösterilecek diğer rehberler: önce aynı şehirdekiler, sonra diğerleri
         $related = Blog::published()

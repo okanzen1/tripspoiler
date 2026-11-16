@@ -78,7 +78,7 @@
             @foreach ($activities as $activity)
                 @php $image = $activity->cover; @endphp
                 <li class="w-[82%] shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-3*1.25rem)/4)]">
-                    <a href="{{ route('activities.show', $activity->slug) }}"
+                    <a href="{{ route('activities.show', $activity->localSlug()) }}"
                         class="group flex h-full flex-col overflow-hidden rounded-3xl bg-white ring-1 ring-slate-200/80 transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
                                shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_36px_-24px_rgba(15,23,42,0.3)]
                                hover:shadow-[0_28px_60px_-28px_rgba(15,23,42,0.45)]">

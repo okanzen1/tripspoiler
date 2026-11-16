@@ -8,7 +8,7 @@
 @php
     // Tek kart varsa telefonda/tablette tam genişlik; iki kart varsa yana kayar
     $cardWidth = ($pass && $guide) ? 'w-[88%] sm:w-[62%]' : 'w-full';
-    $passUrl = $pass ? route('activities.show', $pass->slug) : null; // her zaman kendi sitemizdeki sayfa
+    $passUrl = $pass ? route('activities.show', $pass->localSlug()) : null; // her zaman kendi sitemizdeki sayfa
     $overlay = [
         'soft' => 'from-slate-950/75 via-slate-950/35 to-transparent',
         'medium' => 'from-slate-950/90 via-slate-950/60 to-slate-950/10',
@@ -165,7 +165,7 @@
                         {{-- Tüm kayıtlar aynı hücrede üst üste; sadece seçili olan görünür (geçişte binişme olmaz) --}}
                         <div class="grid px-2 pt-3.5 pb-1.5">
                             @foreach ($featured as $activity)
-                                @php $featuredUrl = route('activities.show', $activity->slug); @endphp
+                                @php $featuredUrl = route('activities.show', $activity->localSlug()); @endphp
                                 <div :class="i === {{ $loop->index }} ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'"
                                     :aria-hidden="i !== {{ $loop->index }}"
                                     :inert="i !== {{ $loop->index }}"
@@ -228,7 +228,7 @@
                 </div>
                 <div class="-mx-4 mt-3 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     @foreach ($featured as $activity)
-                        <a href="{{ route('activities.show', $activity->slug) }}"
+                        <a href="{{ route('activities.show', $activity->localSlug()) }}"
                             class="group w-[64%] sm:w-[38%] shrink-0 snap-start overflow-hidden rounded-2xl ring-1 ring-white/15 transition active:scale-[0.98]">
                             <span class="relative block aspect-[3/2] overflow-hidden bg-slate-800">
                                 <x-cover-fit :src="$activity->cover->url('sm')" :alt="$activity->name" loading="lazy" decoding="async"
@@ -322,7 +322,7 @@
                                 {{ __('home-hero.guide_minutes', ['count' => $guide->readingMinutes()]) }}
                             </p>
                             <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">{{ __('home-hero.guide_unit') }}</p>
-                            <a href="{{ route('blog.show', $guide->slug) }}"
+                            <a href="{{ route('blog.show', $guide->localSlug()) }}"
                                 class="mt-3 inline-flex items-center justify-center rounded-xl bg-slate-900 px-2 sm:px-5 py-2.5 text-xs sm:text-sm
                                        font-semibold text-white hover:bg-slate-700 transition duration-300 hover:shadow-lg active:scale-[0.98]">
                                 {{ __('home-hero.guide_cta') }}

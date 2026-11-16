@@ -110,7 +110,7 @@
                 class="absolute right-full top-1/2 mr-4 w-72 -translate-y-1/2 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-2xl rtl:left-full rtl:right-auto rtl:ml-4 rtl:mr-0">
                 <div class="grid grid-cols-2 gap-0.5">
                     @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                        <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" hreflang="{{ $localeCode }}" lang="{{ $localeCode }}"
+                        <a href="{{ \App\Support\LocalUrl::to($localeCode) }}" hreflang="{{ $localeCode }}" lang="{{ $localeCode }}"
                             @class(['flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm', 'bg-red-50 font-semibold text-[#C62E2E]' => app()->getLocale() == $localeCode, 'text-slate-700 hover:bg-slate-50' => app()->getLocale() != $localeCode])>
                             <span class="flex min-w-0 items-center gap-2"><span class="size-2.5 shrink-0 rounded-full ring-1 ring-black/10" style="{{ \App\Support\LocaleColors::gradient($localeCode) }}"></span><span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span></span>
                             <span class="text-[10px] font-semibold uppercase text-slate-400">{{ $localeCode }}</span>

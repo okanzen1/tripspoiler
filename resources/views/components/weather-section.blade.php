@@ -159,7 +159,7 @@
                     <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         @foreach ($suggestions as $activity)
                             <li>
-                                <a href="{{ route('activities.show', ['slug' => $activity->slug]) }}" class="group flex h-full items-center gap-3 rounded-2xl bg-white p-3 ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-lg hover:ring-[#C62E2E]/30">
+                                <a href="{{ route('activities.show', $activity->localSlug()) }}" class="group flex h-full items-center gap-3 rounded-2xl bg-white p-3 ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-lg hover:ring-[#C62E2E]/30">
                                     @if ($cover = $activity->cover?->url('sm'))
                                         <img src="{{ $cover }}" alt="" loading="lazy" class="size-16 shrink-0 rounded-xl object-cover">
                                     @endif

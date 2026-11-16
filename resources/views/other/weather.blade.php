@@ -443,7 +443,7 @@
                             <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                                 @foreach ($suggestions as $activity)
                                     <li>
-                                        <a href="{{ route('activities.show', ['slug' => $activity->slug]) }}" class="group flex items-center gap-3 rounded-2xl p-2 transition hover:bg-slate-50">
+                                        <a href="{{ route('activities.show', $activity->localSlug()) }}" class="group flex items-center gap-3 rounded-2xl p-2 transition hover:bg-slate-50">
                                             @if ($cover = $activity->cover?->url('sm'))
                                                 <img src="{{ $cover }}" alt="" loading="lazy" class="size-14 shrink-0 rounded-xl object-cover">
                                             @endif

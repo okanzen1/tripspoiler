@@ -63,10 +63,13 @@ class ActivityController extends Controller
     {
         $locale = app()->getLocale();
 
-        $activity = Activity::visible()
-            ->where('slug', $slug)
-            ->with(['images', 'city.country', 'partner'])
-            ->firstOrFail();
+        $activity = Activity::firstBySlugOrFail(Activity::visible()->with(['images', 'city.country', 'partner']), $slug);
+
+        // Bu dilin adresi başka: kalıcı yönlendirme
+        if ($activity->localSlug() !== $slug) {
+            return redirect()->to(route('activities.show', $activity->localSlug()) . (request()->getQueryString() ? '?' . request()->getQueryString() : ''), 301);
+        }
+        \App\Support\LocalUrl::current('activities.show', $activity);
 
         $name = $activity->name;
         $metaTitle = $activity->getTranslation('meta_title', $locale) ?: $name . ' | TripSpoiler';

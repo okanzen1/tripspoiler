@@ -183,7 +183,7 @@
     {{-- yapısal veri: aktivite listesi (seçili şehrin aktiviteleri) --}}
     @jsonld(\App\Support\Schema::webPage('CollectionPage', __('activities-page.meta_title'), __('activities-page.meta_description'), [
         'about' => $city ? ['@type' => 'City', 'name' => $city->name, 'url' => route('cities.show', ['slug' => $city->slug])] : null,
-        'mainEntity' => $activities->isNotEmpty() ? \App\Support\Schema::itemList($activities->take(50)->map(fn ($a) => [$a->name, route('activities.show', ['slug' => $a->slug])])) : null,
+        'mainEntity' => $activities->isNotEmpty() ? \App\Support\Schema::itemList($activities->take(50)->map(fn ($a) => [$a->name, route('activities.show', $a->localSlug())])) : null,
     ]))
 
     {{-- Bölümler (panelde Sayfalar › Aktiviteler › Bölümler): aktivite listesi de sıralamada; diğerleri üstüne/altına konabilir --}}
@@ -303,7 +303,7 @@
                             <li x-show="match($el)" data-type="{{ $activity->type }}"
                                 data-search="{{ \Illuminate\Support\Str::lower(\Illuminate\Support\Str::ascii(implode(' ', array_filter((array) $activity->getTranslations('name'))))) }} {{ mb_strtolower($activity->name) }}"
                                 x-init="$el.dataset.search = norm($el.dataset.search)">
-                                <a href="{{ route('activities.show', $activity->slug) }}" class="group block h-full">
+                                <a href="{{ route('activities.show', $activity->localSlug()) }}" class="group block h-full">
                                     {{-- telefon: blog kartı gibi (resim üstte, rozetler resmin üstünde, altında başlık) --}}
                                     <div class="sm:hidden">
                                         <div class="relative aspect-[4/3] overflow-hidden rounded-2xl bg-slate-200 ring-1 ring-slate-900/5">

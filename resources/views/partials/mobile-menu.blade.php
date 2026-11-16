@@ -105,7 +105,7 @@
                 <p class="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white/55">{{ __('navbar.language') }}</p>
                 <div class="grid grid-cols-3 gap-2">
                     @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                        <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" hreflang="{{ $localeCode }}"
+                        <a href="{{ \App\Support\LocalUrl::to($localeCode) }}" hreflang="{{ $localeCode }}"
                             @class(['truncate rounded-xl px-2 py-2 text-center text-xs font-medium ring-1 transition',
                                     'bg-white text-slate-900 ring-white' => app()->getLocale() == $localeCode,
                                     'text-white/85 ring-white/20 bg-white/5 backdrop-blur hover:bg-white/15' => app()->getLocale() != $localeCode])>

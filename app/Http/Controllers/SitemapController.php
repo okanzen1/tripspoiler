@@ -35,8 +35,9 @@ class SitemapController extends Controller
         $locales = array_keys(LaravelLocalization::getSupportedLocales());
 
         // $images: Google Görseller için sayfadaki resimler (mutlak adres)
-        $add = function (string $path, float $priority, string $frequency, ?DateTimeInterface $modified = null, array $images = []) use ($sitemap, $locales) {
-            $urls = collect($locales)->mapWithKeys(fn ($locale) => [$locale => LaravelLocalization::getLocalizedURL($locale, $path, [], true)]);
+        // $path: adres ya da dile göre adres veren fonksiyon (yazı / aktivite: her dilin kendi slug'ı)
+        $add = function (string|\Closure $path, float $priority, string $frequency, ?DateTimeInterface $modified = null, array $images = []) use ($sitemap, $locales) {
+            $urls = collect($locales)->mapWithKeys(fn ($locale) => [$locale => LaravelLocalization::getLocalizedURL($locale, $path instanceof \Closure ? $path($locale) : $path, [], true)]);
 
             foreach ($urls as $url) {
                 $tag = Url::create($url)->setPriority($priority)->setChangeFrequency($frequency);
@@ -79,11 +80,11 @@ class SitemapController extends Controller
         }
 
         foreach (Blog::published()->whereNotNull('slug')->get() as $post) {
-            $add(route('blog.show', ['slug' => $post->slug], false), 0.6, Url::CHANGE_FREQUENCY_MONTHLY, $post->updated_at ?? $post->published_at, [$post->coverUrl()]);
+            $add(fn ($locale) => route('blog.show', ['slug' => $post->localSlug($locale)], false), 0.6, Url::CHANGE_FREQUENCY_MONTHLY, $post->updated_at ?? $post->published_at, [$post->coverUrl()]);
         }
 
         foreach (Activity::visible()->with('images')->whereNotNull('slug')->get() as $activity) {
-            $add(route('activities.show', ['slug' => $activity->slug], false), 0.7, Url::CHANGE_FREQUENCY_WEEKLY, $activity->updated_at,
+            $add(fn ($locale) => route('activities.show', ['slug' => $activity->localSlug($locale)], false), 0.7, Url::CHANGE_FREQUENCY_WEEKLY, $activity->updated_at,
                 $activity->images->take(10)->map(fn ($image) => $image->url())->all());
         }
 

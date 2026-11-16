@@ -35,7 +35,7 @@
         <div class="mt-10 grid gap-5 lg:grid-cols-12 lg:gap-6">
 
             {{-- ÖNE ÇIKAN --}}
-            <a href="{{ route('blog.show', $featured->slug) }}"
+            <a href="{{ route('blog.show', $featured->localSlug()) }}"
                 class="group relative isolate flex min-h-[26rem] flex-col justify-end overflow-hidden rounded-3xl bg-slate-900 p-6 text-white sm:p-8 lg:col-span-7 lg:row-span-3 lg:min-h-full">
                 @if ($featured->cover_path)
                     <img src="{{ $featured->coverUrl() }}" alt="{{ $featured->title }}" loading="lazy" decoding="async"
@@ -62,7 +62,7 @@
 
             {{-- DİĞER YAZILAR --}}
             @foreach ($others as $blog)
-                <a href="{{ route('blog.show', $blog->slug) }}"
+                <a href="{{ route('blog.show', $blog->localSlug()) }}"
                     class="group flex gap-4 rounded-3xl bg-white p-3 ring-1 ring-slate-200/80 transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
                            shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_36px_-24px_rgba(15,23,42,0.3)]
                            hover:-translate-y-1 hover:shadow-[0_24px_50px_-26px_rgba(15,23,42,0.4)] lg:col-span-5">

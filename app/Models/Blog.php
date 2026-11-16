@@ -8,7 +8,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Blog extends Model
 {
-    use HasTranslations;
+    use HasTranslations, \App\Models\Concerns\HasLocalizedSlugs;
 
     protected $fillable = [
         'city_id',

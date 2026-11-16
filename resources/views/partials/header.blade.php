@@ -92,7 +92,7 @@
 
                         @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                             @php
-                                $url = LaravelLocalization::getLocalizedURL($localeCode, null, [], true);
+                                $url = \App\Support\LocalUrl::to($localeCode);
                             @endphp
 
                             <a href="{{ $url }}" hreflang="{{ $localeCode }}" lang="{{ $localeCode }}"
@@ -135,7 +135,7 @@
                 class="absolute right-0 top-full z-50 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl rtl:left-0 rtl:right-auto">
                 <div class="grid grid-cols-2 gap-0.5">
                     @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                        <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" hreflang="{{ $localeCode }}" lang="{{ $localeCode }}"
+                        <a href="{{ \App\Support\LocalUrl::to($localeCode) }}" hreflang="{{ $localeCode }}" lang="{{ $localeCode }}"
                             @class(['flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm', 'bg-red-50 font-semibold text-[#C62E2E]' => app()->getLocale() == $localeCode, 'text-slate-700 active:bg-slate-50' => app()->getLocale() != $localeCode])>
                             <span class="flex min-w-0 items-center gap-2"><span class="size-2.5 shrink-0 rounded-full ring-1 ring-black/10" style="{{ \App\Support\LocaleColors::gradient($localeCode) }}"></span><span class="truncate">{{ \Illuminate\Support\Str::ucfirst($properties['native']) }}</span></span>
                             <span class="text-[10px] font-semibold uppercase text-slate-400">{{ $localeCode }}</span>

@@ -59,7 +59,7 @@ class SearchController extends Controller
                 'name' => $activity->name,
                 'subtitle' => collect([$activity->city?->name, $activity->city?->country?->name])->filter()->join(', '),
                 'image' => $activity->cover?->url('sm'),
-                'url' => route('activities.show', ['slug' => $activity->slug]),
+                'url' => route('activities.show', $activity->localSlug()),
             ]);
 
         /*
@@ -79,7 +79,7 @@ class SearchController extends Controller
                 'name' => $blog->title,
                 'subtitle' => __('home-hero.guide_minutes', ['count' => $blog->readingMinutes()]) . ' · ' . __('home-hero.guide_unit'),
                 'image' => $blog->coverUrl('sm'),
-                'url' => route('blog.show', ['slug' => $blog->slug]),
+                'url' => route('blog.show', $blog->localSlug()),
             ]);
 
         return response()->json([
