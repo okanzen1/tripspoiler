@@ -22,4 +22,5 @@ return [
     'guide_label' => '指南',
     'back_to_top' => '返回顶部',
     'start_guide' => '开始阅读指南',
+    'read_blog' => ':city 博客',
 ];

@@ -65,7 +65,6 @@
                         <span class="mt-3 block text-2xl font-medium tracking-[-0.01em] text-white/55 sm:text-3xl">{{ $city ? $hero['title'] : '' }}</span>
                     </h1>
                     <p class="mt-8 max-w-md border-l border-[#FF6B6E]/60 pl-5 text-[15px] leading-relaxed text-white/65 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-5">{{ $hero['description'] }}</p>
-                    <x-social-follow class="mt-6" />
 
                     @if ($city && ($cities->count() > 1 || $hasActivities || $hasGuide))
                         {{-- şehir sayfasıyla aynı blok: seçici tam genişlik, altında eşit iki düğme --}}
@@ -88,14 +87,17 @@
                                     @endif
                                     @if ($hasGuide)
                                         <a href="{{ route('cities.show', $city->slug) }}"
-                                            @class(['group inline-flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-white/10 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/20 backdrop-blur-md transition hover:bg-white hover:text-slate-900', 'sm:col-span-2 lg:col-span-1 xl:col-span-2' => !$hasActivities])>
+                                            @class(['group inline-flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-3 text-sm font-bold text-white transition', 'bg-white/10 ring-1 ring-white/20 backdrop-blur-md hover:bg-white hover:text-slate-900' => $hasActivities, 'bg-[#C62E2E] hover:bg-[#A82424] sm:col-span-2 lg:col-span-1 xl:col-span-2' => !$hasActivities])>
                                             {{ __('blog-page.city_guide') }}
                                             <svg class="size-4 transition group-hover:translate-x-0.5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                                         </a>
                                     @endif
                                 </div>
                             @endif
+                            <x-social-follow full />
                         </div>
+                    @else
+                        <x-social-follow full class="mt-6 max-w-lg" />
                     @endif
                 </div>
 

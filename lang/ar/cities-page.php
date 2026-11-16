@@ -22,4 +22,5 @@ return [
     'guide_label' => 'الدليل',
     'back_to_top' => 'العودة للأعلى',
     'start_guide' => 'ابدأ الدليل',
+    'read_blog' => 'مدونة :city',
 ];

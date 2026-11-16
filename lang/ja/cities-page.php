@@ -22,4 +22,5 @@ return [
     'guide_label' => 'ガイド',
     'back_to_top' => 'ページの先頭へ',
     'start_guide' => 'ガイドを読む',
+    'read_blog' => ':city のブログ',
 ];

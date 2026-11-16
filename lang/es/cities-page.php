@@ -22,4 +22,5 @@ return [
     'guide_label' => 'Guía',
     'back_to_top' => 'Volver arriba',
     'start_guide' => 'Empezar la guía',
+    'read_blog' => 'Blog de :city',
 ];

@@ -22,4 +22,5 @@ return [
     'guide_label' => '가이드',
     'back_to_top' => '맨 위로',
     'start_guide' => '가이드 보기',
+    'read_blog' => ':city 블로그',
 ];

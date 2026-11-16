@@ -22,4 +22,5 @@ return [
     'guide_label' => 'Rehber',
     'back_to_top' => 'Başa dön',
     'start_guide' => 'Rehbere başla',
+    'read_blog' => ':city blog yazıları',
 ];

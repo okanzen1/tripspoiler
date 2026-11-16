@@ -22,4 +22,5 @@ return [
     'guide_label' => 'Путеводитель',
     'back_to_top' => 'Наверх',
     'start_guide' => 'Читать путеводитель',
+    'read_blog' => 'Блог о городе :city',
 ];

@@ -95,23 +95,33 @@
                             </div>
                         </div>
                     @endif
-                    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                        @if ($city->activities_count)
-                            <a href="{{ route('activities.index', ['city' => $city->slug]) }}"
-                                @class(['group inline-flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#C62E2E] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#A82424]', 'sm:col-span-2 lg:col-span-1 xl:col-span-2' => $guideNav->isEmpty()])>
-                                {{ __('cities-page.see_activities', ['city' => $city->name]) }}
-                                <svg class="size-4 transition group-hover:translate-x-0.5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                            </a>
-                        @endif
-                        @if ($guideNav->isNotEmpty())
-                            <a href="#{{ $guideNav->first()->topic->key }}"
-                                @class(['group inline-flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-3 text-sm font-bold text-white ring-1 ring-white/20 transition hover:ring-white/50', 'sm:col-span-2 lg:col-span-1 xl:col-span-2' => !$city->activities_count])>
-                                {{ __('cities-page.start_guide') }}
-                                <svg class="size-4 transition group-hover:translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-                            </a>
-                        @endif
-                    </div>
-                    <x-social-follow class="mt-2" />
+                    @php
+                        // düğmeler: ilki kırmızı (asıl iş), diğerleri çerçeveli; tek kalan satırı doldurur
+                        $heroButtons = array_values(array_filter([
+                            $city->activities_count ? [route('activities.index', ['city' => $city->slug]), __('cities-page.see_activities', ['city' => $city->name]), 'right'] : null,
+                            $guideNav->isNotEmpty() ? ['#' . $guideNav->first()->topic->key, __('cities-page.start_guide'), 'down'] : null,
+                            $city->blogs_count ? [route('blog.index', ['city_id' => $city->id]), __('cities-page.read_blog', ['city' => $city->name]), 'right'] : null,
+                        ]));
+                    @endphp
+                    @if ($heroButtons)
+                        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                            @foreach ($heroButtons as [$href, $label, $arrow])
+                                <a href="{{ $href }}"
+                                    @class(['group inline-flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-3 text-sm font-bold text-white transition',
+                                        'bg-[#C62E2E] hover:bg-[#A82424]' => $loop->first,
+                                        'ring-1 ring-white/20 hover:ring-white/50' => !$loop->first,
+                                        'sm:col-span-2 lg:col-span-1 xl:col-span-2' => $loop->last && $loop->count % 2 === 1])>
+                                    {{ $label }}
+                                    @if ($arrow === 'down')
+                                        <svg class="size-4 transition group-hover:translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                                    @else
+                                        <svg class="size-4 transition group-hover:translate-x-0.5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                                    @endif
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+                    <x-social-follow full />
                     </div>
                 </div>
 
