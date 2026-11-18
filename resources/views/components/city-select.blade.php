@@ -24,9 +24,12 @@
     <button type="button" @if ($many) @click="open ? hide() : show()" :aria-expanded="open" @endif
         @class(['group flex w-full items-center gap-4 rounded-[24px] bg-white/10 p-2.5 text-start ring-1 ring-white/25 backdrop-blur-md transition', 'hover:bg-white/15 hover:ring-white/45' => $many, 'cursor-default' => !$many])>
         @if ($currentFlag = $flagUrl($current))
-            <span class="relative size-14 shrink-0 overflow-hidden rounded-2xl shadow-[0_12px_28px_-10px_rgba(0,0,0,0.8)] ring-2 ring-white/80">
-                <img src="{{ $currentFlag }}" alt="{{ $current->country->name }}" class="size-full object-cover">
-                <span class="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/25 to-transparent"></span>
+            {{-- bayrak kendi oranında (4:3), kesilmeden; cam görünümlü kutunun ortasında --}}
+            <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/10 ring-1 ring-white/20">
+                <span class="relative block h-[33px] w-11 overflow-hidden rounded-[6px] shadow-[0_6px_16px_-6px_rgba(0,0,0,0.7)]">
+                    <img src="{{ $currentFlag }}" alt="{{ $current->country->name }}" class="size-full object-cover">
+                    <span class="pointer-events-none absolute inset-0 rounded-[6px] ring-1 ring-inset ring-black/10"></span>
+                </span>
             </span>
         @else
             <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] text-white shadow-[0_12px_28px_-10px_rgba(198,46,46,0.9)]">
@@ -79,7 +82,7 @@
                         <a :href="c.url" @click.prevent="go(c)" @mouseenter="i = n" role="option" :aria-selected="c.current"
                             :class="[c.current ? 'bg-[#FFF1F1] ring-1 ring-[#C62E2E]/25' : (i === n ? 'bg-slate-100' : '')]"
                             class="flex items-center gap-3.5 rounded-2xl px-3 py-2.5 transition">
-                            <span class="grid h-8 w-11 shrink-0 place-items-center overflow-hidden rounded-lg bg-slate-100 shadow-sm ring-1 ring-slate-200">
+                            <span class="grid h-[30px] w-10 shrink-0 place-items-center overflow-hidden rounded-[6px] bg-slate-100 shadow-sm ring-1 ring-black/10">
                                 <img x-show="c.flag" :src="c.flag" alt="" class="size-full object-cover">
                                 <svg x-show="!c.flag" class="size-4 text-slate-400" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="10" r="3"/></svg>
                             </span>
