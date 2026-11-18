@@ -104,4 +104,9 @@ class Activity extends Model
     {
         $query->where('active', true)->whereHas('city', fn ($q) => $q->visible());
     }
+
+    public function attractions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Attraction::class);
+    }
 }

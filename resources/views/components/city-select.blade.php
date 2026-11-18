@@ -2,11 +2,12 @@
 {{-- Şehir seçici (aktiviteler, blog): büyük, belirgin düğme; tıklayınca aranabilir liste (ülkeye göre gruplu, bayraklı).
      Telefonda alttan açılan tam ekran pencere. 50+ şehirde de kullanışlı. Klavye: ↑ ↓ Enter, Esc kapatır. --}}
 @php
-    $flagOf = fn ($c) => $c->country?->code ? implode('', array_map(fn ($ch) => mb_chr(0x1F1E6 + ord($ch) - 65), str_split(strtoupper($c->country->code)))) : '📍';
+    // bayrak resmi (public/flags, flag-icons MIT): emoji bayraklar Windows'ta görünmüyor
+    $flagUrl = fn ($c) => $c?->country?->code && is_file(public_path('flags/' . strtolower($c->country->code) . '.svg')) ? asset('flags/' . strtolower($c->country->code) . '.svg') : null;
     $items = $cities->map(fn ($c) => [
         'name' => $c->name,
         'country' => (string) $c->country?->name,
-        'flag' => $flagOf($c),
+        'flag' => $flagUrl($c),
         'url' => $url($c),
         'current' => $current && $c->is($current),
         'search' => \Illuminate\Support\Str::lower(\Illuminate\Support\Str::ascii($c->name . ' ' . $c->country?->name)),
@@ -22,14 +23,20 @@
     }" @keydown.escape.window="hide()" {{ $attributes->merge(['class' => 'relative w-full max-w-xl']) }}>
     <button type="button" @if ($many) @click="open ? hide() : show()" :aria-expanded="open" @endif
         @class(['group flex w-full items-center gap-4 rounded-[24px] bg-white/10 p-2.5 text-start ring-1 ring-white/25 backdrop-blur-md transition', 'hover:bg-white/15 hover:ring-white/45' => $many, 'cursor-default' => !$many])>
-        <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] text-white shadow-[0_12px_28px_-10px_rgba(198,46,46,0.9)]">
-            <svg class="size-7" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a7.5 7.5 0 0 0-7.5 7.5c0 5.6 6.4 11.3 6.7 11.55a1.2 1.2 0 0 0 1.6 0c.3-.25 6.7-5.95 6.7-11.55A7.5 7.5 0 0 0 12 2.25Z" opacity=".35"/><circle cx="12" cy="9.75" r="3.25"/></svg>
-        </span>
+        @if ($currentFlag = $flagUrl($current))
+            <span class="relative size-14 shrink-0 overflow-hidden rounded-2xl shadow-[0_12px_28px_-10px_rgba(0,0,0,0.8)] ring-2 ring-white/80">
+                <img src="{{ $currentFlag }}" alt="{{ $current->country->name }}" class="size-full object-cover">
+                <span class="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/25 to-transparent"></span>
+            </span>
+        @else
+            <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] text-white shadow-[0_12px_28px_-10px_rgba(198,46,46,0.9)]">
+                <svg class="size-7" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a7.5 7.5 0 0 0-7.5 7.5c0 5.6 6.4 11.3 6.7 11.55a1.2 1.2 0 0 0 1.6 0c.3-.25 6.7-5.95 6.7-11.55A7.5 7.5 0 0 0 12 2.25Z" opacity=".35"/><circle cx="12" cy="9.75" r="3.25"/></svg>
+            </span>
+        @endif
         <span class="min-w-0 flex-1">
             <span class="block text-[11px] font-bold uppercase tracking-[0.16em] text-white/60">{{ __('activities-page.city') }}</span>
             <span class="mt-0.5 flex items-center gap-2 truncate text-xl font-extrabold text-white">
-                {{ $current?->name }}
-                @if ($current)<span class="text-xl leading-none" aria-hidden="true">{{ $flagOf($current) }}</span>@endif
+                {{ $current?->name }}@if ($current?->country)<span class="truncate text-base font-semibold text-white/60">· {{ $current->country->name }}</span>@endif
             </span>
         </span>
         @if ($many)
@@ -72,7 +79,10 @@
                         <a :href="c.url" @click.prevent="go(c)" @mouseenter="i = n" role="option" :aria-selected="c.current"
                             :class="[c.current ? 'bg-[#FFF1F1] ring-1 ring-[#C62E2E]/25' : (i === n ? 'bg-slate-100' : '')]"
                             class="flex items-center gap-3.5 rounded-2xl px-3 py-2.5 transition">
-                            <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-slate-100 text-2xl leading-none" x-text="c.flag"></span>
+                            <span class="grid h-8 w-11 shrink-0 place-items-center overflow-hidden rounded-lg bg-slate-100 shadow-sm ring-1 ring-slate-200">
+                                <img x-show="c.flag" :src="c.flag" alt="" class="size-full object-cover">
+                                <svg x-show="!c.flag" class="size-4 text-slate-400" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="10" r="3"/></svg>
+                            </span>
                             <span class="min-w-0 flex-1 truncate text-[15px] font-bold" x-text="c.name"></span>
                             <span x-show="c.current" class="inline-flex items-center gap-1 rounded-full bg-[#C62E2E] px-2.5 py-1 text-[11px] font-bold text-white">
                                 <svg class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>

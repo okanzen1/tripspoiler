@@ -79,6 +79,10 @@ class SitemapController extends Controller
             $add(route('time', ['city' => $city->slug], false), 0.4, Url::CHANGE_FREQUENCY_MONTHLY);
         }
 
+        foreach (\App\Models\Attraction::visible()->get(['id', 'slug', 'image_path', 'updated_at']) as $place) {
+            $add(route('attractions.show', ['slug' => $place->slug], false), 0.8, Url::CHANGE_FREQUENCY_WEEKLY, $place->updated_at, [$place->imageUrl()]);
+        }
+
         foreach (Blog::published()->whereNotNull('slug')->get() as $post) {
             $add(fn ($locale) => route('blog.show', ['slug' => $post->localSlug($locale)], false), 0.6, Url::CHANGE_FREQUENCY_MONTHLY, $post->updated_at ?? $post->published_at, [$post->coverUrl()]);
         }

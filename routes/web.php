@@ -79,6 +79,10 @@ Route::group(
     |--------------------------------------------------------------------------
     */
 
+        // Yer sayfaları (panel: Yerler)
+        Route::get('/attractions/{slug}', [\App\Http\Controllers\AttractionController::class, 'show'])
+            ->name('attractions.show')->where('slug', '[a-z0-9-]+');
+
         Route::prefix('cities')->name('cities.')->group(function () {
 
             Route::get('/', [CityController::class, 'index'])->name('index');

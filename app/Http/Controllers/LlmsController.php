@@ -70,6 +70,17 @@ class LlmsController extends Controller
             }
         }
 
+        $places = \App\Models\Attraction::visible()->with('city')->orderBy('city_id')->orderBy('sort_order')->get();
+        if ($places->isNotEmpty()) {
+            $out[] = '';
+            $out[] = '## Places to visit (tickets, opening hours, how to get there)';
+            $out[] = '';
+            foreach ($places as $place) {
+                $out[] = '- [' . self::line((string) $place->getTranslation('name', 'en', false)) . ', ' . $place->city?->name . '](' . $this->url(route('attractions.show', ['slug' => $place->slug], false)) . ')'
+                    . (($s = self::line((string) $place->getTranslation('summary', 'en', false))) !== '' ? ': ' . \Illuminate\Support\Str::limit($s, 180) : '');
+            }
+        }
+
         $posts = Blog::published()->whereNotNull('slug')->orderByDesc('published_at')->limit(150)->get();
         if ($posts->isNotEmpty()) {
             $out[] = '';

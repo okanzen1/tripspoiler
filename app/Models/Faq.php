@@ -36,6 +36,6 @@ class Faq extends Model
 
     public function scopeGeneral(Builder $query): void
     {
-        $query->whereNull('activity_id')->whereNull('blog_id')->whereNull('city_id')->whereNull('page_key');
+        $query->whereNull('activity_id')->whereNull('blog_id')->whereNull('attraction_id')->whereNull('city_id')->whereNull('page_key');
     }
 }

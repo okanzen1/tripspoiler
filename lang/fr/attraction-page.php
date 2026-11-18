@@ -1,0 +1,28 @@
+<?php
+
+// Yer sayfası (attractions/show) ve şehir sayfasındaki yer / karşılaştırma bölümleri
+return [
+    'meta_title' => 'Billets et guide de visite :name :year | TripSpoiler',
+    'eyebrow' => ':city · Lieux à visiter',
+    'see_tickets' => 'Voir les billets',
+    'plan_visit' => 'Préparer la visite',
+    'opening_hours' => 'Horaires',
+    'closed_days' => 'Fermé',
+    'getting_there' => 'Comment s\'y rendre',
+    'dress_code' => 'Tenue',
+    'official_site' => 'Site officiel',
+    'visit_title' => 'Visiter :name',
+    'check_note' => 'Les horaires peuvent changer lors des fêtes et événements. Vérifiez le site officiel avant de partir.',
+    'tickets_title' => 'Billets et visites :name',
+    'tickets_text' => 'Billets d\'entrée, pass et combinés incluant ce lieu. Vous réservez sur le site du partenaire.',
+    'about_title' => 'À propos de :name',
+    'more_places' => 'Autres lieux à visiter à :city',
+    'see_place' => 'Voir le lieu',
+    'city_guide' => 'Guide de voyage :city',
+    'about_place' => 'À propos de ce lieu',
+    'places_title' => 'Les plus beaux lieux à visiter à :city',
+    'compare_title' => 'Comparer les pass et combinés à :city',
+    'compare_text' => 'Les lieux inclus dans chaque pass ou combiné.',
+    'compare_product' => 'Pass / combiné',
+    'compare_view' => 'Détails',
+];

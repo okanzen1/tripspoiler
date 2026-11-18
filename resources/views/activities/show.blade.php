@@ -305,6 +305,28 @@
                                 </div>
                             @endif
 
+                            {{-- BU YER HAKKINDA: ürünün bağlı olduğu yer sayfaları (panel: Yerler) --}}
+                            @php $places = $activity->attractions()->visible()->get(); @endphp
+                            @if ($places->isNotEmpty())
+                                <div class="mt-12">
+                                    <h2 class="text-2xl font-extrabold tracking-tight text-slate-900">{{ __('attraction-page.about_place') }}</h2>
+                                    <div class="mt-5 grid gap-4 sm:grid-cols-2">
+                                        @foreach ($places as $place)
+                                            <a href="{{ route('attractions.show', $place->slug) }}" class="group flex gap-4 rounded-3xl bg-slate-900 p-3 text-white transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-20px_rgba(15,23,42,0.7)]">
+                                                <span class="size-24 shrink-0 overflow-hidden rounded-2xl bg-slate-800">
+                                                    @if ($place->image_path)<img src="{{ $place->imageUrl('sm') }}" alt="{{ $place->name }}" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">@endif
+                                                </span>
+                                                <span class="flex min-w-0 flex-col justify-center pe-2">
+                                                    <span class="font-extrabold">{{ $place->name }}</span>
+                                                    @if ($place->summary)<span class="mt-1 line-clamp-2 text-xs leading-relaxed text-white/70">{{ $place->summary }}</span>@endif
+                                                    <span class="mt-1.5 text-xs font-bold text-[#FF8A8C]">{{ __('attraction-page.plan_visit') }} →</span>
+                                                </span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
                             {{-- BUNLAR DA İLGİNİ ÇEKEBİLİR: aynı şehirdeki diğer deneyimler --}}
                             @if ($related->isNotEmpty())
                                 <div class="mt-12">

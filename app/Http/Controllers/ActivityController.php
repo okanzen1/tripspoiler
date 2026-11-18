@@ -72,7 +72,7 @@ class ActivityController extends Controller
         \App\Support\LocalUrl::current('activities.show', $activity);
 
         $name = $activity->name;
-        $metaTitle = $activity->getTranslation('meta_title', $locale) ?: $name . ' | TripSpoiler';
+        $metaTitle = \App\Support\SeoYear::add($activity->getTranslation('meta_title', $locale) ?: $name . ' | TripSpoiler');
         $metaDescription = $activity->getTranslation('meta_description', $locale) ?: 'Learn about ' . $name . '. What it includes, how it works, and whether it makes sense for your trip.';
 
         // Aynı şehirdeki diğer deneyimler ("Bunlar da ilgini çekebilir")
