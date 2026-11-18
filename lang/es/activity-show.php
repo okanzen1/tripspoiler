@@ -27,4 +27,5 @@ return [
     'similar_title' => 'Más que hacer en',
     'similar_desc' => 'Otras entradas, tours y tarjetas turísticas de la misma ciudad.',
     'gallery_close' => 'Cerrar',
+    'affiliate_note' => 'Podemos recibir una comisión si reservas a través de este enlace, sin coste adicional para ti.',
 ];

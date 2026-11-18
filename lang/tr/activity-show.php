@@ -27,4 +27,5 @@ return [
     'similar_title' => 'Bu şehirde başka neler var:',
     'similar_desc' => 'Aynı şehir için seçilmiş diğer biletler, turlar ve şehir kartları.',
     'gallery_close' => 'Kapat',
+    'affiliate_note' => 'Bu bağlantı üzerinden rezervasyon yaparsanız komisyon alabiliriz; sizin için fiyat değişmez.',
 ];

@@ -27,4 +27,5 @@ return [
     'similar_title' => 'Mais para fazer em',
     'similar_desc' => 'Outros ingressos, passeios e city cards da mesma cidade.',
     'gallery_close' => 'Fechar',
+    'affiliate_note' => 'Podemos receber uma comissão se reservar através deste link, sem custo adicional para si.',
 ];

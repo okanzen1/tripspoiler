@@ -110,3 +110,21 @@
   .rich-text img[width='50%'], .rich-text img[width='33%'] { width: 100%; min-width: 0; }
 }
 .rich-text p:has(> img:only-child) { margin-top: 1.6em; margin-bottom: 1.6em; }
+
+/* Tablolar (panelde editörden ya da "| a | b |" yapıştırarak): telefonda yatay kayar */
+.rich-text .table-scroll {
+  overflow-x: auto;
+  border-radius: 1.25rem;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  -webkit-overflow-scrolling: touch;
+}
+.rich-text .table-scroll:focus-visible { outline: 2px solid #C62E2E; outline-offset: 2px; }
+.rich-text table { width: 100%; min-width: 32rem; border-collapse: collapse; font-size: 0.94em; line-height: 1.5; }
+.rich-text thead th { background: #0f172a; color: #fff; font-weight: 700; }
+.rich-text th, .rich-text td { padding: 0.8em 1em; text-align: start; vertical-align: top; }
+.rich-text tbody tr + tr { border-top: 1px solid #e2e8f0; }
+.rich-text tbody tr:nth-child(even) { background: #f8fafc; }
+.rich-text tbody th { color: #0f172a; font-weight: 700; }
+.rich-text td > strong:first-child { color: #0f172a; }
+.rich-text table a { white-space: nowrap; }

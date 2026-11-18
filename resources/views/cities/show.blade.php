@@ -217,6 +217,9 @@
         </section>
     @endif
 
+    {{-- Kısa bilgiler tablosu (yapay zekâ ve Google bu net cevapları alıntılar) --}}
+    <x-city-facts :guide="$guide" :city="$city" />
+
     {{-- Bölümler: rehber alanları + diğerleri, panelde verilen sırayla --}}
     <x-page-sections page="cities" :city-id="$city->id" :guide-sections="$guideSections" />
 @endsection

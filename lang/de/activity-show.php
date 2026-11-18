@@ -27,4 +27,5 @@ return [
     'similar_title' => 'Mehr erleben in',
     'similar_desc' => 'Weitere Tickets, Touren und City Cards für dieselbe Stadt.',
     'gallery_close' => 'Schließen',
+    'affiliate_note' => 'Wenn Sie über diesen Link buchen, erhalten wir möglicherweise eine Provision – ohne Mehrkosten für Sie.',
 ];

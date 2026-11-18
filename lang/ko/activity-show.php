@@ -27,4 +27,5 @@ return [
     'similar_title' => '더 즐길 거리:',
     'similar_desc' => '같은 도시의 다른 티켓, 투어, 시티 카드.',
     'gallery_close' => '닫기',
+    'affiliate_note' => '이 링크로 예약하시면 저희가 수수료를 받을 수 있으며, 추가 비용은 없습니다.',
 ];

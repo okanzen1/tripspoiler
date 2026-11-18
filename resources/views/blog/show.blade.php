@@ -326,7 +326,7 @@
                                 @endif
                                 </div>
                             </header>
-                            <div class="rich-text quill-content text-[17px] lg:col-span-8">{!! $parts['intro'] !!}</div>
+                            <div class="rich-text quill-content text-[17px] lg:col-span-8">{!! \App\Support\RichTables::wrap($parts['intro']) !!}</div>
                         </div>
                     </section>
                 @endif
@@ -347,7 +347,7 @@
                             </header>
                             <div class="min-w-0 lg:col-span-8" x-data="{ open: false, long: false }" x-init="$nextTick(() => { long = $refs.body.scrollHeight > 640 })">
                                 <div x-ref="body" class="relative overflow-hidden" :class="long && !open ? 'max-h-[480px]' : ''">
-                                    <div class="rich-text quill-content">{!! $part['html'] !!}</div>
+                                    <div class="rich-text quill-content">{!! \App\Support\RichTables::wrap($part['html']) !!}</div>
                                     <div x-show="long && !open" x-cloak class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t {{ $loop->odd ? 'from-white' : 'from-slate-50' }} to-transparent"></div>
                                 </div>
                                 <button type="button" x-show="long" x-cloak

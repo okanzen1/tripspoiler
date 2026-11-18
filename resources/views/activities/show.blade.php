@@ -202,7 +202,7 @@
                                     <div class="relative mt-5">
                                         <div x-ref="body" class="rich-text overflow-hidden transition-[max-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
                                             :style="long && !open ? 'max-height: 520px' : (long ? 'max-height: ' + $refs.body.scrollHeight + 'px' : '')">
-                                            {!! \App\Support\BulletParagraphs::toList((string) $activity->description) !!}
+                                            {!! \App\Support\RichTables::wrap(\App\Support\BulletParagraphs::toList((string) $activity->description)) !!}
                                         </div>
                                         <div x-show="long && !open" class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
                                     </div>
@@ -239,7 +239,7 @@
                                             {{ __('activity-show.cta') }}
                                             <svg class="size-5 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 rtl:-scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
                                         </a>
-                                        <p class="mt-3 text-center text-xs leading-relaxed text-slate-500">{{ __('activities.redirect_notice') }}</p>
+                                        <p class="mt-3 text-center text-xs leading-relaxed text-slate-500">{{ __('activities.redirect_notice') }} {{ __('activity-show.affiliate_note') }}</p>
                                     </div>
                                     <ul class="space-y-3 border-t border-slate-100 bg-slate-50/60 px-6 py-5 text-sm text-slate-700">
                                         @foreach (['trust_official', 'trust_instant', 'trust_secure'] as $point)

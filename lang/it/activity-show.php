@@ -27,4 +27,5 @@ return [
     'similar_title' => 'Altro da fare a',
     'similar_desc' => 'Altri biglietti, tour e city card per la stessa città.',
     'gallery_close' => 'Chiudi',
+    'affiliate_note' => 'Potremmo ricevere una commissione se prenoti tramite questo link, senza costi aggiuntivi per te.',
 ];

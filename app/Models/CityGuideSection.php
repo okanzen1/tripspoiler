@@ -41,7 +41,7 @@ class CityGuideSection extends Model
             1
         );
 
-        return $stripped ?? $html;
+        return \App\Support\RichTables::wrap($stripped ?? $html);
     }
 
     /** Tahmini okuma süresi (dakika) */

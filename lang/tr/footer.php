@@ -20,4 +20,5 @@ return [
     'rates' => 'Döviz kurları',
     'weather' => 'Hava durumu',
     'time' => 'Yerel saat',
+    'affiliate' => 'TripSpoiler ücretsizdir. Bağlantılarımız üzerinden rezervasyon yaptığınızda iş ortağından komisyon alabiliriz. Fiyat sizin için değişmez ve önerilerimizi etkilemez.',
 ];

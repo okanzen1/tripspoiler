@@ -20,4 +20,5 @@ return [
     'rates' => 'Wechselkurse',
     'weather' => 'Wetter',
     'time' => 'Ortszeit',
+    'affiliate' => 'TripSpoiler ist kostenlos. Wenn Sie über unsere Links buchen, erhalten wir möglicherweise eine Provision vom Partner. Der Preis bleibt für Sie gleich und unsere Empfehlungen werden dadurch nicht beeinflusst.',
 ];

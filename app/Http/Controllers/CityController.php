@@ -141,6 +141,8 @@ class CityController extends Controller
                 ? ['@type' => 'GeoCoordinates', 'latitude' => (float) $city->latitude, 'longitude' => (float) $city->longitude]
                 : null,
             'subjectOf' => ['@type' => 'WebPage', '@id' => $pageUrl, 'isPartOf' => ['@id' => \App\Support\Schema::websiteId()], 'publisher' => \App\Support\Schema::organizationRef()],
+            // Kısa bilgiler (en iyi zaman, para birimi…) yer bilgisi olarak
+            'additionalProperty' => collect($guide?->facts() ?? [])->map(fn (array $fact) => ['@type' => 'PropertyValue', 'name' => $fact['label'], 'value' => $fact['value']])->all() ?: null,
             'includesAttraction' => $guideNav->map(fn (CityGuideSection $section) => [
                 '@type' => 'TouristAttraction',
                 'name' => trim(strip_tags($section->title)),
@@ -161,6 +163,7 @@ class CityController extends Controller
             'description' => $description,
             'guideSections' => $guideSections,
             'guideNav' => $guideNav,
+            'guide' => $guide,
             'metaTitle' => __('cities-page.meta_title', ['city' => $city->name]),
             'metaDescription' => Str::limit(strip_tags($description), 155),
             'citySchema' => $citySchema,

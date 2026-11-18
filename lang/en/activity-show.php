@@ -27,4 +27,5 @@ return [
     'similar_title' => 'More to do in',
     'similar_desc' => 'Other tickets, tours and city cards picked for the same city.',
     'gallery_close' => 'Close',
+    'affiliate_note' => 'We may earn a commission if you book through this link, at no extra cost to you.',
 ];

@@ -27,4 +27,5 @@ return [
     'similar_title' => 'À faire aussi à',
     'similar_desc' => 'D’autres billets, visites et city cards pour la même ville.',
     'gallery_close' => 'Fermer',
+    'affiliate_note' => 'Nous pouvons percevoir une commission si vous réservez via ce lien, sans frais supplémentaires pour vous.',
 ];

@@ -27,4 +27,5 @@ return [
     'similar_title' => '更多推荐:',
     'similar_desc' => '同一城市的其他门票、游览和城市卡。',
     'gallery_close' => '关闭',
+    'affiliate_note' => '如果您通过此链接预订，我们可能会获得佣金，您无需支付额外费用。',
 ];
