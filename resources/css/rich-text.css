@@ -113,6 +113,7 @@
 
 /* Tablolar (panelde editörden ya da "| a | b |" yapıştırarak): telefonda yatay kayar */
 .rich-text .table-scroll {
+  position: relative;
   overflow-x: auto;
   border-radius: 1.25rem;
   border: 1px solid #e2e8f0;

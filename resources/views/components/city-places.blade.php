@@ -29,7 +29,7 @@
                 <div class="mt-12">
                     <h2 class="text-2xl font-extrabold tracking-[-0.02em] text-slate-900 sm:text-3xl">{{ __('attraction-page.compare_title', ['city' => $city->name]) }}</h2>
                     <p class="mt-2 text-slate-500">{{ __('attraction-page.compare_text') }}</p>
-                    <div class="mt-5 overflow-x-auto rounded-3xl ring-1 ring-slate-200">
+                    <div class="relative mt-5 overflow-x-auto rounded-3xl ring-1 ring-slate-200">
                         <table class="w-full min-w-[40rem] border-collapse text-sm">
                             <thead>
                                 <tr class="bg-slate-900 text-white">
