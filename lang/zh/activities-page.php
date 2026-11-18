@@ -42,4 +42,6 @@ return [
     'switch_city' => '切换城市',
     'city_selected' => '当前城市',
     'city_see' => '查看活动',
+    'search_city' => '搜索城市…',
+    'no_city' => '未找到城市',
 ];

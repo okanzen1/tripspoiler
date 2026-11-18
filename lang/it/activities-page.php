@@ -42,4 +42,6 @@ return [
     'switch_city' => 'Cambia città',
     'city_selected' => 'Sei qui',
     'city_see' => 'Vedi le attività',
+    'search_city' => 'Cerca una città…',
+    'no_city' => 'Nessuna città trovata',
 ];

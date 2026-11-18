@@ -42,4 +42,6 @@ return [
     'switch_city' => 'Switch city',
     'city_selected' => 'You are here',
     'city_see' => 'See activities',
+    'search_city' => 'Search a city…',
+    'no_city' => 'No city found',
 ];

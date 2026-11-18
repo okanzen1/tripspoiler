@@ -42,4 +42,6 @@ return [
     'switch_city' => '도시 변경',
     'city_selected' => '현재 도시',
     'city_see' => '액티비티 보기',
+    'search_city' => '도시 검색…',
+    'no_city' => '도시를 찾을 수 없습니다',
 ];

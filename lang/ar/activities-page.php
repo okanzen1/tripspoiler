@@ -42,4 +42,6 @@ return [
     'switch_city' => 'غيّر المدينة',
     'city_selected' => 'أنت هنا',
     'city_see' => 'عرض الأنشطة',
+    'search_city' => 'ابحث عن مدينة…',
+    'no_city' => 'لم يتم العثور على مدينة',
 ];

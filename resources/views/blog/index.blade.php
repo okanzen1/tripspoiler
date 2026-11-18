@@ -69,7 +69,7 @@
                         {{-- şehir sayfasıyla aynı blok: seçici tam genişlik, altında eşit iki düğme --}}
                         <div class="mt-10 w-full max-w-lg space-y-3">
                             @if ($cities->count() > 1)
-                                <x-city-cards :cities="$cities" :current="$city" :url="fn ($c) => route('blog.index', ['city_id' => $c->id])" :see="__('blog-page.city_see_posts')" class="pb-2" />
+                                <x-city-select :cities="$cities" :current="$city" :url="fn ($c) => route('blog.index', ['city_id' => $c->id])" />
                             @endif
                             @if ($hasActivities || $hasGuide)
                                 <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">

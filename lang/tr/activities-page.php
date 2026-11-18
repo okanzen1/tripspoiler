@@ -42,4 +42,6 @@ return [
     'switch_city' => 'Şehir değiştir',
     'city_selected' => 'Şu an buradasın',
     'city_see' => 'Aktiviteleri gör',
+    'search_city' => 'Şehir ara…',
+    'no_city' => 'Şehir bulunamadı',
 ];

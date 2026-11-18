@@ -76,16 +76,13 @@
                     @endif
                 </h1>
                 <p class="mt-3 max-w-xl text-base leading-relaxed text-white/75 md:mt-4 md:text-lg">{{ $hero['description'] }}</p>
-                <x-social-follow class="mt-6" />
-
+                {{-- ŞEHİR SEÇİMİ: başlığın hemen altında, aranabilir liste (components/city-select) --}}
+                @if ($cities->isNotEmpty())
+                    <x-city-select class="mt-7" :cities="$cities" :current="$city" :url="fn ($c) => route('activities.index', ['city' => $c->slug])" loading-event="acts-loading" />
+                @endif
+                <x-social-follow class="mt-5" />
             </div>
 
-            {{-- ŞEHİR SEÇİMİ: fotoğraflı şehir kartları (components/city-cards) --}}
-            @if ($cities->isNotEmpty())
-                <div class="self-end lg:col-span-5">
-                    <x-city-cards :cities="$cities" :current="$city" :url="fn ($c) => route('activities.index', ['city' => $c->slug])" loading-event="acts-loading" />
-                </div>
-            @endif
         </div>
     </section>
 
