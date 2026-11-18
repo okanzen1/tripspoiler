@@ -58,7 +58,6 @@
                     <div class="flex items-center gap-4 text-[11px] font-bold uppercase tracking-[0.3em] text-white/45">
                         <span class="text-[#FF6B6E]">{{ $hero['eyebrow'] }}</span>
                         <span class="h-px flex-1 bg-white/15"></span>
-                        @if ($blogs->isNotEmpty())<span>{{ str_pad($blogs->count(), 2, '0', STR_PAD_LEFT) }}</span>@endif
                     </div>
                     <h1 class="mt-8 text-[56px] font-extrabold leading-[0.9] tracking-[-0.05em] sm:text-7xl lg:text-[92px]">
                         {{ $city?->name ?? __('blog-page.blog') }}
@@ -70,11 +69,7 @@
                         {{-- şehir sayfasıyla aynı blok: seçici tam genişlik, altında eşit iki düğme --}}
                         <div class="mt-10 w-full max-w-lg space-y-3">
                             @if ($cities->count() > 1)
-                                @include('partials.city-picker', [
-                                    'cities' => $cities, 'current' => $city, 'label' => __('blog-page.choose_city'),
-                                    'url' => fn ($c) => route('blog.index', ['city_id' => $c->id]),
-                                    'meta' => fn ($c) => trim(($c->country?->name ?? '') . ' · ' . __('blog-page.posts_count', ['count' => $c->blogs_count])),
-                                ])
+                                <x-city-cards :cities="$cities" :current="$city" :url="fn ($c) => route('blog.index', ['city_id' => $c->id])" :see="__('blog-page.city_see_posts')" class="pb-2" />
                             @endif
                             @if ($hasActivities || $hasGuide)
                                 <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">

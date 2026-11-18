@@ -28,4 +28,12 @@ return [
     'similar_desc' => 'تذاكر وجولات وبطاقات مدينة أخرى لنفس المدينة.',
     'gallery_close' => 'إغلاق',
     'affiliate_note' => 'قد نحصل على عمولة إذا حجزت عبر هذا الرابط، دون أي تكلفة إضافية عليك.',
+    'highlights' => 'أبرز المميزات',
+    'included' => 'ما المشمول',
+    'excluded' => 'غير مشمول',
+    'meeting_point' => 'نقطة اللقاء',
+    'cancellation' => 'الإلغاء',
+    'important_info' => 'معلومات قبل الذهاب',
+    'related_title' => 'تجارب أخرى في :city',
+    'independent_note' => 'TripSpoiler دليل سفر مستقل وليس الموقع الرسمي لهذا المعلم.',
 ];

@@ -28,4 +28,12 @@ return [
     'similar_desc' => 'D’autres billets, visites et city cards pour la même ville.',
     'gallery_close' => 'Fermer',
     'affiliate_note' => 'Nous pouvons percevoir une commission si vous réservez via ce lien, sans frais supplémentaires pour vous.',
+    'highlights' => 'Points forts',
+    'included' => 'Inclus',
+    'excluded' => 'Non inclus',
+    'meeting_point' => 'Point de rendez-vous',
+    'cancellation' => 'Annulation',
+    'important_info' => 'Bon à savoir avant de partir',
+    'related_title' => 'Autres activités à :city',
+    'independent_note' => 'TripSpoiler est un guide de voyage indépendant et non le site officiel de ce lieu.',
 ];

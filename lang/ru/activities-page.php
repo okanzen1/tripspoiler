@@ -39,4 +39,7 @@ return [
 
     'cities_count' => ':count города',
     'activity_count' => ':count мероприятий',
+    'switch_city' => 'Сменить город',
+    'city_selected' => 'Вы здесь',
+    'city_see' => 'Смотреть впечатления',
 ];

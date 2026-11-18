@@ -26,4 +26,5 @@ return [
     'city_guide' => 'دليل المدينة',
     'city_activities' => 'الأنشطة في :city',
     'topics' => 'المواضيع',
+    'city_see_posts' => 'اقرأ المقالات',
 ];

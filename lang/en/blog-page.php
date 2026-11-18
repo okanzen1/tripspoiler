@@ -26,4 +26,5 @@ return [
     'city_guide' => 'City guide',
     'city_activities' => 'Activities in :city',
     'topics' => 'Topics',
+    'city_see_posts' => 'Read the guides',
 ];

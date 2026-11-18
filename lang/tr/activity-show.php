@@ -28,4 +28,12 @@ return [
     'similar_desc' => 'Aynı şehir için seçilmiş diğer biletler, turlar ve şehir kartları.',
     'gallery_close' => 'Kapat',
     'affiliate_note' => 'Bu bağlantı üzerinden rezervasyon yaparsanız komisyon alabiliriz; sizin için fiyat değişmez.',
+    'highlights' => 'Öne çıkanlar',
+    'included' => 'Neler dahil',
+    'excluded' => 'Dahil olmayanlar',
+    'meeting_point' => 'Buluşma noktası',
+    'cancellation' => 'İptal koşulları',
+    'important_info' => 'Gitmeden önce bilin',
+    'related_title' => ':city için diğer deneyimler',
+    'independent_note' => 'TripSpoiler bağımsız bir gezi rehberidir; bu yerin resmi sitesi değildir.',
 ];

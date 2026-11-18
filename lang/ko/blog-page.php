@@ -26,4 +26,5 @@ return [
     'city_guide' => '도시 가이드',
     'city_activities' => ':city 액티비티',
     'topics' => '주제',
+    'city_see_posts' => '글 읽기',
 ];

@@ -36,7 +36,19 @@ class Activity extends Model
         'description',
         'meta_title',
         'meta_description',
+        'highlights',
+        'included',
+        'excluded',
+        'meeting_point',
+        'important_info',
+        'cancellation',
     ];
+
+    /** Çok satırlı bilgi alanı (panelde her satır bir madde) → maddeler */
+    public function lines(string $field): array
+    {
+        return array_values(array_filter(array_map('trim', preg_split('/\R/u', (string) $this->getTranslation($field, app()->getLocale()))), 'strlen'));
+    }
 
     protected $casts = [
         'active' => 'boolean',

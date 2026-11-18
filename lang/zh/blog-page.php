@@ -26,4 +26,5 @@ return [
     'city_guide' => '城市指南',
     'city_activities' => ':city的活动',
     'topics' => '主题',
+    'city_see_posts' => '阅读文章',
 ];

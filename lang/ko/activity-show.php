@@ -28,4 +28,12 @@ return [
     'similar_desc' => '같은 도시의 다른 티켓, 투어, 시티 카드.',
     'gallery_close' => '닫기',
     'affiliate_note' => '이 링크로 예약하시면 저희가 수수료를 받을 수 있으며, 추가 비용은 없습니다.',
+    'highlights' => '하이라이트',
+    'included' => '포함 사항',
+    'excluded' => '불포함 사항',
+    'meeting_point' => '만나는 장소',
+    'cancellation' => '취소 규정',
+    'important_info' => '가기 전에 알아두세요',
+    'related_title' => ':city의 다른 즐길 거리',
+    'independent_note' => 'TripSpoiler는 독립 여행 가이드이며 이 명소의 공식 웹사이트가 아닙니다.',
 ];

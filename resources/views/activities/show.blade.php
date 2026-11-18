@@ -213,6 +213,121 @@
                                     </button>
                                 </div>
                             @endif
+
+                            {{-- BİLGİ KUTULARI: öne çıkanlar, dahil / dahil değil, buluşma noktası, iptal, gitmeden önce (panel: aktivite › Sayfadaki bilgi kutuları) --}}
+                            @php
+                                $highlights = $activity->lines('highlights');
+                                $included = $activity->lines('included');
+                                $excluded = $activity->lines('excluded');
+                                $important = $activity->lines('important_info');
+                                $meeting = trim((string) $activity->meeting_point);
+                                $cancellation = trim((string) $activity->cancellation);
+                            @endphp
+                            @if ($highlights)
+                                <div class="mt-10 rounded-3xl bg-gradient-to-br from-[#FFF4F4] to-white p-6 ring-1 ring-[#C62E2E]/10 sm:p-7">
+                                    <h2 class="text-xl font-extrabold tracking-tight text-slate-900">{{ __('activity-show.highlights') }}</h2>
+                                    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+                                        @foreach ($highlights as $item)
+                                            <li class="flex items-start gap-3 text-[15px] leading-relaxed text-slate-700">
+                                                <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-[#C62E2E] text-white">{!! \App\Support\FeatureIcons::svg('star', 'size-3.5') !!}</span>
+                                                {{ $item }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            @if ($included || $excluded)
+                                <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                                    @if ($included)
+                                        <div class="rounded-3xl bg-white p-6 ring-1 ring-slate-200">
+                                            <h2 class="text-lg font-extrabold tracking-tight text-slate-900">{{ __('activity-show.included') }}</h2>
+                                            <ul class="mt-4 space-y-3">
+                                                @foreach ($included as $item)
+                                                    <li class="flex items-start gap-3 text-[15px] leading-relaxed text-slate-700">
+                                                        <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-emerald-500 text-white"><svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+                                                        {{ $item }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                    @if ($excluded)
+                                        <div class="rounded-3xl bg-white p-6 ring-1 ring-slate-200">
+                                            <h2 class="text-lg font-extrabold tracking-tight text-slate-900">{{ __('activity-show.excluded') }}</h2>
+                                            <ul class="mt-4 space-y-3">
+                                                @foreach ($excluded as $item)
+                                                    <li class="flex items-start gap-3 text-[15px] leading-relaxed text-slate-600">
+                                                        <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-slate-200 text-slate-500"><svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></span>
+                                                        {{ $item }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
+                            @if ($meeting !== '' || $cancellation !== '')
+                                <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                                    @if ($meeting !== '')
+                                        <div @class(['flex gap-4 rounded-3xl bg-slate-900 p-6 text-white', 'sm:col-span-2' => $cancellation === ''])>
+                                            <span class="grid size-11 shrink-0 place-items-center rounded-2xl bg-white/10 text-[#FF8A8C] ring-1 ring-white/15">{!! \App\Support\FeatureIcons::svg('map-pin', 'size-5') !!}</span>
+                                            <div class="min-w-0">
+                                                <h2 class="font-extrabold">{{ __('activity-show.meeting_point') }}</h2>
+                                                <p class="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-white/80">{{ $meeting }}</p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if ($cancellation !== '')
+                                        <div @class(['flex gap-4 rounded-3xl bg-emerald-50 p-6 ring-1 ring-emerald-100', 'sm:col-span-2' => $meeting === ''])>
+                                            <span class="grid size-11 shrink-0 place-items-center rounded-2xl bg-emerald-500 text-white">{!! \App\Support\FeatureIcons::svg('calendar', 'size-5') !!}</span>
+                                            <div class="min-w-0">
+                                                <h2 class="font-extrabold text-slate-900">{{ __('activity-show.cancellation') }}</h2>
+                                                <p class="mt-1.5 text-sm leading-relaxed text-slate-700">{{ $cancellation }}</p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
+                            @if ($important)
+                                <div class="mt-4 rounded-3xl bg-amber-50 p-6 ring-1 ring-amber-100 sm:p-7">
+                                    <h2 class="flex items-center gap-2.5 text-lg font-extrabold tracking-tight text-slate-900">
+                                        <span class="grid size-8 place-items-center rounded-xl bg-amber-400 text-white">{!! \App\Support\FeatureIcons::svg('info', 'size-4') !!}</span>
+                                        {{ __('activity-show.important_info') }}
+                                    </h2>
+                                    <ul class="mt-4 space-y-2.5">
+                                        @foreach ($important as $item)
+                                            <li class="flex items-start gap-3 text-[15px] leading-relaxed text-slate-700">
+                                                <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-amber-500"></span>
+                                                {{ $item }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            {{-- BUNLAR DA İLGİNİ ÇEKEBİLİR: aynı şehirdeki diğer deneyimler --}}
+                            @if ($related->isNotEmpty())
+                                <div class="mt-12">
+                                    <h2 class="text-2xl font-extrabold tracking-tight text-slate-900">{{ __('activity-show.related_title', ['city' => $activity->city?->name]) }}</h2>
+                                    <ul class="mt-5 grid gap-4 sm:grid-cols-2">
+                                        @foreach ($related as $other)
+                                            <li>
+                                                <a href="{{ route('activities.show', $other->localSlug()) }}" class="group flex gap-4 rounded-3xl bg-white p-3 ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-24px_rgba(15,23,42,0.5)] hover:ring-slate-300">
+                                                    <span class="relative size-24 shrink-0 overflow-hidden rounded-2xl bg-slate-100">
+                                                        @if ($img = $other->images->first())
+                                                            <img src="{{ $img->url('sm') }}" alt="{{ $other->name }}" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                                        @endif
+                                                    </span>
+                                                    <span class="flex min-w-0 flex-col justify-center">
+                                                        <span class="line-clamp-3 text-[15px] font-bold leading-snug text-slate-900 group-hover:text-[#C62E2E]">{{ $other->name }}</span>
+                                                        @if ($other->duration)<span class="mt-1.5 text-xs font-medium text-slate-500">{{ $other->duration }}</span>@endif
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                         </div>
 
                         {{-- SAĞ: rezervasyon kutusu (masaüstünde yapışkan) --}}
@@ -239,7 +354,7 @@
                                             {{ __('activity-show.cta') }}
                                             <svg class="size-5 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 rtl:-scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
                                         </a>
-                                        <p class="mt-3 text-center text-xs leading-relaxed text-slate-500">{{ __('activities.redirect_notice') }} {{ __('activity-show.affiliate_note') }}</p>
+                                        <p class="mt-3 text-center text-xs leading-relaxed text-slate-500">{{ __('activities.redirect_notice') }} {{ __('activity-show.affiliate_note') }} {{ __('activity-show.independent_note') }}</p>
                                     </div>
                                     <ul class="space-y-3 border-t border-slate-100 bg-slate-50/60 px-6 py-5 text-sm text-slate-700">
                                         @foreach (['trust_official', 'trust_instant', 'trust_secure'] as $point)

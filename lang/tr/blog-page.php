@@ -26,4 +26,5 @@ return [
     'city_guide' => 'Şehir rehberi',
     'city_activities' => ':city aktiviteleri',
     'topics' => 'Konular',
+    'city_see_posts' => 'Yazıları oku',
 ];

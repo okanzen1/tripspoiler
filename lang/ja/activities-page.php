@@ -39,4 +39,7 @@ return [
 
     'cities_count' => ':count 都市',
     'activity_count' => ':count 件のアクティビティ',
+    'switch_city' => '都市を切り替える',
+    'city_selected' => '選択中',
+    'city_see' => 'アクティビティを見る',
 ];

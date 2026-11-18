@@ -39,4 +39,7 @@ return [
 
     'cities_count' => ':count 个城市',
     'activity_count' => ':count 项活动',
+    'switch_city' => '切换城市',
+    'city_selected' => '当前城市',
+    'city_see' => '查看活动',
 ];

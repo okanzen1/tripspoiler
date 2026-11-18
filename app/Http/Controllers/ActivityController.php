@@ -75,8 +75,14 @@ class ActivityController extends Controller
         $metaTitle = $activity->getTranslation('meta_title', $locale) ?: $name . ' | TripSpoiler';
         $metaDescription = $activity->getTranslation('meta_description', $locale) ?: 'Learn about ' . $name . '. What it includes, how it works, and whether it makes sense for your trip.';
 
+        // Aynı şehirdeki diğer deneyimler ("Bunlar da ilgini çekebilir")
+        $related = Activity::visible()->with(['images', 'city'])
+            ->where('city_id', $activity->city_id)->whereKeyNot($activity->id)
+            ->orderBy('sort_order')->orderBy('id')->limit(4)->get();
+
         return view('activities.show', compact(
             'activity',
+            'related',
             'locale',
             'metaTitle',
             'metaDescription',

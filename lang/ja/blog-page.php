@@ -26,4 +26,5 @@ return [
     'city_guide' => 'シティガイド',
     'city_activities' => ':cityのアクティビティ',
     'topics' => 'テーマ',
+    'city_see_posts' => '記事を読む',
 ];

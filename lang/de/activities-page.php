@@ -39,4 +39,7 @@ return [
 
     'cities_count' => ':count Städte',
     'activity_count' => '{1} :count Aktivität|[2,*] :count Aktivitäten',
+    'switch_city' => 'Stadt wechseln',
+    'city_selected' => 'Hier bist du',
+    'city_see' => 'Aktivitäten ansehen',
 ];

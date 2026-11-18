@@ -78,105 +78,14 @@
                 <p class="mt-3 max-w-xl text-base leading-relaxed text-white/75 md:mt-4 md:text-lg">{{ $hero['description'] }}</p>
                 <x-social-follow class="mt-6" />
 
-                {{-- ŞEHİR SEÇİMİ (her zaman görünür) --}}
-                {{-- Seçici yalnızca aktivitesi olan şehir varsa: hiç aktivite yokken şehir başlıkta görünür ama "0 şehir" seçici çıkmaz --}}
-                @if ($city && $cities->count() === 1 && $cities->contains('id', $city->id))
-                    {{-- tek şehir: seçim yok; geniş cam şerit (bayrak, şehir, aktivite sayısı) --}}
-                    <div class="mt-8 flex w-full max-w-xl items-center gap-4 rounded-[22px] p-2.5 pr-3 ring-1 ring-white/15">
-                        <span class="relative grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] shadow-[0_12px_28px_-10px_rgba(198,46,46,0.9)]">
-                            <svg class="size-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a7.5 7.5 0 0 0-7.5 7.5c0 5.6 6.4 11.3 6.7 11.55a1.2 1.2 0 0 0 1.6 0c.3-.25 6.7-5.95 6.7-11.55A7.5 7.5 0 0 0 12 2.25Z" opacity=".35"/><circle cx="12" cy="9.75" r="3.25"/></svg>
-                        </span>
-                        <span class="min-w-0 flex-1">
-                            <span class="block text-[11px] font-bold uppercase tracking-[0.16em] text-white/55">{{ __('activities-page.city') }}</span>
-                            <span class="mt-0.5 flex items-center gap-2 truncate text-lg font-bold">
-                                {{ $city->name }}@if ($city->country)<span class="font-medium text-white/60">· {{ $city->country->name }}</span>@endif
-                                @if ($city->country?->code)<span class="text-xl leading-none" aria-hidden="true">{{ implode('', array_map(fn ($c) => mb_chr(0x1F1E6 + ord($c) - 65), str_split(strtoupper($city->country->code)))) }}</span>@endif
-                            </span>
-                        </span>
-                        <span class="hidden shrink-0 items-center gap-2 rounded-2xl bg-white px-4 py-2.5 text-sm font-bold text-slate-900 sm:inline-flex">
-                            <span class="size-2 rounded-full bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,0.2)]"></span>
-                            {{ $stats['total'] }} {{ __('activities-page.stat_total') }}
-                        </span>
-                    </div>
-                @elseif ($city && $cities->count() > 1)
-                    @php
-                        $flagOf = fn ($c) => $c->country?->code ? implode('', array_map(fn ($ch) => mb_chr(0x1F1E6 + ord($ch) - 65), str_split(strtoupper($c->country->code)))) : '';
-                    @endphp
-                    <div x-data="{ open: false }" @click.outside="open = false" @keydown.escape.window="open = false" class="relative mt-8 w-full max-w-xl">
-                        <button type="button" @click="open = !open" :aria-expanded="open"
-                            :class="open ? 'ring-white/35' : 'ring-white/15 hover:ring-white/30'"
-                            class="flex w-full items-center gap-4 rounded-[22px] p-2.5 pr-3 text-left ring-1 transition">
-                            <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#FF6B6E] to-[#C62E2E] shadow-[0_12px_28px_-10px_rgba(198,46,46,0.9)]">
-                                <svg class="size-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a7.5 7.5 0 0 0-7.5 7.5c0 5.6 6.4 11.3 6.7 11.55a1.2 1.2 0 0 0 1.6 0c.3-.25 6.7-5.95 6.7-11.55A7.5 7.5 0 0 0 12 2.25Z" opacity=".35"/><circle cx="12" cy="9.75" r="3.25"/></svg>
-                            </span>
-                            <span class="min-w-0 flex-1">
-                                <span class="block text-[11px] font-bold uppercase tracking-[0.16em] text-white/55">{{ __('activities-page.choose_city') }}</span>
-                                <span class="mt-0.5 flex items-center gap-2 truncate text-lg font-bold">
-                                    {{ $city->name }}@if ($city->country)<span class="font-medium text-white/60">· {{ $city->country->name }}</span>@endif
-                                    <span class="text-xl leading-none" aria-hidden="true">{{ $flagOf($city) }}</span>
-                                </span>
-                            </span>
-                            <span class="inline-flex shrink-0 items-center gap-2 rounded-2xl bg-white px-4 py-2.5 text-sm font-bold text-slate-900">
-                                <span class="hidden sm:inline">{{ __('activities-page.cities_count', ['count' => $cities->count()]) }}</span>
-                                <svg class="size-4 transition duration-300" :class="open && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                            </span>
-                        </button>
-
-                        <div x-show="open" x-cloak
-                            x-transition:enter="transition duration-200 ease-out" x-transition:enter-start="opacity-0 -translate-y-2 scale-[0.98]" x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                            x-transition:leave="transition duration-150 ease-in" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0 -translate-y-1"
-                            class="absolute inset-x-0 top-full z-50 mt-2 origin-top overflow-hidden rounded-3xl bg-white text-slate-900 shadow-[0_30px_70px_-20px_rgba(2,6,23,0.6)] ring-1 ring-slate-200">
-                            <p class="border-b border-slate-100 px-5 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-400">{{ __('activities-page.choose_city') }}</p>
-                            <div class="max-h-80 overflow-y-auto p-2">
-                                @foreach ($cities as $c)
-                                    <a href="{{ route('activities.index', ['city' => $c->slug]) }}" @click="open = false; $dispatch('acts-loading')"
-                                        @class(['group flex items-center gap-3.5 rounded-2xl p-2.5 transition', 'bg-slate-50 ring-1 ring-slate-200' => $c->is($city), 'hover:bg-slate-50' => !$c->is($city)])>
-                                        <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-slate-100 text-2xl leading-none">{{ $flagOf($c) ?: '📍' }}</span>
-                                        <span class="min-w-0 flex-1">
-                                            <span class="block truncate text-[15px] font-bold">{{ $c->name }}</span>
-                                            <span class="block truncate text-xs text-slate-500">{{ $c->country?->name }} · {{ trans_choice('activities-page.activity_count', $c->activities_count, ['count' => $c->activities_count]) }}</span>
-                                        </span>
-                                        @if ($c->is($city))
-                                            <span class="grid size-7 shrink-0 place-items-center rounded-full bg-[#C62E2E] text-white">
-                                                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
-                                            </span>
-                                        @else
-                                            <svg class="size-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-slate-500 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                                        @endif
-                                    </a>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                @endif
             </div>
 
-            {{-- RAKAMLAR: her biri kendi renginde ikonlu cam kart --}}
-            @php
-                $statCards = [
-                    ['total', 'stat_total', 'from-[#FF6B6E] to-[#C62E2E]', 'bg-[#FF6B6E]', '<path d="M9 4.5v15M15 4.5v15" opacity=".35"/><path d="M4 7.5a3 3 0 0 0 0 6v3a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 16.5v-3a3 3 0 0 1 0-6v-1A1.5 1.5 0 0 0 18.5 5h-13A1.5 1.5 0 0 0 4 6.5z"/>'],
-                    ['passes', 'stat_passes', 'from-amber-300 to-orange-500', 'bg-amber-400', '<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18" opacity=".35"/><path d="M7 14.5h4"/>'],
-                    ['audio', 'stat_audio', 'from-emerald-300 to-teal-600', 'bg-emerald-400', '<path d="M4 14.5v-2a8 8 0 0 1 16 0v2" opacity=".35"/><rect x="3.5" y="13.5" width="4.5" height="6.5" rx="2"/><rect x="16" y="13.5" width="4.5" height="6.5" rx="2"/>'],
-                    ['languages', 'stat_languages', 'from-sky-300 to-indigo-600', 'bg-sky-400', '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.6 3.6 5.4 3.6 8.5s-1 5.9-3.6 8.5c-2.6-2.6-3.6-5.4-3.6-8.5s1-5.9 3.6-8.5z" opacity=".5"/>'],
-                ];
-                // 0 olan kutu gösterilmez; tek kalan kutu tam genişlik olur
-                $statCards = array_values(array_filter($statCards, fn ($card) => ($stats[$card[0]] ?? 0) > 0));
-            @endphp
-            {{-- şeffaf cam kartlar: eşit iki sütun (sağda); tek sayıda kart kalırsa sonuncusu iki sütunu kaplar --}}
-            <dl class="grid grid-cols-2 gap-3 self-end lg:col-span-5">
-                @foreach ($statCards as [$k, $label, $grad, $glow, $icon])
-                    <div @class(['group relative flex min-w-0 items-center gap-3 overflow-hidden rounded-3xl p-3 ring-1 ring-white/20 transition duration-300 hover:-translate-y-0.5 hover:ring-white/35 sm:gap-4 sm:p-3.5', 'col-span-2' => $loop->last && $loop->count % 2 === 1])>
-                        <span class="pointer-events-none absolute -right-6 -top-6 size-20 rounded-full {{ $glow }} opacity-25 blur-2xl transition group-hover:opacity-40"></span>
-                        <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br {{ $grad }} text-white shadow-[0_10px_24px_-10px_rgba(0,0,0,0.7)] sm:size-14">
-                            <svg class="size-6 sm:size-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">{!! $icon !!}</svg>
-                        </span>
-                        <span class="relative min-w-0 leading-tight">
-                            <dd class="text-2xl font-extrabold tracking-tight sm:text-3xl md:text-[34px]">{{ $stats[$k] }}</dd>
-                            <dt class="mt-0.5 truncate text-xs font-semibold text-white/75 sm:text-sm">{{ __('activities-page.' . $label) }}</dt>
-                        </span>
-                    </div>
-                @endforeach
-            </dl>
+            {{-- ŞEHİR SEÇİMİ: fotoğraflı şehir kartları (components/city-cards) --}}
+            @if ($cities->isNotEmpty())
+                <div class="self-end lg:col-span-5">
+                    <x-city-cards :cities="$cities" :current="$city" :url="fn ($c) => route('activities.index', ['city' => $c->slug])" loading-event="acts-loading" />
+                </div>
+            @endif
         </div>
     </section>
 
@@ -253,11 +162,8 @@
                                     class="flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1.5 py-2.5 text-xs font-semibold transition lg:flex-row lg:gap-2 lg:rounded-2xl lg:px-4 lg:py-3 lg:text-sm">
                                     <span class="relative">
                                         <svg class="size-5 lg:size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{!! $tabIcons[$t] ?? $tabIcons['product'] !!}</svg>
-                                        {{-- telefonda sayı ikonun köşesinde --}}
-                                        <span :class="tab === '{{ $t }}' ? 'bg-white text-[#C62E2E]' : 'bg-slate-900 text-white'" class="absolute -right-3 -top-2 grid h-4 min-w-4 place-items-center rounded-full px-1 text-[10px] font-bold leading-none lg:hidden">{{ $n }}</span>
                                     </span>
                                     <span class="max-w-full truncate">{{ $t === 'all' ? __('activities-page.all') : $typeLabel($t) }}</span>
-                                    <span :class="tab === '{{ $t }}' ? 'text-white/75' : 'text-slate-400'" class="hidden text-xs font-bold lg:inline">{{ $n }}</span>
                                 </button>
                             @endforeach
                         </div>

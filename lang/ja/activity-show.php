@@ -28,4 +28,12 @@ return [
     'similar_desc' => '同じ都市のチケット、ツアー、シティカード。',
     'gallery_close' => '閉じる',
     'affiliate_note' => 'このリンクから予約すると当サイトが手数料を受け取る場合があります（お客様の追加負担はありません）。',
+    'highlights' => 'ハイライト',
+    'included' => '含まれるもの',
+    'excluded' => '含まれないもの',
+    'meeting_point' => '集合場所',
+    'cancellation' => 'キャンセル',
+    'important_info' => '行く前に知っておきたいこと',
+    'related_title' => ':city のその他の体験',
+    'independent_note' => 'TripSpoiler は独立した旅行ガイドであり、この施設の公式サイトではありません。',
 ];

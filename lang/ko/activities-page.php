@@ -39,4 +39,7 @@ return [
 
     'cities_count' => ':count개 도시',
     'activity_count' => '활동 :count개',
+    'switch_city' => '도시 변경',
+    'city_selected' => '현재 도시',
+    'city_see' => '액티비티 보기',
 ];

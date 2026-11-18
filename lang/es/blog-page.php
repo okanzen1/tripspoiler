@@ -26,4 +26,5 @@ return [
     'city_guide' => 'Guía de la ciudad',
     'city_activities' => 'Actividades en :city',
     'topics' => 'Temas',
+    'city_see_posts' => 'Leer los artículos',
 ];

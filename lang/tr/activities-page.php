@@ -39,4 +39,7 @@ return [
 
     'cities_count' => ':count şehir',
     'activity_count' => ':count aktivite',
+    'switch_city' => 'Şehir değiştir',
+    'city_selected' => 'Şu an buradasın',
+    'city_see' => 'Aktiviteleri gör',
 ];

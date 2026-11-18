@@ -39,4 +39,7 @@ return [
 
     'cities_count' => ':count مدن',
     'activity_count' => ':count أنشطة',
+    'switch_city' => 'غيّر المدينة',
+    'city_selected' => 'أنت هنا',
+    'city_see' => 'عرض الأنشطة',
 ];

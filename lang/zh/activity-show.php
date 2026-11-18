@@ -28,4 +28,12 @@ return [
     'similar_desc' => '同一城市的其他门票、游览和城市卡。',
     'gallery_close' => '关闭',
     'affiliate_note' => '如果您通过此链接预订，我们可能会获得佣金，您无需支付额外费用。',
+    'highlights' => '亮点',
+    'included' => '包含内容',
+    'excluded' => '不包含',
+    'meeting_point' => '集合地点',
+    'cancellation' => '取消政策',
+    'important_info' => '出发前须知',
+    'related_title' => ':city 的更多体验',
+    'independent_note' => 'TripSpoiler 是独立旅行指南，并非该景点的官方网站。',
 ];
