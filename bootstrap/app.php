@@ -31,5 +31,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })
 
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Eski / adı değişmiş adresler 404 yerine güncel sayfaya kalıcı yönlenir (App\Support\LegacyRedirects)
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, \Illuminate\Http\Request $request) {
+            return \App\Support\LegacyRedirects::respond($request);
+        });
     })->create();
