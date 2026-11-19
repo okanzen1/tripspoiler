@@ -82,7 +82,7 @@
                             </li>
                         @endforeach
                         <li>
-                            <a href="#status" class="inline-flex items-center gap-2 rounded-full py-1.5 pe-4 ps-1.5 text-white/85 ring-1 ring-white/25 transition hover:bg-white/10 hover:text-white">
+                            <a href="#status" onclick="event.preventDefault(); const box = document.getElementById('status'); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => box.querySelector('input')?.focus({ preventScroll: true }), 700); history.replaceState(null, '', '#status');" class="inline-flex items-center gap-2 rounded-full py-1.5 pe-4 ps-1.5 text-white/85 ring-1 ring-white/25 transition hover:bg-white/10 hover:text-white">
                                 <span class="grid size-7 place-items-center rounded-full bg-white/15"><svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>{{ $t('status_title') }} <span aria-hidden="true">↓</span>
                             </a>
                         </li>
