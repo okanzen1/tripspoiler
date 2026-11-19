@@ -79,10 +79,12 @@
             <div class="relative">
                 <input id="langToggle" type="checkbox" class="peer hidden">
 
-                <label for="langToggle"
-                    class="cursor-pointer flex items-center gap-1.5 h-10 px-3.5 rounded-full border border-slate-200
-                           text-sm font-semibold text-slate-700 hover:border-slate-300 select-none transition
-                           group-data-[transparent=true]:border-white/30 group-data-[transparent=true]:text-white group-data-[transparent=true]:hover:border-white/60">
+                {{-- yan menüdeki (site kılavuzu) dil yuvarlağı gibi: seçili dilin renkleriyle dolu zemin, beyaz yazı --}}
+                <label for="langToggle" style="{{ \App\Support\LocaleColors::gradient(app()->getLocale()) }}"
+                    class="cursor-pointer flex items-center gap-1.5 h-10 px-3.5 rounded-full ring-1 ring-white
+                           text-sm font-bold text-white select-none transition duration-300 [text-shadow:0_1px_2px_rgba(0,0,0,0.45)]
+                           shadow-[0_10px_26px_-10px_rgba(15,23,42,0.6)] hover:-translate-y-0.5 peer-checked:ring-2 peer-checked:ring-[#C62E2E] peer-checked:ring-offset-2
+                           group-data-[transparent=true]:ring-white/40">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="9" />
                         <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" />
