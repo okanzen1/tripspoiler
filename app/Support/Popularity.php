@@ -28,11 +28,15 @@ class Popularity
 
     /**
      * Şehirleri karıştır: sıralı listeden her şehrin en iyisi, sonra ikincisi… (en güçlü şehir başta).
-     * $perCity: bir şehirden en fazla kaç tane.
+     * $perCity: bir şehirden en fazla kaç tane. $shuffleCities: şehir sırası rastgele (her şehrin kendi içindeki sırası aynı kalır).
      */
-    public static function mix(Collection $ranked, int $limit, int $perCity = PHP_INT_MAX): Collection
+    public static function mix(Collection $ranked, int $limit, int $perCity = PHP_INT_MAX, bool $shuffleCities = false): Collection
     {
         $groups = $ranked->groupBy('city_id')->map->values()->values();
+        if ($shuffleCities) {
+            // her açılışta şehir sırası değişir: fazladan yeri (ör. 5 kartta 3+2) hep aynı şehir almaz
+            $groups = $groups->shuffle()->values();
+        }
         $mixed = collect();
 
         for ($round = 0; $round < $perCity && $mixed->count() < $limit; $round++) {

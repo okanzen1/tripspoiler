@@ -45,10 +45,11 @@ class HomeController extends Controller
     }
 
     /**
-     * Hero'nun sağındaki dönen "Şu an popüler" kartı: önce panelde seçilenler (o sırayla, en fazla 5),
-     * ardından listede olmayan her şehrin en popüler ürünü (App\Support\Popularity). Görseli olmayan atlanır.
+     * Hero'nun sağındaki dönen "Şu an popüler" kartı: toplam 5 ürün. Önce panelde seçilenler (o sırayla),
+     * kalan yerler şehirlere sırayla dağıtılır: her şehrin en popülerleri (App\Support\Popularity), şehir sırası
+     * her açılışta rastgele (2 şehirde 3+2, 3 şehirde 2+2+1…). Görseli olmayan atlanır.
      */
-    public const FEATURED_MAX_CITIES = 20;
+    public const FEATURED_TOTAL = 5;
 
     private function featured(?string $picked)
     {
@@ -56,12 +57,12 @@ class HomeController extends Controller
         $query = Activity::visible()->whereHas('cover')->with(['cover', 'city']);
 
         $chosen = $ids
-            ? (clone $query)->whereIn('id', $ids)->get()->sortBy(fn ($activity) => array_search($activity->id, $ids))->values()
+            ? (clone $query)->whereIn('id', $ids)->get()->sortBy(fn ($activity) => array_search($activity->id, $ids))->values()->take(self::FEATURED_TOTAL)
             : collect();
 
         $auto = Popularity::mix(
-            Popularity::rank((clone $query)->whereNotIn('city_id', $chosen->pluck('city_id')->unique()->all() ?: [0]))->get(),
-            self::FEATURED_MAX_CITIES, 1,
+            Popularity::rank((clone $query)->whereNotIn('id', $chosen->pluck('id')->all() ?: [0]))->get(),
+            self::FEATURED_TOTAL - $chosen->count(), shuffleCities: true,
         );
 
         return $chosen->concat($auto)->values();
