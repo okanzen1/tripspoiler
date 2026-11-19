@@ -27,4 +27,7 @@ return [
     'compare_view' => '자세히',
     'compare_includes' => ':total곳 중 :count곳 포함',
     'compare_best' => '가장 많은 장소',
+    'compare_yes' => '포함',
+    'compare_no' => '미포함',
+    'compare_score' => '포함 범위',
 ];

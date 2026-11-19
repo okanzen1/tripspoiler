@@ -27,4 +27,7 @@ return [
     'compare_view' => '詳細',
     'compare_includes' => ':total か所中 :count か所を含む',
     'compare_best' => '最多スポット',
+    'compare_yes' => '含まれる',
+    'compare_no' => '含まれない',
+    'compare_score' => 'カバー',
 ];

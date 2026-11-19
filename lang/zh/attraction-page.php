@@ -27,4 +27,7 @@ return [
     'compare_view' => '详情',
     'compare_includes' => '包含 :total 个景点中的 :count 个',
     'compare_best' => '景点最多',
+    'compare_yes' => '包含',
+    'compare_no' => '不包含',
+    'compare_score' => '覆盖',
 ];

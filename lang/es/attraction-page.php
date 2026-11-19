@@ -27,4 +27,7 @@ return [
     'compare_view' => 'Detalles',
     'compare_includes' => ':count de :total lugares incluidos',
     'compare_best' => 'Más lugares',
+    'compare_yes' => 'Incluido',
+    'compare_no' => 'No incluido',
+    'compare_score' => 'Cobertura',
 ];

@@ -27,4 +27,7 @@ return [
     'compare_view' => 'Подробнее',
     'compare_includes' => 'Включено :count из :total мест',
     'compare_best' => 'Больше всего мест',
+    'compare_yes' => 'Включено',
+    'compare_no' => 'Не включено',
+    'compare_score' => 'Охват',
 ];

@@ -27,4 +27,7 @@ return [
     'compare_view' => 'Details',
     'compare_includes' => ':count von :total Orten inklusive',
     'compare_best' => 'Die meisten Orte',
+    'compare_yes' => 'Inklusive',
+    'compare_no' => 'Nicht inklusive',
+    'compare_score' => 'Umfang',
 ];

@@ -27,4 +27,7 @@ return [
     'compare_view' => 'Detay',
     'compare_includes' => ':total yerden :count tanesi dahil',
     'compare_best' => 'En çok yer',
+    'compare_yes' => 'Dahil',
+    'compare_no' => 'Dahil değil',
+    'compare_score' => 'Kapsam',
 ];

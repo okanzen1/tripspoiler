@@ -27,4 +27,7 @@ return [
     'compare_view' => 'التفاصيل',
     'compare_includes' => 'يشمل :count من :total أماكن',
     'compare_best' => 'أكثر الأماكن',
+    'compare_yes' => 'مشمول',
+    'compare_no' => 'غير مشمول',
+    'compare_score' => 'التغطية',
 ];
