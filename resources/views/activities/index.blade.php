@@ -106,11 +106,8 @@
                         @endif
                     </div>
                 @endif
-            </div>
-
-            {{-- SAĞ ALT: bizi takip et (anasayfadaki gibi sağda, küçük); telefonda düğmelerin altında --}}
-            <div class="lg:col-span-5 lg:flex lg:justify-end">
-                <x-social-follow />
+                {{-- bizi takip et: seçici ve düğmelerle aynı blokta, aynı genişlikte ve aynı cam zeminde --}}
+                <x-social-follow full class="mt-3 max-w-xl bg-white/10 ring-white/25 backdrop-blur-md" />
             </div>
         </div>
     </section>
