@@ -45,16 +45,23 @@
                 @if ($attraction->summary)
                     <p class="mt-4 max-w-2xl text-base leading-relaxed text-white/80 md:text-lg">{{ $attraction->summary }}</p>
                 @endif
-                <div class="mt-7 flex flex-wrap gap-3">
-                    @if ($tickets->isNotEmpty())
-                        <a href="#tickets" class="inline-flex items-center gap-2 rounded-2xl bg-[#C62E2E] px-5 py-3 text-sm font-bold text-white shadow-[0_14px_30px_-12px_rgba(198,46,46,0.8)] transition hover:bg-[#A82424]">
-                            {{ __('attraction-page.see_tickets') }}
-                            <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                        </a>
+                {{-- Düğmeler + "Takip et" kutusu aynı genişlikte: düğmeler eşit iki parça, yarım kalmaz --}}
+                @php $buttons = ($tickets->isNotEmpty() ? 1 : 0) + ($info ? 1 : 0); @endphp
+                <div class="mt-7 grid w-full gap-3 sm:w-max sm:min-w-[26rem]">
+                    @if ($buttons)
+                        <div @class(['grid gap-3', 'grid-cols-2' => $buttons === 2])>
+                            @if ($tickets->isNotEmpty())
+                                <a href="#tickets" class="inline-flex items-center justify-center gap-2 text-center leading-tight sm:whitespace-nowrap rounded-2xl bg-[#C62E2E] px-5 py-3.5 text-sm font-bold text-white shadow-[0_14px_30px_-12px_rgba(198,46,46,0.8)] transition hover:bg-[#A82424]">
+                                    {{ __('attraction-page.see_tickets') }}
+                                    <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                                </a>
+                            @endif
+                            @if ($info)
+                                <a href="#visit" class="inline-flex items-center justify-center gap-2 text-center leading-tight sm:whitespace-nowrap rounded-2xl bg-white/10 px-5 py-3.5 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur-md transition hover:bg-white hover:text-slate-900">{{ __('attraction-page.plan_visit') }}</a>
+                            @endif
+                        </div>
                     @endif
-                    @if ($info)
-                        <a href="#visit" class="inline-flex items-center gap-2 rounded-2xl bg-white/10 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur-md transition hover:bg-white hover:text-slate-900">{{ __('attraction-page.plan_visit') }}</a>
-                    @endif
+                    <x-social-follow full />
                 </div>
             </div>
         </div>
