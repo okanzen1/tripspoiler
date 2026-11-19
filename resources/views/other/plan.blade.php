@@ -127,34 +127,34 @@
         </div>
     </section>
 
-    {{-- FORM: kart değil, sayfa genişliğinde bölüm; solda kenara kadar koyu adım sütunu (masaüstü), sağda soru --}}
-    <section class="relative bg-slate-50 pb-16 md:pb-24">
-        <div>
-            <div x-data="planForm(@js($config))" class="border-b border-slate-200 bg-white">
-              <div class="grid" :class="done ? '' : 'lg:grid-cols-[minmax(22rem,30%)_minmax(0,1fr)]'">
+    {{-- FORM KARTI: başlık alanının altında, arada boşluk; solda açık renkli adım sütunu (masaüstü), sağda soru --}}
+    <section class="relative bg-slate-50 pb-16 pt-12 md:pb-24 md:pt-16">
+        <div class="mx-auto max-w-7xl px-4">
+            <div x-data="planForm(@js($config))" class="overflow-hidden rounded-[32px] bg-white shadow-[0_40px_100px_-45px_rgba(15,23,42,0.4)] ring-1 ring-slate-200">
+              <div class="grid" :class="done ? '' : 'lg:grid-cols-[20rem_minmax(0,1fr)]'">
 
                 {{-- ADIMLAR (masaüstü) --}}
-                <aside x-show="!done" class="relative hidden overflow-hidden bg-[#0F1420] py-14 pe-10 ps-[max(2rem,calc((100vw-80rem)/2+1rem))] text-white lg:flex lg:flex-col">
-                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_65%)]" aria-hidden="true"></div>
-                    <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-amber-300">{{ $t('your_request') }}</p>
+                <aside x-show="!done" class="relative hidden overflow-hidden border-e border-amber-100 bg-gradient-to-b from-amber-50 via-orange-50 to-rose-50 p-8 text-slate-900 lg:flex lg:flex-col">
+                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.35),transparent_65%)]" aria-hidden="true"></div>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-amber-600">{{ $t('your_request') }}</p>
                     <ol class="mt-6 space-y-1.5">
                         <template x-for="(s, i) in steps" :key="s.id">
                             <li>
                                 <button type="button" @click="if (i < step) { step = i; error = '' }" :disabled="i > step"
-                                    class="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-start transition" :class="i === step ? 'bg-white/10 ring-1 ring-white/15' : (i < step ? 'hover:bg-white/5' : '')">
+                                    class="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-start transition" :class="i === step ? 'bg-white shadow-[0_10px_30px_-15px_rgba(245,158,11,0.6)] ring-1 ring-amber-200' : (i < step ? 'hover:bg-white/60' : '')">
                                     <span class="grid size-8 shrink-0 place-items-center rounded-full text-xs font-extrabold transition"
-                                        :class="i < step ? 'bg-emerald-500 text-white' : (i === step ? 'bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/30' : 'bg-white/10 text-white/45')">
+                                        :class="i < step ? 'bg-emerald-500 text-white' : (i === step ? 'bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/30' : 'bg-white text-slate-400 ring-1 ring-slate-200')">
                                         <span x-show="i >= step" x-text="i + 1"></span>
                                         <svg x-show="i < step" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
                                     </span>
-                                    <span class="text-sm font-bold" :class="i <= step ? 'text-white' : 'text-white/45'" x-text="s.label"></span>
+                                    <span class="text-sm font-bold" :class="i <= step ? 'text-slate-900' : 'text-slate-400'" x-text="s.label"></span>
                                 </button>
                             </li>
                         </template>
                     </ol>
                     <div class="mt-auto pt-10">
-                        <div class="rounded-2xl bg-white/5 p-4 text-xs leading-relaxed text-white/60 ring-1 ring-white/10">
-                            <svg class="mb-2 size-5 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+                        <div class="rounded-2xl bg-white/80 p-4 text-xs leading-relaxed text-slate-600 ring-1 ring-amber-100">
+                            <svg class="mb-2 size-5 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
                             {{ $t('encrypted_note') }}
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                     </div>
                 </div>
 
-                <form x-show="!done" @submit.prevent="next()" class="px-4 py-10 sm:px-10 sm:py-12 lg:py-16 lg:ps-16 lg:pe-[max(2.5rem,calc((100vw-80rem)/2+1rem))]" novalidate>
+                <form x-show="!done" @submit.prevent="next()" class="px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-12" novalidate>
                     <input type="text" name="website" x-model="f.website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
 
                     {{-- 1. YOLCULUK --}}
@@ -417,7 +417,7 @@
             </div>
 
             {{-- NASIL ÇALIŞIR --}}
-            <ol class="mx-auto mt-14 grid max-w-7xl gap-4 px-4 sm:grid-cols-3">
+            <ol class="mt-12 grid gap-4 sm:grid-cols-3">
                 @foreach (['how_1', 'how_2', 'how_3'] as $i => $key)
                     <li class="rounded-3xl bg-white p-6 ring-1 ring-slate-200">
                         <span class="grid size-10 place-items-center rounded-2xl bg-slate-900 text-sm font-extrabold text-white">{{ $i + 1 }}</span>
