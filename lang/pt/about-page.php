@@ -21,7 +21,7 @@ return [
     'how_2_t' => 'Compare',
     'how_2_d' => 'Ingressos, passeios e city cards lado a lado, com notas honestas sobre o que está incluído.',
     'how_3_t' => 'Reserve com o parceiro',
-    'how_3_d' => 'Você reserva e paga no site do parceiro oficial. Podemos ganhar uma pequena comissão; seu preço não muda.',
+    'how_3_d' => 'Você reserva e paga no site do parceiro. Podemos ganhar uma pequena comissão; seu preço não muda.',
     'values_eyebrow' => 'No que acreditamos',
     'values_title' => 'Nossos princípios',
     'v1_t' => 'Honestos',

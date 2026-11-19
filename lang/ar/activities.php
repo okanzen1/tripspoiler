@@ -16,8 +16,8 @@ return array (
   'category_product' => 'الخبرة',
   'category_package' => 'الحزمة',
   'view_details' => 'عرض التفاصيل →',
-  'official_ticket_provider' => 'مزود التذاكر الرسمي',
+  'official_ticket_provider' => 'شريك حجز موثوق',
   'instant_confirmation' => 'تأكيد فوري',
-  'redirect_notice' => 'سيتم توجيهك إلى مزود التذاكر الرسمي لإكمال الحجز.',
+  'redirect_notice' => 'لإتمام الحجز، سيتم تحويلك إلى موقع شريكنا.',
   'check_availability' => 'تحقق من التوفر',
 );

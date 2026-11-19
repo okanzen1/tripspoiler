@@ -2,9 +2,9 @@
 
 // Yer sayfası (attractions/show) ve şehir sayfasındaki yer / karşılaştırma bölümleri
 return [
-    'meta_title' => ':name チケットと観光ガイド :year | TripSpoiler',
+    'meta_title' => ':name 観光ガイドとアクティビティ :year | TripSpoiler',
     'eyebrow' => ':city · 見どころ',
-    'see_tickets' => 'チケットを見る',
+    'see_tickets' => 'アクティビティを見る',
     'plan_visit' => '訪問を計画する',
     'opening_hours' => '営業時間',
     'closed_days' => '休館日',
@@ -13,8 +13,8 @@ return [
     'official_site' => '公式サイト',
     'visit_title' => ':name を訪れる',
     'check_note' => '祝日やイベントで時間が変わることがあります。出かける前に公式サイトをご確認ください。',
-    'tickets_title' => ':name のチケットとツアー',
-    'tickets_text' => 'この場所を含む入場券、パス、コンボ。予約は提携先のサイトで行います。',
+    'tickets_title' => ':name のツアーとアクティビティ',
+    'tickets_text' => 'この場所を含むアクティビティ、パス、セット商品。予約はパートナーのサイトで行います。',
     'about_title' => ':name について',
     'more_places' => ':city のその他の見どころ',
     'see_place' => '見どころを見る',

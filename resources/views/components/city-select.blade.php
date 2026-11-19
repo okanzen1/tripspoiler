@@ -22,7 +22,7 @@
         go(c) { if (!c) return; if (c.current) return this.hide(); @if ($loadingEvent) $dispatch('{{ $loadingEvent }}'); @endif window.location.href = c.url },
     }" @keydown.escape.window="hide()" {{ $attributes->merge(['class' => 'relative w-full max-w-xl']) }}>
     <button type="button" @if ($many) @click="open ? hide() : show()" :aria-expanded="open" @endif
-        @class(['group flex w-full items-center gap-4 rounded-[24px] bg-white/10 p-2.5 text-start ring-1 ring-white/25 backdrop-blur-md transition', 'hover:bg-white/15 hover:ring-white/45' => $many, 'cursor-default' => !$many])>
+        @class(['group relative flex w-full items-center gap-4 overflow-hidden rounded-[24px] bg-white/10 p-2.5 text-start ring-1 ring-white/25 backdrop-blur-md transition', 'social-sweep hover:bg-white/15 hover:ring-white/45' => $many, 'cursor-default' => !$many])>
         @if ($currentFlag = $flagUrl($current))
             {{-- bayrak kendi oranında (4:3), kesilmeden; cam görünümlü kutunun ortasında --}}
             <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/10 ring-1 ring-white/20">
@@ -43,7 +43,7 @@
             </span>
         </span>
         @if ($many)
-            <span class="relative inline-flex shrink-0 items-center gap-2 rounded-2xl bg-[#C62E2E] px-4 py-3 text-sm font-bold text-white shadow-[0_10px_24px_-10px_rgba(198,46,46,0.9)] transition group-hover:bg-[#A82424]">
+            <span class="city-nudge relative inline-flex shrink-0 items-center gap-2 rounded-2xl bg-[#C62E2E] px-4 py-3 text-sm font-bold text-white shadow-[0_10px_24px_-10px_rgba(198,46,46,0.9)] transition group-hover:bg-[#A82424]">
                 <span class="absolute -right-1 -top-1 flex size-3 rtl:-left-1 rtl:right-auto" aria-hidden="true">
                     <span class="absolute inline-flex size-full animate-ping rounded-full bg-[#FF6B6E] opacity-75 motion-reduce:animate-none"></span>
                     <span class="relative inline-flex size-3 rounded-full bg-[#FF6B6E] ring-2 ring-white"></span>

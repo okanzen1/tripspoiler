@@ -16,8 +16,8 @@ return array (
   'category_product' => 'Erleben Sie',
   'category_package' => 'Paket',
   'view_details' => 'Details anzeigen →',
-  'official_ticket_provider' => 'Offizieller Ticketanbieter',
+  'official_ticket_provider' => 'Vertrauenswürdiger Buchungspartner',
   'instant_confirmation' => 'Sofortige Bestätigung',
-  'redirect_notice' => 'Sie werden zum offiziellen Ticketanbieter weitergeleitet, um Ihre Buchung abzuschließen.',
+  'redirect_notice' => 'Zum Abschluss der Buchung wirst du auf die Website unseres Partners weitergeleitet.',
   'check_availability' => 'Verfügbarkeit prüfen',
 );

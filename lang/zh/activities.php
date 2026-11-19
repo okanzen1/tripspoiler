@@ -16,8 +16,8 @@ return array (
   'category_product' => '经验',
   'category_package' => '包装',
   'view_details' => '查看详情 →',
-  'official_ticket_provider' => '官方票务提供商',
+  'official_ticket_provider' => '可信赖的预订合作伙伴',
   'instant_confirmation' => '即时确认',
-  'redirect_notice' => '您将被重定向到官方票务提供商以完成预订。',
+  'redirect_notice' => '要完成预订，您将被转到我们合作伙伴的网站。',
   'check_availability' => '查看可用性',
 );

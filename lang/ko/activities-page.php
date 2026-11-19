@@ -42,6 +42,9 @@ return [
     'switch_city' => '도시 변경',
     'city_selected' => '현재 도시',
     'city_see' => '액티비티 보기',
+    'hero_see' => ':city 액티비티 보기',
+    'hero_guide' => '도시 가이드',
+    'hero_blog' => '블로그',
     'search_city' => '도시 검색…',
     'no_city' => '도시를 찾을 수 없습니다',
 ];

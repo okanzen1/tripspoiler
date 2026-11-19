@@ -37,9 +37,10 @@
 
                 <p class="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-white/45">{{ __('footer.follow') }}</p>
                 <div class="mt-3 flex gap-2.5">
-                    @foreach ($socials as [$name, $url, , $icon])
-                        <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}"
-                            class="grid size-10 place-items-center rounded-full bg-white/5 text-white/80 ring-1 ring-white/10 transition hover:bg-[#C62E2E] hover:text-white hover:ring-[#C62E2E]">
+                    @foreach ($socials as [$name, $url, , $icon, $tone])
+                        {{-- markaların kendi renkleri (App\Support\Socials) --}}
+                        <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}" title="{{ $name }}"
+                            class="grid size-10 place-items-center rounded-full text-white ring-1 ring-white/20 transition duration-300 hover:scale-110 {{ $tone }}">
                             <svg class="size-[18px]" fill="currentColor" viewBox="0 0 24 24">{!! $icon !!}</svg>
                         </a>
                     @endforeach

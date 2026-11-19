@@ -2,9 +2,9 @@
 
 // Yer sayfası (attractions/show) ve şehir sayfasındaki yer / karşılaştırma bölümleri
 return [
-    'meta_title' => 'Bilhetes e guia de visita de :name :year | TripSpoiler',
+    'meta_title' => ':name: guia de visita e atividades :year | TripSpoiler',
     'eyebrow' => ':city · Lugares para visitar',
-    'see_tickets' => 'Ver bilhetes',
+    'see_tickets' => 'Ver atividades',
     'plan_visit' => 'Planear a visita',
     'opening_hours' => 'Horário',
     'closed_days' => 'Fechado',
@@ -13,8 +13,8 @@ return [
     'official_site' => 'Site oficial',
     'visit_title' => 'Visitar :name',
     'check_note' => 'O horário pode mudar em feriados e eventos. Consulte o site oficial antes de ir.',
-    'tickets_title' => 'Bilhetes e tours de :name',
-    'tickets_text' => 'Bilhetes de entrada, passes e combos que incluem este lugar. Reserva no site do parceiro.',
+    'tickets_title' => ':name: passeios e atividades',
+    'tickets_text' => 'Atividades, passes e combos que incluem este local. A reserva é feita no site do parceiro.',
     'about_title' => 'Sobre :name',
     'more_places' => 'Mais lugares para visitar em :city',
     'see_place' => 'Ver o lugar',

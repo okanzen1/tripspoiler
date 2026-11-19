@@ -2,9 +2,9 @@
 
 // Yer sayfası (attractions/show) ve şehir sayfasındaki yer / karşılaştırma bölümleri
 return [
-    'meta_title' => ':name Biletleri ve Ziyaret Rehberi :year | TripSpoiler',
+    'meta_title' => ':name Ziyaret Rehberi ve Aktiviteler :year | TripSpoiler',
     'eyebrow' => ':city · Gezilecek yerler',
-    'see_tickets' => 'Biletleri gör',
+    'see_tickets' => 'Aktiviteleri gör',
     'plan_visit' => 'Ziyaretini planla',
     'opening_hours' => 'Açılış saatleri',
     'closed_days' => 'Kapalı',
@@ -13,8 +13,8 @@ return [
     'official_site' => 'Resmi site',
     'visit_title' => ':name ziyareti',
     'check_note' => 'Saatler bayram ve etkinliklerde değişebilir. Gitmeden önce resmi siteyi kontrol edin.',
-    'tickets_title' => ':name biletleri ve turları',
-    'tickets_text' => 'Bu yeri içeren giriş biletleri, passler ve kombolar. Rezervasyonu partnerin sitesinde yaparsınız.',
+    'tickets_title' => ':name aktiviteleri ve turları',
+    'tickets_text' => 'Bu yeri içeren aktiviteler, passler ve kombolar. Rezervasyonu partnerin sitesinde yaparsınız.',
     'about_title' => ':name hakkında',
     'more_places' => ':city\'da gezilecek diğer yerler',
     'see_place' => 'Yeri gör',

@@ -16,8 +16,8 @@ return array (
   'category_product' => '経験',
   'category_package' => 'パッケージ',
   'view_details' => '詳細を見る',
-  'official_ticket_provider' => '公式チケット提供者',
+  'official_ticket_provider' => '信頼できる予約パートナー',
   'instant_confirmation' => '即時確認',
-  'redirect_notice' => '予約を完了するために公式チケット提供者のサイトへリダイレクトされます。',
+  'redirect_notice' => '予約を完了するため、パートナーのサイトに移動します。',
   'check_availability' => '空き状況を確認',
 );

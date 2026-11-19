@@ -27,8 +27,8 @@ return [
 
     'view_details' => 'View details →',
 
-    'official_ticket_provider' => 'Official ticket provider',
+    'official_ticket_provider' => 'Trusted booking partner',
     'instant_confirmation' => 'Instant confirmation',
-    'redirect_notice' => 'You’ll be redirected to the official ticket provider to complete your booking.',
+    'redirect_notice' => 'To complete your booking, you will be redirected to our partner\'s website.',
     'check_availability' => 'Check availability',
 ];

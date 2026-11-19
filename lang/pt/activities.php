@@ -16,8 +16,8 @@ return array (
   'category_product' => 'Experiência',
   'category_package' => 'Embalagem',
   'view_details' => 'Ver pormenores →',
-  'official_ticket_provider' => 'Fornecedor oficial de ingressos',
+  'official_ticket_provider' => 'Parceiro de reservas confiável',
   'instant_confirmation' => 'Confirmação instantânea',
-  'redirect_notice' => 'Você será redirecionado para o fornecedor oficial de ingressos para concluir sua reserva.',
+  'redirect_notice' => 'Para concluir a reserva, você será redirecionado para o site do nosso parceiro.',
   'check_availability' => 'Verificar disponibilidade',
 );

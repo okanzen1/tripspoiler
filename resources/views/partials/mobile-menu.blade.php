@@ -117,14 +117,13 @@
 
             {{-- SOSYAL --}}
             <div class="mt-auto flex items-center gap-3 px-5 pt-8 pb-6">
-                <a href="https://instagram.com/tripspoilerofficial" target="_blank" rel="noopener" aria-label="Instagram"
-                    class="grid size-10 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/15 transition hover:bg-[#C62E2E]">
-                    <svg class="size-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2a3 3 0 013 3v10a3 3 0 01-3 3H7a3 3 0 01-3-3V7a3 3 0 013-3h10z" /><path d="M12 7.5A4.5 4.5 0 1016.5 12 4.51 4.51 0 0012 7.5z" /><circle cx="17.5" cy="6.5" r="1" /></svg>
-                </a>
-                <a href="https://tiktok.com/@tripspoilerofficial" target="_blank" rel="noopener" aria-label="TikTok"
-                    class="grid size-10 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/15 transition hover:bg-[#C62E2E]">
-                    <svg class="size-5" fill="currentColor" viewBox="0 0 24 24"><path d="M21 8.3a6.6 6.6 0 01-3.8-1.2v7.1a6.4 6.4 0 11-6.4-6.4c.4 0 .8 0 1.2.1v3.3a3.1 3.1 0 10 2.2 3v-12h3.2a6.6 6.6 0 003.6 3.1z" /></svg>
-                </a>
+                {{-- markaların kendi renkleri (App\Support\Socials) --}}
+                @foreach (\App\Support\Socials::all() as [$name, $url, , $icon, $tone])
+                    <a href="{{ $url }}" target="_blank" rel="noopener" aria-label="{{ $name }}" title="{{ $name }}"
+                        class="grid size-10 place-items-center rounded-full text-white ring-1 ring-white/20 transition duration-300 hover:scale-110 {{ $tone }}">
+                        <svg class="size-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">{!! $icon !!}</svg>
+                    </a>
+                @endforeach
                 <span class="ml-auto text-xs text-white/50">© {{ date('Y') }} TripSpoiler</span>
             </div>
             </div>

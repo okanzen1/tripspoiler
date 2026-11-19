@@ -48,6 +48,9 @@ class ActivityController extends Controller
             'cities' => $cities,
             'city' => $city,
             'activities' => $activities,
+            // banner'ın sağındaki kısayollar: şehrin rehberi ve blog yazıları varsa düğmeleri çıkar
+            'hasGuide' => $city && in_array($city->id, CityController::guideCityIds(), true),
+            'hasBlog' => $city && \App\Models\Blog::published()->where('city_id', $city->id)->exists(),
             // listenin sonunda "Aradığını bulamadın mı?" kartları (partnerin şehir sayfasına)
             'moreLinks' => \App\Models\PartnerLink::forCity($city?->id),
             'stats' => [

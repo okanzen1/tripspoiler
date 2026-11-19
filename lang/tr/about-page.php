@@ -21,7 +21,7 @@ return [
     'how_2_t' => 'Seçenekleri karşılaştır',
     'how_2_d' => 'Biletleri, turları ve şehir kartlarını yan yana görürsün; neyin dahil olduğunu açıkça yazarız.',
     'how_3_t' => 'Partnerde rezervasyon yap',
-    'how_3_d' => 'Rezervasyonu ve ödemeyi partnerin resmi sitesinde yaparsın. Bu satışlardan küçük bir komisyon alabiliriz; ödediğin fiyat değişmez.',
+    'how_3_d' => 'Rezervasyonu ve ödemeyi partnerin sitesinde yaparsın. Bu satışlardan küçük bir komisyon alabiliriz; ödediğin fiyat değişmez.',
     'values_eyebrow' => 'İnandıklarımız',
     'values_title' => 'İlkelerimiz',
     'v1_t' => 'Dürüst',

@@ -132,8 +132,36 @@
   100% { transform: scale(1.45); opacity: 0; }
 }
 
+/* Şehir seçicideki "Şehir değiştir" düğmesi ara ara hafifçe zıplar (dikkat çeksin, rahatsız etmesin) */
+.city-nudge {
+  animation: cityNudge 3.2s ease-in-out infinite;
+}
+
+.group:hover .city-nudge,
+[aria-expanded="true"] .city-nudge {
+  animation: none;
+}
+
+@keyframes cityNudge {
+  0%, 62%, 100% { transform: translateY(0) scale(1); }
+  70% { transform: translateY(-4px) scale(1.04); }
+  78% { transform: translateY(0) scale(1); }
+  84% { transform: translateY(-2px) scale(1.02); }
+  90% { transform: translateY(0) scale(1); }
+}
+
+/* Aktiviteler banner'ındaki "aktiviteleri gör" ok işareti aşağı doğru salınır */
+.hero-arrow svg {
+  animation: heroArrow 1.8s ease-in-out infinite;
+}
+
+@keyframes heroArrow {
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(3px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .social-sweep::after, .social-bob, .social-ring { animation: none; }
+  .social-sweep::after, .social-bob, .social-ring, .city-nudge, .hero-arrow svg { animation: none; }
 }
 
 /* Footer üstündeki partner logoları: iki kopya yan yana kayar; üstüne gelince durur */

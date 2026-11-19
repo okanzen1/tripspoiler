@@ -21,7 +21,7 @@ return [
     'how_2_t' => 'Comparez',
     'how_2_d' => 'Billets, visites et city cards côte à côte, avec des notes honnêtes sur ce qui est inclus.',
     'how_3_t' => 'Réservez chez le partenaire',
-    'how_3_d' => 'Vous réservez et payez sur le site du partenaire officiel. Nous pouvons toucher une petite commission ; votre prix ne change pas.',
+    'how_3_d' => 'Vous réservez et payez sur le site du partenaire. Nous pouvons toucher une petite commission ; votre prix ne change pas.',
     'values_eyebrow' => 'Ce en quoi nous croyons',
     'values_title' => 'Nos principes',
     'v1_t' => 'Honnêtes',

@@ -42,6 +42,9 @@ return [
     'switch_city' => 'Mudar de cidade',
     'city_selected' => 'Você está aqui',
     'city_see' => 'Ver atividades',
+    'hero_see' => 'Ver atividades em :city',
+    'hero_guide' => 'Guia da cidade',
+    'hero_blog' => 'Blog',
     'search_city' => 'Pesquisar uma cidade…',
     'no_city' => 'Nenhuma cidade encontrada',
 ];

@@ -21,7 +21,7 @@ return [
     'how_2_t' => 'Confronta',
     'how_2_d' => 'Biglietti, tour e city card fianco a fianco, con note oneste su cosa è incluso.',
     'how_3_t' => 'Prenota con il partner',
-    'how_3_d' => 'Prenoti e paghi sul sito del partner ufficiale. Potremmo ricevere una piccola commissione; il prezzo per te non cambia.',
+    'how_3_d' => 'Prenoti e paghi sul sito del partner. Potremmo ricevere una piccola commissione; il prezzo per te non cambia.',
     'values_eyebrow' => 'In cosa crediamo',
     'values_title' => 'I nostri principi',
     'v1_t' => 'Onesti',

@@ -2,9 +2,9 @@
 
 // Yer sayfası (attractions/show) ve şehir sayfasındaki yer / karşılaştırma bölümleri
 return [
-    'meta_title' => 'تذاكر :name ودليل الزيارة :year | TripSpoiler',
+    'meta_title' => 'دليل زيارة :name والأنشطة :year | TripSpoiler',
     'eyebrow' => ':city · أماكن للزيارة',
-    'see_tickets' => 'عرض التذاكر',
+    'see_tickets' => 'عرض الأنشطة',
     'plan_visit' => 'خطّط لزيارتك',
     'opening_hours' => 'ساعات العمل',
     'closed_days' => 'مغلق',
@@ -13,8 +13,8 @@ return [
     'official_site' => 'الموقع الرسمي',
     'visit_title' => 'زيارة :name',
     'check_note' => 'قد تتغير المواعيد في العطلات والفعاليات. تحقق من الموقع الرسمي قبل الذهاب.',
-    'tickets_title' => 'تذاكر وجولات :name',
-    'tickets_text' => 'تذاكر دخول وبطاقات وعروض مجمعة تشمل هذا المكان. يتم الحجز على موقع الشريك.',
+    'tickets_title' => 'جولات وأنشطة :name',
+    'tickets_text' => 'أنشطة وبطاقات وعروض مجمعة تشمل هذا المكان. يتم الحجز على موقع الشريك.',
     'about_title' => 'عن :name',
     'more_places' => 'أماكن أخرى للزيارة في :city',
     'see_place' => 'عرض المكان',

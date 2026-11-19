@@ -21,7 +21,7 @@ return [
     'how_2_t' => 'Compare the options',
     'how_2_d' => 'Tickets, tours and city cards side by side, with honest notes on what is included.',
     'how_3_t' => 'Book with the partner',
-    'how_3_d' => 'You book and pay on the official partner’s site. We may earn a small commission; the price stays the same for you.',
+    'how_3_d' => 'You book and pay on the partner’s site. We may earn a small commission; the price stays the same for you.',
     'values_eyebrow' => 'What we believe',
     'values_title' => 'Our principles',
     'v1_t' => 'Honest',

@@ -42,6 +42,9 @@ return [
     'switch_city' => 'Сменить город',
     'city_selected' => 'Вы здесь',
     'city_see' => 'Смотреть впечатления',
+    'hero_see' => 'Активности: :city',
+    'hero_guide' => 'Путеводитель',
+    'hero_blog' => 'Блог',
     'search_city' => 'Найти город…',
     'no_city' => 'Город не найден',
 ];

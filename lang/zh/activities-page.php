@@ -42,6 +42,9 @@ return [
     'switch_city' => '切换城市',
     'city_selected' => '当前城市',
     'city_see' => '查看活动',
+    'hero_see' => '查看:city的活动',
+    'hero_guide' => '城市指南',
+    'hero_blog' => '博客',
     'search_city' => '搜索城市…',
     'no_city' => '未找到城市',
 ];

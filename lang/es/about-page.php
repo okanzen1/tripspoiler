@@ -21,7 +21,7 @@ return [
     'how_2_t' => 'Compara opciones',
     'how_2_d' => 'Entradas, tours y tarjetas turísticas lado a lado, con notas honestas sobre lo incluido.',
     'how_3_t' => 'Reserva con el socio',
-    'how_3_d' => 'Reservas y pagas en la web del socio oficial. Podemos recibir una pequeña comisión; tu precio no cambia.',
+    'how_3_d' => 'Reservas y pagas en la web del socio. Podemos recibir una pequeña comisión; tu precio no cambia.',
     'values_eyebrow' => 'En qué creemos',
     'values_title' => 'Nuestros principios',
     'v1_t' => 'Honestos',

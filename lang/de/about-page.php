@@ -21,7 +21,7 @@ return [
     'how_2_t' => 'Optionen vergleichen',
     'how_2_d' => 'Tickets, Touren und City Cards nebeneinander, mit ehrlichen Hinweisen zu den Leistungen.',
     'how_3_t' => 'Beim Partner buchen',
-    'how_3_d' => 'Du buchst und zahlst beim offiziellen Partner. Wir erhalten eventuell eine kleine Provision; dein Preis bleibt gleich.',
+    'how_3_d' => 'Du buchst und zahlst beim Partner. Wir erhalten eventuell eine kleine Provision; dein Preis bleibt gleich.',
     'values_eyebrow' => 'Woran wir glauben',
     'values_title' => 'Unsere Prinzipien',
     'v1_t' => 'Ehrlich',

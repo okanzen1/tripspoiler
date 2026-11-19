@@ -42,6 +42,9 @@ return [
     'switch_city' => 'غيّر المدينة',
     'city_selected' => 'أنت هنا',
     'city_see' => 'عرض الأنشطة',
+    'hero_see' => 'عرض الأنشطة في :city',
+    'hero_guide' => 'دليل المدينة',
+    'hero_blog' => 'المدونة',
     'search_city' => 'ابحث عن مدينة…',
     'no_city' => 'لم يتم العثور على مدينة',
 ];

@@ -2,9 +2,9 @@
 
 // Yer sayfası (attractions/show) ve şehir sayfasındaki yer / karşılaştırma bölümleri
 return [
-    'meta_title' => ':name: билеты и путеводитель :year | TripSpoiler',
+    'meta_title' => ':name: гид для посетителей и активности :year | TripSpoiler',
     'eyebrow' => ':city · Что посмотреть',
-    'see_tickets' => 'Смотреть билеты',
+    'see_tickets' => 'Смотреть активности',
     'plan_visit' => 'Спланировать визит',
     'opening_hours' => 'Часы работы',
     'closed_days' => 'Выходные',
@@ -13,8 +13,8 @@ return [
     'official_site' => 'Официальный сайт',
     'visit_title' => 'Посещение: :name',
     'check_note' => 'Часы работы могут меняться в праздники и во время мероприятий. Проверьте официальный сайт перед поездкой.',
-    'tickets_title' => ':name: билеты и туры',
-    'tickets_text' => 'Входные билеты, пассы и комбо с этим местом. Бронирование — на сайте партнёра.',
+    'tickets_title' => ':name: экскурсии и активности',
+    'tickets_text' => 'Активности, пассы и комбо, которые включают это место. Бронирование — на сайте партнёра.',
     'about_title' => 'О месте: :name',
     'more_places' => 'Ещё места в городе :city',
     'see_place' => 'Смотреть место',
