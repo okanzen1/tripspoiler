@@ -25,4 +25,6 @@ return [
     'compare_text' => 'Hangi pass ya da kombo hangi yerleri içeriyor.',
     'compare_product' => 'Pass / kombo',
     'compare_view' => 'Detay',
+    'compare_includes' => ':total yerden :count tanesi dahil',
+    'compare_best' => 'En çok yer',
 ];

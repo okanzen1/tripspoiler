@@ -25,4 +25,6 @@ return [
     'compare_text' => 'Какие места входят в каждый пасс или комбо.',
     'compare_product' => 'Пасс / комбо',
     'compare_view' => 'Подробнее',
+    'compare_includes' => 'Включено :count из :total мест',
+    'compare_best' => 'Больше всего мест',
 ];

@@ -25,4 +25,6 @@ return [
     'compare_text' => '각 패스나 콤보에 포함된 장소입니다.',
     'compare_product' => '패스 / 콤보',
     'compare_view' => '자세히',
+    'compare_includes' => ':total곳 중 :count곳 포함',
+    'compare_best' => '가장 많은 장소',
 ];

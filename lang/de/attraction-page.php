@@ -25,4 +25,6 @@ return [
     'compare_text' => 'Welche Orte jeder Pass oder jedes Kombi enthält.',
     'compare_product' => 'Pass / Kombi',
     'compare_view' => 'Details',
+    'compare_includes' => ':count von :total Orten inklusive',
+    'compare_best' => 'Die meisten Orte',
 ];

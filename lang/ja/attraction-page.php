@@ -25,4 +25,6 @@ return [
     'compare_text' => '各パスやコンボに含まれる場所。',
     'compare_product' => 'パス / コンボ',
     'compare_view' => '詳細',
+    'compare_includes' => ':total か所中 :count か所を含む',
+    'compare_best' => '最多スポット',
 ];

@@ -25,4 +25,6 @@ return [
     'compare_text' => '每种通票或套票包含哪些景点。',
     'compare_product' => '通票 / 套票',
     'compare_view' => '详情',
+    'compare_includes' => '包含 :total 个景点中的 :count 个',
+    'compare_best' => '景点最多',
 ];

@@ -25,4 +25,6 @@ return [
     'compare_text' => 'Quali luoghi include ogni pass o combo.',
     'compare_product' => 'Pass / combo',
     'compare_view' => 'Dettagli',
+    'compare_includes' => ':count luoghi su :total inclusi',
+    'compare_best' => 'Più luoghi',
 ];

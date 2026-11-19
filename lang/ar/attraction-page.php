@@ -25,4 +25,6 @@ return [
     'compare_text' => 'الأماكن التي تشملها كل بطاقة أو عرض مجمع.',
     'compare_product' => 'بطاقة / عرض مجمع',
     'compare_view' => 'التفاصيل',
+    'compare_includes' => 'يشمل :count من :total أماكن',
+    'compare_best' => 'أكثر الأماكن',
 ];
