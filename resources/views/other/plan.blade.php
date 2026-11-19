@@ -64,7 +64,7 @@
                 ['label' => __('navbar.plan'), 'url' => route('plan')],
             ]" />
 
-            <div class="grid items-end gap-10 pb-48 pt-10 md:pb-56 md:pt-14 lg:grid-cols-12 lg:gap-12">
+            <div class="grid items-end gap-10 pb-16 pt-10 md:pb-20 md:pt-14 lg:grid-cols-12 lg:gap-12">
                 {{-- SOL: başlık --}}
                 <div class="min-w-0 lg:col-span-7">
                     <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-amber-300 ring-1 ring-white/20 backdrop-blur-md">
@@ -127,14 +127,14 @@
         </div>
     </section>
 
-    {{-- FORM KARTI: başlık alanına biner, sayfayı kaplar; solda adımlar (masaüstü), sağda soru --}}
+    {{-- FORM: kart değil, sayfa genişliğinde bölüm; solda kenara kadar koyu adım sütunu (masaüstü), sağda soru --}}
     <section class="relative bg-slate-50 pb-16 md:pb-24">
-        <div class="mx-auto -mt-36 max-w-7xl px-4 md:-mt-44">
-            <div x-data="planForm(@js($config))" class="overflow-hidden rounded-[32px] bg-white shadow-[0_50px_120px_-45px_rgba(15,23,42,0.55)] ring-1 ring-slate-200">
-              <div class="grid" :class="done ? '' : 'lg:grid-cols-[20rem_minmax(0,1fr)]'">
+        <div>
+            <div x-data="planForm(@js($config))" class="border-b border-slate-200 bg-white">
+              <div class="grid" :class="done ? '' : 'lg:grid-cols-[minmax(22rem,30%)_minmax(0,1fr)]'">
 
                 {{-- ADIMLAR (masaüstü) --}}
-                <aside x-show="!done" class="relative hidden overflow-hidden bg-[#0F1420] p-8 text-white lg:flex lg:flex-col">
+                <aside x-show="!done" class="relative hidden overflow-hidden bg-[#0F1420] py-14 pe-10 ps-[max(2rem,calc((100vw-80rem)/2+1rem))] text-white lg:flex lg:flex-col">
                     <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_65%)]" aria-hidden="true"></div>
                     <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-amber-300">{{ $t('your_request') }}</p>
                     <ol class="mt-6 space-y-1.5">
@@ -174,7 +174,7 @@
                     </div>
                 </div>
 
-                <form x-show="!done" @submit.prevent="next()" class="px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-12" novalidate>
+                <form x-show="!done" @submit.prevent="next()" class="px-4 py-10 sm:px-10 sm:py-12 lg:py-16 lg:ps-16 lg:pe-[max(2.5rem,calc((100vw-80rem)/2+1rem))]" novalidate>
                     <input type="text" name="website" x-model="f.website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
 
                     {{-- 1. YOLCULUK --}}
@@ -417,7 +417,7 @@
             </div>
 
             {{-- NASIL ÇALIŞIR --}}
-            <ol class="mt-12 grid gap-4 sm:grid-cols-3">
+            <ol class="mx-auto mt-14 grid max-w-7xl gap-4 px-4 sm:grid-cols-3">
                 @foreach (['how_1', 'how_2', 'how_3'] as $i => $key)
                     <li class="rounded-3xl bg-white p-6 ring-1 ring-slate-200">
                         <span class="grid size-10 place-items-center rounded-2xl bg-slate-900 text-sm font-extrabold text-white">{{ $i + 1 }}</span>
