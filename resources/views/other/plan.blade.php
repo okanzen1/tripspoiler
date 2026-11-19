@@ -65,7 +65,7 @@
             ]" />
 
             <div class="pb-16 pt-10 md:pb-20 md:pt-14">
-                {{-- başlık (talep sorgulama sayfanın içinde, formun altında) --}}
+                {{-- başlık (talep sorgulama sayfanın içinde, formun üstünde) --}}
                 <div class="min-w-0 max-w-4xl">
                     <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-amber-300 ring-1 ring-white/20 backdrop-blur-md">
                         <svg class="size-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/></svg>{{ $hero['eyebrow'] }}
@@ -95,12 +95,53 @@
     {{-- FORM KARTI: başlık alanının altında, arada boşluk; solda açık renkli adım sütunu (masaüstü), sağda soru --}}
     <section class="relative bg-slate-50 pb-16 pt-12 md:pb-24 md:pt-16">
         <div class="mx-auto max-w-7xl px-4">
+            {{-- TALEBİNİ SORGULA: numara + e-posta (PlanController@status) --}}
+            <div id="status" x-data="planStatus(@js(['url' => route('plan.status'), 'csrf' => csrf_token(), 'error' => $t('error')]))"
+                class="relative mb-8 scroll-mt-28 overflow-hidden rounded-[28px] bg-white p-6 shadow-[0_30px_80px_-45px_rgba(15,23,42,0.45)] ring-1 ring-slate-200 sm:p-8">
+                <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_65%)]" aria-hidden="true"></div>
+                <div class="relative grid items-center gap-6 lg:grid-cols-12">
+                    <div class="flex items-center gap-4 lg:col-span-4">
+                        <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/30">
+                            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                        </span>
+                        <div>
+                            <h2 class="text-xl font-extrabold tracking-[-0.02em] text-slate-900">{{ $t('status_title') }}</h2>
+                            <p class="mt-0.5 text-sm text-slate-500">{{ $t('status_desc') }}</p>
+                        </div>
+                    </div>
+                    <form @submit.prevent="check()" class="grid gap-3 sm:grid-cols-[1fr_1fr_auto] lg:col-span-8" novalidate>
+                        <input type="text" x-model="ref" maxlength="20" placeholder="{{ $t('status_ref_ph') }}" aria-label="{{ $t('status_ref') }}"
+                            class="block w-full rounded-2xl border-0 bg-slate-50 px-4 py-3.5 font-mono text-[15px] uppercase tracking-wider text-slate-900 ring-1 ring-slate-200 outline-none placeholder:font-sans placeholder:normal-case placeholder:tracking-normal placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-amber-400">
+                        <input type="email" x-model="email" maxlength="180" placeholder="{{ $t('status_email') }}" aria-label="{{ $t('status_email') }}"
+                            class="block w-full rounded-2xl border-0 bg-slate-50 px-4 py-3.5 text-[15px] text-slate-900 ring-1 ring-slate-200 outline-none placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-amber-400">
+                        <button type="submit" :disabled="busy || !ref || !email" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl bg-slate-900 px-6 py-3.5 text-sm font-extrabold text-amber-300 shadow-lg shadow-slate-900/20 transition hover:bg-slate-800 disabled:opacity-50">
+                            <span x-text="busy ? @js($t('status_checking')) : @js($t('status_btn'))"></span>
+                        </button>
+                    </form>
+                </div>
+                <div x-show="result" x-cloak x-transition class="relative mt-5 rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200">
+                    <template x-if="result && result.found">
+                        <div>
+                            <div class="flex items-center justify-between gap-3">
+                                <span class="font-mono text-sm font-bold text-slate-500" x-text="result.reference"></span>
+                                <span class="rounded-full px-3 py-1 text-xs font-extrabold" :class="{ 'bg-amber-100 text-amber-800': result.status === 'new', 'bg-emerald-100 text-emerald-800': result.status === 'answered', 'bg-slate-200 text-slate-700': result.status === 'closed' }" x-text="result.label"></span>
+                            </div>
+                            <p class="mt-2 text-sm leading-relaxed text-slate-600" x-text="result.text"></p>
+                            <p class="mt-1 text-xs text-slate-400" x-text="@js($t('status_sent')).replace(':date', result.date)"></p>
+                        </div>
+                    </template>
+                    <template x-if="result && !result.found">
+                        <p class="text-sm font-semibold text-red-600" x-text="result.message"></p>
+                    </template>
+                </div>
+            </div>
+
             <div x-data="planForm(@js($config))" class="overflow-hidden rounded-[32px] bg-white shadow-[0_40px_100px_-45px_rgba(15,23,42,0.4)] ring-1 ring-slate-200">
               <div class="grid" :class="done ? '' : 'lg:grid-cols-[20rem_minmax(0,1fr)]'">
 
                 {{-- ADIMLAR (masaüstü) --}}
-                <aside x-show="!done" class="relative hidden overflow-hidden border-e border-slate-100 bg-gradient-to-b from-sky-50 via-white to-indigo-50/70 p-8 text-slate-900 lg:flex lg:flex-col">
-                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.22),transparent_65%)]" aria-hidden="true"></div>
+                <aside x-show="!done" class="relative hidden overflow-hidden border-e border-rose-100/70 bg-gradient-to-b from-rose-50 via-white to-orange-50/40 p-8 text-slate-900 lg:flex lg:flex-col">
+                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.12),transparent_65%)]" aria-hidden="true"></div>
                     <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-[#C62E2E]">{{ $t('your_request') }}</p>
                     <ol class="mt-6 space-y-1.5">
                         <template x-for="(s, i) in steps" :key="s.id">
@@ -118,8 +159,8 @@
                         </template>
                     </ol>
                     <div class="mt-auto pt-10">
-                        <div class="rounded-2xl bg-white/80 p-4 text-xs leading-relaxed text-slate-600 ring-1 ring-sky-100">
-                            <svg class="mb-2 size-5 text-sky-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+                        <div class="rounded-2xl bg-white/80 p-4 text-xs leading-relaxed text-slate-600 ring-1 ring-rose-100">
+                            <svg class="mb-2 size-5 text-[#C62E2E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
                             {{ $t('encrypted_note') }}
                         </div>
                     </div>
@@ -392,46 +433,6 @@
                 @endforeach
             </ol>
 
-            {{-- TALEBİNİ SORGULA: numara + e-posta (PlanController@status) --}}
-            <div id="status" x-data="planStatus(@js(['url' => route('plan.status'), 'csrf' => csrf_token(), 'error' => $t('error')]))"
-                class="relative mt-12 scroll-mt-28 overflow-hidden rounded-[28px] bg-white p-6 shadow-[0_30px_80px_-45px_rgba(15,23,42,0.45)] ring-1 ring-slate-200 sm:p-8">
-                <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_65%)]" aria-hidden="true"></div>
-                <div class="relative grid items-center gap-6 lg:grid-cols-12">
-                    <div class="flex items-center gap-4 lg:col-span-4">
-                        <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/30">
-                            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-                        </span>
-                        <div>
-                            <h2 class="text-xl font-extrabold tracking-[-0.02em] text-slate-900">{{ $t('status_title') }}</h2>
-                            <p class="mt-0.5 text-sm text-slate-500">{{ $t('status_desc') }}</p>
-                        </div>
-                    </div>
-                    <form @submit.prevent="check()" class="grid gap-3 sm:grid-cols-[1fr_1fr_auto] lg:col-span-8" novalidate>
-                        <input type="text" x-model="ref" maxlength="20" placeholder="{{ $t('status_ref_ph') }}" aria-label="{{ $t('status_ref') }}"
-                            class="block w-full rounded-2xl border-0 bg-slate-50 px-4 py-3.5 font-mono text-[15px] uppercase tracking-wider text-slate-900 ring-1 ring-slate-200 outline-none placeholder:font-sans placeholder:normal-case placeholder:tracking-normal placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-amber-400">
-                        <input type="email" x-model="email" maxlength="180" placeholder="{{ $t('status_email') }}" aria-label="{{ $t('status_email') }}"
-                            class="block w-full rounded-2xl border-0 bg-slate-50 px-4 py-3.5 text-[15px] text-slate-900 ring-1 ring-slate-200 outline-none placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-amber-400">
-                        <button type="submit" :disabled="busy || !ref || !email" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl bg-slate-900 px-6 py-3.5 text-sm font-extrabold text-amber-300 shadow-lg shadow-slate-900/20 transition hover:bg-slate-800 disabled:opacity-50">
-                            <span x-text="busy ? @js($t('status_checking')) : @js($t('status_btn'))"></span>
-                        </button>
-                    </form>
-                </div>
-                <div x-show="result" x-cloak x-transition class="relative mt-5 rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200">
-                    <template x-if="result && result.found">
-                        <div>
-                            <div class="flex items-center justify-between gap-3">
-                                <span class="font-mono text-sm font-bold text-slate-500" x-text="result.reference"></span>
-                                <span class="rounded-full px-3 py-1 text-xs font-extrabold" :class="{ 'bg-amber-100 text-amber-800': result.status === 'new', 'bg-emerald-100 text-emerald-800': result.status === 'answered', 'bg-slate-200 text-slate-700': result.status === 'closed' }" x-text="result.label"></span>
-                            </div>
-                            <p class="mt-2 text-sm leading-relaxed text-slate-600" x-text="result.text"></p>
-                            <p class="mt-1 text-xs text-slate-400" x-text="@js($t('status_sent')).replace(':date', result.date)"></p>
-                        </div>
-                    </template>
-                    <template x-if="result && !result.found">
-                        <p class="text-sm font-semibold text-red-600" x-text="result.message"></p>
-                    </template>
-                </div>
-            </div>
         </div>
     </section>
 
