@@ -140,27 +140,27 @@
               <div class="grid" :class="done ? '' : 'lg:grid-cols-[20rem_minmax(0,1fr)]'">
 
                 {{-- ADIMLAR (masaüstü) --}}
-                <aside x-show="!done" class="relative hidden overflow-hidden border-e border-rose-100/70 bg-gradient-to-b from-rose-50 via-white to-orange-50/40 p-8 text-slate-900 lg:flex lg:flex-col">
-                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.12),transparent_65%)]" aria-hidden="true"></div>
-                    <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-[#C62E2E]">{{ $t('your_request') }}</p>
+                <aside x-show="!done" class="relative hidden overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-black p-8 text-white lg:flex lg:flex-col">
+                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.35),transparent_65%)]" aria-hidden="true"></div>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-[#FF6B6E]">{{ $t('your_request') }}</p>
                     <ol class="mt-6 space-y-1.5">
                         <template x-for="(s, i) in steps" :key="s.id">
                             <li>
                                 <button type="button" @click="if (i < step) { step = i; error = '' }" :disabled="i > step"
-                                    class="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-start transition" :class="i === step ? 'bg-white shadow-[0_12px_30px_-16px_rgba(15,23,42,0.35)] ring-1 ring-slate-200' : (i < step ? 'hover:bg-white/60' : '')">
+                                    class="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-start transition" :class="i === step ? 'bg-white/10 shadow-[0_12px_30px_-16px_rgba(0,0,0,0.6)] ring-1 ring-white/15' : (i < step ? 'hover:bg-white/5' : '')">
                                     <span class="grid size-8 shrink-0 place-items-center rounded-full text-xs font-extrabold transition"
-                                        :class="i < step ? 'bg-emerald-500 text-white' : (i === step ? 'bg-[#C62E2E] text-white shadow-lg shadow-red-600/30' : 'bg-white text-slate-400 ring-1 ring-slate-200')">
+                                        :class="i < step ? 'bg-emerald-500 text-white' : (i === step ? 'bg-[#C62E2E] text-white shadow-lg shadow-red-600/30' : 'bg-white/5 text-white/40 ring-1 ring-white/15')">
                                         <span x-show="i >= step" x-text="i + 1"></span>
                                         <svg x-show="i < step" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
                                     </span>
-                                    <span class="text-sm font-bold" :class="i <= step ? 'text-slate-900' : 'text-slate-400'" x-text="s.label"></span>
+                                    <span class="text-sm font-bold" :class="i <= step ? 'text-white' : 'text-white/40'" x-text="s.label"></span>
                                 </button>
                             </li>
                         </template>
                     </ol>
                     <div class="mt-auto pt-10">
-                        <div class="rounded-2xl bg-white/80 p-4 text-xs leading-relaxed text-slate-600 ring-1 ring-rose-100">
-                            <svg class="mb-2 size-5 text-[#C62E2E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+                        <div class="rounded-2xl bg-white/5 p-4 text-xs leading-relaxed text-white/65 ring-1 ring-white/10">
+                            <svg class="mb-2 size-5 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
                             {{ $t('encrypted_note') }}
                         </div>
                     </div>
