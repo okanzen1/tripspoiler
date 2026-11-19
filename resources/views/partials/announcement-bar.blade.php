@@ -15,7 +15,7 @@
         $key = 'ts-announce-' . md5($announcements->map(fn ($a) => $a->id . $a->updated_at)->join('|'));
     @endphp
 
-    {{-- Yazılar fosforlu sarı (#FFE600), nabız gibi parlar; üzerinden ara ara ışık şeridi geçer (app.css: announcement-bar) --}}
+    {{-- Yazılar fosforlu sarı (#F2FF00), içlerinden ışık akar; üzerinden ara ara ışık şeridi geçer (app.css: announcement-bar) --}}
     {{-- Sayfa çizilmeden önce: kapatıldıysa şerit hiç görünmesin (gelip gitmesin), hero yüksekliği de buna göre --}}
     <script>
         (() => {
@@ -44,12 +44,12 @@
                                 @if ($announcement->url())
                                     <a href="{{ $announcement->url() }}" @if ($copy) tabindex="-1" @endif
                                         @if ($announcement->isExternal()) target="_blank" rel="noopener noreferrer" @endif
-                                        class="announcement-glow text-[#FFE600] hover:text-[#FFF27A] underline-offset-4 hover:underline">
+                                        class="announcement-glow hover:brightness-125 underline-offset-4 hover:underline">
                                         {{ $announcement->text }}
                                         <span aria-hidden="true" class="ml-1 text-[#E04848]">→</span>
                                     </a>
                                 @else
-                                    <span class="announcement-glow text-[#FFE600]">{{ $announcement->text }}</span>
+                                    <span class="announcement-glow">{{ $announcement->text }}</span>
                                 @endif
                             </li>
                         @endforeach

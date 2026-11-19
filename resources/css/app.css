@@ -49,7 +49,7 @@
   to   { transform: translateX(-50%); }
 }
 
-/* Duyuru şeridi parlar: fosforlu sarı yazıların üzerinden ara ara bir ışık şeridi geçer, yazılar hafifçe nabız atar */
+/* Duyuru şeridi parlar: fosforlu sarı yazıların içinden ışık akar, şeridin üzerinden ara ara bir ışık geçer */
 .announcement-bar { isolation: isolate; }
 .announcement-bar::after {
   content: "";
@@ -62,20 +62,30 @@
   transform: translateX(-120%) skewX(-20deg);
   animation: announcementShine 4.5s ease-in-out infinite;
 }
-.announcement-glow { animation: announcementGlow 2.8s ease-in-out infinite; }
+.announcement-glow {
+  /* fosforlu sarı yazının içinden beyaz bir ışık akar; etrafında hafif ışıma */
+  color: transparent;
+  background: linear-gradient(100deg, #F2FF00 0%, #F2FF00 42%, #FFFFFF 50%, #F2FF00 58%, #F2FF00 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 5px rgba(242, 255, 0, 0.55));
+  animation: announcementTextShine 3.2s linear infinite;
+}
+.announcement-glow [aria-hidden] { -webkit-text-fill-color: #E04848; }
 @keyframes announcementShine {
   0%   { transform: translateX(-120%) skewX(-20deg); }
   55%, 100% { transform: translateX(680%) skewX(-20deg); }
 }
-@keyframes announcementGlow {
-  0%, 100% { text-shadow: 0 0 10px rgba(255, 230, 0, 0.25); }
-  50%      { text-shadow: 0 0 18px rgba(255, 230, 0, 0.6), 0 0 2px rgba(255, 245, 160, 0.9); }
+@keyframes announcementTextShine {
+  from { background-position: 120% 0; }
+  to   { background-position: -120% 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .announcement-track { animation: none; }
   .announcement-bar::after { display: none; }
-  .announcement-glow { animation: none; text-shadow: 0 0 12px rgba(255, 230, 0, 0.35); }
+  .announcement-glow { animation: none; }
 }
 
 /* Kampanyalar düğmesi: üstünden geçen ışık + hediye ikonunun ara ara sallanması */
