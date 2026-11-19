@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Support\Popularity;
 use App\Models\City;
 use App\Models\ActivityImage;
 use App\Models\Review;
@@ -44,25 +45,26 @@ class HomeController extends Controller
     }
 
     /**
-     * Hero'nun sağındaki dönen "Şu an popüler" kartı: panelde seçilenler (o sırayla), yoksa popüler işaretliler.
-     * Görünmeyen ya da görseli olmayan aktivite atlanır.
+     * Hero'nun sağındaki dönen "Şu an popüler" kartı: önce panelde seçilenler (o sırayla, en fazla 5),
+     * ardından listede olmayan her şehrin en popüler ürünü (App\Support\Popularity). Görseli olmayan atlanır.
      */
+    public const FEATURED_MAX_CITIES = 20;
+
     private function featured(?string $picked)
     {
         $ids = array_values(array_filter(array_map('intval', explode(',', (string) $picked))));
         $query = Activity::visible()->whereHas('cover')->with(['cover', 'city']);
 
-        if ($ids) {
-            $chosen = (clone $query)->whereIn('id', $ids)->get()
-                ->sortBy(fn ($activity) => array_search($activity->id, $ids))
-                ->values();
+        $chosen = $ids
+            ? (clone $query)->whereIn('id', $ids)->get()->sortBy(fn ($activity) => array_search($activity->id, $ids))->values()
+            : collect();
 
-            if ($chosen->isNotEmpty()) {
-                return $chosen;
-            }
-        }
+        $auto = Popularity::mix(
+            Popularity::rank((clone $query)->whereNotIn('city_id', $chosen->pluck('city_id')->unique()->all() ?: [0]))->get(),
+            self::FEATURED_MAX_CITIES, 1,
+        );
 
-        return $query->where('is_popular', true)->orderBy('sort_order')->orderBy('id')->limit(5)->get();
+        return $chosen->concat($auto)->values();
     }
 
     /**

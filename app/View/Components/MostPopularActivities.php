@@ -19,7 +19,7 @@ class MostPopularActivities extends Component
         int $limit = 8,
         ?int $cityId = null,
         public ?int $excludeId = null,
-        public bool $popularOnly = true,
+        public bool $popularOnly = true, // eski çağrılar için; sıralama artık App\Support\Popularity
     ) {
         $this->source = $source;
         $this->sourceId = $sourceId;
@@ -34,21 +34,19 @@ class MostPopularActivities extends Component
         $cacheKey = "most_popular_activities_{$locale}_{$this->source}_"
             . ($this->sourceId ?? 'null')
             . "_city_" . ($this->cityId ?? 'all')
-            . "_ex_" . ($this->excludeId ?? 'none') . ($this->popularOnly ? '_popular' : '_all');
+            . "_ex_" . ($this->excludeId ?? 'none') . '_ranked';
 
+        // Şehir verilmişse o şehrin en popülerleri; anasayfada (şehir yok) her şehrin en popülerleri karışık
         $query = function () {
-
-            return Activity::query()
+            $ranked = \App\Support\Popularity::rank(Activity::query()
                 ->with(['cover', 'city'])
-                ->when(!empty($this->cityId), function ($q) {
-                    $q->where('city_id', $this->cityId);
-                })
+                ->when(!empty($this->cityId), fn ($q) => $q->where('city_id', $this->cityId))
                 ->visible()
-                ->when($this->popularOnly, fn ($q) => $q->where('is_popular', true))
-                ->when($this->excludeId, fn ($q) => $q->whereKeyNot($this->excludeId))
-                ->orderBy('sort_order')
-                ->limit($this->limit)
-                ->get();
+                ->when($this->excludeId, fn ($q) => $q->whereKeyNot($this->excludeId)));
+
+            return empty($this->cityId)
+                ? \App\Support\Popularity::mix($ranked->get(), $this->limit)
+                : $ranked->limit($this->limit)->get();
         };
 
         if (config('app.global_cache_enabled')) {
