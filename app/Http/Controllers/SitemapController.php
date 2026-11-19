@@ -62,6 +62,9 @@ class SitemapController extends Controller
         $add(route('reviews.index', [], false), 0.5, Url::CHANGE_FREQUENCY_WEEKLY);
         $add(route('about', [], false), 0.5, Url::CHANGE_FREQUENCY_MONTHLY);
         $add(route('contact', [], false), 0.4, Url::CHANGE_FREQUENCY_YEARLY);
+        if (\App\Support\PlanTrip::available()) {
+            $add(route('plan', [], false), 0.6, Url::CHANGE_FREQUENCY_MONTHLY);
+        }
         $add(route('privacy', [], false), 0.3, Url::CHANGE_FREQUENCY_YEARLY);
         $add(route('rates', [], false), 0.4, Url::CHANGE_FREQUENCY_DAILY);
         $add(route('weather', [], false), 0.5, Url::CHANGE_FREQUENCY_DAILY);

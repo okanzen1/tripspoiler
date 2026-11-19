@@ -15,6 +15,7 @@ class NavColors
         'weather' => ['text-amber-500', 'bg-amber-500 text-white shadow-[0_10px_24px_-10px_rgba(245,158,11,0.9)]'],
         'time' => ['text-sky-600', 'bg-sky-600 text-white shadow-[0_10px_24px_-10px_rgba(2,132,199,0.9)]'],
         'rates' => ['text-emerald-600', 'bg-emerald-600 text-white shadow-[0_10px_24px_-10px_rgba(5,150,105,0.9)]'],
+        'plan' => ['text-pink-600', 'bg-pink-600 text-white shadow-[0_10px_24px_-10px_rgba(219,39,119,0.9)]'],
     ];
 
     /** Seçili değilken ikon rengi (beyaz zemin üstünde) */

@@ -8,4 +8,5 @@ return array (
   'language' => 'Idioma',
   'cta' => 'Explorar actividades',
   'campaigns' => 'Ofertas',
+  'plan' => 'Planifica tu viaje',
 );

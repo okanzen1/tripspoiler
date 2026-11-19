@@ -8,4 +8,5 @@ return array (
   'language' => '言語',
   'cta' => 'アクティビティを探す',
   'campaigns' => 'キャンペーン',
+  'plan' => '旅行を計画',
 );

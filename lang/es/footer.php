@@ -21,4 +21,5 @@ return [
     'weather' => 'El tiempo',
     'time' => 'Hora local',
     'affiliate' => 'TripSpoiler es gratuito. Cuando reservas a través de nuestros enlaces, podemos recibir una comisión del socio. El precio no cambia para ti y no influye en nuestras recomendaciones.',
+  'plan' => 'Planifica tu viaje',
 ];

@@ -8,4 +8,5 @@ return array (
   'language' => '언어',
   'cta' => '액티비티 둘러보기',
   'campaigns' => '캠페인',
+  'plan' => '여행 계획',
 );

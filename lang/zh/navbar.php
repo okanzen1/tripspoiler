@@ -8,4 +8,5 @@ return array (
   'language' => '语言',
   'cta' => '探索活动',
   'campaigns' => '优惠活动',
+  'plan' => '规划行程',
 );

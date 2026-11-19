@@ -18,6 +18,8 @@
          'icon' => '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'],
         ['route' => 'blog.index', 'match' => 'blog.*', 'label' => __('navbar.blog'),
          'icon' => '<path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6M8 11h4"/>'],
+        ...(\App\Support\PlanTrip::available() ? [['route' => 'plan', 'match' => 'plan', 'label' => __('navbar.plan'),
+         'icon' => '<path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M19 15l.8 2 2 .8-2 .8L19 21l-.8-2.4-2-.8 2-.8z"/>']] : []),
         ['route' => 'weather', 'match' => 'weather', 'label' => __('footer.weather'),
          'icon' => '<circle cx="9" cy="9" r="3.4"/><path d="M9 2.8v1.4M2.8 9h1.4M4.6 4.6l1 1M13.4 4.6l-1 1"/><path d="M9.5 20h8.6a3.4 3.4 0 0 0 .4-6.8 5 5 0 0 0-9.6-.6A3.7 3.7 0 0 0 9.5 20z"/>'],
         ['route' => 'time', 'match' => 'time', 'label' => __('footer.time'),
