@@ -39,12 +39,24 @@
 @endphp
 
 @section('content')
-    <section class="relative isolate overflow-x-clip bg-[#0F1420] text-white">
-        <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-            <div class="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:96px_96px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_80%)]"></div>
-            <div class="absolute -left-40 top-1/4 size-[42rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.22),transparent_65%)]"></div>
-            <div class="absolute -right-32 bottom-0 size-[36rem] rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.10),transparent_65%)]"></div>
-        </div>
+    @php
+        // Fotoğraf panelden (Sayfalar › Gezi planı); yüklenmemişse anasayfa hero'su. Kadraj ve karartma da panelden.
+        $banner = \App\Models\PageBanner::urls('plan', null);
+        $look = \App\Support\PageHero::visual('plan', $banner['focus'] ?? null);
+        $shade = [
+            'soft' => 'from-slate-950/85 via-slate-950/45 to-slate-950/5',
+            'medium' => 'from-slate-950/90 via-slate-950/60 to-slate-950/20',
+            'strong' => 'from-slate-950/95 via-slate-950/75 to-slate-950/45',
+        ][$look['overlay']];
+    @endphp
+    <section class="relative isolate overflow-x-clip bg-slate-950 text-white">
+        <picture class="absolute inset-0 -z-20 overflow-hidden">
+            @if ($banner['mobile'] ?? null)<source media="(max-width: 767px)" srcset="{{ $banner['mobile'] }}">@endif
+            <img src="{{ $banner['desktop'] }}" alt="" fetchpriority="high" class="h-full w-full scale-105 object-cover" style="object-position: {{ $look['focus'] }}% center">
+        </picture>
+        <div class="absolute inset-0 -z-10 bg-gradient-to-r {{ $shade }} rtl:bg-gradient-to-l"></div>
+        <div class="absolute inset-x-0 bottom-0 -z-10 h-56 bg-gradient-to-t from-slate-950/85 to-transparent"></div>
+        <div class="pointer-events-none absolute -left-40 top-1/3 -z-10 size-[40rem] rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.25),transparent_65%)]" aria-hidden="true"></div>
 
         <div class="mx-auto max-w-7xl px-4 pt-6 md:pt-8">
             <x-breadcrumbs dark :items="[
@@ -52,43 +64,117 @@
                 ['label' => __('navbar.plan'), 'url' => route('plan')],
             ]" />
 
-            <div class="mx-auto mt-10 max-w-3xl pb-40 text-center md:mt-14 md:pb-48">
-                <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-[#FF6B6E] ring-1 ring-white/15">
-                    <span class="size-1.5 rounded-full bg-[#FF6B6E]"></span>{{ $hero['eyebrow'] }}
-                </p>
-                <h1 class="mt-6 text-[44px] font-extrabold leading-[0.95] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
-                    {{ $hero['title'] }}
-                    @if (filled($hero['title_highlight']))<span class="text-[#FF6B6E]">{{ $hero['title_highlight'] }}</span>@endif
-                </h1>
-                <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">{{ $hero['description'] }}</p>
-                <ul class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm font-semibold text-white/80">
-                    @foreach (['trust_free' => '<path d="M5 12.5l4.5 4.5L19 7.5"/>', 'trust_personal' => '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>', 'trust_private' => '<rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>'] as $key => $svg)
-                        <li class="inline-flex items-center gap-2"><span class="grid size-7 place-items-center rounded-full bg-white/10 ring-1 ring-white/15"><svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $svg !!}</svg></span>{{ $t($key) }}</li>
-                    @endforeach
-                </ul>
+            <div class="grid items-end gap-10 pb-48 pt-10 md:pb-56 md:pt-14 lg:grid-cols-12 lg:gap-12">
+                {{-- SOL: başlık --}}
+                <div class="min-w-0 lg:col-span-7">
+                    <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-amber-300 ring-1 ring-white/20 backdrop-blur-md">
+                        <svg class="size-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/></svg>{{ $hero['eyebrow'] }}
+                    </p>
+                    <h1 class="mt-6 text-[46px] font-extrabold leading-[0.95] tracking-[-0.045em] drop-shadow-[0_4px_24px_rgba(0,0,0,0.35)] sm:text-6xl lg:text-[76px]">
+                        {{ $hero['title'] }}
+                        @if (filled($hero['title_highlight']))<span class="bg-gradient-to-r from-amber-200 via-amber-400 to-[#FF6B6E] bg-clip-text text-transparent">{{ $hero['title_highlight'] }}</span>@endif
+                    </h1>
+                    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">{{ $hero['description'] }}</p>
+                    <ul class="mt-8 flex flex-wrap gap-3 text-sm font-semibold">
+                        @foreach (['trust_free' => '<path d="M5 12.5l4.5 4.5L19 7.5"/>', 'trust_personal' => '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>', 'trust_private' => '<rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>'] as $key => $svg)
+                            <li class="inline-flex items-center gap-2 rounded-full bg-white/10 py-1.5 pe-4 ps-1.5 ring-1 ring-white/15 backdrop-blur-md">
+                                <span class="grid size-7 place-items-center rounded-full bg-amber-400 text-slate-950"><svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $svg !!}</svg></span>{{ $t($key) }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                {{-- SAĞ: talep sorgulama --}}
+                <div class="lg:col-span-5">
+                    <div x-data="planStatus(@js(['url' => route('plan.status'), 'csrf' => csrf_token(), 'error' => $t('error')]))"
+                        class="rounded-[28px] bg-white/10 p-6 ring-1 ring-white/20 backdrop-blur-xl sm:p-7">
+                        <div class="flex items-center gap-3">
+                            <span class="grid size-11 shrink-0 place-items-center rounded-2xl bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/30">
+                                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                            </span>
+                            <div>
+                                <p class="text-lg font-extrabold">{{ $t('status_title') }}</p>
+                                <p class="text-sm text-white/65">{{ $t('status_desc') }}</p>
+                            </div>
+                        </div>
+                        <form @submit.prevent="check()" class="mt-5 space-y-3" novalidate>
+                            <input type="text" x-model="ref" maxlength="20" placeholder="{{ $t('status_ref_ph') }}" aria-label="{{ $t('status_ref') }}"
+                                class="block w-full rounded-2xl border-0 bg-white/10 px-4 py-3.5 font-mono text-[15px] uppercase tracking-wider text-white ring-1 ring-white/20 outline-none placeholder:font-sans placeholder:normal-case placeholder:tracking-normal placeholder:text-white/45 focus:bg-white/15 focus:ring-2 focus:ring-amber-300">
+                            <input type="email" x-model="email" maxlength="180" placeholder="{{ $t('status_email') }}" aria-label="{{ $t('status_email') }}"
+                                class="block w-full rounded-2xl border-0 bg-white/10 px-4 py-3.5 text-[15px] text-white ring-1 ring-white/20 outline-none placeholder:text-white/45 focus:bg-white/15 focus:ring-2 focus:ring-amber-300">
+                            <button type="submit" :disabled="busy || !ref || !email" class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-300 to-amber-500 px-5 py-3.5 text-sm font-extrabold text-slate-950 shadow-lg shadow-amber-500/25 transition hover:brightness-105 disabled:opacity-50">
+                                <span x-text="busy ? @js($t('status_checking')) : @js($t('status_btn'))"></span>
+                            </button>
+                        </form>
+                        <div x-show="result" x-cloak x-transition class="mt-4 rounded-2xl bg-white p-4 text-slate-900">
+                            <template x-if="result && result.found">
+                                <div>
+                                    <div class="flex items-center justify-between gap-3">
+                                        <span class="font-mono text-sm font-bold text-slate-500" x-text="result.reference"></span>
+                                        <span class="rounded-full px-3 py-1 text-xs font-extrabold" :class="{ 'bg-amber-100 text-amber-800': result.status === 'new', 'bg-emerald-100 text-emerald-800': result.status === 'answered', 'bg-slate-100 text-slate-700': result.status === 'closed' }" x-text="result.label"></span>
+                                    </div>
+                                    <p class="mt-2 text-sm leading-relaxed text-slate-600" x-text="result.text"></p>
+                                    <p class="mt-1 text-xs text-slate-400" x-text="@js($t('status_sent')).replace(':date', result.date)"></p>
+                                </div>
+                            </template>
+                            <template x-if="result && !result.found">
+                                <p class="text-sm font-semibold text-red-600" x-text="result.message"></p>
+                            </template>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    {{-- FORM KARTI: başlık alanına taşar --}}
+    {{-- FORM KARTI: başlık alanına biner, sayfayı kaplar; solda adımlar (masaüstü), sağda soru --}}
     <section class="relative bg-slate-50 pb-16 md:pb-24">
-        <div class="mx-auto -mt-32 max-w-4xl px-4 md:-mt-36">
-            <div x-data="planForm(@js($config))" class="overflow-hidden rounded-[32px] bg-white shadow-[0_40px_100px_-40px_rgba(15,23,42,0.45)] ring-1 ring-slate-200">
+        <div class="mx-auto -mt-36 max-w-7xl px-4 md:-mt-44">
+            <div x-data="planForm(@js($config))" class="overflow-hidden rounded-[32px] bg-white shadow-[0_50px_120px_-45px_rgba(15,23,42,0.55)] ring-1 ring-slate-200">
+              <div class="grid" :class="done ? '' : 'lg:grid-cols-[20rem_minmax(0,1fr)]'">
 
-                {{-- İLERLEME --}}
-                <div x-show="!done" class="border-b border-slate-100 px-6 pt-6 sm:px-10 sm:pt-8">
+                {{-- ADIMLAR (masaüstü) --}}
+                <aside x-show="!done" class="relative hidden overflow-hidden bg-[#0F1420] p-8 text-white lg:flex lg:flex-col">
+                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_65%)]" aria-hidden="true"></div>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-amber-300">{{ $t('your_request') }}</p>
+                    <ol class="mt-6 space-y-1.5">
+                        <template x-for="(s, i) in steps" :key="s.id">
+                            <li>
+                                <button type="button" @click="if (i < step) { step = i; error = '' }" :disabled="i > step"
+                                    class="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-start transition" :class="i === step ? 'bg-white/10 ring-1 ring-white/15' : (i < step ? 'hover:bg-white/5' : '')">
+                                    <span class="grid size-8 shrink-0 place-items-center rounded-full text-xs font-extrabold transition"
+                                        :class="i < step ? 'bg-emerald-500 text-white' : (i === step ? 'bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/30' : 'bg-white/10 text-white/45')">
+                                        <span x-show="i >= step" x-text="i + 1"></span>
+                                        <svg x-show="i < step" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                                    </span>
+                                    <span class="text-sm font-bold" :class="i <= step ? 'text-white' : 'text-white/45'" x-text="s.label"></span>
+                                </button>
+                            </li>
+                        </template>
+                    </ol>
+                    <div class="mt-auto pt-10">
+                        <div class="rounded-2xl bg-white/5 p-4 text-xs leading-relaxed text-white/60 ring-1 ring-white/10">
+                            <svg class="mb-2 size-5 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+                            {{ $t('encrypted_note') }}
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="min-w-0">
+                {{-- İLERLEME (telefon / tablet) --}}
+                <div x-show="!done" class="border-b border-slate-100 px-6 pt-6 sm:px-10 sm:pt-8 lg:hidden">
                     <div class="flex items-center justify-between text-xs font-bold uppercase tracking-[0.18em] text-slate-400">
                         <span x-text="steps[step].label"></span>
                         <span class="tabular-nums"><span x-text="step + 1"></span> / <span x-text="steps.length"></span></span>
                     </div>
                     <div class="mt-3 flex gap-1.5 pb-6" aria-hidden="true">
                         <template x-for="(s, i) in steps" :key="s.id">
-                            <span class="h-1.5 flex-1 rounded-full transition-all duration-500" :class="i <= step ? 'bg-gradient-to-r from-[#C62E2E] to-[#FF6B6E]' : 'bg-slate-100'"></span>
+                            <span class="h-1.5 flex-1 rounded-full transition-all duration-500" :class="i <= step ? 'bg-gradient-to-r from-amber-400 to-[#C62E2E]' : 'bg-slate-100'"></span>
                         </template>
                     </div>
                 </div>
 
-                <form x-show="!done" @submit.prevent="next()" class="px-6 py-8 sm:px-10 sm:py-10" novalidate>
+                <form x-show="!done" @submit.prevent="next()" class="px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-12" novalidate>
                     <input type="text" name="website" x-model="f.website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
 
                     {{-- 1. YOLCULUK --}}
@@ -304,18 +390,30 @@
                     </div>
                 </form>
 
-                {{-- TEŞEKKÜR --}}
+                {{-- TEŞEKKÜR + TALEP NUMARASI --}}
                 <div x-show="done" x-cloak x-transition.opacity.duration.500ms class="px-6 py-16 text-center sm:px-12 sm:py-20">
                     <span class="mx-auto grid size-20 place-items-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-xl shadow-emerald-500/30 ring-8 ring-emerald-50">
                         <svg class="size-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
                     </span>
                     <h2 class="mt-8 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl" x-text="@js($t('done_title')).replace(':name', f.first_name)"></h2>
                     <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-slate-600" x-text="@js($t('done_text')).replace(':email', f.email)"></p>
+                    <div x-show="reference" class="mx-auto mt-8 inline-flex flex-col items-center rounded-3xl bg-gradient-to-br from-amber-50 to-amber-100/60 px-10 py-6 ring-1 ring-amber-200">
+                        <span class="text-[11px] font-bold uppercase tracking-[0.25em] text-amber-700">{{ $t('ref_label') }}</span>
+                        <span class="mt-2 font-mono text-4xl font-extrabold tracking-wider text-slate-900" x-text="reference"></span>
+                        <button type="button" @click="navigator.clipboard?.writeText(reference); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-1.5 text-xs font-bold text-amber-800 ring-1 ring-amber-200 transition hover:bg-amber-50">
+                            <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+                            <span x-text="copied ? @js($t('ref_copied')) : @js($t('ref_copy'))"></span>
+                        </button>
+                        <span class="mt-3 max-w-xs text-xs text-amber-800/80">{{ $t('ref_keep') }}</span>
+                    </div>
                     <div class="mt-10 flex flex-wrap justify-center gap-3">
                         <a href="{{ route('activities.index') }}" class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#C62E2E]">{{ $t('done_cta') }} <span aria-hidden="true" class="rtl:rotate-180">→</span></a>
                         <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50">{{ $t('done_cta_blog') }}</a>
                     </div>
                 </div>
+                </div>
+              </div>
             </div>
 
             {{-- NASIL ÇALIŞIR --}}
@@ -334,9 +432,28 @@
     <x-page-sections page="plan" />
 
     <script>
+        // Talep sorgulama: numara + e-posta (PlanController@status)
+        function planStatus(config) {
+            return {
+                ref: '', email: '', busy: false, result: null,
+                async check() {
+                    this.busy = true;
+                    try {
+                        const res = await fetch(config.url, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-TOKEN': config.csrf }, body: JSON.stringify({ reference: this.ref, email: this.email }) });
+                        const data = await res.json().catch(() => ({}));
+                        this.result = res.ok ? data : { found: false, message: data.errors ? Object.values(data.errors).flat()[0] : config.error };
+                    } catch (e) {
+                        this.result = { found: false, message: config.error };
+                    } finally {
+                        this.busy = false;
+                    }
+                },
+            };
+        }
+
         function planForm(config) {
             return {
-                step: 0, sending: false, done: false, error: '',
+                step: 0, sending: false, done: false, error: '', reference: '', copied: false,
                 today: new Date().toISOString().slice(0, 10),
                 f: { website: '', cities: [], other_city: '', dates_known: null, start_date: '', end_date: '', month: '', days: 3, first_time: null,
                     group: null, adults: 2, children: 0, child_ages: '', access: [], needs: [], stay_vibe: null, stay_budget: null, stay_extras: [],
@@ -388,7 +505,7 @@
                     try {
                         const res = await fetch(config.url, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-TOKEN': config.csrf }, body: JSON.stringify(body) });
                         const data = await res.json().catch(() => ({}));
-                        if (res.ok && data.ok) { this.done = true; this.scrollTop(); return; }
+                        if (res.ok && data.ok) { this.reference = data.reference || ''; this.done = true; this.scrollTop(); return; }
                         this.error = data.errors ? Object.values(data.errors).flat()[0] : config.messages.error;
                     } catch (e) {
                         this.error = config.messages.error;

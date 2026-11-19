@@ -103,6 +103,37 @@ class PlanController extends Controller
             Log::warning('Yardım talebi e-postası gönderilemedi.', ['id' => $item->id, 'error' => $e->getMessage()]);
         }
 
-        return $request->expectsJson() ? response()->json(['ok' => true]) : back()->with('plan_sent', true);
+        return $request->expectsJson() ? response()->json(['ok' => true, 'reference' => $item->reference]) : back()->with('plan_sent', $item->reference);
+    }
+
+    /**
+     * Talep durumu: numara + e-posta birlikte doğruysa durum ve gönderilme tarihi döner.
+     * İkisinden biri yanlışsa aynı "bulunamadı" cevabı (kimse başkasının talebini öğrenemez).
+     */
+    public function status(Request $request)
+    {
+        abort_unless(PlanTrip::available(), 404);
+
+        $data = $request->validate([
+            'reference' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'email:rfc', 'max:180'],
+        ]);
+
+        $item = HelpRequest::where('reference', HelpRequest::normalizeReference($data['reference']))
+            ->where('email_hash', \App\Support\Privacy::hash($data['email']))
+            ->first();
+
+        if (!$item) {
+            return response()->json(['found' => false, 'message' => __('plan-page.status_not_found')]);
+        }
+
+        return response()->json([
+            'found' => true,
+            'reference' => $item->reference,
+            'status' => $item->status,
+            'label' => __('plan-page.status_' . $item->status),
+            'text' => __('plan-page.status_' . $item->status . '_d'),
+            'date' => $item->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY'),
+        ]);
     }
 }

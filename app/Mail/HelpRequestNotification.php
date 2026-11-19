@@ -14,7 +14,7 @@ class HelpRequestNotification extends Mailable
     {
         $cities = implode(', ', (array) ($this->item->answers['city_names'] ?? []));
 
-        return $this->subject('Yeni yardım talebi: ' . $cities)
+        return $this->subject('Yeni yardım talebi ' . $this->item->reference . ': ' . $cities)
             ->replyTo($this->item->email, $this->item->name)
             ->view('emails.help-request-notification');
     }

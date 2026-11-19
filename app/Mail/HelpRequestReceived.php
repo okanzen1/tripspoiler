@@ -12,7 +12,7 @@ class HelpRequestReceived extends Mailable
 
     public function build()
     {
-        return $this->subject(__('plan-page.mail_subject'))
+        return $this->subject(__('plan-page.mail_subject') . ($this->item->reference ? ' · ' . $this->item->reference : ''))
             ->replyTo(config('mail.contact_to') ?: config('mail.from.address'))
             ->view('emails.help-request-received');
     }

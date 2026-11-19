@@ -34,6 +34,19 @@
         <p style="margin:10px 0 0;font-size:15px;line-height:1.6;color:#CBD5E1;">{{ $t('mail_intro') }}</p>
     </td></tr>
 
+    {{-- talep numarası --}}
+    @if ($item->reference)
+        <tr><td style="padding:28px 32px 0;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:16px;">
+                <tr><td align="center" style="padding:18px 16px;">
+                    <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#B45309;">{{ $t('ref_label') }}</p>
+                    <p style="margin:6px 0 0;font-family:Menlo,Consolas,monospace;font-size:28px;font-weight:800;letter-spacing:2px;color:#0F172A;">{{ $item->reference }}</p>
+                    <p style="margin:6px 0 0;font-size:12px;color:#92400E;">{{ $t('ref_keep') }}</p>
+                </td></tr>
+            </table>
+        </td></tr>
+    @endif
+
     {{-- talep özeti --}}
     <tr><td style="padding:28px 32px 8px;">
         <p style="margin:0 0 12px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:{{ $red }};">{{ $t('mail_summary') }}</p>

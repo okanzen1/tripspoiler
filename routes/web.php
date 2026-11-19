@@ -162,6 +162,7 @@ Route::group(
         // Gezi planı: misafir ne istediğini anlatır, yardım talebi bırakır (App\Http\Controllers\PlanController)
         Route::get('/plan-your-trip', [\App\Http\Controllers\PlanController::class, 'show'])->name('plan');
         Route::post('/plan-your-trip', [\App\Http\Controllers\PlanController::class, 'store'])->name('plan.store')->middleware('throttle:5,1');
+        Route::post('/plan-your-trip/status', [\App\Http\Controllers\PlanController::class, 'status'])->name('plan.status')->middleware('throttle:10,1');
 
         Route::view('/contact', 'other.contact')->name('contact');
 

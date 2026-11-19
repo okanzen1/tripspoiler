@@ -42,11 +42,12 @@ class PlanTrip
     /** Panel tablosu kurulmadan (migrate) sayfa açılmaz, menüde görünmez */
     public static function available(): bool
     {
-        if (Cache::get('schema:help_requests')) {
+        // talep numarası sütunu da gelmiş olmalı (panel migrate'i: add_reference_to_help_requests)
+        if (Cache::get('schema:help_requests_ref')) {
             return true;
         }
-        $has = Schema::hasTable('help_requests');
-        $has ? Cache::forever('schema:help_requests', true) : Cache::put('schema:help_requests', false, now()->addMinutes(10));
+        $has = Schema::hasTable('help_requests') && Schema::hasColumn('help_requests', 'reference');
+        $has ? Cache::forever('schema:help_requests_ref', true) : Cache::put('schema:help_requests_ref', false, now()->addMinutes(5));
 
         return $has;
     }
