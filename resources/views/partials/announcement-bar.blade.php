@@ -15,6 +15,7 @@
         $key = 'ts-announce-' . md5($announcements->map(fn ($a) => $a->id . $a->updated_at)->join('|'));
     @endphp
 
+    {{-- Yazılar fosforlu sarı (#FFE600), nabız gibi parlar; üzerinden ara ara ışık şeridi geçer (app.css: announcement-bar) --}}
     {{-- Sayfa çizilmeden önce: kapatıldıysa şerit hiç görünmesin (gelip gitmesin), hero yüksekliği de buna göre --}}
     <script>
         (() => {
@@ -43,12 +44,12 @@
                                 @if ($announcement->url())
                                     <a href="{{ $announcement->url() }}" @if ($copy) tabindex="-1" @endif
                                         @if ($announcement->isExternal()) target="_blank" rel="noopener noreferrer" @endif
-                                        class="text-white/90 hover:text-white underline-offset-4 hover:underline">
+                                        class="announcement-glow text-[#FFE600] hover:text-[#FFF27A] underline-offset-4 hover:underline">
                                         {{ $announcement->text }}
                                         <span aria-hidden="true" class="ml-1 text-[#E04848]">→</span>
                                     </a>
                                 @else
-                                    <span class="text-white/90">{{ $announcement->text }}</span>
+                                    <span class="announcement-glow text-[#FFE600]">{{ $announcement->text }}</span>
                                 @endif
                             </li>
                         @endforeach
@@ -59,7 +60,7 @@
 
         <button type="button" @click="dismiss()"
             aria-label="{{ __('announcement-bar.close') }}"
-            class="absolute right-0 top-0 h-9 w-10 flex items-center justify-center bg-slate-900 text-white/60 hover:text-white transition">
+            class="absolute right-0 top-0 z-10 h-9 w-10 flex items-center justify-center bg-slate-900 text-white/60 hover:text-white transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24">
                 <path d="M6 6l12 12M18 6L6 18" />
             </svg>

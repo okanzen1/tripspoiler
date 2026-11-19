@@ -49,8 +49,33 @@
   to   { transform: translateX(-50%); }
 }
 
+/* Duyuru şeridi parlar: fosforlu sarı yazıların üzerinden ara ara bir ışık şeridi geçer, yazılar hafifçe nabız atar */
+.announcement-bar { isolation: isolate; }
+.announcement-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 18%;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.05) 30%, rgba(255, 250, 200, 0.45) 50%, rgba(255, 255, 255, 0.05) 70%, transparent 100%);
+  mix-blend-mode: screen;
+  transform: translateX(-120%) skewX(-20deg);
+  animation: announcementShine 4.5s ease-in-out infinite;
+}
+.announcement-glow { animation: announcementGlow 2.8s ease-in-out infinite; }
+@keyframes announcementShine {
+  0%   { transform: translateX(-120%) skewX(-20deg); }
+  55%, 100% { transform: translateX(680%) skewX(-20deg); }
+}
+@keyframes announcementGlow {
+  0%, 100% { text-shadow: 0 0 10px rgba(255, 230, 0, 0.25); }
+  50%      { text-shadow: 0 0 18px rgba(255, 230, 0, 0.6), 0 0 2px rgba(255, 245, 160, 0.9); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .announcement-track { animation: none; }
+  .announcement-bar::after { display: none; }
+  .announcement-glow { animation: none; text-shadow: 0 0 12px rgba(255, 230, 0, 0.35); }
 }
 
 /* Kampanyalar düğmesi: üstünden geçen ışık + hediye ikonunun ara ara sallanması */
