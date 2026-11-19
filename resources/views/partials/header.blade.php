@@ -54,14 +54,14 @@
         {{-- RIGHT --}}
         <div class="hidden lg:flex items-center gap-3 shrink-0">
 
-            {{-- Gezi planı (sağda, Fırsatlar'ın yanında): ziyaretçi ne istediğini anlatır (PlanController); tablo kurulmadan görünmez --}}
+            {{-- Gezi planı (sağda, Fırsatlar'ın yanında; beyaz menüde koyu lacivert + altın yazı, resimli üstte şeffaf): ziyaretçi ne istediğini anlatır (PlanController); tablo kurulmadan görünmez --}}
             @if (\App\Support\PlanTrip::available())
                 <a href="{{ route('plan') }}"
                     @class(['group/plan inline-flex h-10 items-center gap-1.5 rounded-full px-4 text-sm ring-1 transition',
                         'bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 text-slate-950 ring-amber-400 shadow-[0_8px_20px_-10px_rgba(245,158,11,0.9)]' => request()->routeIs('plan'),
-                        'ring-amber-300/60 hover:ring-amber-400 hover:shadow-[0_8px_20px_-12px_rgba(245,158,11,0.8)] group-data-[transparent=true]:ring-amber-300/50' => !request()->routeIs('plan')])>
-                    <svg @class(['size-4 transition-transform group-hover/plan:rotate-12', 'text-slate-950' => request()->routeIs('plan'), 'text-amber-500 group-data-[transparent=true]:text-amber-300' => !request()->routeIs('plan')]) viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M19 15l.8 2 2 .8-2 .8L19 21l-.8-2.4-2-.8 2-.8z"/></svg>
-                    <span @class(['bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 bg-clip-text font-semibold text-transparent group-data-[transparent=true]:from-amber-200 group-data-[transparent=true]:via-amber-300 group-data-[transparent=true]:to-amber-400' => !request()->routeIs('plan'), 'font-semibold' => request()->routeIs('plan')])>{{ __('navbar.plan') }}</span>
+                        'bg-slate-900 ring-slate-900 shadow-[0_8px_20px_-12px_rgba(15,23,42,0.7)] hover:bg-slate-800 group-data-[transparent=true]:bg-white/5 group-data-[transparent=true]:shadow-none group-data-[transparent=true]:ring-amber-300/50 group-data-[transparent=true]:hover:bg-white/10' => !request()->routeIs('plan')])>
+                    <svg @class(['size-4 transition-transform group-hover/plan:rotate-12', 'text-slate-950' => request()->routeIs('plan'), 'text-amber-300' => !request()->routeIs('plan')]) viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M19 15l.8 2 2 .8-2 .8L19 21l-.8-2.4-2-.8 2-.8z"/></svg>
+                    <span @class(['bg-gradient-to-r from-amber-200 via-amber-300 to-amber-400 bg-clip-text font-semibold text-transparent' => !request()->routeIs('plan'), 'font-semibold' => request()->routeIs('plan')])>{{ __('navbar.plan') }}</span>
                 </a>
             @endif
 
