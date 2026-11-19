@@ -64,9 +64,9 @@
                 ['label' => __('navbar.plan'), 'url' => route('plan')],
             ]" />
 
-            <div class="grid items-end gap-10 pb-16 pt-10 md:pb-20 md:pt-14 lg:grid-cols-12 lg:gap-12">
-                {{-- SOL: başlık --}}
-                <div class="min-w-0 lg:col-span-7">
+            <div class="pb-16 pt-10 md:pb-20 md:pt-14">
+                {{-- başlık (talep sorgulama sayfanın içinde, formun altında) --}}
+                <div class="min-w-0 max-w-4xl">
                     <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-amber-300 ring-1 ring-white/20 backdrop-blur-md">
                         <svg class="size-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/></svg>{{ $hero['eyebrow'] }}
                     </p>
@@ -81,47 +81,12 @@
                                 <span class="grid size-7 place-items-center rounded-full bg-amber-400 text-slate-950"><svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $svg !!}</svg></span>{{ $t($key) }}
                             </li>
                         @endforeach
+                        <li>
+                            <a href="#status" class="inline-flex items-center gap-2 rounded-full py-1.5 pe-4 ps-1.5 text-white/85 ring-1 ring-white/25 transition hover:bg-white/10 hover:text-white">
+                                <span class="grid size-7 place-items-center rounded-full bg-white/15"><svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>{{ $t('status_title') }} <span aria-hidden="true">↓</span>
+                            </a>
+                        </li>
                     </ul>
-                </div>
-
-                {{-- SAĞ: talep sorgulama --}}
-                <div class="lg:col-span-5">
-                    <div x-data="planStatus(@js(['url' => route('plan.status'), 'csrf' => csrf_token(), 'error' => $t('error')]))"
-                        class="rounded-[28px] bg-white/10 p-6 ring-1 ring-white/20 backdrop-blur-xl sm:p-7">
-                        <div class="flex items-center gap-3">
-                            <span class="grid size-11 shrink-0 place-items-center rounded-2xl bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/30">
-                                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-                            </span>
-                            <div>
-                                <p class="text-lg font-extrabold">{{ $t('status_title') }}</p>
-                                <p class="text-sm text-white/65">{{ $t('status_desc') }}</p>
-                            </div>
-                        </div>
-                        <form @submit.prevent="check()" class="mt-5 space-y-3" novalidate>
-                            <input type="text" x-model="ref" maxlength="20" placeholder="{{ $t('status_ref_ph') }}" aria-label="{{ $t('status_ref') }}"
-                                class="block w-full rounded-2xl border-0 bg-white/10 px-4 py-3.5 font-mono text-[15px] uppercase tracking-wider text-white ring-1 ring-white/20 outline-none placeholder:font-sans placeholder:normal-case placeholder:tracking-normal placeholder:text-white/45 focus:bg-white/15 focus:ring-2 focus:ring-amber-300">
-                            <input type="email" x-model="email" maxlength="180" placeholder="{{ $t('status_email') }}" aria-label="{{ $t('status_email') }}"
-                                class="block w-full rounded-2xl border-0 bg-white/10 px-4 py-3.5 text-[15px] text-white ring-1 ring-white/20 outline-none placeholder:text-white/45 focus:bg-white/15 focus:ring-2 focus:ring-amber-300">
-                            <button type="submit" :disabled="busy || !ref || !email" class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-300 to-amber-500 px-5 py-3.5 text-sm font-extrabold text-slate-950 shadow-lg shadow-amber-500/25 transition hover:brightness-105 disabled:opacity-50">
-                                <span x-text="busy ? @js($t('status_checking')) : @js($t('status_btn'))"></span>
-                            </button>
-                        </form>
-                        <div x-show="result" x-cloak x-transition class="mt-4 rounded-2xl bg-white p-4 text-slate-900">
-                            <template x-if="result && result.found">
-                                <div>
-                                    <div class="flex items-center justify-between gap-3">
-                                        <span class="font-mono text-sm font-bold text-slate-500" x-text="result.reference"></span>
-                                        <span class="rounded-full px-3 py-1 text-xs font-extrabold" :class="{ 'bg-amber-100 text-amber-800': result.status === 'new', 'bg-emerald-100 text-emerald-800': result.status === 'answered', 'bg-slate-100 text-slate-700': result.status === 'closed' }" x-text="result.label"></span>
-                                    </div>
-                                    <p class="mt-2 text-sm leading-relaxed text-slate-600" x-text="result.text"></p>
-                                    <p class="mt-1 text-xs text-slate-400" x-text="@js($t('status_sent')).replace(':date', result.date)"></p>
-                                </div>
-                            </template>
-                            <template x-if="result && !result.found">
-                                <p class="text-sm font-semibold text-red-600" x-text="result.message"></p>
-                            </template>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -426,6 +391,47 @@
                     </li>
                 @endforeach
             </ol>
+
+            {{-- TALEBİNİ SORGULA: numara + e-posta (PlanController@status) --}}
+            <div id="status" x-data="planStatus(@js(['url' => route('plan.status'), 'csrf' => csrf_token(), 'error' => $t('error')]))"
+                class="relative mt-12 scroll-mt-28 overflow-hidden rounded-[28px] bg-white p-6 shadow-[0_30px_80px_-45px_rgba(15,23,42,0.45)] ring-1 ring-slate-200 sm:p-8">
+                <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18),transparent_65%)]" aria-hidden="true"></div>
+                <div class="relative grid items-center gap-6 lg:grid-cols-12">
+                    <div class="flex items-center gap-4 lg:col-span-4">
+                        <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/30">
+                            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                        </span>
+                        <div>
+                            <h2 class="text-xl font-extrabold tracking-[-0.02em] text-slate-900">{{ $t('status_title') }}</h2>
+                            <p class="mt-0.5 text-sm text-slate-500">{{ $t('status_desc') }}</p>
+                        </div>
+                    </div>
+                    <form @submit.prevent="check()" class="grid gap-3 sm:grid-cols-[1fr_1fr_auto] lg:col-span-8" novalidate>
+                        <input type="text" x-model="ref" maxlength="20" placeholder="{{ $t('status_ref_ph') }}" aria-label="{{ $t('status_ref') }}"
+                            class="block w-full rounded-2xl border-0 bg-slate-50 px-4 py-3.5 font-mono text-[15px] uppercase tracking-wider text-slate-900 ring-1 ring-slate-200 outline-none placeholder:font-sans placeholder:normal-case placeholder:tracking-normal placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-amber-400">
+                        <input type="email" x-model="email" maxlength="180" placeholder="{{ $t('status_email') }}" aria-label="{{ $t('status_email') }}"
+                            class="block w-full rounded-2xl border-0 bg-slate-50 px-4 py-3.5 text-[15px] text-slate-900 ring-1 ring-slate-200 outline-none placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-amber-400">
+                        <button type="submit" :disabled="busy || !ref || !email" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl bg-slate-900 px-6 py-3.5 text-sm font-extrabold text-amber-300 shadow-lg shadow-slate-900/20 transition hover:bg-slate-800 disabled:opacity-50">
+                            <span x-text="busy ? @js($t('status_checking')) : @js($t('status_btn'))"></span>
+                        </button>
+                    </form>
+                </div>
+                <div x-show="result" x-cloak x-transition class="relative mt-5 rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200">
+                    <template x-if="result && result.found">
+                        <div>
+                            <div class="flex items-center justify-between gap-3">
+                                <span class="font-mono text-sm font-bold text-slate-500" x-text="result.reference"></span>
+                                <span class="rounded-full px-3 py-1 text-xs font-extrabold" :class="{ 'bg-amber-100 text-amber-800': result.status === 'new', 'bg-emerald-100 text-emerald-800': result.status === 'answered', 'bg-slate-200 text-slate-700': result.status === 'closed' }" x-text="result.label"></span>
+                            </div>
+                            <p class="mt-2 text-sm leading-relaxed text-slate-600" x-text="result.text"></p>
+                            <p class="mt-1 text-xs text-slate-400" x-text="@js($t('status_sent')).replace(':date', result.date)"></p>
+                        </div>
+                    </template>
+                    <template x-if="result && !result.found">
+                        <p class="text-sm font-semibold text-red-600" x-text="result.message"></p>
+                    </template>
+                </div>
+            </div>
         </div>
     </section>
 
