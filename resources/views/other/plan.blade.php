@@ -140,8 +140,8 @@
               <div class="grid" :class="done ? '' : 'lg:grid-cols-[20rem_minmax(0,1fr)]'">
 
                 {{-- ADIMLAR (masaüstü) --}}
-                <aside x-show="!done" class="relative hidden overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-black p-8 text-white lg:flex lg:flex-col">
-                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.35),transparent_65%)]" aria-hidden="true"></div>
+                <aside x-show="!done" class="relative hidden overflow-hidden bg-gradient-to-b from-slate-700 via-slate-800 to-slate-800 p-8 text-white lg:flex lg:flex-col">
+                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(198,46,46,0.25),transparent_65%)]" aria-hidden="true"></div>
                     <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-[#FF6B6E]">{{ $t('your_request') }}</p>
                     <ol class="mt-6 space-y-1.5">
                         <template x-for="(s, i) in steps" :key="s.id">
