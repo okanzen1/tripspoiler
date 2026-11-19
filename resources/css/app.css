@@ -150,8 +150,8 @@
   90% { transform: translateY(0) scale(1); }
 }
 
-/* Aktiviteler banner'ındaki "aktiviteleri gör" ok işareti aşağı doğru salınır */
-.hero-arrow svg {
+/* Aktiviteler banner'ındaki "aktiviteleri gör" düğmesinin oku aşağı doğru salınır */
+.hero-arrow-icon {
   animation: heroArrow 1.8s ease-in-out infinite;
 }
 
@@ -161,7 +161,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .social-sweep::after, .social-bob, .social-ring, .city-nudge, .hero-arrow svg { animation: none; }
+  .social-sweep::after, .social-bob, .social-ring, .city-nudge, .hero-arrow-icon { animation: none; }
 }
 
 /* Footer üstündeki partner logoları: iki kopya yan yana kayar; üstüne gelince durur */

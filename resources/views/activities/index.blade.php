@@ -80,41 +80,38 @@
                 @if ($cities->isNotEmpty())
                     <x-city-select class="mt-7" :cities="$cities" :current="$city" :url="fn ($c) => route('activities.index', ['city' => $c->slug])" loading-event="acts-loading" />
                 @endif
-                <x-social-follow full class="mt-5 max-w-xl" />
-            </div>
-
-            {{-- SAĞ: kısayollar (masaüstünde banner'ın boş sağ tarafı; telefonda şehir seçiminin altında) --}}
-            @if ($city)
-                <div class="lg:col-span-5 lg:col-start-8">
-                    <div class="social-sweep relative overflow-hidden rounded-[28px] bg-white/10 p-3 ring-1 ring-white/20 backdrop-blur-md lg:ms-auto lg:max-w-sm">
+                {{-- DÜĞMELER: seçicinin hemen altında, aynı genişlikte tek sıra; ana düğme listeye kaydırır --}}
+                @if ($city)
+                    @php $extra = (int) $hasGuide + (int) $hasBlog; @endphp
+                    {{-- telefonda: ana düğme tam satır, diğer ikisi yan yana; geniş ekranda tek sıra --}}
+                    <div @class(['mt-3 grid w-full max-w-xl gap-3', 'grid-cols-2' => $extra > 0, 'sm:grid-cols-[1.6fr_1fr_1fr]' => $extra === 2, 'sm:grid-cols-[1.6fr_1fr]' => $extra === 1])>
                         <a href="#activities-list"
-                            class="group flex min-h-[60px] items-center justify-between gap-3 rounded-2xl bg-[#C62E2E] px-5 py-3.5 text-base font-extrabold text-white shadow-[0_14px_30px_-12px_rgba(198,46,46,0.95)] transition hover:bg-[#A82424]">
-                            <span>{{ __('activities-page.hero_see', ['city' => $city->name]) }}</span>
-                            <span class="hero-arrow grid size-9 shrink-0 place-items-center rounded-xl bg-white/15">
-                                <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-                            </span>
+                            class="group col-span-2 inline-flex sm:col-span-1 min-h-[56px] items-center justify-center gap-2.5 rounded-2xl bg-[#C62E2E] px-5 text-[15px] font-bold text-white shadow-[0_14px_30px_-14px_rgba(198,46,46,1)] transition hover:bg-[#A82424]">
+                            {{ __('activities-page.city_see') }}
+                            <svg class="hero-arrow-icon size-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
                         </a>
-                        @if ($hasGuide || $hasBlog)
-                            <div @class(['mt-3 grid gap-3', 'grid-cols-2' => $hasGuide && $hasBlog])>
-                                @if ($hasGuide)
-                                    <a href="{{ route('cities.show', $city->slug) }}"
-                                        class="group flex min-h-[52px] items-center justify-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-sm font-bold text-white ring-1 ring-white/20 transition hover:bg-white hover:text-slate-900">
-                                        <svg class="size-[18px] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4.5 3.5 6.6v13l5.5-2.1 6 2.1 5.5-2.1v-13L15 6.6zM9 4.5v13M15 6.6v13"/></svg>
-                                        <span class="truncate">{{ __('activities-page.hero_guide') }}</span>
-                                    </a>
-                                @endif
-                                @if ($hasBlog)
-                                    <a href="{{ route('blog.index', ['city_id' => $city->id]) }}"
-                                        class="group flex min-h-[52px] items-center justify-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-sm font-bold text-white ring-1 ring-white/20 transition hover:bg-white hover:text-slate-900">
-                                        <svg class="size-[18px] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7c-1.6-1.7-4.3-2.5-8-2.5v13c3.7 0 6.4.8 8 2.5 1.6-1.7 4.3-2.5 8-2.5v-13c-3.7 0-6.4.8-8 2.5zM12 7v13"/></svg>
-                                        <span class="truncate">{{ __('activities-page.hero_blog') }}</span>
-                                    </a>
-                                @endif
-                            </div>
+                        @if ($hasGuide)
+                            <a href="{{ route('cities.show', $city->slug) }}"
+                                @class(['inline-flex min-h-[56px] items-center justify-center gap-2 rounded-2xl bg-white/10 px-4 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur-md transition hover:bg-white hover:text-slate-900', 'col-span-2 sm:col-span-1' => $extra === 1])>
+                                <svg class="size-[18px] shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4.5 3.5 6.6v13l5.5-2.1 6 2.1 5.5-2.1v-13L15 6.6zM9 4.5v13M15 6.6v13"/></svg>
+                                <span class="truncate">{{ __('activities-page.hero_guide') }}</span>
+                            </a>
+                        @endif
+                        @if ($hasBlog)
+                            <a href="{{ route('blog.index', ['city_id' => $city->id]) }}"
+                                @class(['inline-flex min-h-[56px] items-center justify-center gap-2 rounded-2xl bg-white/10 px-4 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur-md transition hover:bg-white hover:text-slate-900', 'col-span-2 sm:col-span-1' => $extra === 1])>
+                                <svg class="size-[18px] shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7c-1.6-1.7-4.3-2.5-8-2.5v13c3.7 0 6.4.8 8 2.5 1.6-1.7 4.3-2.5 8-2.5v-13c-3.7 0-6.4.8-8 2.5zM12 7v13"/></svg>
+                                <span class="truncate">{{ __('activities-page.hero_blog') }}</span>
+                            </a>
                         @endif
                     </div>
-                </div>
-            @endif
+                @endif
+            </div>
+
+            {{-- SAĞ ALT: bizi takip et (anasayfadaki gibi sağda, küçük); telefonda düğmelerin altında --}}
+            <div class="lg:col-span-5 lg:flex lg:justify-end">
+                <x-social-follow />
+            </div>
         </div>
     </section>
 
