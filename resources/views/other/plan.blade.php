@@ -134,16 +134,16 @@
               <div class="grid" :class="done ? '' : 'lg:grid-cols-[20rem_minmax(0,1fr)]'">
 
                 {{-- ADIMLAR (masaüstü) --}}
-                <aside x-show="!done" class="relative hidden overflow-hidden border-e border-amber-100 bg-gradient-to-b from-amber-50 via-orange-50 to-rose-50 p-8 text-slate-900 lg:flex lg:flex-col">
-                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.35),transparent_65%)]" aria-hidden="true"></div>
-                    <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-amber-600">{{ $t('your_request') }}</p>
+                <aside x-show="!done" class="relative hidden overflow-hidden border-e border-slate-100 bg-gradient-to-b from-sky-50 via-white to-indigo-50/70 p-8 text-slate-900 lg:flex lg:flex-col">
+                    <div class="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.22),transparent_65%)]" aria-hidden="true"></div>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-[#C62E2E]">{{ $t('your_request') }}</p>
                     <ol class="mt-6 space-y-1.5">
                         <template x-for="(s, i) in steps" :key="s.id">
                             <li>
                                 <button type="button" @click="if (i < step) { step = i; error = '' }" :disabled="i > step"
-                                    class="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-start transition" :class="i === step ? 'bg-white shadow-[0_10px_30px_-15px_rgba(245,158,11,0.6)] ring-1 ring-amber-200' : (i < step ? 'hover:bg-white/60' : '')">
+                                    class="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-start transition" :class="i === step ? 'bg-white shadow-[0_12px_30px_-16px_rgba(15,23,42,0.35)] ring-1 ring-slate-200' : (i < step ? 'hover:bg-white/60' : '')">
                                     <span class="grid size-8 shrink-0 place-items-center rounded-full text-xs font-extrabold transition"
-                                        :class="i < step ? 'bg-emerald-500 text-white' : (i === step ? 'bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 shadow-lg shadow-amber-500/30' : 'bg-white text-slate-400 ring-1 ring-slate-200')">
+                                        :class="i < step ? 'bg-emerald-500 text-white' : (i === step ? 'bg-[#C62E2E] text-white shadow-lg shadow-red-600/30' : 'bg-white text-slate-400 ring-1 ring-slate-200')">
                                         <span x-show="i >= step" x-text="i + 1"></span>
                                         <svg x-show="i < step" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
                                     </span>
@@ -153,8 +153,8 @@
                         </template>
                     </ol>
                     <div class="mt-auto pt-10">
-                        <div class="rounded-2xl bg-white/80 p-4 text-xs leading-relaxed text-slate-600 ring-1 ring-amber-100">
-                            <svg class="mb-2 size-5 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+                        <div class="rounded-2xl bg-white/80 p-4 text-xs leading-relaxed text-slate-600 ring-1 ring-sky-100">
+                            <svg class="mb-2 size-5 text-sky-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
                             {{ $t('encrypted_note') }}
                         </div>
                     </div>
@@ -169,7 +169,7 @@
                     </div>
                     <div class="mt-3 flex gap-1.5 pb-6" aria-hidden="true">
                         <template x-for="(s, i) in steps" :key="s.id">
-                            <span class="h-1.5 flex-1 rounded-full transition-all duration-500" :class="i <= step ? 'bg-gradient-to-r from-amber-400 to-[#C62E2E]' : 'bg-slate-100'"></span>
+                            <span class="h-1.5 flex-1 rounded-full transition-all duration-500" :class="i <= step ? 'bg-gradient-to-r from-[#FF6B6E] to-[#C62E2E]' : 'bg-slate-100'"></span>
                         </template>
                     </div>
                 </div>
@@ -489,7 +489,8 @@
                     }
                     return '';
                 },
-                scrollTop() { this.$root.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
+                // adım değişince sayfa zıplamasın: sadece formun üstü ekranın dışında kaldıysa yumuşakça yukarı al
+                scrollTop() { const top = this.$root.getBoundingClientRect().top; if (top < 80) window.scrollTo({ top: window.scrollY + top - 96, behavior: 'smooth' }); },
                 back() { this.error = ''; this.step = Math.max(0, this.step - 1); this.scrollTop(); },
                 next() {
                     this.error = this.check();
