@@ -1,14 +1,10 @@
 {{--
     Anasayfa hero: tam ekran arka plan görseli, üstünde koyu geçiş ve beyaz yazılar.
     Veriler HomeController::hero() — hepsi panelden:
-    $banner (Yönetim > Site ayarları: görsel, telefon görseli, odak, koyulaştırma), $pass, $passCount,
-    $guide, $featured, $cities, $stats.
+    $banner (Yönetim > Site ayarları: görsel, telefon görseli, odak, koyulaştırma), $featured, $cities, $stats.
     Header bu sayfada görselin üstünde şeffaf durur (partials/header, data-transparent).
 --}}
 @php
-    // Tek kart varsa telefonda/tablette tam genişlik; iki kart varsa yana kayar
-    $cardWidth = ($pass && $guide) ? 'w-[88%] sm:w-[62%]' : 'w-full';
-    $passUrl = $pass ? route('activities.show', $pass->localSlug()) : null; // her zaman kendi sitemizdeki sayfa
     $overlay = [
         'soft' => 'from-slate-950/75 via-slate-950/35 to-transparent',
         'medium' => 'from-slate-950/90 via-slate-950/60 to-slate-950/10',
@@ -241,96 +237,6 @@
                         </a>
                     @endforeach
                 </div>
-            </div>
-        @endif
-
-        {{-- TICKET CARDS --}}
-        @if ($pass || $guide)
-            <div style="--d: 480ms" class="hero-reveal mt-8 lg:mt-[clamp(14px,4.2vh,56px)] -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:grid lg:grid-cols-2 lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0">
-                {{-- Telefon/tablette kartlar yan yana kayar (sonrakinin kenarı görünür), lg ve üstünde iki sütun --}}
-
-                {{-- CITY PASS --}}
-                @if ($pass)
-                    <div class="relative flex {{ $cardWidth }} shrink-0 snap-center flex-row overflow-hidden rounded-2xl bg-white text-slate-900 lg:w-auto
-                                shadow-[0_24px_60px_-20px_rgba(0,0,0,0.6)] transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-                                hover:-translate-y-1.5 hover:shadow-[0_36px_80px_-20px_rgba(0,0,0,0.7)]">
-
-                        <div class="min-w-0 flex-1 p-4 sm:p-5">
-                            <div class="flex items-center gap-3">
-                                <span class="inline-flex items-center gap-1 whitespace-nowrap rounded-md bg-[#C62E2E] px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
-                                    ★ {{ __('home-hero.pass_badge') }}
-                                </span>
-                                <span class="hidden sm:inline text-[11px] font-bold uppercase tracking-wider text-[#C62E2E]">
-                                    {{ __('home-hero.pass_tag') }}
-                                </span>
-                            </div>
-                            <h2 class="mt-3 text-[15px] sm:text-lg md:text-xl font-bold leading-snug line-clamp-3 sm:line-clamp-2">
-                                {{ $pass->name }}
-                            </h2>
-                            <p class="mt-2 text-sm text-slate-500">
-                                {{ __('home-hero.pass_meta', ['count' => $passCount, 'city' => $pass->city?->name]) }}
-                            </p>
-                        </div>
-
-                        <div class="relative w-[38%] sm:w-48 shrink-0 p-4 sm:p-5 flex flex-col justify-center
-                                    border-l border-dashed border-slate-300">
-                            <span class="absolute -left-[9px] -top-[9px] size-[18px] rounded-full bg-slate-950"></span>
-                            <span class="absolute -left-[9px] -bottom-[9px] size-[18px] rounded-full bg-slate-950"></span>
-
-                            <p class="text-xs font-medium text-slate-500">{{ __('home-hero.pass_compare') }}</p>
-                            <p class="text-2xl sm:text-3xl font-extrabold tracking-tight">{{ $passCount }}</p>
-                            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">{{ __('home-hero.pass_unit') }}</p>
-                            <a href="{{ $passUrl }}"
-                                class="mt-3 inline-flex items-center justify-center rounded-xl bg-[#C62E2E] px-2 sm:px-5 py-2.5 text-xs sm:text-sm
-                                       font-semibold text-white hover:bg-[#A82424] transition duration-300 hover:shadow-lg active:scale-[0.98]">
-                                {{ __('home-hero.pass_cta') }}
-                            </a>
-                        </div>
-                    </div>
-                @endif
-
-                {{-- LATEST GUIDE --}}
-                @if ($guide)
-                    <div class="relative flex {{ $cardWidth }} shrink-0 snap-center flex-row overflow-hidden rounded-2xl bg-white text-slate-900 lg:w-auto
-                                shadow-[0_24px_60px_-20px_rgba(0,0,0,0.6)] transition duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-                                hover:-translate-y-1.5 hover:shadow-[0_36px_80px_-20px_rgba(0,0,0,0.7)]">
-
-                        <div class="min-w-0 flex-1 p-4 sm:p-5">
-                            <div class="flex items-center gap-3">
-                                <span class="rounded-md bg-slate-900 px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
-                                    {{ __('home-hero.guide_badge') }}
-                                </span>
-                                <span class="hidden sm:inline text-[11px] font-bold uppercase tracking-wider text-slate-900">
-                                    {{ __('home-hero.guide_tag') }}
-                                </span>
-                            </div>
-                            <h2 class="mt-3 text-[15px] sm:text-lg md:text-xl font-bold leading-snug line-clamp-3 sm:line-clamp-2">
-                                {{ $guide->title }}
-                            </h2>
-                            <p class="mt-2 text-sm text-slate-500 line-clamp-2">
-                                {{ $guide->excerpt }}
-                            </p>
-                        </div>
-
-                        <div class="relative w-[38%] sm:w-48 shrink-0 p-4 sm:p-5 flex flex-col justify-center
-                                    border-l border-dashed border-slate-300">
-                            <span class="absolute -left-[9px] -top-[9px] size-[18px] rounded-full bg-slate-950"></span>
-                            <span class="absolute -left-[9px] -bottom-[9px] size-[18px] rounded-full bg-slate-950"></span>
-
-                            <p class="text-xs font-medium text-slate-500">{{ __('home-hero.guide_reading') }}</p>
-                            <p class="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                                {{ __('home-hero.guide_minutes', ['count' => $guide->readingMinutes()]) }}
-                            </p>
-                            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">{{ __('home-hero.guide_unit') }}</p>
-                            <a href="{{ route('blog.show', $guide->localSlug()) }}"
-                                class="mt-3 inline-flex items-center justify-center rounded-xl bg-slate-900 px-2 sm:px-5 py-2.5 text-xs sm:text-sm
-                                       font-semibold text-white hover:bg-slate-700 transition duration-300 hover:shadow-lg active:scale-[0.98]">
-                                {{ __('home-hero.guide_cta') }}
-                            </a>
-                        </div>
-                    </div>
-                @endif
-
             </div>
         @endif
 

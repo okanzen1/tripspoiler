@@ -16,6 +16,8 @@ return [
     'social' => 'Réseaux sociaux',
     'steps' => 'Comment ça marche',
     'intro' => 'À propos',
+    'city_facts' => 'En bref',
+    'city_places' => 'Lieux à visiter',
     'scroll' => 'Faire défiler',
     'more' => 'Plus',
     'main_activities' => 'Activités',

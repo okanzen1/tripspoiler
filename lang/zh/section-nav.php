@@ -16,6 +16,8 @@ return [
     'social' => '社交媒体',
     'steps' => '如何使用',
     'intro' => '关于 TripSpoiler',
+    'city_facts' => '速览',
+    'city_places' => '必去景点',
     'scroll' => '滑动',
     'more' => '更多',
     'main_activities' => '活动',

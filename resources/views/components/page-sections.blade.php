@@ -3,7 +3,7 @@
     Şehre özel bölümler (popüler, blog, şehirler çağrısı) verilen şehre göre gelir; o şehirde içerik yoksa görünmez.
     SSS: bu sayfaya yazılan sorular + seçili şehre yazılan sorular; hiç yoksa görünmez.
 --}}
-@props(['page', 'cityId' => null, 'reviewSource' => null, 'main' => null, 'activity' => null, 'post' => null, 'guideSections' => null, 'navExtra' => []])
+@props(['page', 'cityId' => null, 'reviewSource' => null, 'main' => null, 'activity' => null, 'post' => null, 'guideSections' => null, 'navExtra' => [], 'city' => null, 'guide' => null])
 
 @php
     // Aktivite detayında şehir = aktivitenin şehri
@@ -41,6 +41,18 @@
         @continue
     @endif
     @switch($section)
+        @case('city_facts')
+            {{-- Kısa bilgiler tablosu (yapay zekâ ve Google bu net cevapları alıntılar) --}}
+            @if ($city)
+                <x-city-facts :guide="$guide" :city="$city" />
+            @endif
+            @break
+        @case('city_places')
+            {{-- Gezilecek yerler + pass / kombo karşılaştırması (panel: Yerler) --}}
+            @if ($city)
+                <x-city-places :city="$city" />
+            @endif
+            @break
         @case('main')
             {{-- sayfanın ana içeriği (ör. aktivite listesi): <x-slot:main> --}}
             {{ $main ?? '' }}

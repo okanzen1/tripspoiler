@@ -16,6 +16,8 @@ return [
     'social' => 'Redes sociais',
     'steps' => 'Como funciona',
     'intro' => 'Sobre o TripSpoiler',
+    'city_facts' => 'Informações rápidas',
+    'city_places' => 'Lugares para visitar',
     'scroll' => 'Deslize',
     'more' => 'Mais',
     'main_activities' => 'Atividades',

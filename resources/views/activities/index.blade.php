@@ -80,7 +80,7 @@
                 @if ($cities->isNotEmpty())
                     <x-city-select class="mt-7" :cities="$cities" :current="$city" :url="fn ($c) => route('activities.index', ['city' => $c->slug])" loading-event="acts-loading" />
                 @endif
-                <x-social-follow class="mt-5" />
+                <x-social-follow full class="mt-5 max-w-xl" />
             </div>
 
         </div>
@@ -178,8 +178,8 @@
                         {{-- yükleniyor çizgisi --}}
                         <span x-show="loading" x-cloak class="acts-progress pointer-events-none absolute inset-x-0 bottom-0 h-[3px]"></span>
                     </div>
+                    {{-- sonuç sayısı gösterilmiyor (kullanıcı isteği: "22 aktivite" gibi sayılar yok); sadece yükleniyor noktaları --}}
                     <p class="mt-5 flex h-5 items-center text-sm text-slate-500">
-                        <span x-show="!loading" x-text="@js(__('activities-page.results')).replace(':count', shown)"></span>
                         <span x-show="loading" x-cloak class="inline-flex gap-1" aria-hidden="true">
                             <span class="acts-dot size-1.5 rounded-full bg-[#C62E2E]"></span><span class="acts-dot size-1.5 rounded-full bg-[#C62E2E] [animation-delay:.15s]"></span><span class="acts-dot size-1.5 rounded-full bg-[#C62E2E] [animation-delay:.3s]"></span>
                         </span>

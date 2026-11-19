@@ -16,6 +16,8 @@ return [
     'social' => 'وسائل التواصل',
     'steps' => 'كيف يعمل',
     'intro' => 'عن TripSpoiler',
+    'city_facts' => 'معلومات سريعة',
+    'city_places' => 'أماكن للزيارة',
     'scroll' => 'مرّر',
     'more' => 'المزيد',
     'main_activities' => 'الأنشطة',

@@ -17,6 +17,8 @@
         'reviews' => '<path d="m12 3.5 2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z" fill="currentColor" fill-opacity=".14"/><path d="m12 3.5 2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9z"/>',
         'social' => '<rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="currentColor" fill-opacity=".14"/><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><path d="M17 7h.01"/>',
         'steps' => '<path d="M4 6h2M4 12h2M4 18h2M9 6h11M9 12h11M9 18h11"/>',
+        'city_facts' => '<rect x="4" y="4" width="16" height="16" rx="3" fill="currentColor" fill-opacity=".14"/><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 12.5h8M8 16h5"/>',
+        'city_places' => '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" fill="currentColor" fill-opacity=".14"/><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><path d="m9.8 9.6 1.5 1.5 3-3"/>',
         'intro' => '<circle cx="12" cy="12" r="9" fill="currentColor" fill-opacity=".14"/><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
         'features' => '<rect x="3.5" y="5" width="7" height="14" rx="2" fill="currentColor" fill-opacity=".14"/><rect x="3.5" y="5" width="7" height="14" rx="2"/><rect x="13.5" y="5" width="7" height="14" rx="2"/>',
         'about_story' => '<path d="M5 4.5h11a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3z" fill="currentColor" fill-opacity=".14"/><path d="M5 4.5h11a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3zM9 9h6M9 13h4"/>',

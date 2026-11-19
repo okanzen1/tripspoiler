@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
-use App\Models\Blog;
 use App\Models\City;
 use App\Models\ActivityImage;
 use App\Models\Review;
@@ -26,25 +25,13 @@ class HomeController extends Controller
      */
     private function hero(): array
     {
-        // Kart seçimleri: panel > Yönetim > Site ayarları > Anasayfa kartları. Boş olan otomatik dolar.
-        $picks = Setting::many(['hero_featured', 'hero_pass_id', 'hero_guide_id']);
-
-        $passes = Activity::visible()->where('type', 'pass');
-        $pass = ($picks['hero_pass_id'] ? (clone $passes)->with('city')->find($picks['hero_pass_id']) : null)
-            ?? (clone $passes)->with('city')->orderBy('sort_order')->orderBy('id')->first();
-
-        $guide = ($picks['hero_guide_id'] ? Blog::published()->find($picks['hero_guide_id']) : null)
-            ?? Blog::published()->latest('published_at')->first();
+        $picks = Setting::many(['hero_featured']);
 
         $reviews = Review::approved()->whereNull('activity_id');
 
         return [
             'banner' => $this->banner(),
             'texts' => \App\Models\HeroText::forLocale(app()->getLocale()),
-            'pass' => $pass,
-            // "İstanbul için 5 şehir kartını karşılaştırın": seçilen kartın şehrindeki şehir kartları
-            'passCount' => $pass ? (clone $passes)->where('city_id', $pass->city_id)->count() : 0,
-            'guide' => $guide,
             'featured' => $this->featured($picks['hero_featured']),
             'cities' => City::visible()->orderByDesc('population')->get(['id', 'name', 'slug']),
             'stats' => [

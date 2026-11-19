@@ -16,6 +16,8 @@ return [
     'social' => '소셜 미디어',
     'steps' => '이용 방법',
     'intro' => 'TripSpoiler 소개',
+    'city_facts' => '한눈에 보기',
+    'city_places' => '가볼 만한 곳',
     'scroll' => '스크롤',
     'more' => '더 보기',
     'main_activities' => '액티비티',

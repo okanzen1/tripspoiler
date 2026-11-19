@@ -16,6 +16,8 @@ return [
     'social' => 'Соцсети',
     'steps' => 'Как это работает',
     'intro' => 'О TripSpoiler',
+    'city_facts' => 'Кратко',
+    'city_places' => 'Что посмотреть',
     'scroll' => 'Прокрутите',
     'more' => 'Ещё',
     'main_activities' => 'Развлечения',

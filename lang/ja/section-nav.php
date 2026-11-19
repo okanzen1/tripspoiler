@@ -16,6 +16,8 @@ return [
     'social' => 'SNS',
     'steps' => 'ご利用の流れ',
     'intro' => 'TripSpoilerについて',
+    'city_facts' => '基本情報',
+    'city_places' => '主な見どころ',
     'scroll' => 'スクロール',
     'more' => 'もっと見る',
     'main_activities' => 'アクティビティ',

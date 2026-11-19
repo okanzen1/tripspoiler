@@ -16,6 +16,8 @@ return [
     'social' => 'Social media',
     'steps' => 'How it works',
     'intro' => 'About TripSpoiler',
+    'city_facts' => 'Quick facts',
+    'city_places' => 'Places to visit',
     'scroll' => 'Scroll',
     'more' => 'More',
     'main_activities' => 'Activities',

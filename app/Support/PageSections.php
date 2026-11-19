@@ -75,6 +75,10 @@ class PageSections
         $order = array_values(array_intersect($saved['order'] ?? [], [...$main, ...self::CONTENT, ...$guide]));
         // Ana içerik varsayılan olarak en üstte; rehber alanları içerikten önce; listede olmayan (yeni eklenen) bölümler sona
         $order = array_values(array_unique([...(in_array('main', $order, true) ? [] : $main), ...$order, ...$guide, ...$defaults, ...self::CONTENT]));
+        // Şehir blokları kayıtlı sırada yoksa eski yerlerinde (banner'ın altında, en üstte) başlar (panelle aynı kural)
+        if ($page === 'cities') {
+            $order = array_values(array_unique([...array_diff(self::CITY_BLOCKS, $saved['order'] ?? []), ...$order]));
+        }
         $on = is_array($saved['on'] ?? null) ? $saved['on'] : [...$defaults, ...self::FIXED];
         // Kayıtlı sırada hiç olmayan rehber alanı yenidir: açık başlar (panelle aynı kural)
         $on = array_values(array_unique([...$on, ...array_diff($guide, $saved['order'] ?? [])]));
@@ -97,6 +101,9 @@ class PageSections
         'privacy' => ['privacy_who', 'privacy_collect', 'privacy_use', 'privacy_cookies', 'privacy_partners', 'privacy_storage', 'privacy_rights', 'privacy_changes'],
     ];
 
+    /** Şehirler sayfasının kendi blokları (panelle aynı): Kısa bilgiler, Gezilecek yerler + pass karşılaştırması */
+    public const CITY_BLOCKS = ['city_facts', 'city_places'];
+
     public static function guideKeys(string $page): array
     {
         if (isset(self::EXTRA[$page])) {
@@ -106,7 +113,7 @@ class PageSections
             return [];
         }
 
-        return \App\Models\CityGuideTopic::orderBy('sort_order')->orderBy('id')->pluck('id')->map(fn ($id) => "guide:{$id}")->all();
+        return [...self::CITY_BLOCKS, ...\App\Models\CityGuideTopic::orderBy('sort_order')->orderBy('id')->pluck('id')->map(fn ($id) => "guide:{$id}")->all()];
     }
 
     /**

@@ -16,6 +16,8 @@ return [
     'social' => 'Sosyal medya',
     'steps' => 'Nasıl çalışır',
     'intro' => 'TripSpoiler nedir',
+    'city_facts' => 'Kısa bilgiler',
+    'city_places' => 'Gezilecek yerler',
     'scroll' => 'Kaydır',
     'more' => 'Daha fazla',
     'main_activities' => 'Aktiviteler',

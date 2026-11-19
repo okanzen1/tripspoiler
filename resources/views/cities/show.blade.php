@@ -217,14 +217,8 @@
         </section>
     @endif
 
-    {{-- Kısa bilgiler tablosu (yapay zekâ ve Google bu net cevapları alıntılar) --}}
-    <x-city-facts :guide="$guide" :city="$city" />
-
-    {{-- Gezilecek yerler + pass / kombo karşılaştırması (panel: Yerler) --}}
-    <x-city-places :city="$city" />
-
-    {{-- Bölümler: rehber alanları + diğerleri, panelde verilen sırayla --}}
-    <x-page-sections page="cities" :city-id="$city->id" :guide-sections="$guideSections" />
+    {{-- Bölümler: Kısa bilgiler, Gezilecek yerler, rehber alanları + diğerleri, panelde verilen sırayla --}}
+    <x-page-sections page="cities" :city-id="$city->id" :guide-sections="$guideSections" :city="$city" :guide="$guide" />
 @endsection
 
 @push('scripts')
