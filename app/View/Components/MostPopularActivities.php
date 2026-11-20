@@ -36,7 +36,8 @@ class MostPopularActivities extends Component
             . "_city_" . ($this->cityId ?? 'all')
             . "_ex_" . ($this->excludeId ?? 'none') . '_ranked';
 
-        // Şehir verilmişse o şehrin en popülerleri; anasayfada (şehir yok) her şehrin en popülerleri karışık
+        // Şehir verilmişse o şehrin en popülerleri. Anasayfada (şehir yok) HER şehrin en popüler ürünü
+        // (şehir sırası rastgele, sınır yok); şehir azsa diğer ürünlerle $limit'e tamamlanır.
         $query = function () {
             $ranked = \App\Support\Popularity::rank(Activity::query()
                 ->with(['cover', 'city'])
@@ -44,9 +45,20 @@ class MostPopularActivities extends Component
                 ->visible()
                 ->when($this->excludeId, fn ($q) => $q->whereKeyNot($this->excludeId)));
 
-            return empty($this->cityId)
-                ? \App\Support\Popularity::mix($ranked->get(), $this->limit)
-                : $ranked->limit($this->limit)->get();
+            if (!empty($this->cityId)) {
+                return $ranked->limit($this->limit)->get();
+            }
+
+            $all = $ranked->get();
+            $list = \App\Support\Popularity::mix($all, PHP_INT_MAX, perCity: 1, shuffleCities: true);
+            if ($list->count() < $this->limit) {
+                $list = $list->concat(\App\Support\Popularity::mix(
+                    $all->whereNotIn('id', $list->pluck('id')->all())->values(),
+                    $this->limit - $list->count(),
+                ));
+            }
+
+            return $list->values();
         };
 
         if (config('app.global_cache_enabled')) {
