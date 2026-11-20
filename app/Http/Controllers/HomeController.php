@@ -45,11 +45,13 @@ class HomeController extends Controller
     }
 
     /**
-     * Hero'nun sağındaki dönen "Şu an popüler" kartı: toplam 5 ürün. Önce panelde seçilenler (o sırayla),
-     * kalan yerler şehirlere sırayla dağıtılır: her şehrin en popülerleri (App\Support\Popularity), şehir sırası
-     * her açılışta rastgele (2 şehirde 3+2, 3 şehirde 2+2+1…). Görseli olmayan atlanır.
+     * Hero'nun sağındaki dönen "Şu an popüler" kartı. Önce panelde seçilenler (en fazla 5, o sırayla),
+     * sonra seçilenlerde olmayan HER şehrin en popüler ürünü (App\Support\Popularity), şehir sırası her açılışta rastgele.
+     * Şehir azsa (toplam 5'ten az) şehirlerin ikinci, üçüncü ürünleriyle 5'e tamamlanır. Görseli olmayan atlanır.
      */
-    public const FEATURED_TOTAL = 5;
+    public const FEATURED_PICKED_MAX = 5;
+
+    public const FEATURED_MIN = 5;
 
     private function featured(?string $picked)
     {
@@ -57,15 +59,26 @@ class HomeController extends Controller
         $query = Activity::visible()->whereHas('cover')->with(['cover', 'city']);
 
         $chosen = $ids
-            ? (clone $query)->whereIn('id', $ids)->get()->sortBy(fn ($activity) => array_search($activity->id, $ids))->values()->take(self::FEATURED_TOTAL)
+            ? (clone $query)->whereIn('id', $ids)->get()->sortBy(fn ($activity) => array_search($activity->id, $ids))->values()->take(self::FEATURED_PICKED_MAX)
             : collect();
 
-        $auto = Popularity::mix(
-            Popularity::rank((clone $query)->whereNotIn('id', $chosen->pluck('id')->all() ?: [0]))->get(),
-            self::FEATURED_TOTAL - $chosen->count(), shuffleCities: true,
+        $rest = Popularity::rank((clone $query)->whereNotIn('id', $chosen->pluck('id')->all() ?: [0]))->get();
+
+        // seçilenlerde olmayan her şehirden 1 ürün
+        $covered = $chosen->pluck('city_id')->unique()->all();
+        $featured = $chosen->concat(
+            Popularity::mix($rest->whereNotIn('city_id', $covered)->values(), PHP_INT_MAX, perCity: 1, shuffleCities: true)
         );
 
-        return $chosen->concat($auto)->values();
+        // az şehir varsa en az 5'e tamamla
+        if ($featured->count() < self::FEATURED_MIN) {
+            $featured = $featured->concat(Popularity::mix(
+                $rest->whereNotIn('id', $featured->pluck('id')->all())->values(),
+                self::FEATURED_MIN - $featured->count(), shuffleCities: true,
+            ));
+        }
+
+        return $featured->values();
     }
 
     /**
