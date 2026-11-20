@@ -44,7 +44,17 @@
                         <span class="h-px w-8 bg-[#FF6B6E]"></span>{{ $eyebrow }}
                     </p>
                     <h1 class="mt-4">
-                        <span class="block text-[60px] font-extrabold leading-[0.9] tracking-[-0.05em] text-white sm:text-[84px] lg:text-[104px]">{{ $city->name }}</span>
+                        {{-- uzun adlar (ör. Cappadocia) dar sütundan taşıp resmin altına girmesin: en uzun kelimeye göre küçülür --}}
+                        @php
+                            $longest = collect(preg_split('/[\s-]+/u', $city->name))->map(fn ($w) => mb_strlen($w))->max();
+                        @endphp
+                        <span @class([
+                            'block font-extrabold leading-[0.9] tracking-[-0.05em] text-white [overflow-wrap:anywhere]',
+                            'text-[60px] sm:text-[84px] lg:text-[104px]' => $longest <= 6,
+                            'text-[52px] sm:text-[80px] lg:text-[88px]' => $longest >= 7 && $longest <= 8,
+                            'text-[44px] sm:text-[72px] lg:text-[72px]' => $longest >= 9 && $longest <= 10,
+                            'text-[36px] sm:text-[56px] lg:text-[58px]' => $longest >= 11,
+                        ])>{{ $city->name }}</span>
                         @if ($city->country)
                             <span class="mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold text-white/85 ring-1 ring-white/15">
                                 <span class="text-base leading-none" aria-hidden="true">{{ $flag($city->country->code) }}</span>{{ $city->country->name }}
