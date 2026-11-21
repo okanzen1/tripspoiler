@@ -38,6 +38,7 @@
     <meta name="theme-color" content="#C62E2E" />
     <meta name="p:domain_verify" content="8b263291d9f5e7d042415fd68edaf422" />
     <meta name="yandex-verification" content="a7cedc75b9464208" />
+    <meta name="naver-site-verification" content="0af0788e99e8c5c135c9abad5923b3171a99cd5e" />
 
     {{-- Blog RSS akışı (bu dilde): okuyucular ve haber platformları yeni yazıları buradan bulur --}}
     <link rel="alternate" type="application/rss+xml" title="TripSpoiler Blog" href="{{ route('blog.feed') }}" />
