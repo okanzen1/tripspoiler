@@ -44,6 +44,8 @@ class AttractionController extends Controller
             'attraction' => $attraction,
             'tickets' => $tickets,
             'others' => $others,
+            // altta "… gezi rehberleri": bu yerin turlarına bağlı ve aynı şehrin yazıları
+            'relatedPosts' => \App\Support\RelatedPosts::for($attraction->city_id, $tickets->pluck('id')->all()),
             'schema' => $schema,
             'itemList' => $tickets->isNotEmpty() ? Schema::itemList($tickets->map(fn (Activity $a) => [$a->name, route('activities.show', $a->localSlug())])) : null,
             'metaTitle' => $attraction->seoTitle(),

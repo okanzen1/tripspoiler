@@ -83,9 +83,13 @@ class ActivityController extends Controller
             ->where('city_id', $activity->city_id)->whereKeyNot($activity->id)
             ->orderBy('sort_order')->orderBy('id')->limit(4)->get();
 
+        // Altta "… gezi rehberleri": bu aktiviteye bağlı ve aynı şehrin yazıları
+        $relatedPosts = \App\Support\RelatedPosts::for($activity->city_id, [$activity->id]);
+
         return view('activities.show', compact(
             'activity',
             'related',
+            'relatedPosts',
             'locale',
             'metaTitle',
             'metaDescription',

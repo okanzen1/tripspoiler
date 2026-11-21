@@ -21,6 +21,7 @@ return array (
   'copied' => '链接已复制',
   'related_city' => ':city 的其他指南',
   'related_all' => '其他指南',
+  'guides_city' => ':city 旅行指南',
   'see_details' => '查看详情',
   'buy_tickets' => '购买门票',
   'toc_more' => '显示全部 (:count)',

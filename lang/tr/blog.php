@@ -21,6 +21,7 @@ return array (
   'copied' => 'Bağlantı kopyalandı',
   'related_city' => ':city için diğer rehberler',
   'related_all' => 'Diğer rehberler',
+  'guides_city' => ':city gezi rehberleri',
   'see_details' => 'Detayları gör',
   'buy_tickets' => 'Bilet al',
   'toc_more' => 'Tümünü göster (:count)',

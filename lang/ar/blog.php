@@ -21,6 +21,7 @@ return array (
   'copied' => 'تم نسخ الرابط',
   'related_city' => 'أدلة أخرى عن :city',
   'related_all' => 'أدلة أخرى',
+  'guides_city' => 'أدلة السفر: :city',
   'see_details' => 'عرض التفاصيل',
   'buy_tickets' => 'اشترِ التذاكر',
   'toc_more' => 'عرض الكل (:count)',

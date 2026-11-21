@@ -21,6 +21,7 @@ return array (
   'copied' => 'リンクをコピーしました',
   'related_city' => ':city の他のガイド',
   'related_all' => '他のガイド',
+  'guides_city' => ':city の旅行ガイド',
   'see_details' => '詳細を見る',
   'buy_tickets' => 'チケットを買う',
   'toc_more' => 'すべて表示 (:count)',

@@ -36,7 +36,8 @@
     $coverImage = $blog->coverUrl();
     $publishedAt = $blog->published_at ?? $blog->created_at;
     // Yazı ana başlıklarından bölümlere ayrılır (App\Support\ArticleSections); telefondaki bölüm kılavuzunda da görünür
-    $parts = \App\Support\ArticleSections::split($blog->content);
+    // metin içindeki yer adları yer sayfalarına bağlı (BlogController::linkedContent)
+    $parts = \App\Support\ArticleSections::split($content ?? $blog->content);
     $navExtra = collect($parts['intro'] !== '' ? [['post-intro', $parts['intro_title'] ?: __('blog.intro'), \App\Support\FeatureIcons::svg('book', 'size-[22px]')]] : [])->merge(collect($parts['sections'])->map(fn ($part, $i) => ['post-' . ($i + 1), $part['title'],
         '<span class="grid size-[22px] place-items-center rounded-md bg-current/10 text-[11px] font-extrabold tabular-nums">' . ($i + 1) . '</span>']))->all();
     $activityCount = $blog->activities->count();

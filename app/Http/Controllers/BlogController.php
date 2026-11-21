@@ -85,6 +85,36 @@ class BlogController extends Controller
             ->take(3)
             ->get();
 
-        return view('blog.show', compact('blog', 'locale', 'related'));
+        $content = $this->linkedContent($blog, $locale);
+
+        return view('blog.show', compact('blog', 'locale', 'related', 'content'));
+    }
+
+    /**
+     * Yazı metni, içinde geçen yer adları o yerin sayfasına bağlanmış olarak (App\Support\AutoLinks).
+     * Yazının şehir(ler)inin yerleri; şehri olmayan genel yazıda bütün yerler. Yazı ya da yerler değişince yenilenir.
+     */
+    private function linkedContent(Blog $blog, string $locale): string
+    {
+        $html = (string) $blog->content;
+        $cityIds = $blog->cities()->pluck('cities.id')->push($blog->city_id)->filter()->unique()->values()->all();
+        $places = \App\Models\Attraction::visible()->when($cityIds, fn ($q) => $q->whereIn('city_id', $cityIds));
+        $stamp = (clone $places)->max('updated_at') . '|' . (clone $places)->count();
+
+        return \Illuminate\Support\Facades\Cache::remember(
+            'blog-links:' . $blog->id . ':' . $locale . ':' . md5($blog->updated_at . '|' . $stamp),
+            now()->addDay(),
+            function () use ($html, $places, $locale) {
+                $targets = [];
+                foreach ($places->get(['id', 'slug', 'name']) as $place) {
+                    $url = route('attractions.show', ['slug' => $place->localSlug()]);
+                    foreach (array_unique(array_filter([$place->getTranslation('name', $locale, false), $place->getTranslation('name', 'en', false)])) as $name) {
+                        $targets[$name] ??= $url;
+                    }
+                }
+
+                return \App\Support\AutoLinks::apply($html, $targets, $locale);
+            }
+        );
     }
 }

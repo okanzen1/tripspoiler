@@ -21,6 +21,7 @@ return array (
   'copied' => '링크가 복사되었습니다',
   'related_city' => ':city의 다른 가이드',
   'related_all' => '다른 가이드',
+  'guides_city' => ':city 여행 가이드',
   'see_details' => '자세히 보기',
   'buy_tickets' => '티켓 구매',
   'toc_more' => '모두 보기 (:count)',

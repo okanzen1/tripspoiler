@@ -195,6 +195,9 @@
             </div>
         </section>
     @endif
+
+    {{-- İLGİLİ YAZILAR: bu yerin turlarına bağlı ve aynı şehrin blog yazıları (iç bağlantı) --}}
+    @include('partials.related-posts', ['posts' => $relatedPosts, 'city' => $city])
 @endsection
 
 @push('scripts')

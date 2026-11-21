@@ -21,6 +21,7 @@ return array (
   'copied' => 'Link copiato',
   'related_city' => 'Altre guide su :city',
   'related_all' => 'Altre guide',
+  'guides_city' => 'Guide di viaggio per :city',
   'see_details' => 'Vedi i dettagli',
   'buy_tickets' => 'Acquista i biglietti',
   'toc_more' => 'Mostra tutto (:count)',

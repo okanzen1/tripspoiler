@@ -410,6 +410,9 @@
         </x-slot:main>
     </x-page-sections>
 
+    {{-- İLGİLİ YAZILAR: bu aktiviteye bağlı ve aynı şehrin blog yazıları (iç bağlantı) --}}
+    @include('partials.related-posts', ['posts' => $relatedPosts, 'city' => $activity->city])
+
     {{-- TELEFON: alttaki sabit rezervasyon çubuğu --}}
     <div data-bottom-bar class="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-[0_-10px_30px_-12px_rgba(15,23,42,0.25)] backdrop-blur lg:hidden">
         <div class="mx-auto flex max-w-xl items-center gap-3">
