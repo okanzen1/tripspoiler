@@ -103,6 +103,9 @@ Route::group(
 
             Route::get('/', [BlogController::class, 'index'])->name('index');
 
+            // RSS akışı (Google News, Microsoft Start, Flipboard, Feedly…): yazı adresinden önce tanımlı olmalı
+            Route::get('feed', [\App\Http\Controllers\BlogFeedController::class, 'index'])->name('feed');
+
             Route::get('{slug}', [BlogController::class, 'show'])
                 ->name('show')
                 ->where('slug', '.*');
