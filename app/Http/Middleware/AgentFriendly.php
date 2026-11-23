@@ -22,7 +22,7 @@ class AgentFriendly
     {
         $response = $next($request);
 
-        if (!$request->isMethod('GET') || $response->getStatusCode() !== 200
+        if (!in_array($request->getMethod(), ['GET', 'HEAD'], true) || $response->getStatusCode() !== 200
             || !str_starts_with((string) $response->headers->get('Content-Type'), 'text/html')
             || !is_string($content = $response->getContent()) || $content === '') {
             return $response;
