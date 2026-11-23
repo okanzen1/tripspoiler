@@ -78,17 +78,18 @@ class Blog extends Model
     /** Destination Guides: şehir, müze, aktivite ve gezi rehberleri */
     public function scopeGuides(Builder $query): void
     {
+        // sütunlar tablo adıyla: şehir sayısı (City withCount) gibi birleşik sorgularda "city_id" iki tabloda da var
         self::hasKind()
-            ? $query->where('kind', '!=', 'news')
-            : $query->where(fn ($q) => $q->whereNotNull('city_id')->orWhereHas('cities'));
+            ? $query->where($query->qualifyColumn('kind'), '!=', 'news')
+            : $query->where(fn ($q) => $q->whereNotNull($query->qualifyColumn('city_id'))->orWhereHas('cities'));
     }
 
     /** Travel News: güncel seyahat haberleri (vize, ulaşım, etkinlik, turizm) */
     public function scopeNews(Builder $query): void
     {
         self::hasKind()
-            ? $query->where('kind', 'news')
-            : $query->whereNull('city_id')->doesntHave('cities');
+            ? $query->where($query->qualifyColumn('kind'), 'news')
+            : $query->whereNull($query->qualifyColumn('city_id'))->doesntHave('cities');
     }
 
     public function isNews(): bool
