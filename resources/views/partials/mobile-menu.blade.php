@@ -56,7 +56,7 @@
             {{-- ÜST --}}
             <div class="flex items-center justify-between px-5 pt-5 pb-4">
                 <a href="{{ route('home') }}" class="flex items-center gap-2">
-                    <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="210" height="240" class="h-10 w-auto">
+                    <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="140" height="160" class="h-10 w-auto">
                     <span class="text-xl font-extrabold tracking-tight text-white">Trip<span class="text-[#C62E2E]">Spoiler</span></span>
                 </a>
                 <button type="button" @click="menu = false" aria-label="{{ __('search-modal.hint_close') }}"

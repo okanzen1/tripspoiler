@@ -31,7 +31,7 @@
             {{-- MARKA --}}
             <div class="md:col-span-5">
                 <a href="{{ route('home') }}" class="inline-flex items-center gap-3">
-                    <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="210" height="240" class="h-16 w-auto drop-shadow-[0_8px_20px_rgba(0,0,0,0.45)]" loading="lazy">
+                    <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="140" height="160" class="h-16 w-auto drop-shadow-[0_8px_20px_rgba(0,0,0,0.45)]" loading="lazy">
                     <span class="text-3xl font-extrabold tracking-tight text-white">Trip<span class="text-[#E0393E]">Spoiler</span></span>
                 </a>
                 <p class="mt-4 max-w-sm text-sm leading-relaxed">{{ __('footer.tagline') }}</p>

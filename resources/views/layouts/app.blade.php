@@ -72,6 +72,9 @@
 
     {{-- Bağlantıyı önceden aç: resimler panel sunucusundan gelir --}}
     <link rel="preconnect" href="https://admin.tripspoiler.com">
+    {{-- Yazı tipi (Latin) CSS okunmadan inmeye başlasın; sayfanın en büyük görseli (ör. anasayfa kapağı) de --}}
+    <link rel="preload" href="/fonts/jakarta-latin-v5.woff2" as="font" type="font/woff2" crossorigin>
+    @stack('preload')
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="manifest" href="{{ asset('site.webmanifest') . '?v=3' }}">
 

@@ -369,7 +369,7 @@
                     <div class="flex flex-col gap-5 rounded-[24px] bg-slate-50 p-6 ring-1 ring-slate-200/70 sm:flex-row sm:items-center sm:justify-between">
                         <div class="flex items-center gap-4">
                             <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-white ring-1 ring-slate-200/80">
-                                <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="210" height="240" class="h-8 w-auto" loading="lazy">
+                                <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="140" height="160" class="h-8 w-auto" loading="lazy">
                             </span>
                             <div class="min-w-0">
                                 <p class="text-[15px] font-extrabold tracking-tight text-slate-900">Trip<span class="text-[#C62E2E]">Spoiler</span></p>

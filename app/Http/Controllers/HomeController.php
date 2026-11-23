@@ -86,18 +86,20 @@ class HomeController extends Controller
      */
     private function banner(): array
     {
-        $settings = Setting::many(['hero_image', 'hero_image_mobile', 'hero_focus', 'hero_focus_mobile', 'hero_overlay']);
+        $settings = Setting::many(['hero_image', 'hero_image_xs', 'hero_image_mobile', 'hero_focus', 'hero_focus_mobile', 'hero_overlay']);
         $focus = max(0, min(100, (int) ($settings['hero_focus'] ?? 50)));
         $image = $settings['hero_image'];
 
         return [
             'src' => $image ? ActivityImage::mediaUrl($image) : asset('images/hero-banner.webp'),
             // Ekran genişliğine göre tarayıcı uygun boyutu seçer
-            'srcset' => $image ? implode(', ', [
+            // "-xs" (828px, telefon) panel onu ürettiyse (Setting hero_image_xs aynı görseli gösterir)
+            'srcset' => $image ? implode(', ', array_filter([
+                $settings['hero_image_xs'] === $image ? ActivityImage::mediaUrl($image, 'xs') . ' 828w' : null,
                 ActivityImage::mediaUrl($image, 'sm') . ' 1280w',
                 ActivityImage::mediaUrl($image, 'md') . ' 1920w',
                 ActivityImage::mediaUrl($image) . ' 2560w',
-            ]) : null,
+            ])) : null,
             'mobile' => ActivityImage::mediaUrl($settings['hero_image_mobile']),
             'focus' => $focus,
             // Telefonun kendi kadrajı; ayarlanmamışsa telefon görseli varken ortası, yoksa masaüstününki

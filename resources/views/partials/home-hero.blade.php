@@ -120,7 +120,9 @@
                                 <div :class="i === {{ $loop->index }} ? 'opacity-100' : 'opacity-0'"
                                     @class(['absolute inset-0 transition-opacity duration-700 ease-out', 'opacity-0' => !$loop->first])>
                                     <img src="{{ $activity->cover->url('sm') }}" alt="" aria-hidden="true" loading="lazy" class="absolute inset-0 h-full w-full scale-110 object-cover blur-xl opacity-60">
-                                    <img src="{{ $activity->cover->url() }}" alt="{{ $activity->name }}" @if (!$loop->first) loading="lazy" @endif
+                                    {{-- Kart en fazla ~420px: telefonda küçük kopya (640px) yeter, büyük ekranda büyüğü --}}
+                                    <img src="{{ $activity->cover->url('sm') }}" srcset="{{ $activity->cover->url('sm') }} 640w, {{ $activity->cover->url() }} 1600w"
+                                        sizes="(min-width: 1024px) 420px, 80vw" alt="{{ $activity->name }}" @if (!$loop->first) loading="lazy" @endif
                                         :class="i === {{ $loop->index }} ? 'scale-100' : 'scale-105'"
                                         class="relative h-full w-full object-contain transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)]">
                                 </div>

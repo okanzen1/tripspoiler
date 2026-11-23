@@ -25,7 +25,8 @@ class Setting extends Model
      */
     public static function many(array $keys): array
     {
-        $values = static::whereIn('key', $keys)->pluck('value', 'key');
+        // Ayarlar istek başına tek sorguda okunur (anasayfada 11 ayrı sorgu yerine 1); istek bitince unutulur
+        $values = once(fn () => static::query()->pluck('value', 'key'));
 
         return collect($keys)->mapWithKeys(fn ($key) => [$key => $values[$key] ?? null])->all();
     }

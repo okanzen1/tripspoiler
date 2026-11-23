@@ -14,7 +14,7 @@
 
         {{-- LOGO --}}
         <a href="{{ route('home') }}" class="flex items-center gap-2.5 shrink-0">
-            <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="210" height="240" class="h-11 md:h-14 w-auto">
+            <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="140" height="160" class="h-11 md:h-14 w-auto">
             <span class="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 group-data-[transparent=true]:text-white">
                 Trip<span class="text-[#C62E2E]">Spoiler</span>
             </span>

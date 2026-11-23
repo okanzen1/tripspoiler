@@ -22,7 +22,8 @@ class SectionText extends Model
      */
     public static function texts(string $key, string $locale, array $fallback): array
     {
-        $record = static::query()->where('key', $key)->first();
+        // Bütün bölüm yazıları istek başına tek sorguda (anasayfada 10 ayrı sorgu yerine 1); once() istek bitince unutulur
+        $record = once(fn () => static::query()->get()->keyBy('key'))->get($key);
 
         return collect($fallback)->mapWithKeys(fn ($default, $field) => [
             $field => ($record?->getTranslation($field, $locale, false) ?: $record?->getTranslation($field, 'en', false)) ?: $default,

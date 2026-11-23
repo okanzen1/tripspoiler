@@ -86,7 +86,7 @@
                                 <circle cx="254.7" cy="45.3" r="3.2" fill="#C62E2E"/>
                             </svg>
 
-                            <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="210" height="240"
+                            <img src="{{ asset('images/logo-mark.webp') }}" alt="" width="140" height="160"
                                 class="relative h-40 w-auto drop-shadow-[0_22px_38px_rgba(15,23,42,0.14)] transition duration-500 group-hover:-translate-y-1 sm:h-56">
                         </div>
 

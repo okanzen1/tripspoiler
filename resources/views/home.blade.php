@@ -3,6 +3,17 @@
 @section('title', __('home.title'))
 @section('meta_description', __('home.meta_description'))
 
+{{-- Kapak görseli (sayfanın en büyük öğesi) HTML'in geri kalanını beklemeden inmeye başlasın --}}
+@push('preload')
+    @php $banner = $hero['banner']; @endphp
+    @if ($banner['mobile'])
+        <link rel="preload" as="image" href="{{ $banner['mobile'] }}" media="(max-width: 767px)" fetchpriority="high">
+        <link rel="preload" as="image" href="{{ $banner['src'] }}" @if ($banner['srcset']) imagesrcset="{{ $banner['srcset'] }}" imagesizes="100vw" @endif media="(min-width: 768px)" fetchpriority="high">
+    @else
+        <link rel="preload" as="image" href="{{ $banner['src'] }}" @if ($banner['srcset']) imagesrcset="{{ $banner['srcset'] }}" imagesizes="100vw" @endif fetchpriority="high">
+    @endif
+@endpush
+
 @section('content')
     @include('partials.home-hero', $hero)
     {{-- Sıra panelden (Yönetim › Bölümler, sürükle-bırak): App\Support\HomeSections --}}
