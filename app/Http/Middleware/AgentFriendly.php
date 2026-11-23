@@ -51,8 +51,29 @@ class AgentFriendly
         }
 
         $response->setContent($this->minify($content));
+        $this->compress($request, $response);
 
         return $response;
+    }
+
+    /**
+     * HTML'i gzip (seviye 6) ile sıkıştırır. Sunucunun (LiteSpeed) kendi Brotli sıkıştırması dinamik sayfada zayıf
+     * kalıyordu: anasayfa br ile 88 KB, gzip ile 57 KB. Zaten sıkıştırılmış cevaba sunucu tekrar dokunmaz.
+     */
+    private function compress(Request $request, Response $response): void
+    {
+        if (!function_exists('gzencode') || $response->headers->has('Content-Encoding')
+            || !str_contains(strtolower((string) $request->header('Accept-Encoding')), 'gzip')) {
+            return;
+        }
+        $gzipped = gzencode((string) $response->getContent(), 6);
+        if ($gzipped === false) {
+            return;
+        }
+        $response->setContent($gzipped);
+        $response->headers->set('Content-Encoding', 'gzip');
+        $response->headers->set('Vary', trim(implode(', ', array_unique(array_filter(array_map('trim', [...explode(',', (string) $response->headers->get('Vary')), 'Accept-Encoding'])))), ', '));
+        $response->headers->remove('Content-Length');
     }
 
     private function wantsMarkdown(Request $request): bool
