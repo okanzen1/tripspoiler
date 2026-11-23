@@ -1,5 +1,11 @@
 @import 'tailwindcss';
 
+/* Sayfa yana hiç kaymasın: kayan şeritler (duyuru, kur, özellik kartları) animasyon sırasında anlık taşıp masaüstünde
+   yatay kaydırma açıyordu. "clip", "hidden"dan farklı olarak kaydırma alanı açmaz; yapışkan menü bozulmaz. */
+html, body {
+  overflow-x: clip;
+}
+
 /* Yazı tipi siteden sunulur (public/fonts, Fontsource'tan): tek "değişken" dosya bütün kalınlıkları (200–800) taşır.
    Eskiden kalınlık başına ayrı dosya iniyordu (8 dosya, ~93 KB); şimdi Latin 27 KB (+ gerekirse Latin-ext 22 KB).
    Latin dosyası sayfanın başında önceden yüklenir (layouts/app.blade.php). Her alfabe parçası sadece gerektiğinde iner. */
