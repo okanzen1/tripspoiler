@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Activity;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 
@@ -75,6 +76,11 @@ class BlogController extends Controller
         }
         \App\Support\LocalUrl::current('blog.show', $blog);
 
+        // Panelde aktivite bağlanmamışsa kendiliğinden: yazıda geçen yerlerin biletleri, sonra şehrin popülerleri
+        if ($blog->activities->isEmpty()) {
+            $blog->setRelation('activities', $this->suggestedActivities($blog));
+        }
+
         // Yazının altında gösterilecek diğer rehberler: önce aynı şehirdekiler, sonra diğerleri
         $related = Blog::published()
             ->where('id', '!=', $blog->id)
@@ -88,6 +94,47 @@ class BlogController extends Controller
         $content = $this->linkedContent($blog, $locale);
 
         return view('blog.show', compact('blog', 'locale', 'related', 'content'));
+    }
+
+    /**
+     * Aktivite bağlanmamış yazı için en fazla 3 aktivite: önce yazıda adı geçen yerlerin (Ayasofya, Kolezyum…) biletleri,
+     * kalan yer yazının şehrinin popüler aktiviteleriyle dolar. Şehri olmayan genel yazıda sadece adı geçen yerlerinkiler.
+     * Arama motorundan bloga gelen okur bir sonraki adımda bilete gidebilsin. Seçim bir gün önbellekte.
+     */
+    private function suggestedActivities(Blog $blog): \Illuminate\Support\Collection
+    {
+        $cityIds = $blog->cities()->pluck('cities.id')->push($blog->city_id)->filter()->unique()->values()->all();
+
+        $ids = \Illuminate\Support\Facades\Cache::remember('blog-picks:' . $blog->id . ':' . md5((string) $blog->updated_at), now()->addDay(), function () use ($blog, $cityIds) {
+            $text = mb_strtolower(strip_tags((string) $blog->getTranslation('title', 'en', false) . ' ' . $blog->getTranslation('content', 'en', false)));
+            $mentioned = \App\Models\Attraction::visible()
+                ->when($cityIds, fn ($q) => $q->whereIn('city_id', $cityIds))
+                ->get(['id', 'name'])
+                ->filter(function ($place) use ($text) {
+                    $name = mb_strtolower(trim((string) $place->getTranslation('name', 'en', false)));
+
+                    return mb_strlen($name) >= 4 && str_contains($text, $name);
+                })
+                ->pluck('id');
+
+            $picks = $mentioned->isEmpty() ? collect() : Activity::visible()
+                ->whereHas('attractions', fn ($q) => $q->whereIn('attractions.id', $mentioned))
+                ->orderByDesc('is_popular')->orderBy('sort_order')->limit(3)->pluck('id');
+
+            if ($picks->count() < 3 && $cityIds) {
+                $picks = $picks->concat(Activity::visible()->whereIn('city_id', $cityIds)->whereNotIn('id', $picks)
+                    ->orderByDesc('is_popular')->orderBy('sort_order')->orderBy('id')->limit(3 - $picks->count())->pluck('id'));
+            }
+
+            return $picks->values()->all();
+        });
+
+        if (!$ids) {
+            return collect();
+        }
+
+        return Activity::visible()->with(['city.country', 'cover'])->whereIn('id', $ids)->get()
+            ->sortBy(fn ($activity) => array_search($activity->id, $ids, true))->values();
     }
 
     /**
