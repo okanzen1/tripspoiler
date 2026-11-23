@@ -150,7 +150,7 @@
     </section>
 
     {{-- TÜM YAZILAR: araç çubuğu (etiketler + arama) ve kartlar --}}
-    <section id="all-guides" class="scroll-mt-24 bg-slate-50 py-12 md:py-16" x-init="$nextTick(() => reveal())"
+    <section id="all-guides" data-swap-loading class="scroll-mt-24 bg-slate-50 py-12 md:py-16" x-init="$nextTick(() => reveal())"
         @blog-tag.window="pick($event.detail, [...$el.querySelectorAll('button')].find(b => b.textContent.trim() === $event.detail)); $el.scrollIntoView({ behavior: 'smooth' })"
         x-data="{
             tab: '', tag: '', query: '', q: '', loading: false, timer: null, queue: [],
