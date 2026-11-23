@@ -1,4 +1,7 @@
 User-agent: *
+# İçerik kullanım izni (contentsignals.org): arama ve yapay zekâ cevaplarında kaynak olarak kullanılabilir,
+# yapay zekâ eğitimi için kullanılamaz
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 # Arama sonuçları (JSON) ve analitik uçları dizine girmesin
 Disallow: /*/search

@@ -20,7 +20,7 @@
             <source media="(max-width: 767px)" srcset="{{ $banner['mobile'] }}">
         @endif
         <img src="{{ $banner['src'] }}" @if ($banner['srcset']) srcset="{{ $banner['srcset'] }}" sizes="100vw" @endif
-            alt="{{ __('home-hero.banner_alt') }}" fetchpriority="high" decoding="async"
+            alt="{{ __('home-hero.banner_alt') }}" fetchpriority="high"
             {{-- Kadraj: masaüstü --fd, telefon (dik ekran, <768px) --fm; panelde ayrı ayrı ayarlanır --}}
             style="--fd: {{ $banner['focus'] }}%; --fm: {{ $banner['focus_mobile'] }}%"
             class="hero-zoom w-full h-full object-cover [object-position:var(--fd)_center] max-md:[object-position:var(--fm)_center]">

@@ -19,6 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->prepend(\App\Http\Middleware\CanonicalHost::class);
         $middleware->append(\App\Http\Middleware\CacheImages::class);
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
+        // Yapay zekâ ajanları: Link başlığı, Markdown hali, HTML boşluk sıkıştırma
+        $middleware->append(\App\Http\Middleware\AgentFriendly::class);
         // Analitik bildirimleri tarayıcıdan arka planda gelir (sendBeacon, resources/js/track.js), CSRF anahtarı taşımaz
         $middleware->validateCsrfTokens(except: ['t/view', 't/click']);
         // Çerez onayı tarayıcıda (JavaScript) yazılır; şifresiz okunur (partials/cookie-consent)

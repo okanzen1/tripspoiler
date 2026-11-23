@@ -1,4 +1,10 @@
 @import 'tailwindcss';
+/* Yazı tipi siteden sunulur (Google Fonts'a ayrı bağlantı yok); her alfabe parçası sadece gerektiğinde iner */
+@import '@fontsource/plus-jakarta-sans/400.css';
+@import '@fontsource/plus-jakarta-sans/500.css';
+@import '@fontsource/plus-jakarta-sans/600.css';
+@import '@fontsource/plus-jakarta-sans/700.css';
+@import '@fontsource/plus-jakarta-sans/800.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -244,7 +250,7 @@
 }
 
 @keyframes heroReveal {
-  from { opacity: 0; transform: translateY(24px); }
+  from { transform: translateY(16px); }
   to   { opacity: 1; transform: none; }
 }
 

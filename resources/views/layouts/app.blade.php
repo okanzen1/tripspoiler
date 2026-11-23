@@ -70,14 +70,9 @@
     <meta name="twitter:image" content="{!! $ogImage !!}" />
     @stack('meta')
 
-    {{-- Bağlantıları önceden aç: font ve CDN --}}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    {{-- Bağlantıyı önceden aç: resimler panel sunucusundan gelir --}}
+    <link rel="preconnect" href="https://admin.tripspoiler.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-    {{-- Font CSS'i sayfa çizimini bekletmez (display=swap ile önce sistem fontu, font gelince değişir) --}}
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
     <link rel="manifest" href="{{ asset('site.webmanifest') . '?v=3' }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -130,7 +125,6 @@
 
     @jsonld($schema)
     {{-- Sürüm sabit: "3.x.x" her yeni sürümü habersiz çeker (bozulma / tedarik zinciri riski) --}}
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" defer></script>
     {{-- Google Analytics: yalnızca ziyaretçi çerezleri kabul ettiyse yüklenir (partials/cookie-consent) --}}
     <script>
         window.dataLayer = window.dataLayer || [];

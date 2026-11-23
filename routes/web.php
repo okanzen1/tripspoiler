@@ -22,6 +22,8 @@ use App\Http\Controllers\ReviewController;
 */
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+// Dil ve türe göre alt haritalar (sitemap.xml bunları listeler)
+Route::get('/sitemaps/{locale}-{type}.xml', [SitemapController::class, 'show'])->where(['locale' => '[a-z]{2}', 'type' => '[a-z]+']);
 // Yapay zekâ asistanları için site özeti (llmstxt.org)
 Route::get('/llms.txt', [\App\Http\Controllers\LlmsController::class, 'index']);
 // Analitik (resources/js/track.js): sayfa görüntüleme ve partner bağlantısına tıklama
