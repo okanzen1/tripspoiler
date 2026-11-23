@@ -23,8 +23,7 @@ class AgentFriendly
         $response = $next($request);
 
         if (!in_array($request->getMethod(), ['GET', 'HEAD'], true) || $response->getStatusCode() !== 200
-            || !str_starts_with((string) $response->headers->get('Content-Type'), 'text/html')
-            || !is_string($content = $response->getContent()) || $content === '') {
+            || !str_starts_with((string) $response->headers->get('Content-Type'), 'text/html')) {
             return $response;
         }
 
@@ -36,6 +35,11 @@ class AgentFriendly
             '<' . $self . '>; rel="alternate"; type="text/markdown"',
         ]));
         $response->headers->set('Vary', trim(implode(', ', array_filter([$response->headers->get('Vary'), 'Accept'])), ', '));
+
+        // HEAD isteğinde gövde yok: sadece başlıklar
+        if (!is_string($content = $response->getContent()) || $content === '') {
+            return $response;
+        }
 
         if ($this->wantsMarkdown($request)) {
             return response(HtmlToMarkdown::page($content, $self), 200, [
