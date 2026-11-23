@@ -22,7 +22,7 @@ use Throwable;
 class PageCache
 {
     /** Önbelleğe giren sayfalar (route adı) */
-    private const ROUTES = ['home', 'activities.show', 'attractions.show', 'blog.show', 'cities.show', 'about', 'privacy'];
+    private const ROUTES = ['home', 'activities.show', 'attractions.show', 'blog.show', 'blog.news', 'cities.show', 'about', 'privacy'];
 
     /** Adreste bulunsa da sayfayı değiştirmeyen parametreler (reklam / paylaşım izleri) */
     private const IGNORED_QUERY = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'gclid', 'msclkid', 'ref'];

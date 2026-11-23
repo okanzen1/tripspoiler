@@ -27,4 +27,13 @@ return [
     'city_activities' => 'Aktivitäten in :city',
     'topics' => 'Themen',
     'city_see_posts' => 'Artikel lesen',
+    'tab_guides' => 'Reiseführer',
+    'tab_news' => 'Reisenachrichten',
+    'news_eyebrow' => 'Reisenachrichten',
+    'news_title' => 'Reisenachrichten',
+    'news_desc' => 'Aktuelle Reisenachrichten: Visa, Verkehr, Streiks, Veranstaltungen und Neuigkeiten aus dem Tourismus, die deine Reise betreffen.',
+    'news_meta_title' => 'Reisenachrichten: Visa, Verkehr und Tourismus | TripSpoiler',
+    'news_meta_description' => 'Aktuelle Reisenachrichten für deine nächste Reise: Visaregeln, Verkehr, Streiks, Veranstaltungen und Tourismus.',
+    'news_empty' => 'Noch keine Reisenachrichten',
+    'news_latest' => 'Neueste Nachrichten',
 ];

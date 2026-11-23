@@ -108,6 +108,9 @@ Route::group(
             // RSS akışı (Google News, Microsoft Start, Flipboard, Feedly…): yazı adresinden önce tanımlı olmalı
             Route::get('feed', [\App\Http\Controllers\BlogFeedController::class, 'index'])->name('feed');
 
+            // Travel News: güncel seyahat haberleri (şehir listelerinden ayrı)
+            Route::get('travel-news', [BlogController::class, 'news'])->name('news');
+
             Route::get('{slug}', [BlogController::class, 'show'])
                 ->name('show')
                 ->where('slug', '.*');

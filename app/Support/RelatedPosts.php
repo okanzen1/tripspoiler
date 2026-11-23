@@ -21,7 +21,7 @@ class RelatedPosts
             return collect();
         }
 
-        return Blog::published()->whereNotNull('slug')
+        return Blog::published()->guides()->whereNotNull('slug')
             ->where(fn ($q) => $q
                 ->when($activityIds, fn ($q) => $q->orWhereHas('activities', fn ($a) => $a->whereIn('activities.id', $activityIds)))
                 ->when($cityId, fn ($q) => $q->orWhere('city_id', $cityId)->orWhereHas('cities', fn ($c) => $c->whereKey($cityId))))

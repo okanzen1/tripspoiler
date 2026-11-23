@@ -27,4 +27,13 @@ return [
     'city_activities' => ':city 액티비티',
     'topics' => '주제',
     'city_see_posts' => '글 읽기',
+    'tab_guides' => '여행지 가이드',
+    'tab_news' => '여행 뉴스',
+    'news_eyebrow' => '여행 뉴스',
+    'news_title' => '여행 뉴스',
+    'news_desc' => '여행에 영향을 주는 최신 소식: 비자, 교통, 파업, 행사, 관광 소식.',
+    'news_meta_title' => '여행 뉴스: 비자, 교통, 관광 소식 | TripSpoiler',
+    'news_meta_description' => '다음 여행을 위한 최신 소식: 비자 규정, 교통, 파업, 행사, 관광 소식.',
+    'news_empty' => '아직 여행 뉴스가 없습니다',
+    'news_latest' => '최신 뉴스',
 ];

@@ -27,4 +27,13 @@ return [
     'city_activities' => 'Activities in :city',
     'topics' => 'Topics',
     'city_see_posts' => 'Read the guides',
+    'tab_guides' => 'Destination Guides',
+    'tab_news' => 'Travel News',
+    'news_eyebrow' => 'Travel news',
+    'news_title' => 'Travel News',
+    'news_desc' => 'Current travel news: visas, transport, strikes, events and tourism updates that affect your trip.',
+    'news_meta_title' => 'Travel News: visas, transport and tourism updates | TripSpoiler',
+    'news_meta_description' => 'Current travel news for your next trip: visa rules, transport, strikes, events and tourism updates.',
+    'news_empty' => 'No travel news yet',
+    'news_latest' => 'Latest news',
 ];

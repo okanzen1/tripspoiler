@@ -27,4 +27,13 @@ return [
     'city_activities' => 'Activités à :city',
     'topics' => 'Thèmes',
     'city_see_posts' => 'Lire les articles',
+    'tab_guides' => 'Guides de destination',
+    'tab_news' => 'Actualités voyage',
+    'news_eyebrow' => 'Actualités voyage',
+    'news_title' => 'Actualités voyage',
+    'news_desc' => 'L’actualité qui compte pour votre voyage : visas, transports, grèves, événements et tourisme.',
+    'news_meta_title' => 'Actualités voyage : visas, transports et tourisme | TripSpoiler',
+    'news_meta_description' => 'L’actualité voyage pour votre prochain séjour : règles de visa, transports, grèves, événements et tourisme.',
+    'news_empty' => 'Pas encore d’actualités',
+    'news_latest' => 'Dernières actualités',
 ];

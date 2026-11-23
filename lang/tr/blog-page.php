@@ -27,4 +27,13 @@ return [
     'city_activities' => ':city aktiviteleri',
     'topics' => 'Konular',
     'city_see_posts' => 'Yazıları oku',
+    'tab_guides' => 'Gezi Rehberleri',
+    'tab_news' => 'Seyahat Haberleri',
+    'news_eyebrow' => 'Seyahat haberleri',
+    'news_title' => 'Seyahat Haberleri',
+    'news_desc' => 'Seyahatini etkileyen güncel haberler: vize, ulaşım, grevler, etkinlikler ve turizm gelişmeleri.',
+    'news_meta_title' => 'Seyahat Haberleri: vize, ulaşım ve turizm gelişmeleri | TripSpoiler',
+    'news_meta_description' => 'Bir sonraki seyahatin için güncel haberler: vize kuralları, ulaşım, grevler, etkinlikler ve turizm gelişmeleri.',
+    'news_empty' => 'Henüz seyahat haberi yok',
+    'news_latest' => 'Son haberler',
 ];

@@ -27,4 +27,13 @@ return [
     'city_activities' => ':cityのアクティビティ',
     'topics' => 'テーマ',
     'city_see_posts' => '記事を読む',
+    'tab_guides' => '旅行ガイド',
+    'tab_news' => '旅行ニュース',
+    'news_eyebrow' => '旅行ニュース',
+    'news_title' => '旅行ニュース',
+    'news_desc' => '旅行に関わる最新ニュース：ビザ、交通、ストライキ、イベント、観光情報。',
+    'news_meta_title' => '旅行ニュース：ビザ・交通・観光の最新情報 | TripSpoiler',
+    'news_meta_description' => '次の旅行に役立つ最新ニュース：ビザ規則、交通、ストライキ、イベント、観光情報。',
+    'news_empty' => 'まだ旅行ニュースはありません',
+    'news_latest' => '最新ニュース',
 ];

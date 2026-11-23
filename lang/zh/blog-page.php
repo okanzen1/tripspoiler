@@ -27,4 +27,13 @@ return [
     'city_activities' => ':city的活动',
     'topics' => '主题',
     'city_see_posts' => '阅读文章',
+    'tab_guides' => '目的地指南',
+    'tab_news' => '旅行资讯',
+    'news_eyebrow' => '旅行资讯',
+    'news_title' => '旅行资讯',
+    'news_desc' => '影响您行程的最新旅行资讯：签证、交通、罢工、活动和旅游动态。',
+    'news_meta_title' => '旅行资讯：签证、交通与旅游动态 | TripSpoiler',
+    'news_meta_description' => '为您的下一次旅行提供最新资讯：签证规定、交通、罢工、活动和旅游动态。',
+    'news_empty' => '暂无旅行资讯',
+    'news_latest' => '最新资讯',
 ];

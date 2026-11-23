@@ -27,4 +27,13 @@ return [
     'city_activities' => 'Actividades en :city',
     'topics' => 'Temas',
     'city_see_posts' => 'Leer los artículos',
+    'tab_guides' => 'Guías de destino',
+    'tab_news' => 'Noticias de viaje',
+    'news_eyebrow' => 'Noticias de viaje',
+    'news_title' => 'Noticias de viaje',
+    'news_desc' => 'Noticias de viaje actuales: visados, transporte, huelgas, eventos y novedades turísticas que afectan a tu viaje.',
+    'news_meta_title' => 'Noticias de viaje: visados, transporte y turismo | TripSpoiler',
+    'news_meta_description' => 'Noticias de viaje para tu próximo viaje: normas de visado, transporte, huelgas, eventos y turismo.',
+    'news_empty' => 'Todavía no hay noticias',
+    'news_latest' => 'Últimas noticias',
 ];

@@ -55,10 +55,45 @@ class Blog extends Model
     /**
      * Bir şehirde görünen yazılar: o şehre bağlananlar + genel yazılar. Şehir yoksa yalnızca genel yazılar.
      */
+    /**
+     * Bir şehrin REHBER listesi: o şehre bağlanan rehberler + hiçbir şehre bağlı olmayan rehberler. Haberler (Travel News)
+     * şehir listelerine girmez (Atina listesinde GTA 6 haberi çıkıyordu).
+     */
     public function scopeForCity(Builder $query, ?int $cityId): void
     {
-        $query->where(fn ($q) => $q->doesntHave('cities')
+        $query->guides()->where(fn ($q) => $q->doesntHave('cities')
             ->when($cityId, fn ($q) => $q->orWhereHas('cities', fn ($c) => $c->whereKey($cityId))));
+    }
+
+    /**
+     * Tür sütunu (panel: Rehber / Haber) veritabanında var mı. Panel güncellenip migrate edilene kadar yoksa eski
+     * kural: hiçbir şehre bağlı olmayan yazı haber sayılır. 10 dk önbellekte.
+     */
+    public static function hasKind(): bool
+    {
+        return once(fn () => (bool) \Illuminate\Support\Facades\Cache::remember('blogs:has-kind', 600,
+            fn () => \Illuminate\Support\Facades\Schema::hasColumn('blogs', 'kind') ? 1 : 0));
+    }
+
+    /** Destination Guides: şehir, müze, aktivite ve gezi rehberleri */
+    public function scopeGuides(Builder $query): void
+    {
+        self::hasKind()
+            ? $query->where('kind', '!=', 'news')
+            : $query->where(fn ($q) => $q->whereNotNull('city_id')->orWhereHas('cities'));
+    }
+
+    /** Travel News: güncel seyahat haberleri (vize, ulaşım, etkinlik, turizm) */
+    public function scopeNews(Builder $query): void
+    {
+        self::hasKind()
+            ? $query->where('kind', 'news')
+            : $query->whereNull('city_id')->doesntHave('cities');
+    }
+
+    public function isNews(): bool
+    {
+        return self::hasKind() ? $this->kind === 'news' : ($this->city_id === null && !$this->cities()->exists());
     }
 
     public function activities()

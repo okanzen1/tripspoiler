@@ -27,4 +27,13 @@ return [
     'city_activities' => 'Attività a :city',
     'topics' => 'Argomenti',
     'city_see_posts' => 'Leggi gli articoli',
+    'tab_guides' => 'Guide di viaggio',
+    'tab_news' => 'Notizie di viaggio',
+    'news_eyebrow' => 'Notizie di viaggio',
+    'news_title' => 'Notizie di viaggio',
+    'news_desc' => 'Notizie di viaggio aggiornate: visti, trasporti, scioperi, eventi e novità turistiche che riguardano il tuo viaggio.',
+    'news_meta_title' => 'Notizie di viaggio: visti, trasporti e turismo | TripSpoiler',
+    'news_meta_description' => 'Notizie aggiornate per il tuo prossimo viaggio: regole sui visti, trasporti, scioperi, eventi e turismo.',
+    'news_empty' => 'Ancora nessuna notizia',
+    'news_latest' => 'Ultime notizie',
 ];

@@ -103,6 +103,7 @@ class SitemapController extends Controller
         $add(route('home', [], false), 1.0, Url::CHANGE_FREQUENCY_DAILY);
         $add(route('activities.index', [], false), 0.8, Url::CHANGE_FREQUENCY_WEEKLY);
         $add(route('blog.index', [], false), 0.7, Url::CHANGE_FREQUENCY_WEEKLY);
+        $add(route('blog.news', [], false), 0.6, Url::CHANGE_FREQUENCY_DAILY);
         $add(route('reviews.index', [], false), 0.5, Url::CHANGE_FREQUENCY_WEEKLY);
         $add(route('about', [], false), 0.5, Url::CHANGE_FREQUENCY_MONTHLY);
         $add(route('contact', [], false), 0.4, Url::CHANGE_FREQUENCY_YEARLY);

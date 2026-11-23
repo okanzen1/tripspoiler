@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', __('blog-page.meta_title', ['city' => $city?->name]))
-@section('meta_description', __('blog-page.meta_description', ['city' => $city?->name]))
+@section('title', $news ? __('blog-page.news_meta_title') : __('blog-page.meta_title', ['city' => $city?->name]))
+@section('meta_description', $news ? __('blog-page.news_meta_description') : __('blog-page.meta_description', ['city' => $city?->name]))
 
 {{--
     Blog: koyu banner (başlık, şehir seçimi, o şehrin aktiviteleri / rehberi düğmeleri; öne çıkan yazı + yanında iki yazı),
@@ -19,6 +19,10 @@
         'title' => trim(str_replace(':city', '', __('blog-page.title_city'))),
         'description' => __('blog-page.desc'),
     ], $city?->name);
+    // Travel News: kendi başlığı ve açıklaması (şehirden bağımsız)
+    if ($news) {
+        $hero = ['eyebrow' => __('blog-page.news_eyebrow'), 'title' => '', 'description' => __('blog-page.news_desc')];
+    }
 @endphp
 
 @section('content')
@@ -49,8 +53,19 @@
             <x-breadcrumbs dark :items="[
                 ['label' => __('activity-show.home'), 'url' => route('home')],
                 ['label' => __('blog-page.blog'), 'url' => route('blog.index')],
+                ...($news ? [['label' => __('blog-page.tab_news'), 'url' => route('blog.news')]] : []),
                 ...($city ? [['label' => $city->name, 'url' => route('blog.index', ['city_id' => $city->id])]] : []),
             ]" />
+
+            {{-- İki akış: Destination Guides (şehre göre rehberler) · Travel News (güncel haberler) --}}
+            @if ($news || $newsCount)
+                <nav class="mt-6 inline-flex rounded-full bg-white/[0.06] p-1 ring-1 ring-white/10" aria-label="{{ __('blog-page.blog') }}">
+                    @foreach ([[route('blog.index'), __('blog-page.tab_guides'), !$news], [route('blog.news'), __('blog-page.tab_news'), $news]] as [$href, $label, $on])
+                        <a href="{{ $href }}" @if ($on) aria-current="page" @endif
+                            @class(['rounded-full px-4 py-2 text-sm font-bold transition', 'bg-white text-slate-900' => $on, 'text-white/70 hover:text-white' => !$on])>{{ $label }}</a>
+                    @endforeach
+                </nav>
+            @endif
 
             <div class="mt-12 grid items-end gap-14 lg:mt-16 lg:grid-cols-12 lg:gap-10">
                 {{-- SOL: tipografi --}}
@@ -60,7 +75,7 @@
                         <span class="h-px flex-1 bg-white/15"></span>
                     </div>
                     <h1 class="mt-8 text-[56px] font-extrabold leading-[0.9] tracking-[-0.05em] sm:text-7xl lg:text-[92px]">
-                        {{ $city?->name ?? __('blog-page.blog') }}
+                        {{ $news ? __('blog-page.tab_news') : ($city?->name ?? __('blog-page.blog')) }}
                         <span class="mt-3 block text-2xl font-medium tracking-[-0.01em] text-white/55 sm:text-3xl">{{ $city ? $hero['title'] : '' }}</span>
                     </h1>
                     <p class="mt-8 max-w-md border-l border-[#FF6B6E]/60 pl-5 text-[15px] leading-relaxed text-white/65 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-5">{{ $hero['description'] }}</p>
@@ -167,12 +182,14 @@
             @if ($blogs->isEmpty())
                 <div class="mx-auto max-w-2xl rounded-[28px] border-2 border-dashed border-slate-200 bg-white p-10 text-center">
                     <span class="mx-auto grid size-14 place-items-center rounded-2xl bg-slate-100 text-slate-500">{!! \App\Support\FeatureIcons::svg('book', 'size-7') !!}</span>
-                    <p class="mt-5 text-xl font-extrabold text-slate-900">{{ __('blog-page.empty_title', ['city' => $city?->name]) }}</p>
-                    <p class="mx-auto mt-2 max-w-md text-slate-500">{{ __('blog-page.empty_text', ['city' => $city?->name]) }}</p>
+                    <p class="mt-5 text-xl font-extrabold text-slate-900">{{ $news ? __('blog-page.news_empty') : __('blog-page.empty_title', ['city' => $city?->name]) }}</p>
+                    @unless ($news)
+                        <p class="mx-auto mt-2 max-w-md text-slate-500">{{ __('blog-page.empty_text', ['city' => $city?->name]) }}</p>
+                    @endunless
                 </div>
             @else
                 <div class="flex items-end justify-between gap-4">
-                    <h2 class="text-2xl font-extrabold tracking-[-0.02em] text-slate-900 md:text-3xl">{{ __('blog-page.latest') }}</h2>
+                    <h2 class="text-2xl font-extrabold tracking-[-0.02em] text-slate-900 md:text-3xl">{{ $news ? __('blog-page.news_latest') : __('blog-page.latest') }}</h2>
                     <p class="flex h-5 items-center text-sm font-medium text-slate-500">
                         <span x-show="loading" x-cloak class="inline-flex gap-1" aria-hidden="true">
                             <span class="acts-dot size-1.5 rounded-full bg-[#C62E2E]"></span><span class="acts-dot size-1.5 rounded-full bg-[#C62E2E] [animation-delay:.15s]"></span><span class="acts-dot size-1.5 rounded-full bg-[#C62E2E] [animation-delay:.3s]"></span>
@@ -262,7 +279,7 @@
     </section>
 
     {{-- yapısal veri: blog yazıları listesi (seçili şehrin yazıları) --}}
-    @jsonld(\App\Support\Schema::webPage('CollectionPage', __('blog-page.meta_title', ['city' => $city?->name]), __('blog-page.meta_description', ['city' => $city?->name]), [
+    @jsonld(\App\Support\Schema::webPage('CollectionPage', $news ? __('blog-page.news_meta_title') : __('blog-page.meta_title', ['city' => $city?->name]), $news ? __('blog-page.news_meta_description') : __('blog-page.meta_description', ['city' => $city?->name]), [
         'about' => $city ? ['@type' => 'City', 'name' => $city->name, 'url' => route('cities.show', ['slug' => $city->slug])] : null,
         'mainEntity' => collect($blogs)->isNotEmpty() ? \App\Support\Schema::itemList(collect($blogs instanceof \Illuminate\Contracts\Pagination\Paginator ? $blogs->items() : $blogs)->take(50)->map(fn ($b) => [$b->title, route('blog.show', $b->localSlug())])) : null,
     ]))

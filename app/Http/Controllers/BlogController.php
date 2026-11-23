@@ -15,13 +15,14 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        // Seçicide sadece yayında yazısı olan şehirler; genel yazı (şehirsiz) varsa her şehirde okunacak yazı vardır
-        $generalCount = Blog::published()->doesntHave('cities')->count();
+        // Seçicide sadece yayında yazısı olan şehirler; genel rehber (şehirsiz) varsa her şehirde okunacak yazı vardır.
+        // Haberler (Travel News) şehir listelerine girmez: ayrı sayfada (news)
+        $generalCount = Blog::published()->guides()->doesntHave('cities')->count();
         $hasGeneral = $generalCount > 0;
         $cities = City::visible()
             ->with('country')
-            ->withCount(['blogs' => fn ($q) => $q->published(), 'activities' => fn ($q) => $q->where('active', true)])
-            ->unless($hasGeneral, fn ($q) => $q->whereHas('blogs', fn ($q) => $q->published()))
+            ->withCount(['blogs' => fn ($q) => $q->published()->guides(), 'activities' => fn ($q) => $q->where('active', true)])
+            ->unless($hasGeneral, fn ($q) => $q->whereHas('blogs', fn ($q) => $q->published()->guides()))
             ->orderByDesc('blogs_count')
             ->orderByDesc('population')
             ->get()
@@ -58,6 +59,32 @@ class BlogController extends Controller
             'hasGuide' => $city && in_array($city->id, CityController::guideCityIds(), true),
             'tags' => $tags,
             'cityId' => $city?->id,
+            'news' => false,
+            'newsCount' => Blog::published()->news()->count(),
+        ]);
+    }
+
+    /**
+     * Travel News: güncel seyahat haberleri (vize, ulaşım, etkinlik, turizm), şehirden bağımsız, en yenisi önce.
+     * Blog sayfasının aynı görünümü, şehir seçicisiz.
+     */
+    public function news()
+    {
+        $blogs = Blog::published()->news()->with('city')->latest('published_at')->latest('id')->get();
+        $tags = $blogs->flatMap(fn (Blog $blog) => array_filter((array) $blog->tags))->countBy()->sortDesc()->keys()->take(8)->values();
+
+        return view('blog.index', [
+            'cities' => collect(),
+            'city' => null,
+            'blogs' => $blogs,
+            'featured' => $blogs->first(),
+            'side' => $blogs->slice(1, 2)->values(),
+            'hasActivities' => false,
+            'hasGuide' => false,
+            'tags' => $tags,
+            'cityId' => null,
+            'news' => true,
+            'newsCount' => $blogs->count(),
         ]);
     }
 
@@ -77,12 +104,13 @@ class BlogController extends Controller
         \App\Support\LocalUrl::current('blog.show', $blog);
 
         // Panelde aktivite bağlanmamışsa kendiliğinden: yazıda geçen yerlerin biletleri, sonra şehrin popülerleri
-        if ($blog->activities->isEmpty()) {
+        if ($blog->activities->isEmpty() && !$blog->isNews()) {
             $blog->setRelation('activities', $this->suggestedActivities($blog));
         }
 
         // Yazının altında gösterilecek diğer rehberler: önce aynı şehirdekiler, sonra diğerleri
         $related = Blog::published()
+            ->when($blog->isNews(), fn ($q) => $q->news(), fn ($q) => $q->guides())
             ->where('id', '!=', $blog->id)
             ->with('city')
             ->orderByRaw('CASE WHEN city_id = ? THEN 0 ELSE 1 END', [$blog->city_id])
