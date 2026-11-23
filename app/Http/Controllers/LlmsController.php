@@ -100,6 +100,7 @@ class LlmsController extends Controller
         $out[] = '## Optional';
         $out[] = '';
         $out[] = '- [Sitemap](' . url('/sitemap.xml') . '): every page in every language';
+        $out[] = '- [MCP server](https://admin.tripspoiler.com/mcp/site): read-only search of tours, tickets and travel guides (no login; card: ' . url('/.well-known/mcp/server-card.json') . ')';
 
         return implode("\n", $out) . "\n";
     }

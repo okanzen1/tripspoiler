@@ -1,0 +1,28 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/mcp-server-card/v1.json",
+  "version": "1.0",
+  "protocolVersion": "2025-06-18",
+  "serverInfo": {
+    "name": "tripspoiler",
+    "title": "TripSpoiler",
+    "version": "1.0.0"
+  },
+  "description": "Read-only search for TripSpoiler (tripspoiler.com): city travel guides, attraction guides, and tours, skip-the-line tickets, city passes and audio guides in 12 languages, with links to each page.",
+  "iconUrl": "https://tripspoiler.com/favicon-48x48.png",
+  "documentationUrl": "https://tripspoiler.com/llms.txt",
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "https://admin.tripspoiler.com/mcp/site"
+  },
+  "endpoint": "https://admin.tripspoiler.com/mcp/site",
+  "capabilities": {
+    "tools": { "listChanged": false }
+  },
+  "authentication": { "required": false },
+  "tools": [
+    { "name": "list_cities", "description": "Cities covered, with number of tours/tickets and the city guide link." },
+    { "name": "search_activities", "description": "Search tours, tickets, passes and audio guides by keyword and/or city." },
+    { "name": "get_activity", "description": "Details of one tour/ticket: description, highlights, included, meeting point, FAQs, link." },
+    { "name": "search_guides", "description": "Search travel articles and attraction guides." }
+  ]
+}
