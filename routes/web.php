@@ -8,7 +8,6 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NewsletterSubscribeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SitemapController;
@@ -126,16 +125,6 @@ Route::group(
         Route::get('/search', [SearchController::class, 'search'])
             ->name('search')
             ->middleware('throttle:90,1');
-
-
-        /*
-    |--------------------------------------------------------------------------
-    | Media
-    |--------------------------------------------------------------------------
-    */
-
-        Route::get('/media/{image}', [ImageController::class, 'show'])
-            ->name('images.view');
 
 
         /*
