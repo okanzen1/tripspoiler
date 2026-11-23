@@ -39,7 +39,10 @@ class PageCache
         }
 
         $request->attributes->set('page_cacheable', true);
-        $version = (string) (Setting::many(['page_cache_version'])['page_cache_version'] ?? '0');
+        // Panelde içerik değişince (page_cache_version) ve site her güncellendiğinde (derlenmiş CSS/JS'in listesi değişir)
+        // hazır sayfalar eskir: yoksa eski sayfa silinmiş CSS dosyasını ister, site stilsiz görünür
+        $version = (string) (Setting::many(['page_cache_version'])['page_cache_version'] ?? '0')
+            . '|' . (@filemtime(public_path('build/manifest.json')) ?: 0) . '|' . (@md5_file(public_path('build/manifest.json')) ?: '');
         $store = Cache::store('file');
         $hit = rescue(fn () => $store->get($key), null, false);
 
