@@ -24,7 +24,8 @@
         if ($ogImage === '') {
             try {
                 $ogPage = strtok((string) request()->route()?->getName(), '.') ?: 'home';
-                $ogImage = \App\Models\PageBanner::urls($ogPage, session('selected_city_id'))['desktop'];
+                // Önbelleğe giren sayfa herkese aynı: ziyaretçinin seçtiği şehrin resmi kullanılmaz
+                $ogImage = \App\Models\PageBanner::urls($ogPage, request()->attributes->get('page_cacheable') ? null : session('selected_city_id'))['desktop'];
             } catch (\Throwable) {
                 $ogImage = asset('images/hero-banner.webp');
             }

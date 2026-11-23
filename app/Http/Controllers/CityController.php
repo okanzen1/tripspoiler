@@ -87,6 +87,8 @@ class CityController extends Controller
         if (!session('keep_selected_city')) {
             session(['selected_city_id' => $city->id]);
         }
+        // Hazır sayfa (App\Http\Middleware\PageCache) verildiğinde de aynı seçim yapılsın
+        request()->attributes->set('page_cache_session', ['selected_city_id' => $city->id]);
 
         // Seçicide sadece rehberi olan şehirler
         $cities = City::visible()
