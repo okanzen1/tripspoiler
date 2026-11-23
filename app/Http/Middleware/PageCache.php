@@ -42,7 +42,9 @@ class PageCache
         // Panelde içerik değişince (page_cache_version) ve site her güncellendiğinde (derlenmiş CSS/JS'in listesi değişir)
         // hazır sayfalar eskir: yoksa eski sayfa silinmiş CSS dosyasını ister, site stilsiz görünür
         $version = (string) (Setting::many(['page_cache_version'])['page_cache_version'] ?? '0')
-            . '|' . (@filemtime(public_path('build/manifest.json')) ?: 0) . '|' . (@md5_file(public_path('build/manifest.json')) ?: '');
+            . '|' . (@filemtime(public_path('build/manifest.json')) ?: 0) . '|' . (@md5_file(public_path('build/manifest.json')) ?: '')
+            // yeni kod gönderimi (git pull) da: sadece sayfa kodu değişse de eski hazır sayfa kalmasın
+            . '|' . (@filemtime(base_path('.git/HEAD')) ?: 0) . '|' . (@filemtime(base_path('.git/ORIG_HEAD')) ?: 0) . '|' . (@filemtime(base_path('.git/FETCH_HEAD')) ?: 0);
         $store = Cache::store('file');
         $hit = rescue(fn () => $store->get($key), null, false);
 

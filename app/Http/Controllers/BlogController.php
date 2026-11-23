@@ -44,8 +44,7 @@ class BlogController extends Controller
             ->orderByRaw('sort_order = 0 desc')->orderBy('sort_order')->latest('published_at')->latest('id')->get();
 
         // En çok geçen etiketler (filtre çipleri)
-        $tags = $blogs->flatMap(fn (Blog $blog) => array_filter((array) $blog->tags))
-            ->countBy()->sortDesc()->keys()->take(8)->values();
+        $tags = self::tagChips($blogs);
 
         return view('blog.index', [
             'cities' => $cities,
@@ -64,6 +63,26 @@ class BlogController extends Controller
         ]);
     }
 
+    /** Etiketin eşleştirme anahtarı: büyük-küçük harf farkı yok ("Seyahat İpuçları" = "Seyahat ipuçları") */
+    public static function tagKey(string $tag): string
+    {
+        return mb_strtolower(str_replace('İ', 'i', trim($tag)));
+    }
+
+    /**
+     * En çok geçen 8 etiket: anahtar => görünen ad (aynı etiketin farklı yazılışları birleşir, en çok kullanılan yazılış görünür)
+     *
+     * @return \Illuminate\Support\Collection<string, string>
+     */
+    private static function tagChips($blogs): \Illuminate\Support\Collection
+    {
+        return $blogs->flatMap(fn (Blog $blog) => array_filter((array) $blog->tags))
+            ->groupBy(fn ($tag) => self::tagKey($tag))
+            ->sortByDesc(fn ($group) => $group->count())
+            ->take(8)
+            ->map(fn ($group) => $group->countBy()->sortDesc()->keys()->first());
+    }
+
     /**
      * Travel News: güncel seyahat haberleri (vize, ulaşım, etkinlik, turizm), şehirden bağımsız, en yenisi önce.
      * Blog sayfasının aynı görünümü, şehir seçicisiz.
@@ -71,7 +90,7 @@ class BlogController extends Controller
     public function news()
     {
         $blogs = Blog::published()->news()->with('city')->latest('published_at')->latest('id')->get();
-        $tags = $blogs->flatMap(fn (Blog $blog) => array_filter((array) $blog->tags))->countBy()->sortDesc()->keys()->take(8)->values();
+        $tags = self::tagChips($blogs);
 
         return view('blog.index', [
             'cities' => collect(),

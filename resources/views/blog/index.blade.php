@@ -188,8 +188,19 @@
                     @endunless
                 </div>
             @else
-                <div class="flex items-end justify-between gap-4">
-                    <h2 class="text-2xl font-extrabold tracking-[-0.02em] text-slate-900 md:text-3xl">{{ $news ? __('blog-page.news_latest') : __('blog-page.latest') }}</h2>
+                <div class="flex flex-wrap items-end justify-between gap-4">
+                    <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+                        <h2 class="text-2xl font-extrabold tracking-[-0.02em] text-slate-900 md:text-3xl">{{ $news ? __('blog-page.news_latest') : __('blog-page.latest') }}</h2>
+                        {{-- iki akış (üstteki banner'dakiyle aynı): listeye gelen burada da görsün --}}
+                        @if ($news || $newsCount)
+                            <nav class="inline-flex rounded-full bg-slate-100 p-1 ring-1 ring-slate-200/80" aria-label="{{ __('blog-page.blog') }}">
+                                @foreach ([[route('blog.index'), __('blog-page.tab_guides'), !$news], [route('blog.news'), __('blog-page.tab_news'), $news]] as [$href, $label, $on])
+                                    <a href="{{ $href }}" @if ($on) aria-current="page" @endif
+                                        @class(['rounded-full px-4 py-1.5 text-sm font-bold transition', 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200' => $on, 'text-slate-500 hover:text-slate-900' => !$on])>{{ $label }}</a>
+                                @endforeach
+                            </nav>
+                        @endif
+                    </div>
                     <p class="flex h-5 items-center text-sm font-medium text-slate-500">
                         <span x-show="loading" x-cloak class="inline-flex gap-1" aria-hidden="true">
                             <span class="acts-dot size-1.5 rounded-full bg-[#C62E2E]"></span><span class="acts-dot size-1.5 rounded-full bg-[#C62E2E] [animation-delay:.15s]"></span><span class="acts-dot size-1.5 rounded-full bg-[#C62E2E] [animation-delay:.3s]"></span>
@@ -217,9 +228,9 @@
                                 class="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 transition">
                                 {!! \App\Support\FeatureIcons::svg('book', 'size-[18px]') !!}{{ __('blog-page.all') }}
                             </button>
-                            @foreach ($tags as $tagName)
-                                <button type="button" @click="pick(tab === @js($tagName) ? '' : @js($tagName), $el)"
-                                    :class="tab === @js($tagName) ? 'bg-[#C62E2E] text-white ring-[#C62E2E] shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' : 'bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 hover:ring-slate-300'"
+                            @foreach ($tags as $tagKey => $tagName)
+                                <button type="button" @click="pick(tab === @js($tagKey) ? '' : @js($tagKey), $el)"
+                                    :class="tab === @js($tagKey) ? 'bg-[#C62E2E] text-white ring-[#C62E2E] shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' : 'bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 hover:ring-slate-300'"
                                     class="inline-flex shrink-0 items-center rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-slate-200 transition">{{ $tagName }}</button>
                             @endforeach
                         </div>
@@ -243,7 +254,7 @@
 
                 <ul x-ref="grid" x-show="!loading" class="mt-8 grid grid-cols-2 gap-x-3 gap-y-7 sm:gap-x-5 sm:gap-y-9 lg:grid-cols-3 xl:grid-cols-4">
                     @foreach ($blogs as $blog)
-                        <li x-show="match($el)" data-tags="{{ implode('|', (array) $blog->tags) }}"
+                        <li x-show="match($el)" data-tags="{{ implode('|', array_map([\App\Http\Controllers\BlogController::class, 'tagKey'], array_filter((array) $blog->tags))) }}"
                             data-search="{{ $norm($blog->title . ' ' . $blog->excerpt . ' ' . implode(' ', (array) $blog->tags)) }}" x-init="$el.dataset.search = norm($el.dataset.search)">
                             <a href="{{ route('blog.show', $blog->localSlug()) }}" class="group block">
                                 <div class="relative aspect-[4/3] overflow-hidden rounded-2xl bg-slate-200 sm:rounded-[22px] ring-1 ring-slate-900/5">
