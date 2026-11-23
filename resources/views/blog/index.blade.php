@@ -62,7 +62,7 @@
                 <nav class="mt-6 inline-flex rounded-full bg-white/[0.06] p-1 ring-1 ring-white/10" aria-label="{{ __('blog-page.blog') }}">
                     @foreach ([[route('blog.index'), __('blog-page.tab_guides'), !$news], [route('blog.news'), __('blog-page.tab_news'), $news]] as [$href, $label, $on])
                         <a href="{{ $href }}" @if ($on) aria-current="page" @endif
-                            @class(['rounded-full px-4 py-2 text-sm font-bold transition', 'bg-white text-slate-900' => $on, 'text-white/70 hover:text-white' => !$on])>{{ $label }}</a>
+                            @class(['rounded-full px-4 py-2 text-sm font-bold transition', 'bg-[#C62E2E] text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' => $on, 'text-white/70 hover:text-white' => !$on])>{{ $label }}</a>
                     @endforeach
                 </nav>
             @endif
@@ -196,7 +196,7 @@
                             <nav class="inline-flex rounded-full bg-slate-100 p-1 ring-1 ring-slate-200/80" aria-label="{{ __('blog-page.blog') }}">
                                 @foreach ([[route('blog.index'), __('blog-page.tab_guides'), !$news], [route('blog.news'), __('blog-page.tab_news'), $news]] as [$href, $label, $on])
                                     <a href="{{ $href }}" @if ($on) aria-current="page" @endif
-                                        @class(['rounded-full px-4 py-1.5 text-sm font-bold transition', 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200' => $on, 'text-slate-500 hover:text-slate-900' => !$on])>{{ $label }}</a>
+                                        @class(['rounded-full px-4 py-1.5 text-sm font-bold transition', 'bg-[#C62E2E] text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' => $on, 'text-slate-500 hover:text-slate-900' => !$on])>{{ $label }}</a>
                                 @endforeach
                             </nav>
                         @endif
