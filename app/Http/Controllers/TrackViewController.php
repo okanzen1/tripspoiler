@@ -20,6 +20,7 @@ class TrackViewController extends Controller
             'url' => ['required', 'string', 'max:1000'],
             'ref' => ['nullable', 'string', 'max:1000'],
             'wd' => ['nullable', 'in:0,1'],
+            'pv' => ['nullable', 'string', 'regex:/^[A-Za-z0-9]{16,24}$/'],
         ]);
         if (Tracker::isBot($request) || ($data['wd'] ?? '0') === '1' || !Tracker::sameOrigin($request)) {
             return response()->noContent();
@@ -40,7 +41,7 @@ class TrackViewController extends Controller
 
         [$visitor, $session] = Tracker::ids($request);
 
-        Visit::query()->insert([
+        Visit::query()->insertOrIgnore([
             'visitor_id' => $visitor,
             'session_id' => $session,
             'path' => Str::limit($path, 500, ''),
@@ -53,6 +54,8 @@ class TrackViewController extends Controller
             'utm_campaign' => $utm('utm_campaign'),
             ...Tracker::context($request, $locale),
             'created_at' => Tracker::now(),
+            // sayfa açılışının kimliği: kalma süresi ve tıklamalar sonradan bununla eklenir (TrackLeaveController)
+            ...(Tracker::engagementReady() && !empty($data['pv']) ? ['view_key' => $data['pv']] : []),
         ]);
 
         $response = response()->noContent();

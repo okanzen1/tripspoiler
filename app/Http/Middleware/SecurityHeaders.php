@@ -19,7 +19,13 @@ class SecurityHeaders
 
         $headers = $response->headers;
         $headers->set('X-Content-Type-Options', 'nosniff', false);
-        $headers->set('X-Frame-Options', 'SAMEORIGIN', false);
+        if ($request->query->has('ts-heatmap')) {
+            // Panel › Sıcaklık haritası sayfayı kendi içinde gösterir: yalnızca panelin adresi gömebilir
+            $headers->remove('X-Frame-Options');
+            $headers->set('Content-Security-Policy', "frame-ancestors 'self' " . rtrim((string) config('app.admin_url'), '/'));
+        } else {
+            $headers->set('X-Frame-Options', 'SAMEORIGIN', false);
+        }
         $headers->set('Referrer-Policy', 'strict-origin-when-cross-origin', false);
         $headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=()', false);
         $headers->set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups', false);

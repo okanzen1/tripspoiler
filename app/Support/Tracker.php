@@ -20,6 +20,15 @@ class Tracker
      */
     public const TIMEZONE = 'Europe/Istanbul';
 
+    /**
+     * Kalma süresi / tıklama haritası tabloları var mı (panelde migrate yapılınca gelir). Yoksa site eskisi gibi çalışır.
+     */
+    public static function engagementReady(): bool
+    {
+        return once(fn () => (bool) \Illuminate\Support\Facades\Cache::remember('track:engagement-ready', 600,
+            fn () => \Illuminate\Support\Facades\Schema::hasTable('page_clicks') ? 1 : 0));
+    }
+
     public static function now(): string
     {
         return now(self::TIMEZONE)->format('Y-m-d H:i:s');

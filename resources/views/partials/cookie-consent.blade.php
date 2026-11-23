@@ -5,7 +5,7 @@
      - "Sadece gerekli": Google Analytics çerezleri silinir; sayaç çerezlerini sunucu bir sonraki sayfada siler.
      - Sitenin altındaki "Çerez ayarları" kutuyu tekrar açar (window event "cookie-settings").
 --}}
-<div x-data="{
+<div data-cookie-consent x-data="{
         open: false,
         init() {
             this.open = !document.cookie.split('; ').some((c) => c.startsWith('ts_consent='));

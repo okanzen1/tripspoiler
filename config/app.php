@@ -54,6 +54,9 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    // Yönetim paneli (sıcaklık haritası sayfayı oradan gömer)
+    'admin_url' => env('ADMIN_URL', 'https://admin.tripspoiler.com'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

@@ -28,6 +28,7 @@ Route::get('/llms.txt', [\App\Http\Controllers\LlmsController::class, 'index']);
 // Analitik (resources/js/track.js): sayfa görüntüleme ve partner bağlantısına tıklama
 Route::post('/t/view', [\App\Http\Controllers\TrackViewController::class, 'store'])->middleware('throttle:120,1')->name('track.view');
 Route::post('/t/click', [\App\Http\Controllers\TrackClickController::class, 'store'])->middleware('throttle:60,1')->name('track.click');
+Route::post('/t/leave', [\App\Http\Controllers\TrackLeaveController::class, 'store'])->middleware('throttle:120,1')->name('track.leave');
 // döviz kuru şeridindeki dünya hava durumu (sayfa açıldıktan sonra arka planda yüklenir)
 Route::get('/w/ticker', [\App\Http\Controllers\WeatherTickerController::class, 'index'])->middleware('throttle:60,1')->name('weather.ticker');
 

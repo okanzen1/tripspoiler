@@ -26,6 +26,8 @@
 @endphp
 
 @section('content')
+    {{-- Rehber / Haber sekmesi: sayfa yenilenmeden bu alan değişir (resources/js/swap-tabs.js) --}}
+    <div data-swap-root>
     {{-- BANNER: mimari düzen — ince ızgara çizgileri, solda tipografi, sağda kemer biçimli kapaklar (sütun dizisi) --}}
     @php
         // Kemerler: panelde seçilenler (Sayfalar › Blog › Hero ayarları: "orta,sol,sağ"), boş yerler sıralamaya göre dolar
@@ -61,7 +63,7 @@
             @if ($news || $newsCount)
                 <nav class="mt-6 inline-flex rounded-full bg-white/[0.06] p-1 ring-1 ring-white/10" aria-label="{{ __('blog-page.blog') }}">
                     @foreach ([[route('blog.index'), __('blog-page.tab_guides'), !$news], [route('blog.news'), __('blog-page.tab_news'), $news]] as [$href, $label, $on])
-                        <a href="{{ $href }}" @if ($on) aria-current="page" @endif
+                        <a href="{{ $href }}" data-swap-link @if ($on) aria-current="page" @endif
                             @class(['rounded-full px-4 py-2 text-sm font-bold transition', 'bg-[#C62E2E] text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' => $on, 'text-white/70 hover:text-white' => !$on])>{{ $label }}</a>
                     @endforeach
                 </nav>
@@ -195,7 +197,7 @@
                         @if ($news || $newsCount)
                             <nav class="inline-flex rounded-full bg-slate-100 p-1 ring-1 ring-slate-200/80" aria-label="{{ __('blog-page.blog') }}">
                                 @foreach ([[route('blog.index'), __('blog-page.tab_guides'), !$news], [route('blog.news'), __('blog-page.tab_news'), $news]] as [$href, $label, $on])
-                                    <a href="{{ $href }}" @if ($on) aria-current="page" @endif
+                                    <a href="{{ $href }}" data-swap-link @if ($on) aria-current="page" @endif
                                         @class(['rounded-full px-4 py-1.5 text-sm font-bold transition', 'bg-[#C62E2E] text-white shadow-[0_10px_24px_-12px_rgba(198,46,46,0.7)]' => $on, 'text-slate-500 hover:text-slate-900' => !$on])>{{ $label }}</a>
                                 @endforeach
                             </nav>
@@ -297,4 +299,5 @@
 
     {{-- Alt bölümler: panelde Sayfalar › Blog › Bölümler --}}
     <x-page-sections page="blog" :city-id="$cityId" />
+    </div>
 @endsection

@@ -24,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Herkese aynı görünen sayfaların hazır HTML'i (oturum açıldıktan sonra: form güvenlik kodu her ziyaretçiye kendi)
         $middleware->appendToGroup('web', \App\Http\Middleware\PageCache::class);
         // Analitik bildirimleri tarayıcıdan arka planda gelir (sendBeacon, resources/js/track.js), CSRF anahtarı taşımaz
-        $middleware->validateCsrfTokens(except: ['t/view', 't/click']);
+        $middleware->validateCsrfTokens(except: ['t/view', 't/click', 't/leave']);
         // Çerez onayı tarayıcıda (JavaScript) yazılır; şifresiz okunur (partials/cookie-consent)
         $middleware->encryptCookies(except: ['ts_consent', 'ts_staff']); // ts_staff: panel yazar, ekip analitikte sayılmaz
         $middleware->alias([
